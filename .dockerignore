@@ -1,0 +1,36 @@
+# VCS
+.git
+.gitignore
+.gitattributes
+
+# Dev artifacts
+node_modules
+vendor
+/wp-content/plugins/*
+!/wp-content/plugins/.gitkeep
+
+# Build output
+**/build
+**/dist
+
+# Local
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea
+.vscode
+
+# Docs & samples
+README.md
+CLAUDE.md
+design-system/preview
+design-system/ui_kits
+samples
+
+# CI
+.github
+
+# OS / logs
+*.log
+.serena

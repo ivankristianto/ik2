@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .fld { display:flex;flex-direction:column;gap:6px;font-family:var(--font-sans);font-size:0.9375rem;color:#171717 }
+  .fld label { font-family:var(--font-mono);font-size:0.8125rem;color:#5F6368 }
+  .fld input { font-family:inherit;font-size:1rem;color:#171717;background:#fff;border:1px solid #D8D5CC;border-radius:6px;padding:10px 12px;outline:none }
+  .fld input:focus { border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.2) }
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+    <div class="fld"><label>Name</label><input value="Ivan Kristianto"></div>
+    <div class="fld"><label>Email</label><input value="hi@ivankristianto.com" style="border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.2)"></div>
+    <div class="fld" style="grid-column:span 2"><label>Comment</label><input value="Great write-up — thanks!" style="padding:14px 12px"></div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px">
+    <a style="display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;padding-inline:14px;background:#fff;border:1px solid #D8D5CC;border-radius:6px;color:#171717;font-family:var(--font-sans);font-weight:600;font-size:0.9375rem;text-decoration:none">Cancel</a>
+    <a style="display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;padding-inline:14px;background:#2563EB;border:1px solid #2563EB;border-radius:6px;color:#fff;font-family:var(--font-sans);font-weight:600;font-size:0.9375rem;text-decoration:none">Post comment</a>
+  </div>
+</div>
+</body></html>

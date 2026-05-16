@@ -1,0 +1,14 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 6
+    phpVersion: 80400
+    paths:
+        - wp-content/themes/ik2
+        - wp-content/mu-plugins
+    excludePaths:
+        - wp-content/plugins/*
+        - wp-content/themes/ik2/build/*
+        - vendor/*
+        - node_modules/*

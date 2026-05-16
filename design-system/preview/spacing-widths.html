@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css"></head>
+<body>
+<div class="card">
+  <div style="position:relative">
+    <!-- Full 1280 mock at scale -->
+    <div style="position:relative;background:#F1EFE8;border:1px solid #D8D5CC;border-radius:6px;height:140px;width:652px">
+      <!-- 1280 wraps everything (full width of mock) -->
+      <div style="position:absolute;inset:8px;border:1px dashed #B9B5AA;border-radius:4px"></div>
+      <!-- wide 1080 -> 1080/1280 * 100% = 84.4% -->
+      <div style="position:absolute;top:14px;bottom:14px;left:7.8%;right:7.8%;background:#FFFFFF;border:1px solid #D8D5CC;border-radius:4px"></div>
+      <!-- content 720 -> 56.25% -->
+      <div style="position:absolute;top:20px;bottom:20px;left:21.875%;right:21.875%;background:#DBEAFE;border-radius:4px"></div>
+      <!-- narrow 600 -> 46.875% -->
+      <div style="position:absolute;top:26px;bottom:26px;left:26.5625%;right:26.5625%;background:#2563EB;border-radius:4px"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;font-family:var(--font-mono);font-size:11px">
+    <div><div style="display:inline-block;width:10px;height:10px;background:#2563EB;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">narrow</b> · 600px</div>
+    <div><div style="display:inline-block;width:10px;height:10px;background:#DBEAFE;border-radius:2px;vertical-align:middle;margin-right:6px;border:1px solid #93C5FD"></div><b style="color:#171717">content</b> · 720px</div>
+    <div><div style="display:inline-block;width:10px;height:10px;background:#fff;border:1px solid #D8D5CC;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">wide</b> · 1080px</div>
+    <div><div style="display:inline-block;width:10px;height:10px;background:#F1EFE8;border:1px solid #D8D5CC;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">full</b> · 1280px</div>
+  </div>
+</div>
+</body></html>

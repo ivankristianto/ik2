@@ -1,0 +1,20 @@
+node_modules
+vendor
+
+# Third-party plugins (composer-managed)
+wp-content/plugins
+
+# WordPress core's bundled default themes (seeded from the WP image)
+wp-content/themes/twenty*
+wp-content/themes/index.php
+
+# Build output
+**/build
+**/dist
+
+# Sandboxes / prototypes (intentionally lax)
+samples
+design-system/ui_kits
+
+# Generated
+**/*.min.css

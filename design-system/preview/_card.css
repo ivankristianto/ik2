@@ -1,0 +1,125 @@
+/* Shared preview-card chrome.
+   Each card frame is exactly 700×<height>. The asset name renders OUTSIDE,
+   so cards have no internal title. */
+
+@import url("../colors_and_type.css");
+
+/* Preview cards display specific palettes regardless of viewer OS theme.
+   Force the light palette and ignore prefers-color-scheme. The intentionally
+   dark "Dark theme" card uses .card--dark with hard-coded values. */
+:root,
+:root:has(*) {
+  color-scheme: light !important;
+
+  --color-bg:             #F8F7F3;
+  --color-surface:        #FFFFFF;
+  --color-surface-muted:  #F1EFE8;
+  --color-text:           #171717;
+  --color-text-muted:     #5F6368;
+  --color-text-subtle:    #8A8F98;
+  --color-border:         #D8D5CC;
+  --color-border-strong:  #B9B5AA;
+  --color-accent:         #2563EB;
+  --color-accent-hover:   #1D4ED8;
+  --color-accent-soft:    #DBEAFE;
+  --color-code-bg:        #EFEEE8;
+  --color-code-text:      #111827;
+  --color-success:        #15803D;
+  --color-warning:        #B45309;
+  --color-danger:         #B91C1C;
+
+  --shadow-sm:   0 1px 2px rgba(23, 23, 23, 0.06);
+  --shadow-md:   0 8px 24px rgba(23, 23, 23, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+
+    --color-bg:             #F8F7F3;
+    --color-surface:        #FFFFFF;
+    --color-surface-muted:  #F1EFE8;
+    --color-text:           #171717;
+    --color-text-muted:     #5F6368;
+    --color-text-subtle:    #8A8F98;
+    --color-border:         #D8D5CC;
+    --color-border-strong:  #B9B5AA;
+    --color-accent:         #2563EB;
+    --color-accent-hover:   #1D4ED8;
+    --color-accent-soft:    #DBEAFE;
+    --color-code-bg:        #EFEEE8;
+    --color-code-text:      #111827;
+    --color-success:        #15803D;
+    --color-warning:        #B45309;
+    --color-danger:         #B91C1C;
+
+    --shadow-sm:   0 1px 2px rgba(23, 23, 23, 0.06);
+    --shadow-md:   0 8px 24px rgba(23, 23, 23, 0.08);
+  }
+}
+
+html, body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+.card {
+  width: 700px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.swatch {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.swatch__chip {
+  height: 76px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.swatch__name {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.swatch__token {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+
+.swatch__hex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  line-height: 1.35;
+}
+
+/* Dark cards reuse the swatch markup but on the dark palette */
+.card--dark {
+  background: #0D1117;
+  color: #E6EDF3;
+}
+.card--dark .swatch__chip { border-color: #30363D; }
+.card--dark .swatch__name { color: #E6EDF3; }
+.card--dark .swatch__token { color: #9BA3AF; }
+.card--dark .swatch__hex { color: #6B7280; }

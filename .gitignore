@@ -1,0 +1,41 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Composer-managed WordPress plugins (declared in composer.json instead)
+/wp-content/plugins/*
+!/wp-content/plugins/.gitkeep
+/wp-content/mu-plugins/*
+!/wp-content/mu-plugins/.gitkeep
+
+# Build output
+/wp-content/themes/*/build/
+
+# WordPress core's bundled default themes (seeded from the WP image, not our code)
+/wp-content/themes/twenty*
+/wp-content/themes/index.php
+
+# Local sandbox
+/samples
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker volumes (local)
+/uploads/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# MCP / tooling state
+.serena/
+.claude/
+
+# Logs
+*.log
+
+# Lock files: keep composer.lock and pnpm-lock.yaml in git
