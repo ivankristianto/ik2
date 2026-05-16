@@ -11,8 +11,6 @@ namespace IK2\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '0.1.0';
-
 require_once __DIR__ . '/inc/Setup.php';
 require_once __DIR__ . '/inc/Assets.php';
 require_once __DIR__ . '/inc/Patterns.php';
