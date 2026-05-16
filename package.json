@@ -23,10 +23,42 @@
         "@wordpress/prettier-config": "^4.0.0",
         "@wordpress/scripts": "^30.0.0",
         "@wordpress/stylelint-config": "^23.0.0",
+        "postcss-scss": "^4.0.9",
         "sass": "^1.77.0"
     },
     "prettier": "@wordpress/prettier-config",
     "stylelint": {
-        "extends": "@wordpress/stylelint-config"
+        "extends": "@wordpress/stylelint-config",
+        "customSyntax": "postcss-scss",
+        "rules": {
+            "at-rule-no-unknown": [
+                true,
+                {
+                    "ignoreAtRules": [
+                        "use",
+                        "forward",
+                        "mixin",
+                        "include",
+                        "extend",
+                        "if",
+                        "else",
+                        "each",
+                        "for",
+                        "function",
+                        "return",
+                        "at-root",
+                        "debug",
+                        "warn",
+                        "error"
+                    ]
+                }
+            ],
+            "selector-class-pattern": [
+                "^[a-z][a-z0-9-]*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$",
+                {
+                    "message": "Expected class selector to be kebab-case BEM (block, block__element, block--modifier)"
+                }
+            ]
+        }
     }
 }
