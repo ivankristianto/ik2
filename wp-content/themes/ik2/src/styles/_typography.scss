@@ -1,0 +1,34 @@
+@use 'tokens' as *;
+
+// Body typography baseline. Headings inherit from theme.json styles.
+
+body {
+	font-family: $font-sans;
+	font-size: $size-lg;
+	line-height: 1.7;
+	color: $color-ink;
+	background: $color-paper;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	line-height: 1.1;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: $font-mono;
+	font-size: 0.95em;
+}
+
+kbd {
+	background: $color-code-paper;
+	border: 1px solid $color-line;
+	border-radius: $radius-sm;
+	padding: 0 $space-2;
+	font-size: $size-xs;
+}

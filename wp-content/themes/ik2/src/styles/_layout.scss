@@ -1,0 +1,81 @@
+@use 'tokens' as *;
+
+// Container widths and section rhythm.
+
+.container-full {
+	width: 100%;
+	max-width: $width-full;
+	margin-inline: auto;
+	padding-inline: $space-5;
+
+	@media (min-width: 768px) {
+		padding-inline: $space-6;
+	}
+}
+
+.ik-section {
+	padding-block: $space-9;
+
+	&--muted {
+		background: $color-soft-paper;
+	}
+}
+
+.ik-section__head {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: $space-5;
+	margin-bottom: $space-7;
+	flex-wrap: wrap;
+}
+
+.ik-section__eyebrow {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: $color-graphite;
+	margin-bottom: $space-2;
+}
+
+.ik-section__title {
+	font-size: $size-3xl;
+	line-height: 1.1;
+	letter-spacing: -0.04em;
+	margin: 0;
+}
+
+.ik-section__more {
+	font-size: $size-sm;
+	color: $color-signal;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.ik-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: $space-6;
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ik-grid-3 {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: $space-5;
+
+	@media (max-width: 960px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+	}
+}

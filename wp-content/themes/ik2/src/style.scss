@@ -1,1 +1,6 @@
-// IK2 theme — front-end styles. Partials added in later tasks.
+// IK2 theme — front-end stylesheet entry.
+
+@use 'styles/tokens' as *;
+@use 'styles/reset';
+@use 'styles/typography';
+@use 'styles/layout';

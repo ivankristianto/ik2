@@ -1,0 +1,30 @@
+@use 'tokens' as *;
+
+// Minimal reset — WordPress already normalises a lot. Keep this small.
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+img,
+svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	color: inherit;
+}
+
+:focus-visible {
+	outline: $focus;
+	outline-offset: 3px;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+}
