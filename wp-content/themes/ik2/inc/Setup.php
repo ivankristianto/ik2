@@ -28,3 +28,59 @@ add_action(
 		load_theme_textdomain( 'ik2', __DIR__ . '/../languages' );
 	}
 );
+
+add_action(
+	'init',
+	static function (): void {
+		register_nav_menu( 'primary', __( 'Primary', 'ik2' ) );
+
+		if ( ! is_admin() && ! wp_doing_ajax() ) {
+			$existing = wp_get_nav_menu_object( 'IK2 Primary' );
+
+			if ( false === $existing ) {
+				$menu_id = wp_create_nav_menu( 'IK2 Primary' );
+
+				if ( ! is_wp_error( $menu_id ) ) {
+					$items = array(
+						array(
+							'title' => 'Home',
+							'url'   => home_url( '/' ),
+						),
+						array(
+							'title' => 'Articles',
+							'url'   => home_url( '/articles' ),
+						),
+						array(
+							'title' => 'Projects',
+							'url'   => home_url( '/projects' ),
+						),
+						array(
+							'title' => 'Speaking',
+							'url'   => home_url( '/speaking' ),
+						),
+						array(
+							'title' => 'About',
+							'url'   => home_url( '/about' ),
+						),
+						array(
+							'title' => 'Contact',
+							'url'   => home_url( '/contact' ),
+						),
+					);
+
+					foreach ( $items as $item ) {
+						wp_update_nav_menu_item(
+							$menu_id,
+							0,
+							array(
+								'menu-item-title'  => $item['title'],
+								'menu-item-url'    => $item['url'],
+								'menu-item-status' => 'publish',
+							)
+						);
+					}
+				}
+			}
+		}
+	}
+);
