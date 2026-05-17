@@ -1,0 +1,148 @@
+@use 'tokens' as *;
+
+.ik-notes-layout {
+	gap: $space-7;
+	align-items: flex-start;
+}
+
+.ik-note {
+	padding: $space-5 0;
+	border-bottom: 1px solid $color-line;
+
+	&:first-child {
+		padding-top: 0;
+	}
+}
+
+.ik-note__date {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	margin: 0 0 $space-2;
+}
+
+.ik-note__title {
+	font-size: $size-lg;
+	margin: 0 0 $space-2;
+
+	a {
+		color: $color-ink;
+		text-decoration: none;
+	}
+}
+
+.ik-note__excerpt {
+	color: $color-graphite;
+	font-size: $size-md;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.ik-notes-layout__more {
+	margin-top: $space-5;
+	font-size: $size-sm;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
+}
+
+.ik-now {
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-5;
+	font-size: $size-sm;
+}
+
+.ik-now__head {
+	display: flex;
+	align-items: center;
+	gap: $space-2;
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-graphite;
+	margin-bottom: $space-4;
+}
+
+.ik-now__dot {
+	width: 8px;
+	height: 8px;
+	background: $color-build-green;
+	border-radius: 50%;
+	animation: ik-now-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ik-now-pulse {
+
+	0%, 100% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.4;
+	}
+}
+
+.ik-now__date {
+	margin-left: auto;
+	color: $color-dust;
+}
+
+.ik-now__group {
+	padding: $space-3 0;
+	border-top: 1px dashed $color-line;
+}
+
+.ik-now__group:first-of-type {
+	border-top: 0;
+	padding-top: 0;
+}
+
+.ik-now__group-title {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-graphite;
+	margin-bottom: $space-1;
+}
+
+.ik-now__item {
+	color: $color-ink;
+	line-height: 1.55;
+
+	code {
+		font-size: 0.9em;
+		background: $color-code-paper;
+		padding: 0 $space-1;
+		border-radius: $radius-sm;
+	}
+}
+
+.ik-now__foot {
+	margin-top: $space-4;
+	padding-top: $space-3;
+	border-top: 1px solid $color-line;
+	font-size: $size-xs;
+	color: $color-dust;
+
+	a {
+		color: $color-graphite;
+	}
+}
+
+@media (max-width: 768px) {
+
+	.ik-notes-layout {
+		gap: $space-5;
+	}
+}
+
+// Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
+.ik-note__title a:hover {
+	color: $color-signal;
+}
+
+.ik-notes-layout__more a:hover {
+	text-decoration: underline;
+}
