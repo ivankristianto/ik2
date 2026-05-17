@@ -1,0 +1,138 @@
+@use 'tokens' as *;
+
+.ik-cmdk__overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(23, 23, 23, 0.28);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: 12vh;
+	z-index: 200;
+	opacity: 0;
+	transition: opacity 140ms ease;
+
+	&.is-open { opacity: 1; }
+
+	&[hidden] { display: none; }
+}
+
+.ik-cmdk {
+	width: min(640px, 90vw);
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-md;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.ik-cmdk__input-row {
+	display: flex;
+	align-items: center;
+	gap: $space-3;
+	padding: $space-4 $space-5;
+	border-bottom: 1px solid $color-line;
+}
+
+.ik-cmdk__caret {
+	color: $color-signal;
+	font-family: $font-mono;
+}
+
+.ik-cmdk__input {
+	flex: 1;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	font-family: $font-sans;
+	font-size: 1.0625rem;
+	color: $color-ink;
+
+	&::-webkit-search-cancel-button { display: none; }
+}
+
+.ik-cmdk__esc {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	padding: 2px 6px;
+	border: 1px solid $color-line;
+	border-radius: 4px;
+}
+
+.ik-cmdk__list {
+	max-height: 56vh;
+	overflow-y: auto;
+	padding: $space-3 0;
+}
+
+.ik-cmdk__group-title {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	letter-spacing: 0.06em;
+	padding: $space-3 $space-5 $space-2;
+	text-transform: uppercase;
+}
+
+.ik-cmdk__item {
+	display: flex;
+	align-items: center;
+	gap: $space-3;
+	padding: $space-3 $space-5;
+	cursor: pointer;
+	font-size: 0.9375rem;
+	color: $color-ink;
+	text-decoration: none;
+
+	&.is-active {
+		background: $color-signal-soft;
+		color: $color-signal-deep;
+	}
+}
+
+.ik-cmdk__item-glyph {
+	width: 16px;
+	color: $color-dust;
+	font-family: $font-mono;
+	font-size: 12px;
+}
+
+.ik-cmdk__item.is-active .ik-cmdk__item-glyph { color: $color-signal; }
+
+.ik-cmdk__item-label { flex: 1; }
+
+.ik-cmdk__empty {
+	padding: $space-5;
+	color: $color-graphite;
+	font-style: italic;
+	font-size: 0.9375rem;
+}
+
+.ik-cmdk__footer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-4;
+	padding: $space-3 $space-5;
+	border-top: 1px solid $color-line;
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	background: $color-paper;
+
+	kbd {
+		background: $color-surface;
+		border: 1px solid $color-line;
+		border-radius: 3px;
+		padding: 1px 5px;
+		color: $color-graphite;
+		font-family: $font-mono;
+		font-size: 11px;
+	}
+
+	.ik-cmdk__footer-meta { margin-left: auto; }
+}
