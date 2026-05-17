@@ -1,0 +1,40 @@
+@use 'tokens' as *;
+
+.ik-hero {
+	padding-block: $space-10 $space-9;
+}
+
+.ik-hero__title {
+	max-width: 18ch;
+	margin: 0 0 $space-5;
+}
+
+.ik-hero__lede {
+	max-width: 60ch;
+	color: $color-graphite;
+	margin: 0 0 $space-6;
+}
+
+.ik-hero__ctas .wp-block-button__link {
+	font-size: $size-md;
+}
+
+.ik-hero__ctas .is-style-fill .wp-block-button__link {
+	background: $color-ink;
+	color: $color-surface;
+}
+
+.ik-hero__ctas .is-style-outline .wp-block-button__link {
+	border: 1px solid $color-line;
+	color: $color-ink;
+	background: transparent;
+}
+
+.ik-hero__ctas .is-style-fill .wp-block-button__link:hover {
+	background: $color-signal-deep;
+}
+
+.ik-hero__ctas .is-style-outline .wp-block-button__link:hover {
+	border-color: $color-rule;
+	background: $color-soft-paper;
+}
