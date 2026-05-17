@@ -1,0 +1,43 @@
+@use 'tokens' as *;
+
+.ik-wordmark {
+	font-family: $font-mono;
+	font-size: $size-lg;
+	font-weight: 600;
+	color: $color-ink;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.4ch;
+	text-decoration: none;
+	letter-spacing: -0.01em;
+}
+
+.ik-wordmark::before {
+	content: '~ $';
+	color: $color-graphite;
+	font-weight: 500;
+}
+
+.ik-wordmark::after {
+	content: '';
+	display: inline-block;
+	width: 0.55ch;
+	height: 1em;
+	background: $color-signal;
+	transform: translateY(0.15em);
+	animation: ik-cursor-blink 1.1s steps(2, end) infinite;
+}
+
+@keyframes ik-cursor-blink {
+
+	to {
+		opacity: 0;
+	}
+}
+
+// When the wordmark sits inside the Site Title block, suppress its default link decoration.
+.wp-block-site-title.ik-wordmark a,
+.wp-block-site-title.ik-wordmark a:hover {
+	text-decoration: none;
+	color: inherit;
+}
