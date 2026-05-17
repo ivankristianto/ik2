@@ -1,40 +1,216 @@
 @use 'tokens' as *;
 
 .ik-hero {
-	padding-block: $space-10 $space-9;
+	padding-block: $space-9 $space-8;
+	border-bottom: 1px solid $color-line;
+}
+
+.ik-hero__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 340px;
+	gap: clamp(2rem, 6vw, 5rem);
+	align-items: center;
+
+	@media (max-width: 900px) {
+		grid-template-columns: 1fr;
+		gap: $space-7;
+	}
+}
+
+.ik-hero__main { min-width: 0; }
+
+.ik-hero__eyebrow {
+	margin-bottom: $space-4;
 }
 
 .ik-hero__title {
 	max-width: 18ch;
 	margin: 0 0 $space-5;
+	letter-spacing: -0.04em;
+
+	@media (min-width: 901px) {
+		font-size: clamp(2.5rem, 6vw, 4.5rem);
+	}
 }
 
-.ik-hero__lede {
+.ik-hero__blurb {
 	max-width: 60ch;
 	color: $color-graphite;
-	margin: 0 0 $space-6;
+	margin: 0;
 }
 
-.ik-hero__ctas .wp-block-button__link {
-	font-size: $size-md;
+.ik-hero__sub {
+	max-width: $width-content;
+	margin: $space-5 0 0;
+	color: $color-graphite;
+	font-size: 1.0625rem;
+	line-height: 1.7;
 }
 
-.ik-hero__ctas .is-style-fill .wp-block-button__link {
-	background: $color-ink;
-	color: $color-surface;
+.ik-hero__actions {
+	margin-top: $space-7;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: $space-4;
 }
 
-.ik-hero__ctas .is-style-outline .wp-block-button__link {
-	border: 1px solid $color-line;
+.ik-hero__primary {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 14px;
+	font-family: $font-sans;
+	font-weight: 700;
+	font-size: clamp(1.5rem, 3.5vw, 2rem);
+	letter-spacing: -0.03em;
+	line-height: 1.1;
 	color: $color-ink;
-	background: transparent;
+	text-decoration: none;
+	padding-bottom: 6px;
+	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	background-size: 100% 4px;
+	transition: background-size 200ms ease, color 200ms ease;
+
+	&:hover {
+		color: $color-signal;
+		background-size: 100% 100%;
+	}
+
+	&:hover .ik-hero__primary-label {
+		color: #fff;
+		mix-blend-mode: difference;
+	}
 }
 
-.ik-hero__ctas .is-style-fill .wp-block-button__link:hover {
-	background: $color-signal-deep;
+.ik-hero__primary-arrow {
+	color: $color-signal;
+	font-family: $font-mono;
+	transition: transform 200ms ease;
 }
 
-.ik-hero__ctas .is-style-outline .wp-block-button__link:hover {
-	border-color: $color-rule;
+.ik-hero__primary:hover .ik-hero__primary-arrow {
+	transform: translateX(4px);
+}
+
+.ik-hero__secondary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $space-3;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-thickness: 0.08em;
+			text-underline-offset: 0.2em;
+		}
+	}
+
+	> span { color: $color-dust; }
+}
+
+.ik-hero__quicklinks {
+	margin-top: $space-7;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
+
+	> span { color: $color-dust; }
+}
+
+.ik-hero__portrait {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	overflow: hidden;
+	max-width: 340px;
+	justify-self: end;
+
+	@media (max-width: 900px) {
+		justify-self: start;
+		max-width: 280px;
+	}
+}
+
+.ik-hero__portrait-bar {
+	display: flex;
+	align-items: center;
+	gap: $space-3;
+	padding: 8px 12px;
 	background: $color-soft-paper;
+	border-bottom: 1px solid $color-line;
+	font-family: $font-mono;
+	font-size: 0.75rem;
+	color: $color-dust;
+}
+
+.ik-hero__portrait-dots {
+	display: inline-flex;
+	gap: 6px;
+
+	i {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: $color-rule;
+		display: inline-block;
+	}
+
+	i:first-child { background: #FF5F57; }
+
+	i:nth-child(2) { background: #FEBC2E; }
+
+	i:nth-child(3) { background: #28C840; }
+}
+
+.ik-hero__portrait-path { color: $color-graphite; }
+
+.ik-hero__portrait-frame {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	background: $color-paper;
+	display: flex;
+}
+
+.ik-hero__portrait-img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center 20%;
+}
+
+.ik-hero__portrait-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: $font-mono;
+	font-size: 3rem;
+	font-weight: 700;
+	color: $color-rule;
+	background: $color-soft-paper;
+}
+
+.ik-hero__portrait-caption {
+	padding: 10px 12px;
+	border-top: 1px solid $color-line;
+	background: $color-surface;
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	letter-spacing: 0.02em;
+	line-height: 1.4;
 }
