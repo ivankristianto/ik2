@@ -1,0 +1,41 @@
+@use 'tokens' as *;
+
+.ik-guide {
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-6;
+	transition: border-color 200ms ease, box-shadow 200ms ease;
+
+	&:hover {
+		border-color: $color-rule;
+		box-shadow: $shadow-sm;
+	}
+}
+
+.ik-guide__title {
+	font-size: $size-xl;
+	margin: 0 0 $space-3;
+
+	a {
+		color: $color-ink;
+		text-decoration: none;
+
+		&:hover {
+			color: $color-signal;
+		}
+	}
+}
+
+.ik-guide__excerpt {
+	color: $color-graphite;
+	font-size: $size-md;
+	line-height: 1.6;
+	margin: 0 0 $space-4;
+}
+
+.ik-guide__meta {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+}
