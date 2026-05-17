@@ -20,6 +20,7 @@ services:
         define('WP_DEBUG_DISPLAY', false);
         define('SCRIPT_DEBUG', true);
         define('DISABLE_WP_CRON', true);
+        define('WP_DEVELOPMENT_MODE', 'theme');
       XDEBUG_MODE: ${XDEBUG_MODE:-off}
     volumes:
       - wp-html:/var/www/html
@@ -110,7 +111,8 @@ services:
       - pnpm-store:/root/.local/share/pnpm/store
     environment:
       COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
-    entrypoint: ["sh", "-c", "corepack enable >/dev/null 2>&1; exec pnpm \"$$@\"", "_"]
+    entrypoint:
+      ["sh", "-c", 'corepack enable >/dev/null 2>&1; exec pnpm "$$@"', "_"]
     profiles: ["tools"]
 
 volumes:
