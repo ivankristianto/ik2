@@ -8,6 +8,8 @@
  * @package IK2
  */
 
+$ik2_guide_term    = get_term_by( 'slug', 'guide', 'category' );
+$ik2_guide_term_id = $ik2_guide_term instanceof WP_Term ? (int) $ik2_guide_term->term_id : 0;
 ?>
 <!-- wp:group {"className":"ik-section ik-section--muted","layout":{"type":"constrained"}} -->
 <section class="wp-block-group ik-section ik-section--muted">
@@ -17,10 +19,10 @@
 				<!-- wp:paragraph {"className":"ik-section__eyebrow"} --><p class="ik-section__eyebrow">// START HERE</p><!-- /wp:paragraph -->
 				<!-- wp:heading {"level":2,"className":"ik-section__title"} --><h2 class="wp-block-heading ik-section__title">Evergreen guides</h2><!-- /wp:heading -->
 			</div>
-			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="/articles">All guides →</a></p><!-- /wp:paragraph -->
+			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All guides →</a></p><!-- /wp:paragraph -->
 		</div>
 
-		<!-- wp:query {"queryId":1,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":["guide"]},"inherit":false}} -->
+		<!-- wp:query {"queryId":1,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":[<?php echo absint( $ik2_guide_term_id ); ?>]},"inherit":false}} -->
 		<div class="wp-block-query">
 			<!-- wp:post-template {"className":"ik-grid-2"} -->
 				<!-- wp:group {"className":"ik-guide","layout":{"type":"constrained"}} -->

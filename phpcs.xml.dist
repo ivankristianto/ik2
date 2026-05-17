@@ -26,4 +26,12 @@
         <exclude name="WordPress.Files.FileName"/>
     </rule>
     <rule ref="WordPress-Extra"/>
+
+    <!--
+        Homepage patterns use tax_query against indexed taxonomy tables.
+        These are acceptable at site scale; suppress the generic slow-query warning.
+    -->
+    <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_tax_query">
+        <exclude-pattern>*/wp-content/themes/ik2/patterns/*</exclude-pattern>
+    </rule>
 </ruleset>

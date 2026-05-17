@@ -3,11 +3,20 @@
  * Title: Home — Featured topics
  * Slug: ik2/home-featured-topics
  * Categories: ik2-home
- * Description: Six topic cards with one-line blurbs.
+ * Description: Topic cards rendered from real category data.
  *
  * @package IK2
  */
 
+$ik2_topic_slugs = array( 'wordpress', 'ai', 'performance', 'web-apis', 'tooling' );
+$ik2_topics      = array();
+
+foreach ( $ik2_topic_slugs as $ik2_topic_slug ) {
+	$ik2_term = get_term_by( 'slug', $ik2_topic_slug, 'category' );
+	if ( $ik2_term instanceof WP_Term ) {
+		$ik2_topics[] = $ik2_term;
+	}
+}
 ?>
 <!-- wp:group {"className":"ik-section","layout":{"type":"constrained"}} -->
 <section class="wp-block-group ik-section">
@@ -17,35 +26,20 @@
 				<!-- wp:paragraph {"className":"ik-section__eyebrow"} --><p class="ik-section__eyebrow">// FEATURED TOPICS</p><!-- /wp:paragraph -->
 				<!-- wp:heading {"level":2,"className":"ik-section__title"} --><h2 class="wp-block-heading ik-section__title">Where I spend my time on the web</h2><!-- /wp:heading -->
 			</div>
-			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="/articles">All articles →</a></p><!-- /wp:paragraph -->
+			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All articles →</a></p><!-- /wp:paragraph -->
 		</div>
 
 		<!-- wp:html -->
 		<div class="ik-topics">
-			<a class="ik-topic" href="/category/wordpress">
-				<div class="ik-topic__row"><span class="ik-topic__name">WordPress</span><span class="ik-topic__count">42</span></div>
-				<p class="ik-topic__blurb">Engineering notes from large-scale WordPress builds.</p>
-			</a>
-			<a class="ik-topic" href="/category/ai">
-				<div class="ik-topic__row"><span class="ik-topic__name">AI</span><span class="ik-topic__count">18</span></div>
-				<p class="ik-topic__blurb">How I use LLMs day-to-day, and where they actually help.</p>
-			</a>
-			<a class="ik-topic" href="/category/performance">
-				<div class="ik-topic__row"><span class="ik-topic__name">Performance</span><span class="ik-topic__count">23</span></div>
-				<p class="ik-topic__blurb">Real numbers from real sites — caching, queries, Core Web Vitals.</p>
-			</a>
-			<a class="ik-topic" href="/category/web-apis">
-				<div class="ik-topic__row"><span class="ik-topic__name">Web APIs</span><span class="ik-topic__count">11</span></div>
-				<p class="ik-topic__blurb">Platform primitives — what's new, what's stable, what's worth using.</p>
-			</a>
-			<a class="ik-topic" href="/category/tooling">
-				<div class="ik-topic__row"><span class="ik-topic__name">Tooling</span><span class="ik-topic__count">16</span></div>
-				<p class="ik-topic__blurb">Editor setup, CLI scripts, CI tricks, things that compound.</p>
-			</a>
-			<a class="ik-topic" href="/category/process">
-				<div class="ik-topic__row"><span class="ik-topic__name">Process</span><span class="ik-topic__count">9</span></div>
-				<p class="ik-topic__blurb">How I plan work, run reviews, and ship without drama.</p>
-			</a>
+			<?php foreach ( $ik2_topics as $ik2_topic ) : ?>
+				<a class="ik-topic" href="<?php echo esc_url( get_category_link( $ik2_topic ) ); ?>">
+					<div class="ik-topic__row">
+						<span class="ik-topic__name"><?php echo esc_html( $ik2_topic->name ); ?></span>
+						<span class="ik-topic__count"><?php echo (int) $ik2_topic->count; ?> post<?php echo 1 === (int) $ik2_topic->count ? '' : 's'; ?></span>
+					</div>
+					<p class="ik-topic__blurb"><?php echo esc_html( $ik2_topic->description ); ?></p>
+				</a>
+			<?php endforeach; ?>
 		</div>
 		<!-- /wp:html -->
 	</div>

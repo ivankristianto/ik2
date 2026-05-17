@@ -8,6 +8,8 @@
  * @package IK2
  */
 
+$ik2_note_term    = get_term_by( 'slug', 'note', 'category' );
+$ik2_note_term_id = $ik2_note_term instanceof WP_Term ? (int) $ik2_note_term->term_id : 0;
 ?>
 <!-- wp:group {"className":"ik-section","layout":{"type":"constrained"}} -->
 <section class="wp-block-group ik-section">
@@ -17,7 +19,7 @@
 				<!-- wp:paragraph {"className":"ik-section__eyebrow"} --><p class="ik-section__eyebrow">// LATEST NOTES  ·  TIL  ·  EXPERIMENTS  ·  LINKS</p><!-- /wp:paragraph -->
 				<!-- wp:heading {"level":2,"className":"ik-section__title"} --><h2 class="wp-block-heading ik-section__title">What I&rsquo;ve been working on</h2><!-- /wp:heading -->
 			</div>
-			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="/articles">All articles →</a></p><!-- /wp:paragraph -->
+			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All articles →</a></p><!-- /wp:paragraph -->
 		</div>
 
 		<!-- wp:columns {"className":"ik-notes-layout"} -->
@@ -25,7 +27,7 @@
 
 			<!-- wp:column {"width":"66.66%","className":"ik-notes-layout__main"} -->
 			<div class="wp-block-column ik-notes-layout__main" style="flex-basis:66.66%">
-				<!-- wp:query {"queryId":2,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":["note"]},"inherit":false}} -->
+				<!-- wp:query {"queryId":2,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":[<?php echo absint( $ik2_note_term_id ); ?>]},"inherit":false}} -->
 				<div class="wp-block-query">
 					<!-- wp:post-template -->
 						<!-- wp:group {"className":"ik-note","layout":{"type":"constrained"}} -->

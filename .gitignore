@@ -39,3 +39,4 @@
 *.log
 
 # Lock files: keep composer.lock and pnpm-lock.yaml in git
+/.pnpm-store/
