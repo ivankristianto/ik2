@@ -1,7 +1,94 @@
-<!-- wp:group {"backgroundColor":"soft-paper","layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-soft-paper-background-color has-background">
-	<!-- wp:paragraph {"align":"center","fontSize":"sm"} -->
-	<p class="has-text-align-center has-sm-font-size">© Ivan Kristianto · <a href="/feed/">RSS</a></p>
-	<!-- /wp:paragraph -->
-</div>
+<!-- wp:group {"tagName":"footer","className":"ik-footer","backgroundColor":"soft-paper","style":{"spacing":{"padding":{"top":"var:preset|spacing|9","bottom":"var:preset|spacing|6"}}},"layout":{"type":"constrained"}} -->
+<footer class="wp-block-group ik-footer has-soft-paper-background-color has-background" style="padding-top:var(--wp--preset--spacing--9);padding-bottom:var(--wp--preset--spacing--6)">
+	<!-- wp:group {"className":"container-full","layout":{"type":"default"}} -->
+	<div class="wp-block-group container-full">
+
+		<!-- wp:columns {"className":"ik-footer__columns"} -->
+		<div class="wp-block-columns ik-footer__columns">
+
+			<!-- wp:column {"className":"ik-footer__brand"} -->
+			<div class="wp-block-column ik-footer__brand">
+				<!-- wp:html -->
+				<div class="ik-wordmark" style="font-size:1.0625rem">ivan</div>
+				<!-- /wp:html -->
+				<!-- wp:paragraph {"className":"ik-footer__tagline","fontSize":"sm"} -->
+				<p class="ik-footer__tagline has-sm-font-size">Exploring WordPress, AI, performance, and developer tooling.</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"className":"ik-footer__handle","fontSize":"xs"} -->
+				<p class="ik-footer__handle has-xs-font-size">// @ivankristianto on the web</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:html -->
+				<nav class="ik-footer__social" aria-label="Social">
+					<a href="https://github.com/ivankristianto" aria-label="GitHub"><img src="/wp-content/themes/ik2/assets/icons/github.svg" alt="" width="20" height="20"></a>
+					<a href="https://linkedin.com/in/ivankristianto" aria-label="LinkedIn"><img src="/wp-content/themes/ik2/assets/icons/linkedin.svg" alt="" width="20" height="20"></a>
+					<a href="https://twitter.com/ivankristianto" aria-label="Twitter / X"><img src="/wp-content/themes/ik2/assets/icons/twitter.svg" alt="" width="20" height="20"></a>
+					<a href="https://profiles.wordpress.org/ivankristianto/" aria-label="WordPress.org"><img src="/wp-content/themes/ik2/assets/icons/wordpress.svg" alt="" width="20" height="20"></a>
+					<a href="/feed" aria-label="RSS feed" class="ik-footer__rss"><img src="/wp-content/themes/ik2/assets/icons/rss.svg" alt="" width="20" height="20"></a>
+				</nav>
+				<!-- /wp:html -->
+			</div>
+			<!-- /wp:column -->
+
+			<!-- wp:column {"className":"ik-footer__col"} -->
+			<div class="wp-block-column ik-footer__col">
+				<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">Site</h4><!-- /wp:heading -->
+				<!-- wp:list -->
+				<ul class="wp-block-list">
+					<li><a href="/">Home</a></li>
+					<li><a href="/articles">Articles</a></li>
+					<li><a href="/projects">Projects</a></li>
+					<li><a href="/speaking">Speaking</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/contact">Contact</a></li>
+					<li><a href="/resume">Resume</a></li>
+				</ul>
+				<!-- /wp:list -->
+			</div>
+			<!-- /wp:column -->
+
+			<!-- wp:column {"className":"ik-footer__col"} -->
+			<div class="wp-block-column ik-footer__col">
+				<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">Topics</h4><!-- /wp:heading -->
+				<!-- wp:list -->
+				<ul class="wp-block-list">
+					<li><a href="/category/wordpress">WordPress</a></li>
+					<li><a href="/category/ai">AI</a></li>
+					<li><a href="/category/performance">Performance</a></li>
+					<li><a href="/category/web-apis">Web APIs</a></li>
+					<li><a href="/category/tooling">Tooling</a></li>
+				</ul>
+				<!-- /wp:list -->
+			</div>
+			<!-- /wp:column -->
+
+			<!-- wp:column {"className":"ik-footer__col"} -->
+			<div class="wp-block-column ik-footer__col">
+				<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">Subscribe</h4><!-- /wp:heading -->
+				<!-- wp:list -->
+				<ul class="wp-block-list">
+					<li><a href="/feed">RSS feed</a></li>
+					<li><a href="/feed/json">JSON feed</a></li>
+					<li><a href="mailto:hello@ivankristianto.com">Email me</a></li>
+				</ul>
+				<!-- /wp:list -->
+			</div>
+			<!-- /wp:column -->
+
+		</div>
+		<!-- /wp:columns -->
+
+		<!-- wp:group {"className":"ik-footer__bottom","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+		<div class="wp-block-group ik-footer__bottom">
+			<!-- wp:paragraph {"fontSize":"xs"} -->
+			<p class="has-xs-font-size">© 2026 Ivan Kristianto  ·  Built on WordPress with a custom block theme  ·  Ink, Paper, Signal design system.</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:paragraph {"fontSize":"xs"} -->
+			<p class="has-xs-font-size">Last published May 12, 2026</p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+	</div>
+	<!-- /wp:group -->
+</footer>
 <!-- /wp:group -->
