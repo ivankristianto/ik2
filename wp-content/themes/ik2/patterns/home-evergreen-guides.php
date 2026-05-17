@@ -11,7 +11,7 @@
 $ik2_guide_term    = get_term_by( 'slug', 'guide', 'category' );
 $ik2_guide_term_id = $ik2_guide_term instanceof WP_Term ? (int) $ik2_guide_term->term_id : 0;
 ?>
-<!-- wp:group {"className":"ik-section ik-section--muted","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"ik-section ik-section--muted","layout":{"type":"default"}} -->
 <section class="wp-block-group ik-section ik-section--muted">
 	<div class="container-full">
 		<div class="ik-section__head">

@@ -31,7 +31,7 @@ $ik2_projects_query = new WP_Query(
 	)
 );
 ?>
-<!-- wp:group {"className":"ik-section ik-section--muted","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"ik-section ik-section--muted","layout":{"type":"default"}} -->
 <section class="wp-block-group ik-section ik-section--muted">
 	<div class="container-full">
 		<div class="ik-section__head">

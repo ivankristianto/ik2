@@ -11,7 +11,7 @@
 $ik2_note_term    = get_term_by( 'slug', 'note', 'category' );
 $ik2_note_term_id = $ik2_note_term instanceof WP_Term ? (int) $ik2_note_term->term_id : 0;
 ?>
-<!-- wp:group {"className":"ik-section","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"ik-section","layout":{"type":"default"}} -->
 <section class="wp-block-group ik-section">
 	<div class="container-full">
 		<div class="ik-section__head">

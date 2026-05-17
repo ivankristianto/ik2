@@ -25,7 +25,7 @@ $ik2_talks_query = new WP_Query(
 	)
 );
 ?>
-<!-- wp:group {"className":"ik-section","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"ik-section","layout":{"type":"default"}} -->
 <section class="wp-block-group ik-section">
 	<div class="container-full">
 		<div class="ik-section__head">

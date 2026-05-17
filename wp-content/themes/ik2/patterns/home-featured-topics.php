@@ -18,7 +18,7 @@ foreach ( $ik2_topic_slugs as $ik2_topic_slug ) {
 	}
 }
 ?>
-<!-- wp:group {"className":"ik-section","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"ik-section","layout":{"type":"default"}} -->
 <section class="wp-block-group ik-section">
 	<div class="container-full">
 		<div class="ik-section__head">
