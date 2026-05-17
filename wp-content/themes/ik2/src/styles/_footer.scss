@@ -7,7 +7,18 @@
 }
 
 .ik-footer__columns {
-	gap: $space-6;
+	gap: $space-5;
+	justify-content: space-between;
+
+	// Override WordPress default equal-width columns
+	.wp-block-column.ik-footer__brand {
+		flex: 0 0 auto;
+	}
+
+	.wp-block-column.ik-footer__col {
+		flex: 0 0 auto;
+		min-width: 120px;
+	}
 }
 
 .ik-footer__brand .ik-wordmark {
@@ -18,6 +29,7 @@
 	max-width: 280px;
 	color: $color-graphite;
 	margin: 0 0 $space-4;
+	font-family: $font-mono;
 }
 
 .ik-footer__handle {
@@ -88,6 +100,8 @@
 	padding-top: $space-5;
 	border-top: 1px solid $color-line;
 	color: $color-dust;
+	font-family: $font-mono;
+	font-size: $size-xs;
 
 	p {
 		margin: 0;
