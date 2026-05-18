@@ -7,17 +7,16 @@
 }
 
 .ik-footer__columns {
-	gap: $space-5;
-	justify-content: space-between;
+	gap: $space-7;
 
-	// Override WordPress default equal-width columns
 	.wp-block-column.ik-footer__brand {
-		flex: 0 0 auto;
+		flex: 0 1 360px;
+		margin-right: auto;
 	}
 
 	.wp-block-column.ik-footer__col {
 		flex: 0 0 auto;
-		min-width: 120px;
+		min-width: 200px;
 	}
 }
 
@@ -26,7 +25,7 @@
 }
 
 .ik-footer__tagline {
-	max-width: 280px;
+	max-width: 320px;
 	color: $color-graphite;
 	margin: 0 0 $space-4;
 	font-family: $font-mono;
@@ -40,22 +39,31 @@
 
 .ik-footer__social {
 	display: flex;
-	gap: $space-3;
+	gap: $space-2;
 
 	a {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 28px;
-		height: 28px;
+		width: 32px;
+		height: 32px;
 		border-radius: $radius-sm;
-		opacity: 0.7;
-		transition: opacity 200ms ease, background 200ms ease;
+		color: $color-graphite;
+		text-decoration: none;
+		opacity: 0.75;
+		transition: opacity 200ms ease, background 200ms ease, color 200ms ease;
 	}
 
-	img {
+	svg {
 		width: 18px;
 		height: 18px;
+	}
+
+	.dashicons {
+		width: 18px;
+		height: 18px;
+		font-size: 18px;
+		line-height: 1;
 	}
 }
 
@@ -86,15 +94,6 @@
 	}
 }
 
-.ik-footer__social a:hover {
-	opacity: 1;
-	background: $color-paper;
-}
-
-.ik-footer__col a:hover {
-	color: $color-ink;
-}
-
 .ik-footer__bottom {
 	margin-top: $space-8;
 	padding-top: $space-5;
@@ -102,8 +101,41 @@
 	color: $color-dust;
 	font-family: $font-mono;
 	font-size: $size-xs;
+	gap: $space-4;
 
 	p {
 		margin: 0;
 	}
+
+	// On mobile the row wraps; flip the order so the meta links sit
+	// above the copyright (which becomes the very last line).
+	@media (max-width: 600px) {
+		flex-direction: column-reverse;
+		align-items: flex-start;
+	}
+}
+
+.ik-footer__meta {
+	display: flex;
+	gap: $space-4;
+
+	a {
+		color: $color-dust;
+		text-decoration: none;
+		transition: color 200ms ease;
+	}
+}
+
+.ik-footer__social a:hover {
+	opacity: 1;
+	color: $color-ink;
+	background: $color-paper;
+}
+
+.ik-footer__col a:hover {
+	color: $color-ink;
+}
+
+.ik-footer__meta a:hover {
+	color: $color-ink;
 }
