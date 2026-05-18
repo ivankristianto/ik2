@@ -68,10 +68,11 @@
 }
 
 .ik-header__resume .wp-block-button__link {
-	background: $color-ink;
-	color: $color-surface;
-	font-size: $size-sm;
 	padding: $space-2 $space-4;
+	font-size: $size-sm;
+	color: $color-surface;
+	white-space: nowrap;
+	background: $color-ink;
 
 	&:hover {
 		background: $color-signal-deep;

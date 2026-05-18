@@ -59,28 +59,23 @@
 	display: inline-flex;
 	align-items: baseline;
 	gap: 14px;
+	padding-bottom: 6px;
 	font-family: $font-sans;
-	font-weight: 700;
 	font-size: clamp(1.5rem, 3.5vw, 2rem);
-	letter-spacing: -0.03em;
+	font-weight: 700;
 	line-height: 1.1;
+	letter-spacing: -0.03em;
 	color: $color-ink;
 	text-decoration: none;
-	padding-bottom: 6px;
 	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
 	background-repeat: no-repeat;
 	background-position: 0 100%;
-	background-size: 100% 4px;
+	background-size: 100% 2px;
 	transition: background-size 200ms ease, color 200ms ease;
 
 	&:hover {
-		color: $color-signal;
-		background-size: 100% 100%;
-	}
-
-	&:hover .ik-hero__primary-label {
-		color: #fff;
-		mix-blend-mode: difference;
+		color: $color-signal-deep;
+		background-size: 100% 4px;
 	}
 }
 
