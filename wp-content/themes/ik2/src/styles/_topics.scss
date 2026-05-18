@@ -2,10 +2,13 @@
 
 .ik-topics {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: $space-4;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	overflow: hidden;
 
-	@media (max-width: 960px) {
+	@media (max-width: 1000px) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
@@ -15,18 +18,52 @@
 }
 
 .ik-topic {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	gap: $space-3;
 	padding: $space-5;
-	background: $color-surface;
-	border: 1px solid $color-line;
-	border-radius: $radius-md;
+	border-right: 1px solid $color-line;
+	border-bottom: 1px solid $color-line;
 	text-decoration: none;
 	color: inherit;
-	transition: border-color 200ms ease, box-shadow 200ms ease;
+	transition: background 200ms ease;
 
 	&:hover {
-		border-color: $color-rule;
-		box-shadow: $shadow-sm;
+		background: $color-soft-paper;
+	}
+
+	@media (min-width: 1001px) {
+
+		&:nth-last-child(-n+5) {
+			border-bottom: 0;
+		}
+
+		&:last-child {
+			border-right: 0;
+		}
+	}
+
+	@media (max-width: 1000px) and (min-width: 601px) {
+
+		&:nth-child(2n) {
+			border-right: 0;
+		}
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		&:nth-last-child(-n+2):nth-child(2n+1) {
+			border-bottom: 0;
+		}
+	}
+
+	@media (max-width: 600px) {
+		border-right: 0;
+
+		&:last-child {
+			border-bottom: 0;
+		}
 	}
 }
 
@@ -34,11 +71,13 @@
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
-	margin-bottom: $space-2;
+	gap: $space-3;
 }
 
 .ik-topic__name {
-	font-weight: 600;
+	font-weight: 700;
+	font-size: 1.125rem;
+	letter-spacing: -0.02em;
 	color: $color-ink;
 }
 
@@ -46,11 +85,12 @@
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-dust;
+	white-space: nowrap;
 }
 
 .ik-topic__blurb {
 	margin: 0;
-	font-size: $size-sm;
+	font-size: 0.9375rem;
+	line-height: 1.55;
 	color: $color-graphite;
-	line-height: 1.5;
 }
