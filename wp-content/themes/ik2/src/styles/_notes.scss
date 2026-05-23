@@ -200,6 +200,41 @@
 	}
 }
 
+@media (max-width: 640px) {
+
+	.ik-notes-layout {
+		gap: $space-5;
+	}
+
+	.ik-note {
+		padding: $space-4 0;
+	}
+
+	.ik-note__title {
+		font-size: $size-lg;
+		margin-bottom: $space-1;
+	}
+
+	.ik-note__excerpt {
+		font-size: $size-sm;
+		line-height: 1.5;
+	}
+
+	.ik-now {
+		padding: $space-4;
+		font-size: $size-xs;
+	}
+
+	.ik-now__head {
+		margin-bottom: $space-3;
+	}
+
+	.ik-now__foot {
+		margin-top: $space-3;
+		padding-top: $space-3;
+	}
+}
+
 // Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
 .ik-note__title a:hover {
 	color: $color-signal;

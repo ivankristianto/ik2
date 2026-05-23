@@ -101,6 +101,40 @@
 	}
 }
 
+@media (max-width: 640px) {
+
+	.ik-speaking-layout {
+		gap: $space-5;
+	}
+
+	.ik-speaking-layout__intro {
+		gap: $space-3;
+	}
+
+	.ik-speaking-layout__deck {
+		font-size: $size-md;
+		line-height: 1.6;
+	}
+
+	.ik-talk {
+		padding: $space-4 0;
+	}
+
+	.ik-talk__title {
+		font-size: $size-lg;
+	}
+
+	.ik-talk__venue {
+		font-size: $size-md;
+		line-height: 1.5;
+		margin-top: $space-1;
+	}
+
+	.ik-talk__kind {
+		margin-top: $space-1;
+	}
+}
+
 // Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
 .ik-speaking-layout__more a:hover {
 	text-decoration: underline;

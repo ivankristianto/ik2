@@ -209,3 +209,57 @@
 	letter-spacing: 0.02em;
 	line-height: 1.4;
 }
+
+@media (max-width: 640px) {
+
+	.ik-hero {
+		padding-block: $space-7 $space-6;
+	}
+
+	.ik-hero__layout {
+		gap: $space-5;
+	}
+
+	.ik-hero__eyebrow {
+		margin-bottom: $space-3;
+	}
+
+	.ik-hero__title {
+		max-width: 10ch;
+		margin-bottom: $space-4;
+		font-size: clamp(2.6rem, 14vw, 3.5rem);
+	}
+
+	.ik-hero__blurb {
+		font-size: $size-md;
+		line-height: 1.6;
+	}
+
+	.ik-hero__sub {
+		margin-top: $space-4;
+		font-size: $size-sm;
+		line-height: 1.6;
+	}
+
+	.ik-hero__actions {
+		margin-top: $space-5;
+		gap: $space-3;
+	}
+
+	.ik-hero__primary {
+		font-size: clamp(1.35rem, 7.5vw, 1.8rem);
+	}
+
+	.ik-hero__secondary,
+	.ik-hero__quicklinks {
+		font-size: $size-xs;
+	}
+
+	.ik-hero__quicklinks {
+		margin-top: $space-5;
+	}
+
+	.ik-hero__portrait {
+		max-width: 220px;
+	}
+}

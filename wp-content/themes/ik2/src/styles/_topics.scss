@@ -94,3 +94,19 @@
 	line-height: 1.55;
 	color: $color-graphite;
 }
+
+@media (max-width: 600px) {
+
+	.ik-topic {
+		gap: $space-2;
+		padding: $space-4;
+	}
+
+	.ik-topic__name {
+		font-size: $size-md;
+	}
+
+	.ik-topic__blurb {
+		font-size: $size-sm;
+	}
+}

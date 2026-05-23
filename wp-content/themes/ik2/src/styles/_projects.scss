@@ -88,3 +88,26 @@
 .ik-project__name a:hover {
 	color: $color-signal;
 }
+
+@media (max-width: 600px) {
+
+	.ik-project-grid {
+		gap: $space-4;
+	}
+
+	.ik-project {
+		padding: $space-4;
+	}
+
+	.ik-project__head {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: $space-2;
+		margin-bottom: $space-2;
+	}
+
+	.ik-project__blurb {
+		font-size: $size-xs;
+		margin-bottom: $space-3;
+	}
+}

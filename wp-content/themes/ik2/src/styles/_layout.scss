@@ -71,6 +71,26 @@
 	}
 }
 
+@media (max-width: 640px) {
+
+	.ik-section {
+		padding-block: $space-7;
+	}
+
+	.ik-section__head {
+		gap: $space-3;
+		margin-bottom: $space-5;
+	}
+
+	.ik-section__eyebrow {
+		margin-bottom: $space-1;
+	}
+
+	.ik-section__title {
+		font-size: clamp(1.85rem, 9vw, 2.35rem);
+	}
+}
+
 .ik-grid-2 {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -109,9 +109,36 @@
 
 @media (max-width: 640px) {
 
+	.ik-guides-layout {
+		gap: $space-5;
+	}
+
+	.ik-guides-layout__intro {
+		gap: $space-3;
+	}
+
+	.ik-guides-layout__deck {
+		font-size: $size-md;
+		line-height: 1.6;
+	}
+
 	.ik-guide {
 		grid-template-columns: 1fr;
 		gap: $space-2;
+		padding: $space-4 0;
+	}
+
+	.ik-guide__date {
+		gap: $space-1;
+	}
+
+	.ik-guide__title {
+		font-size: $size-lg;
+	}
+
+	.ik-guide__excerpt {
+		font-size: $size-sm;
+		line-height: 1.55;
 	}
 }
 
