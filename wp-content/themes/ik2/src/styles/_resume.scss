@@ -2,98 +2,238 @@
 
 /* ===========================================================================
    Resume page (templates/page-resume.html)
+   Editorial layout, big masthead, typographic sections.
    =========================================================================== */
 
 .ik-resume {
-	padding-block: $space-7 $space-8;
+	padding-block: $space-8 $space-9;
 
-	// Constrain the resume body to the narrow article column. The outer
-	// container-full stays so the page chrome (header/footer) aligns with
-	// the rest of the site.
+	// Constrain the resume body to a wide editorial measure (1080px),
+	// keeping the page chrome (header/footer) on the outer 1280px gutter.
 	> .container-full > * {
-		max-width: $width-content;
+		max-width: $width-wide;
 		margin-inline: auto;
 	}
 }
 
+/* ---- Masthead ---------------------------------------------------------- */
+
 .ik-resume__head {
-	margin: 0 auto $space-7;
+	margin: 0 auto $space-9;
 }
 
 .ik-resume__eyebrow {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $space-3;
+	margin: 0 0 $space-7;
 	font-family: $font-mono;
 	font-size: $size-sm;
 	color: $color-graphite;
-	letter-spacing: 0.04em;
-	margin: 0 0 $space-4;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ik-resume__eyebrow-tag {
+	background: $color-ink;
+	color: $color-paper;
+	padding: 4px 10px 3px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+}
+
+.ik-resume__eyebrow-sep {
+	color: $color-rule;
+}
+
+.ik-resume__eyebrow-status {
+	color: $color-signal;
+	font-weight: 600;
+
+	&::before {
+		content: '';
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: $color-signal;
+		margin-right: $space-2;
+		vertical-align: 1px;
+		box-shadow: 0 0 0 3px $color-signal-soft;
+	}
+}
+
+.ik-resume__masthead {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+	gap: $space-7 $space-8;
+	align-items: end;
+	padding-bottom: $space-7;
+	border-bottom: 2px solid $color-ink;
+
+	@media (max-width: 900px) {
+		grid-template-columns: 1fr;
+		gap: $space-5;
+		align-items: start;
+	}
 }
 
 .ik-resume__name {
-	font-size: clamp(2.25rem, 5vw, 3rem);
-	line-height: 1.08;
-	letter-spacing: -0.04em;
+	font-family: $font-sans;
+	font-weight: 800;
+	font-size: clamp(3.5rem, 11vw, 7rem);
+	line-height: 0.92;
+	letter-spacing: -0.05em;
+	color: $color-ink;
 	margin: 0;
+	text-wrap: balance;
+
+	@media (max-width: 600px) {
+		font-size: clamp(3rem, 14vw, 4.5rem);
+		line-height: 0.94;
+	}
+}
+
+.ik-resume__meta {
+	border-left: none;
+	min-width: 0;
+
+	@media (min-width: 901px) {
+		padding-left: $space-6;
+		border-left: 1px solid $color-line;
+		align-self: stretch;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
 }
 
 .ik-resume__title {
-	margin: $space-3 0 0;
-	font-size: $size-lg;
-	color: $color-graphite;
-	line-height: 1.4;
+	margin: 0;
+	font-size: $size-xl;
+	font-weight: 600;
+	line-height: 1.2;
+	color: $color-ink;
+	letter-spacing: -0.015em;
+
+	span {
+		display: block;
+		margin-top: $space-2;
+		font-size: $size-md;
+		font-weight: 500;
+		color: $color-graphite;
+		letter-spacing: 0;
+	}
 }
 
 .ik-resume__location {
-	margin: $space-2 0 0;
+	margin: $space-4 0 0;
 	font-family: $font-mono;
 	font-size: $size-sm;
 	color: $color-dust;
+	letter-spacing: 0.02em;
 }
 
 .ik-resume__summary {
-	margin: $space-5 0 0;
-	font-size: $size-lg;
-	line-height: 1.7;
+	max-width: 60ch;
+	margin: $space-7 0 0;
+	font-size: clamp(1.125rem, 1.6vw, 1.4375rem);
+	line-height: 1.55;
 	color: $color-ink;
 	text-wrap: pretty;
+	letter-spacing: -0.005em;
 }
 
-/* ---- Sections ---------------------------------------------------------- */
+/* ---- Section frame ----------------------------------------------------- */
 
 .ik-resume__section {
-	margin-top: $space-7;
+	margin-top: $space-9;
 }
 
 .ik-resume__section-title {
-	font-size: $size-2xl;
-	letter-spacing: -0.035em;
-	margin: 0 0 $space-5;
-	padding-bottom: $space-3;
-	border-bottom: 1px solid $color-line;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: baseline;
+	column-gap: $space-5;
+	margin: 0 0 $space-7;
+	padding-bottom: $space-4;
+	border-bottom: 2px solid $color-ink;
+	font-size: clamp(2rem, 4.5vw, 3rem);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 1;
+	color: $color-ink;
+}
+
+.ik-resume__section-num {
+	font-family: $font-mono;
+	font-size: $size-md;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	color: $color-signal;
+	align-self: baseline;
+}
+
+.ik-resume__section-name {
+	min-width: 0;
 }
 
 /* ---- Experience -------------------------------------------------------- */
 
 .ik-resume__exp {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	display: grid;
-	gap: $space-5;
+	gap: 0;
 }
 
 .ik-resume__exp-row {
 	display: grid;
-	grid-template-columns: 7rem 1fr;
-	gap: $space-5;
+	grid-template-columns: 12rem minmax(0, 1fr);
+	gap: $space-7;
+	padding: $space-6 0;
+	border-bottom: 1px solid $color-line;
 
-	@media (max-width: 600px) {
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	@media (max-width: 700px) {
 		grid-template-columns: 1fr;
-		gap: $space-2;
+		gap: $space-3;
+		padding: $space-5 0;
 	}
 }
 
 .ik-resume__exp-when {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: $space-2;
 	font-family: $font-mono;
+	font-size: $size-md;
+	font-weight: 600;
+	color: $color-ink;
+	letter-spacing: 0;
+	padding-top: 0.35rem;
+	line-height: 1.2;
+}
+
+.ik-resume__exp-arrow {
+	color: $color-rule;
+	font-weight: 500;
+}
+
+.ik-resume__exp-to.is-now {
+	background: $color-signal-soft;
+	color: $color-signal-deep;
+	padding: 2px 8px 1px;
+	border-radius: $radius-sm;
 	font-size: $size-sm;
-	color: $color-dust;
-	padding-top: 4px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
 }
 
 .ik-resume__exp-body {
@@ -101,84 +241,141 @@
 }
 
 .ik-resume__exp-role {
+	margin: 0;
+	font-size: clamp(1.25rem, 2vw, 1.5rem);
 	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.25;
 	color: $color-ink;
-	font-size: $size-md;
-	line-height: 1.35;
+}
 
-	span {
-		color: $color-graphite;
-		font-weight: 500;
-	}
+.ik-resume__exp-org {
+	margin: $space-1 0 0;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	font-weight: 500;
+	color: $color-signal;
+	letter-spacing: 0.02em;
 }
 
 .ik-resume__exp-note {
+	margin: $space-3 0 0;
+	font-size: $size-md;
 	color: $color-graphite;
-	margin-top: 2px;
 	line-height: 1.6;
-}
-
-/* ---- Skills ------------------------------------------------------------ */
-
-.ik-resume__skills {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: $space-5;
-
-	@media (max-width: 600px) {
-		grid-template-columns: 1fr;
-	}
-}
-
-.ik-resume__skill {
-	background: $color-surface;
-	border: 1px solid $color-line;
-	border-radius: $radius-md;
-	padding: $space-5;
-	min-width: 0;
-
-	ul {
-		margin: 0;
-		padding-left: 1.1em;
-		color: $color-ink;
-	}
-
-	li {
-		margin-top: 0.35em;
-		line-height: 1.5;
-
-		&:first-child {
-			margin-top: 0;
-		}
-	}
-}
-
-.ik-resume__skill-group {
-	font-family: $font-mono;
-	font-size: $size-sm;
-	color: $color-graphite;
-	margin-bottom: $space-3;
-	letter-spacing: 0.04em;
+	max-width: 60ch;
 }
 
 /* ---- Contact links ----------------------------------------------------- */
 
-.ik-resume__contact {
-	display: flex;
-	flex-wrap: wrap;
-	gap: $space-5;
+/* Defined ahead of skills so cascade ordering matches ascending specificity. */
+
+.ik-resume__contact-label {
 	font-family: $font-mono;
 	font-size: $size-sm;
+	font-weight: 500;
+	color: $color-dust;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ik-resume__contact-value {
+	font-family: $font-sans;
+	font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	color: $color-ink;
+	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	background-size: 100% 2px;
+	transition: background-size 200ms ease, color 200ms ease;
+	overflow-wrap: anywhere;
+	padding-bottom: 2px;
+}
+
+.ik-resume__contact {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0;
+}
+
+.ik-resume__contact > li {
+	border-bottom: 1px solid $color-line;
 }
 
 .ik-resume__contact a {
-	color: $color-signal;
-	text-decoration: underline;
-	text-decoration-thickness: 0.08em;
-	text-underline-offset: 0.18em;
-	overflow-wrap: anywhere;
+	display: grid;
+	grid-template-columns: 10rem minmax(0, 1fr);
+	align-items: baseline;
+	gap: $space-5;
+	padding: $space-5 0;
+	text-decoration: none;
+	color: $color-ink;
+	transition: color 200ms ease;
 
-	&:hover {
-		color: $color-signal-deep;
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+		gap: $space-1;
+		padding: $space-4 0;
 	}
+}
+
+.ik-resume__contact > li:first-child {
+	border-top: 1px solid $color-line;
+}
+
+.ik-resume__contact a:hover .ik-resume__contact-value,
+.ik-resume__contact a:focus-visible .ik-resume__contact-value {
+	background-size: 100% 4px;
+	color: $color-signal-deep;
+}
+
+/* ---- Skills as typographic exhibit ------------------------------------ */
+
+.ik-resume__skills {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: $space-8;
+	row-gap: $space-6;
+
+	@media (max-width: 700px) {
+		grid-template-columns: 1fr;
+		row-gap: $space-5;
+	}
+}
+
+.ik-resume__skill {
+	min-width: 0;
+	padding-top: $space-4;
+	border-top: 1px solid $color-line;
+}
+
+.ik-resume__skill-group {
+	margin: 0 0 $space-4;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	font-weight: 600;
+	color: $color-ink;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ik-resume__skill-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ik-resume__skills .ik-resume__skill-list li {
+	padding: $space-2 0;
+	font-size: $size-md;
+	line-height: 1.45;
+	color: $color-ink;
+}
+
+.ik-resume__skills .ik-resume__skill-list li + li {
+	border-top: 1px dashed $color-rule;
 }

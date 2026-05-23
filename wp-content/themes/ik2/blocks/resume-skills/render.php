@@ -2,8 +2,8 @@
 /**
  * Server render for ik2/resume-skills.
  *
- * Outputs a grid of skill groups. Each group has a monospace label and a
- * short bullet list of representative items.
+ * Outputs a typographic exhibit of skill groups. Each group has a monospace
+ * label and a short list of representative items, divided by hairlines.
  *
  * @package IK2
  * @var array<string,mixed> $attributes
@@ -43,7 +43,7 @@ $ik2_skills = array(
 	array(
 		'group' => __( 'Other', 'ik2' ),
 		'items' => array(
-			__( 'AI in the dev loop — Claude Code, Copilot', 'ik2' ),
+			__( 'AI in the dev loop &mdash; Claude Code, Copilot', 'ik2' ),
 			__( 'Talks: WordCamp, WordPress meetups', 'ik2' ),
 			__( 'Mentoring junior engineers', 'ik2' ),
 		),
@@ -51,21 +51,24 @@ $ik2_skills = array(
 );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-resume__section' )
+	array( 'class' => 'ik-resume__section ik-resume__section--skills' )
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<h2 class="ik-resume__section-title"><?php esc_html_e( 'Skills', 'ik2' ); ?></h2>
+	<h2 class="ik-resume__section-title">
+		<span class="ik-resume__section-num" aria-hidden="true">02</span>
+		<span class="ik-resume__section-name"><?php esc_html_e( 'Skills', 'ik2' ); ?></span>
+	</h2>
 	<div class="ik-resume__skills">
 		<?php foreach ( $ik2_skills as $ik2_skill ) : ?>
-			<div class="ik-resume__skill">
-				<div class="ik-resume__skill-group"><?php echo esc_html( $ik2_skill['group'] ); ?></div>
-				<ul>
+			<section class="ik-resume__skill">
+				<h3 class="ik-resume__skill-group"><?php echo esc_html( $ik2_skill['group'] ); ?></h3>
+				<ul class="ik-resume__skill-list">
 					<?php foreach ( $ik2_skill['items'] as $ik2_item ) : ?>
-						<li><?php echo esc_html( $ik2_item ); ?></li>
+						<li><?php echo wp_kses( $ik2_item, array() ); ?></li>
 					<?php endforeach; ?>
 				</ul>
-			</div>
+			</section>
 		<?php endforeach; ?>
 	</div>
 </section>
