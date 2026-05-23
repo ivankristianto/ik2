@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/articles-filters",
+	"version": "2.0.0",
+	"title": "Articles Filters",
+	"category": "theme",
+	"description": "Topic and format filter pills for the Articles, category, and tag archives. Topic pills navigate between archives; format pills filter within the current archive via the Interactivity API router.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false,
+		"interactivity": true
+	},
+	"attributes": {
+		"showCount": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScriptModule": "file:../../build/blocks/articles-filters/view.js"
+}
