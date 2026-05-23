@@ -49,5 +49,23 @@ services:
       # Traefik labels set by Dokploy — example only
       - "traefik.enable=true"
 
+  wp-cli:
+    image: wordpress:cli-php8.5
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+    volumes:
+      - uploads:/var/www/html/wp-content/uploads
+    depends_on:
+      - app
+    entrypoint: ["sh", "-c"]
+    command: ["tail -f /dev/null"]
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+
 volumes:
   uploads:

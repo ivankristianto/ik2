@@ -71,7 +71,7 @@ services:
   # Persistent wp-cli container — stays running so `composer dev:wp` can
   # `docker compose exec` into it for an interactive shell with `wp` on PATH.
   wp-cli:
-    image: wordpress:cli-php8.4
+    image: wordpress:cli-php8.5
     user: "33:33"
     environment:
       WORDPRESS_DB_HOST: db

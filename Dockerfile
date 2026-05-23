@@ -45,7 +45,7 @@ RUN pnpm build || echo "no build script output — skipping"
 # ---------------------------------------------------------------------------
 # Stage 3 — base runtime (shared between dev + prod)
 # ---------------------------------------------------------------------------
-FROM wordpress:php8.4-fpm-alpine AS base
+FROM wordpress:7-php8.5-fpm-alpine AS base
 
 # OS deps for image handling, healthcheck
 RUN apk add --no-cache \
