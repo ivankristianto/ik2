@@ -10,8 +10,8 @@
  */
 
 ?>
-<!-- wp:group {"tagName":"header","className":"ik-header","style":{"spacing":{"padding":{"top":"var:preset|spacing|5","bottom":"var:preset|spacing|5"}}},"layout":{"type":"default"}} -->
-<header class="wp-block-group ik-header" style="padding-top:var(--wp--preset--spacing--5);padding-bottom:var(--wp--preset--spacing--5)">
+<!-- wp:group {"className":"ik-header","style":{"spacing":{"padding":{"top":"var:preset|spacing|5","bottom":"var:preset|spacing|5"}}},"layout":{"type":"default"}} -->
+<div class="wp-block-group ik-header" style="padding-top:var(--wp--preset--spacing--5);padding-bottom:var(--wp--preset--spacing--5)">
 	<!-- wp:group {"className":"container-full ik-header__row","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group container-full ik-header__row">
 		<!-- wp:site-title {"level":0,"className":"ik-wordmark"} /-->
@@ -29,8 +29,18 @@
 
 			<!-- wp:buttons {"className":"ik-header__resume-wrap"} -->
 			<div class="wp-block-buttons ik-header__resume-wrap">
-				<!-- wp:button {"className":"ik-header__resume","style":{"border":{"radius":"0.375rem"}}} -->
-				<div class="wp-block-button ik-header__resume"><a class="wp-block-button__link wp-element-button" href="/resume" style="border-radius:0.375rem"><?php esc_html_e( 'Resume', 'ik2' ); ?></a></div>
+				<?php
+				$ik2_resume_is_current = \IK2\Theme\ik2_is_resume_current();
+				$ik2_resume_link_class = 'wp-block-button__link wp-element-button';
+				$ik2_resume_aria       = '';
+
+				if ( $ik2_resume_is_current ) {
+					$ik2_resume_link_class .= ' is-current';
+					$ik2_resume_aria        = ' aria-current="page"';
+				}
+				?>
+				<!-- wp:button {"className":"ik-header__resume"} -->
+				<div class="wp-block-button ik-header__resume"><a class="<?php echo esc_attr( $ik2_resume_link_class ); ?>" href="/resume"<?php echo $ik2_resume_aria; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Resume', 'ik2' ); ?></a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->
@@ -38,5 +48,5 @@
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
-</header>
+</div>
 <!-- /wp:group -->

@@ -3,10 +3,6 @@
 .ik-header {
 	background: $color-paper;
 	border-bottom: 1px solid $color-line;
-	position: sticky;
-	top: 0;
-	z-index: 50;
-	backdrop-filter: blur(8px);
 }
 
 .ik-header__row {
@@ -25,22 +21,30 @@
 .ik-header__nav {
 	font-size: $size-sm;
 
-	a {
+	// Match the core navigation block's chained-class specificity (0,3,0) so our
+	// color, hover, and active treatments actually take effect.
+	.wp-block-navigation-item__content.wp-block-navigation-item__content {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
 		color: $color-graphite;
 		text-decoration: none;
 		padding: $space-2 $space-3;
-		border-radius: $radius-sm;
-		transition: color 200ms ease, background 200ms ease;
+		transition: color 200ms ease, text-decoration-color 200ms ease;
 
 		&:hover {
-			color: $color-ink;
-			background: $color-soft-paper;
+			color: $color-signal;
+			background: transparent;
 		}
 
 		&.current-menu-item,
 		&[aria-current='page'] {
 			color: $color-ink;
-			background: $color-soft-paper;
+			background: transparent;
+			text-decoration: underline;
+			text-decoration-color: $color-signal;
+			text-decoration-thickness: 0.08em;
+			text-underline-offset: 0.18em;
 		}
 	}
 }
@@ -49,10 +53,11 @@
 	display: inline-flex;
 	align-items: center;
 	gap: $space-2;
+	min-height: 44px;
 	background: $color-surface;
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
-	padding: $space-2 $space-3;
+	padding: $space-3;
 	color: $color-graphite;
 	font-size: $size-sm;
 	transition: border-color 200ms ease, color 200ms ease;
@@ -68,15 +73,38 @@
 }
 
 .ik-header__resume .wp-block-button__link {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
 	padding: $space-2 $space-4;
 	font-size: $size-sm;
-	color: $color-surface;
+	color: $color-paper;
 	white-space: nowrap;
 	background: $color-ink;
+	border-radius: $radius-md;
 
 	&:hover {
 		background: $color-signal-deep;
 	}
+
+	// Mirrors the menu's "terracotta = current" semantic. The CTA fills with the
+	// accent when you're already on /resume, so the chrome confirms where you are.
+	&.is-current,
+	&[aria-current='page'] {
+		background: $color-signal;
+		color: $color-paper;
+
+		&:hover {
+			background: $color-signal-deep;
+		}
+	}
+}
+
+// Mobile hamburger ships from the core nav block. Pad it up to a 44px touch target.
+.ik-header .wp-block-navigation__responsive-container-open {
+	min-width: 44px;
+	min-height: 44px;
+	padding: $space-2;
 }
 
 @media (max-width: 768px) {

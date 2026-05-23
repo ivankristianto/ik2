@@ -25,7 +25,13 @@
 	height: 1em;
 	background: $color-signal;
 	transform: translateY(0.15em);
-	animation: ik-cursor-blink 1.1s steps(2, end) infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+	.ik-wordmark::after {
+		animation: ik-cursor-blink 1.1s steps(2, end) infinite;
+	}
 }
 
 @keyframes ik-cursor-blink {
