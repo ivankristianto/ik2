@@ -1,0 +1,203 @@
+@use 'tokens' as *;
+
+/* ===========================================================================
+   About page (templates/page-about.html)
+   =========================================================================== */
+
+.ik-about {
+	padding-block: $space-7 $space-8;
+}
+
+.ik-about__head {
+	max-width: $width-content;
+	margin: 0 0 $space-8;
+}
+
+.ik-about__title {
+	font-size: clamp(2.25rem, 5vw, 3rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+	margin: $space-3 0 $space-6;
+}
+
+.ik-about__intro {
+	font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+	line-height: 1.55;
+	letter-spacing: -0.01em;
+	color: $color-ink;
+	text-wrap: pretty;
+	margin: 0 0 $space-5;
+}
+
+.ik-about__body {
+	margin: 0;
+
+	p {
+		font-size: $size-lg;
+		line-height: 1.75;
+		color: $color-ink;
+		margin: 0 0 $space-4;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.ik-about__cols {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: $space-7;
+	margin-top: $space-8;
+
+	@media (max-width: 800px) {
+		grid-template-columns: 1fr;
+		gap: $space-6;
+	}
+}
+
+.ik-about__col {
+	min-width: 0;
+}
+
+.ik-about__col-title {
+	font-size: $size-2xl;
+	letter-spacing: -0.025em;
+	margin: 0 0 $space-4;
+	padding-bottom: $space-3;
+	border-bottom: 1px solid $color-line;
+}
+
+.ik-about__focus {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		padding: $space-3 0;
+		border-bottom: 1px solid $color-line;
+		font-size: $size-lg;
+		line-height: 1.5;
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		&::before {
+			content: '→';
+			display: inline-block;
+			margin-right: $space-3;
+			color: $color-signal;
+			font-family: $font-mono;
+		}
+	}
+}
+
+.ik-about__timeline {
+	display: flex;
+	flex-direction: column;
+}
+
+.ik-about__timeline-row {
+	display: grid;
+	grid-template-columns: 9rem 1fr;
+	gap: $space-4;
+	padding: $space-3 0;
+	border-bottom: 1px solid $color-line;
+	font-size: $size-md;
+	line-height: 1.5;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	@media (max-width: 480px) {
+		grid-template-columns: 1fr;
+		gap: $space-1;
+	}
+}
+
+.ik-about__timeline-when {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	letter-spacing: 0.02em;
+}
+
+.ik-about__timeline-what {
+	color: $color-ink;
+}
+
+.ik-about__elsewhere {
+	margin-top: $space-8;
+	background: $color-soft-paper;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-6;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: $space-5;
+	align-items: center;
+
+	@media (max-width: 700px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ik-about__elsewhere-copy {
+	min-width: 0;
+}
+
+.ik-about__elsewhere-text {
+	margin: $space-2 0 0;
+	font-size: $size-lg;
+	color: $color-graphite;
+	line-height: 1.5;
+}
+
+.ik-about__elsewhere-actions {
+	display: flex;
+	gap: $space-3;
+	flex-wrap: wrap;
+}
+
+.ik-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.75rem 1.25rem;
+	border-radius: $radius-md;
+	border: 1px solid transparent;
+	font-family: $font-sans;
+	font-size: $size-md;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+	cursor: pointer;
+}
+
+.ik-btn--primary {
+	background: $color-signal;
+	color: $color-paper;
+	border-color: $color-signal;
+
+	&:hover,
+	&:focus-visible {
+		background: $color-signal-deep;
+		border-color: $color-signal-deep;
+		color: $color-paper;
+	}
+}
+
+.ik-btn--secondary {
+	background: $color-surface;
+	color: $color-ink;
+	border-color: $color-line;
+
+	&:hover,
+	&:focus-visible {
+		background: $color-soft-paper;
+		border-color: $color-rule;
+	}
+}
