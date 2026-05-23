@@ -33,10 +33,14 @@ add_action(
 );
 
 /**
- * Apply ?topic= and ?format= query params to the Articles Query Loop.
+ * Apply the `format` query var to the Articles and Archive Query Loops.
  *
- * Filters narrow to posts in the matching category slug(s). When both filters
- * are active, posts must match both categories (AND).
+ * Reads `format` (populated by the rewrite rules in this file) and ANDs
+ * a category tax_query onto whatever the Query Loop already has — so
+ * inherit:true loops keep their category/tag context and get narrowed
+ * by format on top.
+ *
+ * Allowed format slugs match the pills in the articles-filters block.
  *
  * @param array<string,mixed> $query Query vars for the loop.
  * @param \WP_Block           $block Block instance.
@@ -48,38 +52,32 @@ add_filter(
 		$context  = is_object( $block ) && isset( $block->context ) ? $block->context : array();
 		$query_id = isset( $context['queryId'] ) ? (int) $context['queryId'] : 0;
 
-		if ( ARTICLES_QUERY_ID !== $query_id ) {
+		if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
 			return $query;
 		}
 
-		$topic  = isset( $_GET['topic'] ) ? sanitize_key( wp_unslash( $_GET['topic'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$format = isset( $_GET['format'] ) ? sanitize_key( wp_unslash( $_GET['format'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$allowed_formats = array( 'guide', 'note', 'experiment' );
+		$format          = (string) get_query_var( 'format', '' );
 
-		$tax_query = array();
-
-		if ( '' !== $topic && 'all' !== $topic ) {
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'field'    => 'slug',
-				'terms'    => array( $topic ),
-			);
+		if ( '' === $format || ! in_array( $format, $allowed_formats, true ) ) {
+			return $query;
 		}
 
-		if ( '' !== $format && 'all' !== $format ) {
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'field'    => 'slug',
-				'terms'    => array( $format ),
-			);
+		$existing_tax_query = isset( $query['tax_query'] ) && is_array( $query['tax_query'] )
+			? $query['tax_query']
+			: array();
+
+		$existing_tax_query[] = array(
+			'taxonomy' => 'category',
+			'field'    => 'slug',
+			'terms'    => array( $format ),
+		);
+
+		if ( count( $existing_tax_query ) > 1 && ! isset( $existing_tax_query['relation'] ) ) {
+			$existing_tax_query['relation'] = 'AND';
 		}
 
-		if ( count( $tax_query ) > 1 ) {
-			$tax_query['relation'] = 'AND';
-		}
-
-		if ( $tax_query ) {
-			$query['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-		}
+		$query['tax_query'] = $existing_tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 
 		return $query;
 	},
