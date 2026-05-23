@@ -1,45 +1,84 @@
 @use 'tokens' as *;
 
+.ik-speaking-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+	gap: $space-8;
+	align-items: start;
+}
+
+.ik-speaking-layout__intro {
+	display: grid;
+	gap: $space-4;
+	align-content: start;
+}
+
+.ik-speaking-layout__deck {
+	max-width: 34ch;
+	color: $color-graphite;
+	font-size: $size-lg;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.ik-speaking-layout__more {
+	margin: 0;
+	font-size: $size-sm;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
+}
+
+.ik-speaking-layout__list {
+	min-width: 0;
+}
+
 .ik-talks-list {
-	max-width: $width-content;
-	display: flex;
-	flex-direction: column;
+	border-top: 1px solid $color-rule;
 }
 
 .ik-talk {
 	display: grid;
 	grid-template-columns: 9rem 1fr auto;
 	gap: $space-5;
-	padding: $space-4 0;
-	border-top: 1px solid $color-line;
+	padding: $space-5 0;
+	border-bottom: 1px solid $color-line;
 	align-items: baseline;
-
-	&:first-child {
-		border-top: 0;
-	}
 
 	@media (max-width: 600px) {
 		grid-template-columns: 1fr;
-		gap: $space-1;
+		gap: $space-2;
 	}
 }
 
 .ik-talk__date {
 	font-family: $font-mono;
 	font-size: $size-xs;
-	color: $color-graphite;
+	color: $color-dust;
+}
+
+.ik-talk__body {
+	min-width: 0;
 }
 
 .ik-talk__title {
-	color: $color-ink;
-	font-weight: 600;
-	line-height: 1.35;
+	font-size: $size-xl;
+	line-height: 1.2;
+	margin: 0;
+
+	a {
+		color: $color-ink;
+		text-decoration: none;
+	}
 }
 
 .ik-talk__venue {
 	color: $color-graphite;
-	font-size: $size-sm;
-	margin-top: $space-1;
+	font-size: $size-md;
+	line-height: 1.6;
+	margin-top: $space-2;
 }
 
 .ik-talk__kind {
@@ -48,4 +87,25 @@
 	color: $color-signal;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
+}
+
+@media (max-width: 960px) {
+
+	.ik-speaking-layout {
+		grid-template-columns: 1fr;
+		gap: $space-6;
+	}
+
+	.ik-speaking-layout__deck {
+		max-width: 42ch;
+	}
+}
+
+// Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
+.ik-speaking-layout__more a:hover {
+	text-decoration: underline;
+}
+
+.ik-talk__title a:hover {
+	color: $color-signal;
 }
