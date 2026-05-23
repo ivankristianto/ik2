@@ -18,7 +18,7 @@ window.MOCK = {
       excerpt:
         "I use Cloudflare CDN to add a performance and security layer to my websites for free. Most of the time, when I need to change a setting on a zone, I have to log in to the dashboard, sometimes with 2FA. For a small change, that's too many steps. So I built a small Node CLI to manage my account via the Cloudflare API. And it works.",
       tags: ["cli", "cloudflare", "javascript"],
-      cover: { bg: "#DBEAFE", label: "cloudflare-api" },
+      cover: { bg: "#E0E7FF", label: "cloudflare-api" },
     },
     {
       slug: "secure-your-wordpress-site",

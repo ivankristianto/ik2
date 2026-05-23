@@ -10,36 +10,37 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 
 ## Index
 
-| File / Folder            | Purpose                                                                    |
-| :----------------------- | :------------------------------------------------------------------------- |
-| `README.md`              | This file — context, content rules, visual foundations, iconography        |
-| `SKILL.md`               | Agent Skills front-matter so this folder can be loaded as a Claude skill   |
-| `colors_and_type.css`    | All CSS custom properties — colors, type scale, spacing, radii, shadows    |
-| `theme.json`             | WordPress `theme.json` design tokens (drop-in for the WP theme)            |
-| `preview/`               | Small cards for the Design System tab — colors, type, spacing, components  |
-| `ui_kits/blog/`          | High-fidelity recreation of the blog (homepage, article, guides, resume)   |
-| `assets/`                | Logos, favicons, generic placeholder imagery                               |
-| `fonts/`                 | (empty — the system uses native system fonts; no webfonts to ship)         |
+| File / Folder         | Purpose                                                                   |
+| :-------------------- | :------------------------------------------------------------------------ |
+| `README.md`           | This file — context, content rules, visual foundations, iconography       |
+| `SKILL.md`            | Agent Skills front-matter so this folder can be loaded as a Claude skill  |
+| `colors_and_type.css` | All CSS custom properties — colors, type scale, spacing, radii, shadows   |
+| `theme.json`          | WordPress `theme.json` design tokens (drop-in for the WP theme)           |
+| `preview/`            | Small cards for the Design System tab — colors, type, spacing, components |
+| `ui_kits/blog/`       | High-fidelity recreation of the blog (homepage, article, guides, resume)  |
+| `assets/`             | Logos, favicons, generic placeholder imagery                              |
+| `fonts/`              | (empty — the system uses native system fonts; no webfonts to ship)        |
 
-### Sources consulted
+### Sources of truth
 
-- **Live site:** https://ivankristianto.com — content, topics, tone, post structure
-- **Design direction:** written brief titled *"Ink, Paper, and Signal"* (delivered alongside this task)
-- **No codebase / no Figma** was provided — the active site runs a custom WordPress theme (*"minimalist"* on the Calibrefx Framework) which we did not have direct source access to. The design here is the **proposed redesign** described in the brief, not a recreation of the current live theme.
+- **Production theme:** `wp-content/themes/ik2/` — the active WordPress block theme and the current implementation source of truth.
+- **Shared design-system copy:** `design-system/colors_and_type.css` and `design-system/theme.json` — mirrors of the production tokens for previews, prototypes, and agent use.
+- **Project context:** `PRODUCT.md` and `DESIGN.md` at the repo root — current brand, tone, and token guidance.
+- **Live site:** https://ivankristianto.com — content, topics, tone, post structure.
 
 ---
 
 ## Brand at a glance
 
-| Aspect         | Value                                                                     |
-| :------------- | :------------------------------------------------------------------------ |
-| Author         | Ivan Kristianto                                                            |
-| Role           | Senior Web Engineer, Google Developer Expert                              |
-| Audience       | Working web engineers, WordPress developers, performance/security nerds   |
-| Topics         | WordPress · Performance · Security · AI · Linux · DevTools · JavaScript   |
-| Mood           | Minimal, readable, technical, calm, practical                              |
-| Default theme  | Light (warm paper background; dark mode available later)                  |
-| Primary accent | Signal Blue `#2563EB`                                                      |
+| Aspect         | Value                                                                   |
+| :------------- | :---------------------------------------------------------------------- |
+| Author         | Ivan Kristianto                                                         |
+| Role           | Senior Web Engineer, Google Developer Expert                            |
+| Audience       | Working web engineers, WordPress developers, performance/security nerds |
+| Topics         | WordPress · Performance · Security · AI · Linux · DevTools · JavaScript |
+| Mood           | Minimal, readable, technical, calm, practical                           |
+| Default theme  | Light (warm paper background; dark mode available later)                |
+| Primary accent | Terracotta `#C2410C`                                                    |
 
 ---
 
@@ -53,7 +54,7 @@ The voice is **first-person, casual, practical, working-engineer**. Ivan writes 
 - **Conversational, not corporate.** No "we are delighted to announce." No marketing scaffolding.
 - **Specific, with receipts.** Real tool names, real versions, real commands, real screenshots. Code blocks > prose where possible.
 - **Honest about limits.** "I'm not in the position to say it has bulletproof security." "I cannot make to Google IO 2019 this year." Owns gaps; doesn't pretend.
-- **English is a second language.** Occasional small grammar slips ("a couple security has been reported"). When ghostwriting, lean naturally idiomatic — don't *imitate* slips, just keep the register low-key.
+- **English is a second language.** Occasional small grammar slips ("a couple security has been reported"). When ghostwriting, lean naturally idiomatic — don't _imitate_ slips, just keep the register low-key.
 
 ### Casing & punctuation
 
@@ -66,9 +67,9 @@ The voice is **first-person, casual, practical, working-engineer**. Ivan writes 
 
 > "I use Cloudflare CDN to add performance and security layer to my websites for free. And most of times when I need to change some settings for the zone file, I have to login through the web dashboard, and sometimes it ask for 2FA. For just a little change I have to go through multiple steps. So I decided to create the cli tools with node.js to manage my Cloudflare account via API. And it works!"
 
-> "Passionately Share and Learn." *(tagline)*
+> "Passionately Share and Learn." _(tagline)_
 
-> "I'm a Senior Web Engineer at Human Made and Google Developer Expert in Web Technology, Lead organiser of Jakarta WordPress Meetup and WordCamp Jakarta Organiser." *(about blurb)*
+> "I'm a Senior Web Engineer at Human Made and Google Developer Expert in Web Technology, Lead organiser of Jakarta WordPress Meetup and WordCamp Jakarta Organiser." _(about blurb)_
 
 ### Headlines
 
@@ -79,7 +80,7 @@ The voice is **first-person, casual, practical, working-engineer**. Ivan writes 
 ### Emoji and decorative characters
 
 - **Almost none.** The brief explicitly cuts emoji and decorative gradients.
-- Inline code, monospace metadata, and the blue Signal accent carry all the "personality" the design needs.
+- Inline code, monospace metadata, and the terracotta signal accent carry all the "personality" the design needs.
 - Acceptable: the occasional `→` arrow or `·` middle-dot as a separator. Nothing else.
 
 ### Microcopy patterns
@@ -98,7 +99,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 - **Warm paper background** (`#F8F7F3`) — never pure white. Pure white (`#FFFFFF`) is reserved for cards and code wrappers, where it reads as "elevated surface" against the paper.
 - **Ink** (`#171717`) for body text, near-black but not pure black, keeps the page from feeling harsh.
-- **Signal Blue** (`#2563EB`) is the single accent. It's used for links, the primary CTA, focus rings, and tag text — and nowhere else.
+- **Terracotta** (`#C2410C`) is the single accent. It's used for links, the primary CTA, focus rings, and tag text — and nowhere else.
 - A small set of **muted neutrals** (`Graphite`, `Dust`, `Line`, `Rule`) handle hierarchy without color.
 - Semantic colors (`Build Green`, `Amber`, `Red`) appear only for status — never as decoration.
 - Dark mode mirrors GitHub's palette (Terminal `#0D1117`, Panel `#161B22`) for engineers who live in dark mode.
@@ -106,7 +107,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 ### Typography
 
 - **System fonts only.** `ui-sans-serif, system-ui` for text; `ui-monospace, SFMono-Regular` for metadata, code, and tags. No webfont download — the site loads instantly.
-- **Body text is unusually large** (`1.0625rem` UI, `1.125rem` article) with generous `1.7–1.75` line-height. This is a *reading* site first.
+- **Body text is unusually large** (`1.0625rem` UI, `1.125rem` article) with generous `1.7–1.75` line-height. This is a _reading_ site first.
 - **Headings are tight and confident**: `font-weight: 700`, `line-height: 1.1`, `letter-spacing: -0.04em`. They never feel like marketing.
 - **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small "WEB ENGINEER / WORDPRESS / AI / PERFORMANCE" hero label.
 - Article max-width is **720px**. Wider feels like documentation; narrower feels precious.
@@ -137,12 +138,12 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Hover, press, focus states
 
-- **Links:** color shifts from `--color-accent` to `--color-accent-hover` (deeper blue). Underline thickness stays steady.
+- **Links:** color shifts from `--color-accent` to `--color-accent-hover` (deeper terracotta). Underline thickness stays steady.
 - **Cards:** border color darkens, tiny shadow appears. No transform, no scale.
-- **Buttons (primary):** background swaps to the deeper blue. **No** translate, **no** scale, **no** shadow added on hover.
+- **Buttons (primary):** background swaps to the deeper terracotta. **No** translate, **no** scale, **no** shadow added on hover.
 - **Buttons (secondary):** background shifts from `Surface` to `Soft Paper`; border darkens to Rule.
 - **Press / active:** no special transform. The hover color persists.
-- **Focus-visible:** `2px solid var(--color-accent)`, `outline-offset: 3px`. Always visible, always blue. This is non-negotiable — keyboard users come first, and a sharp focus ring is also a credibility signal.
+- **Focus-visible:** `2px solid var(--color-accent)`, `outline-offset: 3px`. Always visible, always terracotta. This is non-negotiable — keyboard users come first, and a sharp focus ring is also a credibility signal.
 
 ### Animation
 
@@ -163,7 +164,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 ### Layout rules
 
 - One canonical container width (`1080px` wide / `720px` content / `1280px` full-bleed chrome).
-- Header is fixed in the layout but **not sticky** by default (the brief says "sticky header optional, not required"). Designs here ship non-sticky.
+- Header is part of the layout but **not sticky**. The production theme and prototype kit both ship it that way.
 - Article pages are single-column. No sidebars. No related-posts overlay.
 - Footer is full-width Soft Paper, simple link columns, RSS visible.
 
@@ -202,6 +203,6 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 
 ## Caveats
 
-- The **proposed redesign**, not the current live theme. The live site (Calibrefx-based) has not been reverse-engineered.
-- **System fonts only** — if Ivan wants more personality later, the brief suggests Inter / Geist / IBM Plex Sans (sans) and JetBrains / Geist / IBM Plex Mono (mono). Drop a `@font-face` into the project; the tokens stay the same.
-- **Iconography is a substitution** (Lucide). Replace with the user's preferred set if different.
+- The production theme and the prototype kit are **both real and diverged**. A change in `design-system/ui_kits/blog/` does not automatically carry into `wp-content/themes/ik2/`, and vice versa.
+- The active token slug is still `signal`, but its value is **Terracotta** `#C2410C`. If you see legacy Signal Blue references, treat them as stale and sync them to the production theme.
+- `wp-content/themes/ik2/theme.json` is the implementation source of truth. The copies in `design-system/` are maintained for previews, prototypes, and agent workflows, and need intentional syncing.

@@ -19,11 +19,13 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 
 - **Light first**, dark mirrors GitHub. Default to light unless asked.
 - **Warm paper** (`#F8F7F3`) is the page; pure white is reserved for cards.
-- **One accent**: Signal Blue `#2563EB`. Use it for links, primary CTA, focus, and tag text — nowhere else.
+- **One accent**: Terracotta `#C2410C`. Use it for links, primary CTA, focus, and tag text — nowhere else.
 - **System fonts only**: `ui-sans-serif` for text, `ui-monospace` for metadata/code. Don't load webfonts.
 - **Borders + whitespace do the hierarchy work.** No drop shadows except a `0 1px 2px` lift on card hover.
 - **First-person, working-engineer voice.** "I use…", "Here's what I did…". No marketing speak. Sentence case. Dates in monospace.
 - **Almost no iconography.** Brand/social SVGs live in `assets/icons/`; UI affordance icons use Lucide.
+- `wp-content/themes/ik2/theme.json` is the implementation source of truth. The token files in this folder are mirrored copies for previews, prototypes, and agent use.
+- The prototype kit in `ui_kits/blog/` and the production theme are diverged. Propagate intentionally.
 
 ## What to do when invoked
 
@@ -36,7 +38,7 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 - Don't add emoji to chrome.
 - Don't add drop shadows beyond `--shadow-sm` on card hover and `--shadow-md` for modal/palette.
 - Don't add gradients, grain, glassmorphism, or marketing-style hero imagery.
-- Don't reach past Signal Blue for accent color — semantic green/amber/red are status only.
+- Don't reach past Terracotta for accent color — semantic green/amber/red are status only.
 - Don't load webfonts unless asked. System fonts ship the brand identity here.
 - Don't recreate iconography by hand — copy from `assets/icons/` or pull from Lucide CDN.
 
@@ -49,6 +51,6 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 | `theme.json`               | WordPress `theme.json` design tokens                    |
 | `preview/`                 | Per-token / per-component preview cards                 |
 | `ui_kits/blog/`            | Working click-thru prototype + JSX components           |
-| `assets/wordmark.svg`      | Wordmark — "Ivan Kristianto." with Signal Blue period   |
+| `assets/wordmark.svg`      | Wordmark — "Ivan Kristianto." with terracotta period    |
 | `assets/monogram.svg`      | Square monogram for favicon / nav corner                |
 | `assets/icons/`            | Inline-SVG social icons (GitHub, LinkedIn, X, RSS, WP)  |
