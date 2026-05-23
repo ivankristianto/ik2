@@ -20,6 +20,10 @@ add_action(
 			array( 'label' => __( 'IK2 — Home', 'ik2' ) )
 		);
 		register_block_pattern_category(
+			'ik2-archive',
+			array( 'label' => __( 'IK2 — Archive', 'ik2' ) )
+		);
+		register_block_pattern_category(
 			'ik2-page',
 			array( 'label' => __( 'IK2 — Page', 'ik2' ) )
 		);

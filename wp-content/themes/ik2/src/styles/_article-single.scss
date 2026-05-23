@@ -1,0 +1,321 @@
+@use 'tokens' as *;
+
+/* ===========================================================================
+   Single post template (templates/single.html)
+
+   Rules are ordered by ascending specificity so stylelint
+   no-descending-specificity stays happy. Hover/focus states live near the
+   bottom; the mobile media query last.
+   =========================================================================== */
+
+.ik-article {
+	padding-block: $space-7 $space-8;
+}
+
+/* ---- Body (post-content) — broad rules first --------------------------- */
+
+.ik-article__body {
+	font-size: $size-lg;
+	line-height: 1.75;
+	color: $color-ink;
+
+	> * {
+		margin-block: 0;
+	}
+
+	> * + * {
+		margin-top: 1.25em;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	h2.wp-block-heading {
+		font-size: clamp(1.75rem, 4vw, 2.25rem);
+		line-height: 1.15;
+		letter-spacing: -0.035em;
+		margin-top: 2.4em;
+		margin-bottom: 0;
+	}
+
+	h3.wp-block-heading {
+		font-size: clamp(1.25rem, 3vw, 1.5rem);
+		line-height: 1.25;
+		letter-spacing: -0.025em;
+		margin-top: 2em;
+		margin-bottom: 0;
+	}
+
+	ol.wp-block-list,
+	ul.wp-block-list {
+		padding-left: 1.25em;
+
+		li + li {
+			margin-top: 0.4em;
+		}
+	}
+}
+
+/* Lead paragraph (first paragraph after the header). */
+.ik-article__body .ik-article__lead {
+	font-size: $size-xl;
+	line-height: 1.6;
+	color: $color-ink;
+	text-wrap: pretty;
+}
+
+/* ---- Header ------------------------------------------------------------- */
+
+.ik-article__head {
+	margin-bottom: $space-6;
+}
+
+.ik-article__title {
+	font-size: clamp(2rem, 5vw, 3rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+	margin: 0 0 $space-4;
+	color: $color-ink;
+	text-wrap: balance;
+}
+
+.ik-article__sep,
+.ik-article__reading,
+.ik-article__date {
+	font-size: inherit;
+	color: inherit;
+	margin: 0;
+}
+
+.ik-article__tags {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: $space-2;
+
+	a {
+		color: $color-graphite;
+		text-decoration: none;
+		padding: 2px 8px;
+		border-radius: 999px;
+		background: $color-soft-paper;
+		border: 1px solid $color-line;
+		line-height: 1.4;
+	}
+}
+
+/* ---- Breadcrumbs (class+class specificity) ----------------------------- */
+
+.wp-block-group.ik-crumbs {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	gap: $space-2;
+	margin-bottom: $space-5;
+	align-items: center;
+
+	> * {
+		margin: 0;
+	}
+}
+
+.ik-crumbs__item {
+	display: inline-flex;
+	align-items: center;
+	gap: $space-2;
+	color: $color-dust;
+}
+
+.ik-crumbs__link {
+	color: $color-graphite;
+	text-decoration: none;
+}
+
+.ik-crumbs__sep {
+	color: $color-dust;
+}
+
+.ik-crumbs__current {
+	color: $color-graphite;
+	font-size: inherit;
+	margin: 0;
+}
+
+/* ---- Meta line (class+class specificity) ------------------------------- */
+
+.wp-block-group.ik-article__meta {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	gap: $space-2;
+	row-gap: $space-1;
+	align-items: center;
+
+	> * {
+		margin: 0;
+	}
+
+	time {
+		color: inherit;
+	}
+}
+
+/* ---- Share footer (class+class specificity) ---------------------------- */
+
+.wp-block-group.ik-article__share {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	gap: $space-4;
+	row-gap: $space-2;
+	align-items: center;
+
+	> * {
+		margin: 0;
+	}
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
+}
+
+.ik-article__share-label {
+	margin: 0;
+	color: $color-graphite;
+}
+
+.ik-article__sep-rule {
+	border: 0;
+	border-top: 1px solid $color-line;
+	margin: $space-7 0;
+	background: transparent;
+}
+
+/* ---- Code block (descendant inside body) ------------------------------- */
+
+.ik-article__body .wp-block-code {
+	background: $color-code-paper;
+	color: $color-code-ink;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-5;
+	font-family: $font-mono;
+	font-size: 0.9375rem;
+	line-height: 1.65;
+	overflow-x: auto;
+
+	code {
+		background: transparent;
+		border: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+	}
+}
+
+/* ---- Callouts (highest specificity — must come after the broad rules) -- */
+
+.ik-callout__title {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+.ik-article__body .wp-block-group.is-style-callout-note,
+.ik-article__body .wp-block-group.is-style-callout-updated,
+.ik-article__body .wp-block-group.is-style-callout-outdated {
+	border-radius: $radius-md;
+	padding: $space-4 $space-5;
+	font-size: $size-md;
+	line-height: 1.6;
+	display: block;
+
+	> * {
+		margin: 0;
+	}
+
+	> * + * {
+		margin-top: $space-2;
+	}
+}
+
+.ik-article__body .wp-block-group.is-style-callout-note {
+	background: $color-signal-soft;
+	color: $color-signal-deep;
+	border: 1px solid transparent;
+}
+
+.ik-article__body .wp-block-group.is-style-callout-updated {
+	background: $color-surface;
+	color: $color-ink;
+	border: 1px solid $color-line;
+	border-left: 3px solid $color-build-green;
+}
+
+.ik-article__body .wp-block-group.is-style-callout-outdated {
+	background: $color-surface;
+	color: $color-ink;
+	border: 1px solid $color-line;
+	border-left: 3px solid $color-amber;
+}
+
+/* ---- Hover / focus (last, to satisfy no-descending-specificity) -------- */
+
+.ik-crumbs__link:hover,
+.ik-crumbs__link:focus-visible {
+	color: $color-signal;
+}
+
+.ik-article__tags a:hover,
+.ik-article__tags a:focus-visible {
+	color: $color-signal-deep;
+	border-color: $color-signal;
+	background: $color-signal-soft;
+}
+
+.wp-block-group.ik-article__share a:hover,
+.wp-block-group.ik-article__share a:focus-visible {
+	color: $color-signal-deep;
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
+}
+
+/* ---- Mobile (iPhone 12 Pro: 390 × 844) --------------------------------- */
+
+@media (max-width: 640px) {
+
+	.ik-article {
+		padding-block: $space-6 $space-7;
+	}
+
+	.ik-article__body {
+		font-size: $size-md;
+		line-height: 1.7;
+	}
+
+	.ik-article__body .ik-article__lead {
+		font-size: $size-lg;
+	}
+
+	.ik-article__body h2.wp-block-heading {
+		margin-top: 2em;
+	}
+
+	.wp-block-group.ik-article__meta {
+		row-gap: $space-2;
+	}
+
+	.ik-article__body .wp-block-code {
+		padding: $space-4;
+		font-size: 0.875rem;
+	}
+
+	.ik-article__sep-rule {
+		margin: $space-6 0;
+	}
+}

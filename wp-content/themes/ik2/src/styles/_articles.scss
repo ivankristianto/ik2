@@ -1,0 +1,249 @@
+@use 'tokens' as *;
+
+/* ===========================================================================
+   Articles archive page (templates/page-articles.html)
+   =========================================================================== */
+
+.ik-articles-archive {
+	padding-block: $space-7 $space-8;
+}
+
+.ik-articles-archive__head {
+	margin-bottom: $space-7;
+}
+
+.ik-articles-archive__title {
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	letter-spacing: -0.04em;
+	line-height: 1.08;
+	margin: $space-3 0 $space-4;
+}
+
+.ik-articles-archive__lede {
+	max-width: 60ch;
+	color: $color-graphite;
+	font-size: $size-lg;
+	line-height: 1.7;
+	margin: 0;
+}
+
+/* ---- Grid -------------------------------------------------------------- */
+
+.wp-block-post-template.ik-articles-grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: $space-6;
+
+	@media (max-width: 1024px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@media (max-width: 640px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ---- Card -------------------------------------------------------------- */
+
+.ik-article-card {
+	display: flex;
+	flex-direction: column;
+	gap: $space-3;
+	height: 100%;
+}
+
+.ik-article-card__cover {
+	aspect-ratio: 16 / 9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: $radius-md;
+	background: $color-soft-paper;
+	margin: 0 0 $space-3;
+	padding: $space-4;
+	overflow: hidden;
+}
+
+.ik-article-card__cover-label {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
+	text-align: center;
+	line-height: 1.3;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		pointer-events: none;
+	}
+}
+
+/* Category-flavoured cover backgrounds via :has() — falls back gracefully
+   to the default Soft Paper on older browsers. */
+.ik-article-card__cover:has(a[href*="/category/wordpress"]) {
+	background: #E0E7FF;
+}
+
+.ik-article-card__cover:has(a[href*="/category/ai"]) {
+	background: #FDE68A;
+}
+
+.ik-article-card__cover:has(a[href*="/category/performance"]) {
+	background: #D1FAE5;
+}
+
+.ik-article-card__cover:has(a[href*="/category/security"]) {
+	background: #FECACA;
+}
+
+.ik-article-card__cover:has(a[href*="/category/web-apis"]) {
+	background: #DDD6FE;
+}
+
+.ik-article-card__cover:has(a[href*="/category/tooling"]) {
+	background: #FED7AA;
+}
+
+.ik-article-card__cover:has(a[href*="/category/guide"]) {
+	background: #BAE6FD;
+}
+
+.ik-article-card__cover:has(a[href*="/category/note"]) {
+	background: #FBCFE8;
+}
+
+.ik-article-card__cover:has(a[href*="/category/experiment"]) {
+	background: #FDE2E4;
+}
+
+.wp-block-group.ik-article-card__meta {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	gap: $space-2;
+
+	> * {
+		margin: 0;
+	}
+
+	time {
+		color: inherit;
+	}
+}
+
+.ik-article-card__sep,
+.ik-article-card__reading {
+	margin: 0;
+	font-size: inherit;
+	color: inherit;
+}
+
+.ik-article-card__title {
+	font-size: $size-xl;
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+	margin: 0;
+
+	a {
+		color: $color-ink;
+		text-decoration: none;
+	}
+}
+
+.ik-article-card__excerpt {
+	color: $color-graphite;
+	font-size: $size-md;
+	line-height: 1.6;
+	margin: 0;
+	flex: 1 0 auto;
+}
+
+.ik-article-card__tags {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-2;
+	margin-top: auto;
+	padding-top: $space-2;
+
+	a {
+		color: $color-graphite;
+		text-decoration: none;
+		padding: 2px 8px;
+		border-radius: 999px;
+		background: $color-soft-paper;
+		border: 1px solid $color-line;
+		line-height: 1.4;
+	}
+}
+
+/* Hover and focus states grouped after base styles to satisfy
+   stylelint's no-descending-specificity. */
+.ik-article-card__title a:hover,
+.ik-article-card__title a:focus-visible {
+	color: $color-signal;
+}
+
+.ik-article-card__tags a:hover,
+.ik-article-card__tags a:focus-visible {
+	color: $color-signal-deep;
+	border-color: $color-signal;
+	background: $color-signal-soft;
+}
+
+/* ---- Pagination -------------------------------------------------------- */
+
+.wp-block-query-pagination.ik-articles-pagination {
+	margin-top: $space-7;
+	padding-top: $space-5;
+	border-top: 1px solid $color-line;
+	font-family: $font-mono;
+	font-size: $size-sm;
+
+	.wp-block-query-pagination-numbers {
+		display: flex;
+		gap: $space-2;
+		align-items: center;
+	}
+
+	a,
+	.page-numbers {
+		color: $color-graphite;
+		text-decoration: none;
+		min-width: 32px;
+		height: 32px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 $space-3;
+		border-radius: $radius-md;
+		border: 1px solid transparent;
+	}
+
+	a:hover,
+	a:focus-visible {
+		color: $color-signal;
+		border-color: $color-line;
+	}
+
+	.page-numbers.current {
+		color: $color-signal-deep;
+		border-color: $color-signal;
+		background: $color-signal-soft;
+	}
+
+	.page-numbers.dots {
+		border: 0;
+		color: $color-dust;
+	}
+}
+
+.ik-articles-empty {
+	padding: $space-8 0;
+	text-align: center;
+	color: $color-graphite;
+}

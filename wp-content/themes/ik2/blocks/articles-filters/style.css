@@ -1,0 +1,80 @@
+/* Articles filters block — pill row used on the Articles archive page. */
+
+.ik-articles-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--5);
+	padding: var(--wp--preset--spacing--4) 0;
+	margin-bottom: var(--wp--preset--spacing--7);
+	border-top: 1px solid var(--wp--preset--color--line);
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.ik-articles-filters__label {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--dust);
+}
+
+.ik-articles-filters__group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ik-articles-filters__divider {
+	width: 1px;
+	height: 22px;
+	background: var(--wp--preset--color--line);
+}
+
+.ik-articles-filters__pill {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: 1;
+	padding: 6px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--wp--preset--color--line);
+	background: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--graphite);
+	text-decoration: none;
+	transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+	white-space: nowrap;
+}
+
+.ik-articles-filters__pill:hover,
+.ik-articles-filters__pill:focus-visible {
+	border-color: var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink);
+}
+
+.ik-articles-filters__pill.is-active {
+	border-color: var(--wp--preset--color--signal);
+	background: var(--wp--preset--color--signal-soft);
+	color: var(--wp--preset--color--signal-deep);
+}
+
+.ik-articles-filters__count {
+	margin-left: auto;
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--dust);
+}
+
+@media (max-width: 720px) {
+
+	.ik-articles-filters {
+		gap: var(--wp--preset--spacing--3);
+	}
+
+	.ik-articles-filters__divider {
+		display: none;
+	}
+
+	.ik-articles-filters__count {
+		margin-left: 0;
+		width: 100%;
+		text-align: right;
+	}
+}

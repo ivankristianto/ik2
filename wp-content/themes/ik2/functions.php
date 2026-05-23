@@ -14,3 +14,5 @@ defined( 'ABSPATH' ) || exit;
 require_once __DIR__ . '/inc/Setup.php';
 require_once __DIR__ . '/inc/Assets.php';
 require_once __DIR__ . '/inc/Patterns.php';
+require_once __DIR__ . '/inc/Blocks.php';
+require_once __DIR__ . '/inc/BlockStyles.php';

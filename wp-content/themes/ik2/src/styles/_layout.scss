@@ -13,6 +13,17 @@
 	}
 }
 
+.container-narrow {
+	width: 100%;
+	max-width: $width-content;
+	margin-inline: auto;
+	padding-inline: $space-5;
+
+	@media (min-width: 768px) {
+		padding-inline: $space-6;
+	}
+}
+
 .ik-section {
 	padding-block: $space-9;
 
