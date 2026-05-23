@@ -1,6 +1,9 @@
 @use 'tokens' as *;
 
 .ik-guide {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	background: $color-surface;
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
@@ -32,10 +35,12 @@
 	font-size: $size-md;
 	line-height: 1.6;
 	margin: 0 0 $space-4;
+	flex: 1 0 auto;
 }
 
 .ik-guide__meta {
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-dust;
+	margin-top: auto;
 }
