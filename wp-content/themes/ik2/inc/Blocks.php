@@ -86,6 +86,97 @@ add_filter(
 );
 
 /**
+ * Apply the `format` query var to the main query on category/tag archives.
+ *
+ * The Query Loop block's `inherit:true` mode skips `query_loop_block_query_vars`
+ * and uses the main query verbatim, so we narrow the main query itself here.
+ * Page archives (where the Query Loop uses inherit:false with queryId 42 or 43)
+ * are handled by the filter above.
+ *
+ * Appends to `tax_query` so the format category is ANDed onto the archive's own
+ * category/tag constraint. The companion `parse_query` action below preserves
+ * the URL category as the queried object so header patterns still see the
+ * archive term and not the format term.
+ *
+ * @param \WP_Query $wp_query The main query.
+ */
+add_action(
+	'pre_get_posts',
+	static function ( $wp_query ): void {
+		if ( is_admin() || ! $wp_query->is_main_query() ) {
+			return;
+		}
+
+		if ( ! $wp_query->is_category() && ! $wp_query->is_tag() ) {
+			return;
+		}
+
+		$allowed_formats = array( 'guide', 'note', 'experiment' );
+		$format          = (string) $wp_query->get( 'format', '' );
+
+		if ( '' === $format || ! in_array( $format, $allowed_formats, true ) ) {
+			return;
+		}
+
+		$existing_tax_query = $wp_query->get( 'tax_query' );
+		if ( ! is_array( $existing_tax_query ) ) {
+			$existing_tax_query = array();
+		}
+
+		$existing_tax_query[] = array(
+			'taxonomy' => 'category',
+			'field'    => 'slug',
+			'terms'    => array( $format ),
+		);
+
+		if ( count( $existing_tax_query ) > 1 && ! isset( $existing_tax_query['relation'] ) ) {
+			$existing_tax_query['relation'] = 'AND';
+		}
+
+		$wp_query->set( 'tax_query', $existing_tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+	}
+);
+
+/**
+ * Stash the URL-derived archive term so consumers can recover it after
+ * `pre_get_posts` mutates `category_name` (WP rewrites it to the last
+ * category in the appended `tax_query`).
+ *
+ * Reads `category_name` / `tag` once during `parse_request` — before any
+ * tax_query expansion — and stores the slug on a global so the filter
+ * block and the archive header pattern can read it back cleanly.
+ *
+ * @param \WP $wp The WP environment instance.
+ */
+add_action(
+	'parse_request',
+	static function ( $wp ): void {
+		$GLOBALS['ik2_archive_context'] = array(
+			'category' => isset( $wp->query_vars['category_name'] ) ? (string) $wp->query_vars['category_name'] : '',
+			'tag'      => isset( $wp->query_vars['tag'] ) ? (string) $wp->query_vars['tag'] : '',
+			'format'   => isset( $wp->query_vars['format'] ) ? (string) $wp->query_vars['format'] : '',
+		);
+	}
+);
+
+/**
+ * Helper to read the stashed archive context.
+ *
+ * @return array{category:string,tag:string,format:string}
+ */
+function ik2_get_archive_context(): array {
+	$ctx = isset( $GLOBALS['ik2_archive_context'] ) && is_array( $GLOBALS['ik2_archive_context'] )
+		? $GLOBALS['ik2_archive_context']
+		: array();
+
+	return array(
+		'category' => isset( $ctx['category'] ) ? (string) $ctx['category'] : '',
+		'tag'      => isset( $ctx['tag'] ) ? (string) $ctx['tag'] : '',
+		'format'   => isset( $ctx['format'] ) ? (string) $ctx['format'] : '',
+	);
+}
+
+/**
  * Register `format` as a public query var so the rewrite rules below
  * can populate it from the URL path.
  *

@@ -8,7 +8,18 @@
  * @package IK2
  */
 
-$ik2_term = get_queried_object();
+// Re-derive the archive term from the stashed URL context. We can't use
+// get_queried_object() because pre_get_posts appends a tax_query item for
+// the format filter, which causes WP to shift the queried term.
+$ik2_archive = \IK2\Theme\ik2_get_archive_context();
+
+if ( '' !== $ik2_archive['category'] ) {
+	$ik2_term = get_term_by( 'slug', $ik2_archive['category'], 'category' );
+} elseif ( '' !== $ik2_archive['tag'] ) {
+	$ik2_term = get_term_by( 'slug', $ik2_archive['tag'], 'post_tag' );
+} else {
+	$ik2_term = get_queried_object();
+}
 
 if ( ! $ik2_term instanceof WP_Term ) {
 	return;
@@ -19,8 +30,14 @@ $ik2_taxonomy_label = $ik2_taxonomy_obj instanceof WP_Taxonomy
 	? $ik2_taxonomy_obj->labels->singular_name
 	: ucfirst( $ik2_term->taxonomy );
 
-$ik2_count       = (int) $ik2_term->count;
-$ik2_description = trim( (string) term_description( $ik2_term->term_id ) );
+$ik2_count = (int) $ik2_term->count;
+
+// term_description() runs wpautop, which wraps a single-paragraph
+// description in <p>…</p>. Strip a single surrounding <p> so we can
+// emit our own <p class="ik-articles-archive__lede"> without nesting.
+$ik2_description_raw = trim( (string) term_description( $ik2_term->term_id ) );
+$ik2_description     = preg_replace( '#^<p>(.*)</p>\s*$#s', '$1', $ik2_description_raw );
+$ik2_description     = is_string( $ik2_description ) ? trim( $ik2_description ) : '';
 ?>
 <!-- wp:group {"className":"ik-articles-archive__head","layout":{"type":"default"}} -->
 <header class="wp-block-group ik-articles-archive__head">

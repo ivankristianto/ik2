@@ -22,5 +22,5 @@
 	},
 	"render": "file:./render.php",
 	"style": "file:./style.css",
-	"viewScriptModule": "file:../../build/blocks/articles-filters/view.js"
+	"viewScriptModule": "file:./view.js"
 }

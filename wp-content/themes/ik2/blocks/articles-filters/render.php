@@ -53,24 +53,23 @@ $ik2_detect_context = static function (): array {
 		'format' => '',
 	);
 
-	$queried = get_queried_object();
+	// Read the archive context stashed by inc/Blocks.php on parse_request.
+	// We can't rely on get_queried_object() / get_query_var('category_name')
+	// because pre_get_posts appends a tax_query item for the format filter,
+	// which causes WP to rewrite category_name to the format slug.
+	$stash = \IK2\Theme\ik2_get_archive_context();
 
-	if ( $queried instanceof WP_Term && 'category' === $queried->taxonomy ) {
+	if ( '' !== $stash['category'] ) {
 		$ctx['kind']  = 'category';
-		$ctx['topic'] = $queried->slug;
-	} elseif ( $queried instanceof WP_Term && 'post_tag' === $queried->taxonomy ) {
+		$ctx['topic'] = $stash['category'];
+	} elseif ( '' !== $stash['tag'] ) {
 		$ctx['kind'] = 'tag';
-		$ctx['tag']  = $queried->slug;
+		$ctx['tag']  = $stash['tag'];
 	}
 
-	$format          = (string) get_query_var( 'format', '' );
-	$allowed_formats = array(
-		'guide'      => 1,
-		'note'       => 1,
-		'experiment' => 1,
-	);
-	if ( '' !== $format && array_key_exists( $format, $allowed_formats ) ) {
-		$ctx['format'] = $format;
+	$allowed_formats = array( 'guide', 'note', 'experiment' );
+	if ( '' !== $stash['format'] && in_array( $stash['format'], $allowed_formats, true ) ) {
+		$ctx['format'] = $stash['format'];
 	}
 
 	return $ctx;
