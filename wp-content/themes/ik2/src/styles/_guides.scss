@@ -1,32 +1,90 @@
 @use 'tokens' as *;
 
-.ik-guide {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	background: $color-surface;
-	border: 1px solid $color-line;
-	border-radius: $radius-md;
-	padding: $space-6;
-	transition: border-color 200ms ease, box-shadow 200ms ease;
+.ik-guides-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+	gap: $space-8;
+	align-items: start;
+}
 
-	&:hover {
-		border-color: $color-rule;
-		box-shadow: $shadow-sm;
+.ik-guides-layout__intro {
+	display: grid;
+	gap: $space-4;
+	align-content: start;
+}
+
+.ik-guides-layout__deck {
+	max-width: 34ch;
+	color: $color-graphite;
+	font-size: $size-lg;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.ik-guides-layout__more {
+	margin: 0;
+	font-size: $size-sm;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
 	}
+}
+
+.ik-guides-layout__list {
+	min-width: 0;
+}
+
+.ik-guides-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid $color-rule;
+	counter-reset: ik-guide;
+}
+
+.ik-guides-list > li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ik-guide {
+	display: grid;
+	grid-template-columns: minmax(8.5rem, 10rem) minmax(0, 1fr);
+	gap: $space-3 $space-5;
+	padding: $space-5 0;
+	border-bottom: 1px solid $color-line;
+	counter-increment: ik-guide;
+}
+
+.ik-guide__date {
+	display: grid;
+	gap: $space-2;
+	align-content: start;
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-dust;
+	margin: 0;
+
+	&::before {
+		content: counter(ik-guide, decimal-leading-zero);
+		color: $color-signal;
+	}
+}
+
+.ik-guide__body {
+	min-width: 0;
 }
 
 .ik-guide__title {
 	font-size: $size-xl;
-	margin: 0 0 $space-3;
+	line-height: 1.2;
+	margin: 0 0 $space-2;
 
 	a {
 		color: $color-ink;
 		text-decoration: none;
-
-		&:hover {
-			color: $color-signal;
-		}
 	}
 }
 
@@ -34,13 +92,34 @@
 	color: $color-graphite;
 	font-size: $size-md;
 	line-height: 1.6;
-	margin: 0 0 $space-4;
-	flex: 1 0 auto;
+	margin: 0;
 }
 
-.ik-guide__meta {
-	font-family: $font-mono;
-	font-size: $size-xs;
-	color: $color-dust;
-	margin-top: auto;
+@media (max-width: 960px) {
+
+	.ik-guides-layout {
+		grid-template-columns: 1fr;
+		gap: $space-6;
+	}
+
+	.ik-guides-layout__deck {
+		max-width: 42ch;
+	}
+}
+
+@media (max-width: 640px) {
+
+	.ik-guide {
+		grid-template-columns: 1fr;
+		gap: $space-2;
+	}
+}
+
+// Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
+.ik-guides-layout__more a:hover {
+	text-decoration: underline;
+}
+
+.ik-guide__title a:hover {
+	color: $color-signal;
 }
