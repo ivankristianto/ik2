@@ -25,16 +25,20 @@ $ik2_note_term_id = $ik2_note_term instanceof WP_Term ? (int) $ik2_note_term->te
 		<!-- wp:columns {"className":"ik-notes-layout"} -->
 		<div class="wp-block-columns ik-notes-layout">
 
-			<!-- wp:column {"width":"66.66%","className":"ik-notes-layout__main"} -->
-			<div class="wp-block-column ik-notes-layout__main" style="flex-basis:66.66%">
+			<!-- wp:column {"className":"ik-notes-layout__main"} -->
+			<div class="wp-block-column ik-notes-layout__main">
 				<!-- wp:query {"queryId":2,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":[<?php echo absint( $ik2_note_term_id ); ?>]},"inherit":false}} -->
 				<div class="wp-block-query">
-					<!-- wp:post-template -->
-						<!-- wp:group {"className":"ik-note","layout":{"type":"constrained"}} -->
+					<!-- wp:post-template {"className":"ik-notes-list"} -->
+						<!-- wp:group {"className":"ik-note","layout":{"type":"default"}} -->
 						<article class="wp-block-group ik-note">
 							<!-- wp:post-date {"className":"ik-note__date","format":"F j, Y"} /-->
-							<!-- wp:post-title {"isLink":true,"level":3,"className":"ik-note__title"} /-->
-							<!-- wp:post-excerpt {"className":"ik-note__excerpt","excerptLength":24} /-->
+							<!-- wp:group {"className":"ik-note__body","layout":{"type":"default"}} -->
+							<div class="wp-block-group ik-note__body">
+								<!-- wp:post-title {"isLink":true,"level":3,"className":"ik-note__title"} /-->
+								<!-- wp:post-excerpt {"className":"ik-note__excerpt","excerptLength":24} /-->
+							</div>
+							<!-- /wp:group -->
 						</article>
 						<!-- /wp:group -->
 					<!-- /wp:post-template -->
@@ -49,8 +53,8 @@ $ik2_note_term_id = $ik2_note_term instanceof WP_Term ? (int) $ik2_note_term->te
 			</div>
 			<!-- /wp:column -->
 
-			<!-- wp:column {"width":"33.33%","className":"ik-notes-layout__aside"} -->
-			<div class="wp-block-column ik-notes-layout__aside" style="flex-basis:33.33%">
+			<!-- wp:column {"className":"ik-notes-layout__aside"} -->
+			<div class="wp-block-column ik-notes-layout__aside">
 				<!-- wp:html -->
 				<aside class="ik-now" aria-label="What Ivan is doing right now">
 					<header class="ik-now__head">

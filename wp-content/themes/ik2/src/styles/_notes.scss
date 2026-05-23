@@ -1,28 +1,79 @@
 @use 'tokens' as *;
 
 .ik-notes-layout {
-	gap: $space-7;
+	display: grid;
+	grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 22rem);
+	gap: clamp(2rem, 5vw, 4rem);
 	align-items: flex-start;
+	margin: 0;
+}
+
+.ik-notes-layout__main,
+.ik-notes-layout__aside {
+	min-width: 0;
+}
+
+.ik-notes-layout__main {
+	display: grid;
+	gap: $space-4;
+}
+
+.ik-notes-layout__main > .wp-block-query {
+	margin: 0;
+}
+
+.ik-notes-layout__aside {
+	max-width: 22rem;
+	justify-self: end;
+}
+
+.ik-notes-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid $color-rule;
+}
+
+.ik-notes-list > li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .ik-note {
+	display: grid;
+	grid-template-columns: minmax(8.5rem, 9rem) minmax(0, 1fr);
+	gap: $space-2 $space-5;
+	align-items: start;
 	padding: $space-5 0;
 	border-bottom: 1px solid $color-line;
+}
 
-	&:first-child {
-		padding-top: 0;
-	}
+.ik-note > * {
+	margin: 0;
+}
+
+.ik-note.is-layout-flow > * {
+	margin-block-start: 0;
+	margin-block-end: 0;
 }
 
 .ik-note__date {
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-dust;
-	margin: 0 0 $space-2;
+	margin: 0;
+	padding-top: 0.15rem;
+}
+
+.ik-note__body {
+	min-width: 0;
+	width: 100%;
 }
 
 .ik-note__title {
-	font-size: $size-lg;
+	font-size: $size-xl;
+	line-height: 1.2;
 	margin: 0 0 $space-2;
 
 	a {
@@ -39,7 +90,7 @@
 }
 
 .ik-notes-layout__more {
-	margin-top: $space-5;
+	margin: 0;
 	font-size: $size-sm;
 
 	a {
@@ -134,7 +185,18 @@
 @media (max-width: 768px) {
 
 	.ik-notes-layout {
-		gap: $space-5;
+		grid-template-columns: 1fr;
+		gap: $space-6;
+	}
+
+	.ik-notes-layout__aside {
+		max-width: none;
+		justify-self: stretch;
+	}
+
+	.ik-note {
+		grid-template-columns: 1fr;
+		gap: $space-2;
 	}
 }
 
