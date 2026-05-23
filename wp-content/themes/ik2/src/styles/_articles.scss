@@ -37,6 +37,14 @@
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: $space-6;
 
+	/* Null WordPress's `:where(.is-layout-flow) > *` block-gap on grid
+	 * items. The flow rule applies a 24px margin-block-start to every
+	 * sibling after the first, which shifts cards 2-N down and breaks
+	 * the row alignment we get for free from CSS grid + `gap`. */
+	> li {
+		margin: 0;
+	}
+
 	@media (max-width: 1024px) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
