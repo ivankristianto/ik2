@@ -1,0 +1,139 @@
+@use 'tokens' as *;
+
+/* ===========================================================================
+   Contact page (templates/page-contact.html)
+   =========================================================================== */
+
+.ik-contact {
+	padding-block: $space-7 $space-8;
+}
+
+.ik-contact__head {
+	max-width: $width-content;
+	margin: 0 0 $space-7;
+}
+
+.ik-contact__title {
+	font-size: clamp(2.25rem, 5vw, 3rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+	margin: $space-3 0 $space-5;
+}
+
+.ik-contact__lede {
+	font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+	line-height: 1.6;
+	color: $color-ink;
+	margin: 0;
+	text-wrap: pretty;
+}
+
+/* ---- Channels grid (custom block: ik2/contact-channels) ---------------- */
+
+.ik-contact-list {
+	max-width: 900px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	background: $color-surface;
+	overflow: hidden;
+
+	@media (max-width: 700px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ik-contact-row {
+	display: grid;
+	grid-template-columns: 8rem 1fr;
+	align-items: center;
+	gap: $space-4;
+	padding: $space-5;
+	border-bottom: 1px solid $color-line;
+	border-right: 1px solid $color-line;
+	text-decoration: none;
+	color: inherit;
+	transition: background 200ms ease;
+
+	&:hover {
+		background: $color-soft-paper;
+	}
+
+	&:nth-child(2n) {
+		border-right: 0;
+	}
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	// Drop the bottom border on the last row when channel count is odd —
+	// the item sits alone on the left column with no row beneath it.
+	&:nth-last-child(2):nth-child(odd) {
+		border-bottom: 0;
+	}
+
+	@media (max-width: 700px) {
+		border-right: 0;
+		grid-template-columns: 6rem 1fr;
+		padding: $space-4;
+		gap: $space-3;
+
+		// Single-column layout — restore the bottom border on the second-to-last
+		// item; only the truly final item drops it.
+		&:nth-last-child(2):nth-child(odd) {
+			border-bottom: 1px solid $color-line;
+		}
+	}
+
+	@media (max-width: 420px) {
+		grid-template-columns: 1fr;
+		gap: $space-1;
+	}
+}
+
+.ik-contact-row__label {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	letter-spacing: 0.04em;
+}
+
+.ik-contact-row__body {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.ik-contact-row__value {
+	font-family: $font-mono;
+	font-size: $size-md;
+	color: $color-signal;
+	font-weight: 600;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.ik-contact-row__note {
+	font-size: $size-sm;
+	color: $color-graphite;
+	margin-top: 4px;
+	line-height: 1.45;
+}
+
+/* ---- Closing note ------------------------------------------------------ */
+
+.ik-contact__note {
+	margin: $space-8 0 0;
+	max-width: $width-content;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	line-height: 1.7;
+
+	p {
+		margin: 0;
+	}
+}
