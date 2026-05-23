@@ -1,0 +1,184 @@
+@use 'tokens' as *;
+
+/* ===========================================================================
+   Resume page (templates/page-resume.html)
+   =========================================================================== */
+
+.ik-resume {
+	padding-block: $space-7 $space-8;
+
+	// Constrain the resume body to the narrow article column. The outer
+	// container-full stays so the page chrome (header/footer) aligns with
+	// the rest of the site.
+	> .container-full > * {
+		max-width: $width-content;
+		margin-inline: auto;
+	}
+}
+
+.ik-resume__head {
+	margin: 0 auto $space-7;
+}
+
+.ik-resume__eyebrow {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
+	letter-spacing: 0.04em;
+	margin: 0 0 $space-4;
+}
+
+.ik-resume__name {
+	font-size: clamp(2.25rem, 5vw, 3rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+	margin: 0;
+}
+
+.ik-resume__title {
+	margin: $space-3 0 0;
+	font-size: $size-lg;
+	color: $color-graphite;
+	line-height: 1.4;
+}
+
+.ik-resume__location {
+	margin: $space-2 0 0;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+}
+
+.ik-resume__summary {
+	margin: $space-5 0 0;
+	font-size: $size-lg;
+	line-height: 1.7;
+	color: $color-ink;
+	text-wrap: pretty;
+}
+
+/* ---- Sections ---------------------------------------------------------- */
+
+.ik-resume__section {
+	margin-top: $space-7;
+}
+
+.ik-resume__section-title {
+	font-size: $size-2xl;
+	letter-spacing: -0.035em;
+	margin: 0 0 $space-5;
+	padding-bottom: $space-3;
+	border-bottom: 1px solid $color-line;
+}
+
+/* ---- Experience -------------------------------------------------------- */
+
+.ik-resume__exp {
+	display: grid;
+	gap: $space-5;
+}
+
+.ik-resume__exp-row {
+	display: grid;
+	grid-template-columns: 7rem 1fr;
+	gap: $space-5;
+
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+		gap: $space-2;
+	}
+}
+
+.ik-resume__exp-when {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-dust;
+	padding-top: 4px;
+}
+
+.ik-resume__exp-body {
+	min-width: 0;
+}
+
+.ik-resume__exp-role {
+	font-weight: 700;
+	color: $color-ink;
+	font-size: $size-md;
+	line-height: 1.35;
+
+	span {
+		color: $color-graphite;
+		font-weight: 500;
+	}
+}
+
+.ik-resume__exp-note {
+	color: $color-graphite;
+	margin-top: 2px;
+	line-height: 1.6;
+}
+
+/* ---- Skills ------------------------------------------------------------ */
+
+.ik-resume__skills {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: $space-5;
+
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ik-resume__skill {
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-5;
+	min-width: 0;
+
+	ul {
+		margin: 0;
+		padding-left: 1.1em;
+		color: $color-ink;
+	}
+
+	li {
+		margin-top: 0.35em;
+		line-height: 1.5;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+.ik-resume__skill-group {
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
+	margin-bottom: $space-3;
+	letter-spacing: 0.04em;
+}
+
+/* ---- Contact links ----------------------------------------------------- */
+
+.ik-resume__contact {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-5;
+	font-family: $font-mono;
+	font-size: $size-sm;
+}
+
+.ik-resume__contact a {
+	color: $color-signal;
+	text-decoration: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+	overflow-wrap: anywhere;
+
+	&:hover {
+		color: $color-signal-deep;
+	}
+}
