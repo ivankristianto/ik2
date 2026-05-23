@@ -89,6 +89,7 @@ RUN if [ "$INSTALL_XDEBUG" = "true" ]; then \
     fi
 
 COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
+COPY docker/php/dev.ini    /usr/local/etc/php/conf.d/zz-dev.ini
 
 
 # ---------------------------------------------------------------------------
