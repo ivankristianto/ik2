@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/contact-channels",
+	"version": "1.0.0",
+	"title": "Contact Channels",
+	"category": "theme",
+	"description": "Two-column grid of contact channels (label, value, note) used on the Contact page.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}
