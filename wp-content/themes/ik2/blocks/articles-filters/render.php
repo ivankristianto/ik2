@@ -107,9 +107,11 @@ $ik2_build_url = static function ( array $context, string $topic, string $format
 	return $base;
 };
 
-$ik2_active_topic = 'category' === $ik2_context['kind'] && null !== $ik2_context['topic'] // @phpstan-ignore notIdentical.alwaysTrue
-	? $ik2_context['topic']
-	: 'all';
+$ik2_active_topic  = 'all';
+$ik2_context_topic = $ik2_context['topic'];
+if ( 'category' === $ik2_context['kind'] && null !== $ik2_context_topic ) {
+	$ik2_active_topic = $ik2_context_topic;
+}
 
 $ik2_active_format = '' !== $ik2_context['format'] ? $ik2_context['format'] : 'all';
 
@@ -131,19 +133,21 @@ if ( $ik2_show_count ) {
 
 	$ik2_tax_query = array();
 
-	if ( 'category' === $ik2_context['kind'] && null !== $ik2_context['topic'] ) { // @phpstan-ignore notIdentical.alwaysTrue
+	$ik2_topic_slug = $ik2_context['topic'];
+	if ( 'category' === $ik2_context['kind'] && null !== $ik2_topic_slug ) {
 		$ik2_tax_query[] = array(
 			'taxonomy' => 'category',
 			'field'    => 'slug',
-			'terms'    => array( $ik2_context['topic'] ),
+			'terms'    => array( $ik2_topic_slug ),
 		);
 	}
 
-	if ( 'tag' === $ik2_context['kind'] && null !== $ik2_context['tag'] ) { // @phpstan-ignore notIdentical.alwaysTrue
+	$ik2_tag_slug = $ik2_context['tag'];
+	if ( 'tag' === $ik2_context['kind'] && null !== $ik2_tag_slug ) {
 		$ik2_tax_query[] = array(
 			'taxonomy' => 'post_tag',
 			'field'    => 'slug',
-			'terms'    => array( $ik2_context['tag'] ),
+			'terms'    => array( $ik2_tag_slug ),
 		);
 	}
 
