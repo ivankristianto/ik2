@@ -405,8 +405,8 @@ body {
 }
 .ik-footer__nav a:hover { color: var(--color-text); }
 .ik-footer__nav a img { filter: brightness(0) saturate(0%) opacity(0.55); }
-.ik-footer__rss { color: var(--color-accent) !important; }
-.ik-footer__rss img { filter: none !important; }
+.ik-footer__nav a.ik-footer__rss { color: var(--color-accent); }
+.ik-footer__nav a.ik-footer__rss img { filter: none; }
 .ik-footer__bottom {
   display: flex; justify-content: space-between; gap: var(--space-4);
   padding-block: var(--space-5);

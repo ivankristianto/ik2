@@ -9,7 +9,7 @@
    dark "Dark theme" card uses .card--dark with hard-coded values. */
 :root,
 :root:has(*) {
-  color-scheme: light !important;
+  color-scheme: light;
 
   --color-bg:             #F8F7F3;
   --color-surface:        #FFFFFF;
