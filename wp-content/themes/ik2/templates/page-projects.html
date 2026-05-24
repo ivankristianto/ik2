@@ -1,11 +1,31 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"ik-projects-archive","layout":{"type":"default"}} -->
-<main class="wp-block-group ik-projects-archive">
-	<div class="container-full">
-		<!-- wp:pattern {"slug":"ik2/projects-page-intro"} /-->
-		<!-- wp:ik2/projects-archive /-->
+<!-- wp:group {"tagName":"main","className":"container-full ik-projects-archive","layout":{"type":"default"}} -->
+<main class="wp-block-group container-full ik-projects-archive">
+	<!-- wp:group {"metadata":{"patternName":"ik2/projects-page-intro","name":"Projects — Intro","description":"Eyebrow, large title, and lede paragraph for the Projects page.","categories":["ik2-page"]},"className":"ik-projects-archive__head","layout":{"type":"default"}} -->
+	<div class="wp-block-group ik-projects-archive__head">
+		<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
+		<p class="ik-section__eyebrow">
+			// PROJECTS · TOOLS · PLUGINS · EXPERIMENTS
+		</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:heading {"level":1,"className":"ik-projects-archive__title"} -->
+		<h1 class="wp-block-heading ik-projects-archive__title">Projects</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"className":"ik-projects-archive__lede"} -->
+		<p class="ik-projects-archive__lede">
+			The things I’ve built outside of client work — small CLI tools, the
+			theme that powers this site, a plugin or two, and a growing pile of
+			experiments. Some are still maintained. Some I’ve let go. Each one
+			taught me something.
+		</p>
+		<!-- /wp:paragraph -->
 	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:ik2/projects-archive /-->
 </main>
 <!-- /wp:group -->
 

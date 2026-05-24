@@ -1,11 +1,76 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"ik-articles-archive","layout":{"type":"default"}} -->
-<main class="wp-block-group ik-articles-archive">
-	<div class="container-full">
-		<!-- wp:pattern {"slug":"ik2/articles-archive-grid"} /-->
-	</div>
-</main>
+<!-- wp:group {"tagName":"main","className":"container-full ik-articles-archive","layout":{"type":"default"}} -->
+<main class="wp-block-group container-full ik-articles-archive"><!-- wp:html -->
+<div
+	class="ik-articles-archive__interactive"
+	data-wp-interactive="ik2/articles-filters"
+	data-wp-router-region="ik-articles"
+>
+<!-- /wp:html -->
+
+<!-- wp:group {"metadata":{"patternName":"ik2/articles-archive-header","name":"Articles — Archive header","description":"Eyebrow, big title, and intro paragraph for the Articles page.","categories":["ik2-archive"]},"className":"ik-articles-archive__head","layout":{"type":"default"}} -->
+<div class="wp-block-group ik-articles-archive__head"><!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
+<p class="ik-section__eyebrow">
+		// ARTICLES  ·  88 POSTS  ·  GUIDES, NOTES, EXPERIMENTS, LINKS	</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":1,"className":"ik-articles-archive__title"} -->
+<h1 class="wp-block-heading ik-articles-archive__title">Everything I’ve written</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"className":"ik-articles-archive__lede"} -->
+<p class="ik-articles-archive__lede">WordPress, performance, security, AI, browser APIs, and the boring devops in between. Newest first. The old posts are kept for context — they may reflect the tools and versions of their time.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:ik2/articles-filters /-->
+
+<!-- wp:query {"queryId":42,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"enhancedPagination":true,"className":"ik-articles-archive__query"} -->
+<div class="wp-block-query ik-articles-archive__query"><!-- wp:post-template {"className":"ik-articles-grid"} -->
+<!-- wp:group {"tagName":"article","metadata":{"patternName":"ik2/article-card","name":"Article card","description":"Card used inside the Articles archive Query Loop — coloured cover, meta line, title, excerpt, and categories.","categories":["ik2-archive"]},"className":"ik-article-card","layout":{"type":"default"}} -->
+<article class="wp-block-group ik-article-card"><!-- wp:group {"className":"ik-article-card__cover","layout":{"type":"default"}} -->
+<div class="wp-block-group ik-article-card__cover"><!-- wp:post-terms {"term":"category","separator":" · ","className":"ik-article-card__cover-label"} /--></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"ik-article-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group ik-article-card__meta"><!-- wp:post-date {"format":"F j, Y","metadata":{"bindings":{"datetime":{"source":"core/post-data","args":{"field":"date"}}}},"className":"ik-article-card__date"} /-->
+
+<!-- wp:paragraph -->
+<p><p class="ik-article-card__sep" aria-hidden="true">·</p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ik-article-card__reading"} -->
+<p class="ik-article-card__reading">5 min read</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:post-title {"level":3,"isLink":true,"className":"ik-article-card__title"} /-->
+
+<!-- wp:post-excerpt {"moreText":"","excerptLength":26,"className":"ik-article-card__excerpt"} /-->
+
+<!-- wp:post-terms {"term":"category","separator":" ","className":"ik-article-card__tags"} /--></article>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination {"className":"ik-articles-pagination","layout":{"type":"flex","justifyContent":"space-between"}} -->
+<!-- wp:query-pagination-previous {"label":"← Prev"} /-->
+
+<!-- wp:query-pagination-numbers /-->
+
+<!-- wp:query-pagination-next {"label":"Next →"} /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph {"className":"ik-articles-empty"} -->
+<p class="ik-articles-empty">No posts match these filters yet — try widening.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query -->
+
+<!-- wp:html -->
+</div>
+<!-- /wp:html --></main>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
