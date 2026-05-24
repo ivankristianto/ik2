@@ -18,30 +18,28 @@ foreach ( $ik2_topic_slugs as $ik2_topic_slug ) {
 	}
 }
 ?>
-<!-- wp:group {"className":"ik-section","layout":{"type":"default"}} -->
-<section class="wp-block-group ik-section">
-	<div class="container-full">
-		<div class="ik-section__head">
-			<div>
-				<!-- wp:paragraph {"className":"ik-section__eyebrow"} --><p class="ik-section__eyebrow">// FEATURED TOPICS</p><!-- /wp:paragraph -->
-				<!-- wp:heading {"level":2,"className":"ik-section__title"} --><h2 class="wp-block-heading ik-section__title">Where I spend my time on the web</h2><!-- /wp:heading -->
-			</div>
-			<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All articles →</a></p><!-- /wp:paragraph -->
+<!-- wp:group {"tagName":"section","className":"container-full ik-section","layout":{"type":"default"}} -->
+<section class="wp-block-group container-full ik-section">
+	<div class="ik-section__head">
+		<div>
+			<!-- wp:paragraph {"className":"ik-section__eyebrow"} --><p class="ik-section__eyebrow">// FEATURED TOPICS</p><!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"ik-section__title"} --><h2 class="wp-block-heading ik-section__title">Where I spend my time on the web</h2><!-- /wp:heading -->
 		</div>
-
-		<!-- wp:html -->
-		<div class="ik-topics">
-			<?php foreach ( $ik2_topics as $ik2_topic ) : ?>
-				<a class="ik-topic" href="<?php echo esc_url( get_category_link( $ik2_topic ) ); ?>">
-					<div class="ik-topic__row">
-						<span class="ik-topic__name"><?php echo esc_html( $ik2_topic->name ); ?></span>
-						<span class="ik-topic__count"><?php echo (int) $ik2_topic->count; ?> post<?php echo 1 === (int) $ik2_topic->count ? '' : 's'; ?></span>
-					</div>
-					<p class="ik-topic__blurb"><?php echo esc_html( $ik2_topic->description ); ?></p>
-				</a>
-			<?php endforeach; ?>
-		</div>
-		<!-- /wp:html -->
+		<!-- wp:paragraph {"className":"ik-section__more"} --><p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All articles →</a></p><!-- /wp:paragraph -->
 	</div>
+
+	<!-- wp:html -->
+	<div class="ik-topics">
+		<?php foreach ( $ik2_topics as $ik2_topic ) : ?>
+			<a class="ik-topic" href="<?php echo esc_url( get_category_link( $ik2_topic ) ); ?>">
+				<div class="ik-topic__row">
+					<span class="ik-topic__name"><?php echo esc_html( $ik2_topic->name ); ?></span>
+					<span class="ik-topic__count"><?php echo (int) $ik2_topic->count; ?> post<?php echo 1 === (int) $ik2_topic->count ? '' : 's'; ?></span>
+				</div>
+				<p class="ik-topic__blurb"><?php echo esc_html( $ik2_topic->description ); ?></p>
+			</a>
+		<?php endforeach; ?>
+	</div>
+	<!-- /wp:html -->
 </section>
 <!-- /wp:group -->
