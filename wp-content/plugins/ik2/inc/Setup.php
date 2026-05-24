@@ -11,9 +11,11 @@ namespace IK2\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'init',
-	static function (): void {
-		load_plugin_textdomain( 'ik2', false, dirname( plugin_basename( PLUGIN_FILE ) ) . '/languages' );
-	}
-);
+add_action( 'init', __NAMESPACE__ . '\\load_textdomain' );
+
+/**
+ * Load the plugin text domain from /languages.
+ */
+function load_textdomain(): void {
+	load_plugin_textdomain( 'ik2', false, dirname( plugin_basename( PLUGIN_FILE ) ) . '/languages' );
+}

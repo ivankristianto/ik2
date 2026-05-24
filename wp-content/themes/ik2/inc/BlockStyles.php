@@ -15,29 +15,31 @@ namespace IK2\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'init',
-	static function (): void {
-		register_block_style(
-			'core/group',
-			array(
-				'name'  => 'callout-note',
-				'label' => __( 'Callout — Note', 'ik2' ),
-			)
-		);
-		register_block_style(
-			'core/group',
-			array(
-				'name'  => 'callout-updated',
-				'label' => __( 'Callout — Updated', 'ik2' ),
-			)
-		);
-		register_block_style(
-			'core/group',
-			array(
-				'name'  => 'callout-outdated',
-				'label' => __( 'Callout — Outdated', 'ik2' ),
-			)
-		);
-	}
-);
+add_action( 'init', __NAMESPACE__ . '\\register_callout_block_styles' );
+
+/**
+ * Register the three callout variants on core/group.
+ */
+function register_callout_block_styles(): void {
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'callout-note',
+			'label' => __( 'Callout — Note', 'ik2' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'callout-updated',
+			'label' => __( 'Callout — Updated', 'ik2' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'callout-outdated',
+			'label' => __( 'Callout — Outdated', 'ik2' ),
+		)
+	);
+}

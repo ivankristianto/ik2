@@ -30,17 +30,20 @@ require_once __DIR__ . '/inc/Blocks.php';
 require_once __DIR__ . '/inc/PostTypes/Project.php';
 require_once __DIR__ . '/inc/PostTypes/ProjectData.php';
 
-register_activation_hook(
-	__FILE__,
-	static function (): void {
-		PostTypes\Project\register();
-		flush_rewrite_rules();
-	}
-);
+register_activation_hook( __FILE__, __NAMESPACE__ . '\\on_activate' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\on_deactivate' );
 
-register_deactivation_hook(
-	__FILE__,
-	static function (): void {
-		flush_rewrite_rules();
-	}
-);
+/**
+ * Activation hook: register CPTs and flush rewrite rules.
+ */
+function on_activate(): void {
+	PostTypes\Project\register();
+	flush_rewrite_rules();
+}
+
+/**
+ * Deactivation hook: flush rewrite rules to remove plugin-owned routes.
+ */
+function on_deactivate(): void {
+	flush_rewrite_rules();
+}

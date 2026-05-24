@@ -96,7 +96,7 @@ function register_meta_fields(): void {
 			'default'           => 'Active',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_text_field',
-			'auth_callback'     => static fn (): bool => current_user_can( 'edit_posts' ),
+			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		)
 	);
 
@@ -109,7 +109,7 @@ function register_meta_fields(): void {
 			'default'           => '',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_text_field',
-			'auth_callback'     => static fn (): bool => current_user_can( 'edit_posts' ),
+			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		)
 	);
 
@@ -121,8 +121,8 @@ function register_meta_fields(): void {
 			'single'            => true,
 			'default'           => '',
 			'show_in_rest'      => true,
-			'sanitize_callback' => static fn ( $value ): string => is_string( $value ) ? trim( $value ) : '',
-			'auth_callback'     => static fn (): bool => current_user_can( 'edit_posts' ),
+			'sanitize_callback' => __NAMESPACE__ . '\\sanitize_string_trim',
+			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		)
 	);
 
@@ -135,7 +135,23 @@ function register_meta_fields(): void {
 			'default'           => '',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_textarea_field',
-			'auth_callback'     => static fn (): bool => current_user_can( 'edit_posts' ),
+			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		)
 	);
+}
+
+/**
+ * Auth callback for Project meta fields. Restricted to users who can edit posts.
+ */
+function can_edit_posts(): bool {
+	return current_user_can( 'edit_posts' );
+}
+
+/**
+ * Sanitize a meta value to a trimmed string, or empty string if not a string.
+ *
+ * @param mixed $value Raw meta value.
+ */
+function sanitize_string_trim( $value ): string {
+	return is_string( $value ) ? trim( $value ) : '';
 }

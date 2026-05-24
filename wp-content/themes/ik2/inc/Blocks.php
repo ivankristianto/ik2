@@ -17,23 +17,27 @@ const ARCHIVE_QUERY_ID   = 43;
 const FORMAT_SLUGS       = array( 'guide', 'note', 'experiment' );
 const REWRITE_VERSION    = 2;
 
-add_action(
-	'init',
-	static function (): void {
-		$blocks_dir = __DIR__ . '/../blocks';
-		$dirs       = glob( $blocks_dir . '/*', GLOB_ONLYDIR );
+add_action( 'init', __NAMESPACE__ . '\\register_theme_blocks' );
 
-		if ( ! is_array( $dirs ) ) {
-			return;
-		}
+/**
+ * Auto-register every block whose `block.json` lives under `blocks/<name>/`.
+ */
+function register_theme_blocks(): void {
+	$blocks_dir = __DIR__ . '/../blocks';
+	$dirs       = glob( $blocks_dir . '/*', GLOB_ONLYDIR );
 
-		foreach ( $dirs as $dir ) {
-			if ( file_exists( $dir . '/block.json' ) ) {
-				register_block_type( $dir );
-			}
+	if ( ! is_array( $dirs ) ) {
+		return;
+	}
+
+	foreach ( $dirs as $dir ) {
+		if ( file_exists( $dir . '/block.json' ) ) {
+			register_block_type( $dir );
 		}
 	}
-);
+}
+
+add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
 
 /**
  * Apply the `format` query var to the Articles and Archive Query Loops.
@@ -46,37 +50,34 @@ add_action(
  * Allowed format slugs match the pills in the articles-filters block.
  *
  * @param array<string,mixed> $query Query vars for the loop.
- * @param \WP_Block           $block Block instance.
+ * @param mixed               $block Block instance (typically \WP_Block).
  * @return array<string,mixed>
  */
-add_filter(
-	'query_loop_block_query_vars',
-	static function ( array $query, $block ): array {
-		$context  = is_object( $block ) && isset( $block->context ) ? $block->context : array();
-		$query_id = isset( $context['queryId'] ) ? (int) $context['queryId'] : 0;
+function filter_query_loop_format( array $query, $block ): array {
+	$context  = is_object( $block ) && isset( $block->context ) ? $block->context : array();
+	$query_id = isset( $context['queryId'] ) ? (int) $context['queryId'] : 0;
 
-		if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
-			return $query;
-		}
-
-		$format = (string) get_query_var( 'format', '' );
-
-		if ( ! ik2_is_valid_format( $format ) ) {
-			return $query;
-		}
-
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-		$query['tax_query'] = ik2_append_format_tax_query(
-			isset( $query['tax_query'] ) && is_array( $query['tax_query'] ) ? $query['tax_query'] : array(),
-			$format
-		);
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-
+	if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
 		return $query;
-	},
-	10,
-	2
-);
+	}
+
+	$format = (string) get_query_var( 'format', '' );
+
+	if ( ! ik2_is_valid_format( $format ) ) {
+		return $query;
+	}
+
+	// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+	$query['tax_query'] = ik2_append_format_tax_query(
+		isset( $query['tax_query'] ) && is_array( $query['tax_query'] ) ? $query['tax_query'] : array(),
+		$format
+	);
+	// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+
+	return $query;
+}
+
+add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
 
 /**
  * Apply the `format` query var to the main query on category/tag archives.
@@ -93,31 +94,30 @@ add_filter(
  *
  * @param \WP_Query $wp_query The main query.
  */
-add_action(
-	'pre_get_posts',
-	static function ( $wp_query ): void {
-		if ( is_admin() || ! $wp_query->is_main_query() ) {
-			return;
-		}
-
-		if ( ! $wp_query->is_category() && ! $wp_query->is_tag() ) {
-			return;
-		}
-
-		$format = (string) $wp_query->get( 'format', '' );
-
-		if ( ! ik2_is_valid_format( $format ) ) {
-			return;
-		}
-
-		$existing_tax_query = $wp_query->get( 'tax_query' );
-		if ( ! is_array( $existing_tax_query ) ) {
-			$existing_tax_query = array();
-		}
-
-		$wp_query->set( 'tax_query', ik2_append_format_tax_query( $existing_tax_query, $format ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+function narrow_archive_query_by_format( $wp_query ): void {
+	if ( is_admin() || ! $wp_query->is_main_query() ) {
+		return;
 	}
-);
+
+	if ( ! $wp_query->is_category() && ! $wp_query->is_tag() ) {
+		return;
+	}
+
+	$format = (string) $wp_query->get( 'format', '' );
+
+	if ( ! ik2_is_valid_format( $format ) ) {
+		return;
+	}
+
+	$existing_tax_query = $wp_query->get( 'tax_query' );
+	if ( ! is_array( $existing_tax_query ) ) {
+		$existing_tax_query = array();
+	}
+
+	$wp_query->set( 'tax_query', ik2_append_format_tax_query( $existing_tax_query, $format ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+}
+
+add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
 
 /**
  * Stash the URL-derived archive term so consumers can recover it after
@@ -130,23 +130,20 @@ add_action(
  *
  * @param \WP $wp The WP environment instance.
  */
-add_action(
-	'parse_request',
-	static function ( $wp ): void {
-		$GLOBALS['ik2_archive_context'] = array(
-			'category' => isset( $wp->query_vars['category_name'] ) ? (string) $wp->query_vars['category_name'] : '',
-			'tag'      => isset( $wp->query_vars['tag'] ) ? (string) $wp->query_vars['tag'] : '',
-			'format'   => isset( $wp->query_vars['format'] ) ? (string) $wp->query_vars['format'] : '',
-		);
+function stash_archive_context( $wp ): void {
+	$GLOBALS['ik2_archive_context'] = array(
+		'category' => isset( $wp->query_vars['category_name'] ) ? (string) $wp->query_vars['category_name'] : '',
+		'tag'      => isset( $wp->query_vars['tag'] ) ? (string) $wp->query_vars['tag'] : '',
+		'format'   => isset( $wp->query_vars['format'] ) ? (string) $wp->query_vars['format'] : '',
+	);
 
-		if (
-			ARTICLES_PAGE_SLUG === (string) ( $wp->query_vars['pagename'] ?? '' ) &&
-			isset( $wp->query_vars['paged'] )
-		) {
-			$_GET[ 'query-' . ARTICLES_QUERY_ID . '-page' ] = (string) $wp->query_vars['paged']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		}
+	if (
+		ARTICLES_PAGE_SLUG === (string) ( $wp->query_vars['pagename'] ?? '' ) &&
+		isset( $wp->query_vars['paged'] )
+	) {
+		$_GET[ 'query-' . ARTICLES_QUERY_ID . '-page' ] = (string) $wp->query_vars['paged']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
-);
+}
 
 /**
  * Helper to read the stashed archive context.
@@ -165,6 +162,8 @@ function ik2_get_archive_context(): array {
 	);
 }
 
+add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
+
 /**
  * Register `format` as a public query var so the rewrite rules below
  * can populate it from the URL path.
@@ -172,13 +171,13 @@ function ik2_get_archive_context(): array {
  * @param array<int,string> $vars Public query vars.
  * @return array<int,string>
  */
-add_filter(
-	'query_vars',
-	static function ( array $vars ): array {
-		$vars[] = 'format';
-		return $vars;
-	}
-);
+function register_format_query_var( array $vars ): array {
+	$vars[] = 'format';
+	return $vars;
+}
+
+add_action( 'init', __NAMESPACE__ . '\\register_archive_rewrite_rules' );
+add_action( 'init', __NAMESPACE__ . '\\maybe_flush_rewrite_rules', 20 );
 
 /**
  * Pretty URLs for the format filter.
@@ -190,62 +189,57 @@ add_filter(
  * `top` priority ensures these win against WP defaults like
  * `/category/{slug}/page/{n}/` and `/category/{slug}/feed/`.
  */
-add_action(
-	'init',
-	static function (): void {
-		add_rewrite_rule(
-			'^articles/format/([^/]+)/page/([0-9]+)/?$',
-			'index.php?pagename=articles&format=$matches[1]&paged=$matches[2]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^articles/format/([^/]+)/?$',
-			'index.php?pagename=articles&format=$matches[1]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^articles/page/([0-9]+)/?$',
-			'index.php?pagename=articles&paged=$matches[1]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^category/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
-			'index.php?category_name=$matches[1]&format=$matches[2]&paged=$matches[3]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^category/([^/]+)/format/([^/]+)/?$',
-			'index.php?category_name=$matches[1]&format=$matches[2]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^tag/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
-			'index.php?tag=$matches[1]&format=$matches[2]&paged=$matches[3]',
-			'top'
-		);
-		add_rewrite_rule(
-			'^tag/([^/]+)/format/([^/]+)/?$',
-			'index.php?tag=$matches[1]&format=$matches[2]',
-			'top'
-		);
-	}
-);
+function register_archive_rewrite_rules(): void {
+	add_rewrite_rule(
+		'^articles/format/([^/]+)/page/([0-9]+)/?$',
+		'index.php?pagename=articles&format=$matches[1]&paged=$matches[2]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^articles/format/([^/]+)/?$',
+		'index.php?pagename=articles&format=$matches[1]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^articles/page/([0-9]+)/?$',
+		'index.php?pagename=articles&paged=$matches[1]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^category/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
+		'index.php?category_name=$matches[1]&format=$matches[2]&paged=$matches[3]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^category/([^/]+)/format/([^/]+)/?$',
+		'index.php?category_name=$matches[1]&format=$matches[2]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^tag/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
+		'index.php?tag=$matches[1]&format=$matches[2]&paged=$matches[3]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^tag/([^/]+)/format/([^/]+)/?$',
+		'index.php?tag=$matches[1]&format=$matches[2]',
+		'top'
+	);
+}
 
 /**
  * Flush rewrite rules once after deploys that change the archive routes.
  */
-add_action(
-	'init',
-	static function (): void {
-		if ( (int) get_option( 'ik2_rewrite_version', 0 ) >= REWRITE_VERSION ) {
-			return;
-		}
+function maybe_flush_rewrite_rules(): void {
+	if ( (int) get_option( 'ik2_rewrite_version', 0 ) >= REWRITE_VERSION ) {
+		return;
+	}
 
-		flush_rewrite_rules( false );
-		update_option( 'ik2_rewrite_version', REWRITE_VERSION );
-	},
-	20
-);
+	flush_rewrite_rules( false );
+	update_option( 'ik2_rewrite_version', REWRITE_VERSION );
+}
+
+add_filter( 'render_block_core/query', __NAMESPACE__ . '\\rewrite_query_loop_pagination_hrefs', 10, 2 );
 
 /**
  * Rewrite the custom articles Query Loop pagination links to clean permalinks.
@@ -255,86 +249,76 @@ add_action(
  * matching pretty route, then let the rewrite rules above map those routes
  * back to the loop's page query var.
  *
- * @param string        $content Rendered block HTML.
- * @param array<mixed> $block Parsed block data.
+ * @param string       $content Rendered block HTML.
+ * @param array<mixed> $block   Parsed block data.
  * @return string
  */
-add_filter(
-	'render_block_core/query',
-	static function ( string $content, array $block ): string {
-		$query_id = isset( $block['attrs']['queryId'] ) ? (int) $block['attrs']['queryId'] : 0;
+function rewrite_query_loop_pagination_hrefs( string $content, array $block ): string {
+	$query_id = isset( $block['attrs']['queryId'] ) ? (int) $block['attrs']['queryId'] : 0;
 
-		if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
-			return $content;
+	if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
+		return $content;
+	}
+
+	$page_key = 'query-' . $query_id . '-page';
+	if ( ! str_contains( $content, $page_key ) ) {
+		return $content;
+	}
+
+	$processor = new \WP_HTML_Tag_Processor( $content );
+
+	while ( $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
+		$href = $processor->get_attribute( 'href' );
+
+		if ( ! is_string( $href ) || '' === $href ) {
+			continue;
 		}
 
-		$page_key = 'query-' . $query_id . '-page';
-		if ( ! str_contains( $content, $page_key ) ) {
-			return $content;
+		$page = ik2_extract_query_loop_page_from_href( $href, $page_key );
+
+		if ( null === $page ) {
+			continue;
 		}
 
-		$processor = new \WP_HTML_Tag_Processor( $content );
+		$processor->set_attribute( 'href', ik2_build_archive_pagination_url( $page ) );
+	}
 
-		while ( $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
-			$href = $processor->get_attribute( 'href' );
+	return $processor->get_updated_html();
+}
 
-			if ( ! is_string( $href ) || '' === $href ) {
-				continue;
-			}
-
-			$page = ik2_extract_query_loop_page_from_href( $href, $page_key );
-
-			if ( null === $page ) {
-				continue;
-			}
-
-			$processor->set_attribute( 'href', ik2_build_archive_pagination_url( $page ) );
-		}
-
-		return $processor->get_updated_html();
-	},
-	10,
-	2
-);
+add_filter( 'get_canonical_url', __NAMESPACE__ . '\\filter_articles_canonical_url', 10, 2 );
+add_action( 'after_switch_theme', __NAMESPACE__ . '\\flush_rewrite_on_theme_switch' );
 
 /**
  * Keep the Articles page canonical aligned with the active format/paged route.
  *
- * @param string   $url  Canonical URL computed by core.
- * @param \WP_Post $post Post being canonicalized.
+ * @param string $url  Canonical URL computed by core.
+ * @param mixed  $post Post being canonicalized (typically \WP_Post).
  * @return string
  */
-add_filter(
-	'get_canonical_url',
-	static function ( string $url, $post ): string {
-		if ( ! $post instanceof \WP_Post || ARTICLES_PAGE_SLUG !== $post->post_name || ! is_page( ARTICLES_PAGE_SLUG ) ) {
-			return $url;
-		}
+function filter_articles_canonical_url( string $url, $post ): string {
+	if ( ! $post instanceof \WP_Post || ARTICLES_PAGE_SLUG !== $post->post_name || ! is_page( ARTICLES_PAGE_SLUG ) ) {
+		return $url;
+	}
 
-		$format = (string) get_query_var( 'format', '' );
-		$page   = max( 1, (int) get_query_var( 'paged', 1 ) );
+	$format = (string) get_query_var( 'format', '' );
+	$page   = max( 1, (int) get_query_var( 'paged', 1 ) );
 
-		if ( 1 === $page && ! ik2_is_valid_format( $format ) ) {
-			return $url;
-		}
+	if ( 1 === $page && ! ik2_is_valid_format( $format ) ) {
+		return $url;
+	}
 
-		return ik2_build_archive_pagination_url( $page );
-	},
-	10,
-	2
-);
+	return ik2_build_archive_pagination_url( $page );
+}
 
 /**
  * Flush rewrite rules once when the theme is activated so the new
  * rules above register with the rewrite cache.
  */
-add_action(
-	'after_switch_theme',
-	static function (): void {
-		flush_rewrite_rules();
-		update_option( 'ik2_rewrite_version', REWRITE_VERSION );
-	}
-);
+function flush_rewrite_on_theme_switch(): void {
+	flush_rewrite_rules();
+	update_option( 'ik2_rewrite_version', REWRITE_VERSION );
+}
 
 /**
  * Check whether the format slug is one the archive UI supports.

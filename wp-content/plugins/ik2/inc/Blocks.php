@@ -15,30 +15,32 @@ use const IK2\Plugin\PLUGIN_DIR;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'init',
-	static function (): void {
-		$candidates = array(
-			PLUGIN_DIR . '/build/blocks',
-			PLUGIN_DIR . '/blocks',
-		);
+add_action( 'init', __NAMESPACE__ . '\\register_block_types' );
 
-		foreach ( $candidates as $base ) {
-			if ( ! is_dir( $base ) ) {
-				continue;
-			}
+/**
+ * Register every block whose `block.json` lives under build/blocks/ or blocks/.
+ */
+function register_block_types(): void {
+	$candidates = array(
+		PLUGIN_DIR . '/build/blocks',
+		PLUGIN_DIR . '/blocks',
+	);
 
-			$dirs = glob( $base . '/*', GLOB_ONLYDIR );
+	foreach ( $candidates as $base ) {
+		if ( ! is_dir( $base ) ) {
+			continue;
+		}
 
-			if ( ! is_array( $dirs ) ) {
-				continue;
-			}
+		$dirs = glob( $base . '/*', GLOB_ONLYDIR );
 
-			foreach ( $dirs as $dir ) {
-				if ( file_exists( $dir . '/block.json' ) ) {
-					register_block_type( $dir );
-				}
+		if ( ! is_array( $dirs ) ) {
+			continue;
+		}
+
+		foreach ( $dirs as $dir ) {
+			if ( file_exists( $dir . '/block.json' ) ) {
+				register_block_type( $dir );
 			}
 		}
 	}
-);
+}

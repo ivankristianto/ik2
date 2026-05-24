@@ -20,7 +20,12 @@
 
 declare(strict_types=1);
 
+use function IK2\Theme\Blocks\ArticlesFilters\build_url;
+use function IK2\Theme\Blocks\ArticlesFilters\detect_context;
+
 defined( 'ABSPATH' ) || exit;
+
+require_once __DIR__ . '/helpers.php';
 
 $ik2_topics = array(
 	'all'         => __( 'all', 'ik2' ),
@@ -39,71 +44,7 @@ $ik2_formats = array(
 	'experiment' => __( 'Experiments', 'ik2' ),
 );
 
-/**
- * Detect the current archive context.
- *
- * @return array{kind:string,topic:?string,tag:?string,format:string}
- */
-$ik2_detect_context = static function (): array {
-	$ctx = array(
-		'kind'   => 'page',
-		'topic'  => null,
-		'tag'    => null,
-		'format' => '',
-	);
-
-	// Read the archive context stashed by inc/Blocks.php on parse_request.
-	// We can't rely on get_queried_object() / get_query_var('category_name')
-	// because pre_get_posts appends a tax_query item for the format filter,
-	// which causes WP to rewrite category_name to the format slug.
-	$stash = \IK2\Theme\ik2_get_archive_context();
-
-	if ( '' !== $stash['category'] ) {
-		$ctx['kind']  = 'category';
-		$ctx['topic'] = $stash['category'];
-	} elseif ( '' !== $stash['tag'] ) {
-		$ctx['kind'] = 'tag';
-		$ctx['tag']  = $stash['tag'];
-	}
-
-	$allowed_formats = array( 'guide', 'note', 'experiment' );
-	if ( '' !== $stash['format'] && in_array( $stash['format'], $allowed_formats, true ) ) {
-		$ctx['format'] = $stash['format'];
-	}
-
-	return $ctx;
-};
-
-$ik2_context = $ik2_detect_context();
-
-/**
- * Build the pretty URL for a given (topic, format) pair from the current context.
- *
- * Rules:
- *  - topic === 'all'  → main archive (or stay on tag if context is tag and tag pill clicked).
- *  - topic === slug   → /category/{slug}/ — overrides tag context.
- *  - format suffix appended when not 'all'.
- *  - From a tag context, the "all" topic preserves the tag (no topic on tag = "all"-equivalent).
- *
- * @param array{kind:string,topic:?string,tag:?string,format:string} $context Current archive context.
- * @param string                                                     $topic   Topic slug or 'all'.
- * @param string                                                     $format  Format slug or 'all'.
- */
-$ik2_build_url = static function ( array $context, string $topic, string $format ): string {
-	if ( 'all' !== $topic ) {
-		$base = home_url( '/category/' . rawurlencode( $topic ) . '/' );
-	} elseif ( 'tag' === $context['kind'] && null !== $context['tag'] ) {
-		$base = home_url( '/tag/' . rawurlencode( $context['tag'] ) . '/' );
-	} else {
-		$base = home_url( '/articles/' );
-	}
-
-	if ( 'all' !== $format ) {
-		$base .= 'format/' . rawurlencode( $format ) . '/';
-	}
-
-	return $base;
-};
+$ik2_context = detect_context();
 
 $ik2_active_topic  = 'all';
 $ik2_context_topic = $ik2_context['topic'];
@@ -181,7 +122,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 		<?php foreach ( $ik2_topics as $slug => $label ) : ?>
 			<?php
 			$is_current = ( $slug === $ik2_active_topic );
-			$href       = $ik2_build_url( $ik2_context, $slug, $ik2_active_format );
+			$href       = build_url( $ik2_context, $slug, $ik2_active_format );
 			?>
 			<a
 				class="ik-articles-filters__pill<?php echo $is_current ? ' is-active' : ''; ?>"
@@ -198,7 +139,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 		<?php foreach ( $ik2_formats as $slug => $label ) : ?>
 			<?php
 			$is_current = ( $slug === $ik2_active_format );
-			$href       = $ik2_build_url( $ik2_context, $ik2_active_topic, $slug );
+			$href       = build_url( $ik2_context, $ik2_active_topic, $slug );
 			?>
 			<a
 				class="ik-articles-filters__pill<?php echo $is_current ? ' is-active' : ''; ?>"

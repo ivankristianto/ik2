@@ -12,20 +12,22 @@ namespace IK2\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'init',
-	static function (): void {
-		register_block_pattern_category(
-			'ik2-home',
-			array( 'label' => __( 'IK2 — Home', 'ik2' ) )
-		);
-		register_block_pattern_category(
-			'ik2-archive',
-			array( 'label' => __( 'IK2 — Archive', 'ik2' ) )
-		);
-		register_block_pattern_category(
-			'ik2-page',
-			array( 'label' => __( 'IK2 — Page', 'ik2' ) )
-		);
-	}
-);
+add_action( 'init', __NAMESPACE__ . '\\register_pattern_categories' );
+
+/**
+ * Register theme pattern categories used by patterns under patterns/.
+ */
+function register_pattern_categories(): void {
+	register_block_pattern_category(
+		'ik2-home',
+		array( 'label' => __( 'IK2 — Home', 'ik2' ) )
+	);
+	register_block_pattern_category(
+		'ik2-archive',
+		array( 'label' => __( 'IK2 — Archive', 'ik2' ) )
+	);
+	register_block_pattern_category(
+		'ik2-page',
+		array( 'label' => __( 'IK2 — Page', 'ik2' ) )
+	);
+}

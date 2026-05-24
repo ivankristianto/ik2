@@ -91,7 +91,16 @@ function parse_tech( string $value ): array {
 
 	$parts = array_map( 'trim', explode( '|', $value ) );
 
-	return array_values( array_filter( $parts, static fn ( string $p ): bool => '' !== $p ) );
+	return array_values( array_filter( $parts, __NAMESPACE__ . '\\is_non_empty_string' ) );
+}
+
+/**
+ * Predicate for array_filter — true when the string is non-empty.
+ *
+ * @param string $value Candidate string.
+ */
+function is_non_empty_string( string $value ): bool {
+	return '' !== $value;
 }
 
 /**

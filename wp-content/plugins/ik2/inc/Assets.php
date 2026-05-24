@@ -16,24 +16,26 @@ use const IK2\Plugin\PLUGIN_FILE;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'enqueue_block_editor_assets',
-	static function (): void {
-		$asset_file = PLUGIN_DIR . '/build/editor.asset.php';
-		$script     = PLUGIN_DIR . '/build/editor.js';
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_assets' );
 
-		if ( ! file_exists( $asset_file ) || ! file_exists( $script ) ) {
-			return;
-		}
+/**
+ * Enqueue the plugin's block editor JS bundle when the build is present.
+ */
+function enqueue_editor_assets(): void {
+	$asset_file = PLUGIN_DIR . '/build/editor.asset.php';
+	$script     = PLUGIN_DIR . '/build/editor.js';
 
-		$asset = require $asset_file;
-
-		wp_enqueue_script(
-			'ik2-plugin-editor',
-			plugins_url( 'build/editor.js', PLUGIN_FILE ),
-			$asset['dependencies'] ?? array(),
-			$asset['version'] ?? (string) filemtime( $script ),
-			true
-		);
+	if ( ! file_exists( $asset_file ) || ! file_exists( $script ) ) {
+		return;
 	}
-);
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'ik2-plugin-editor',
+		plugins_url( 'build/editor.js', PLUGIN_FILE ),
+		$asset['dependencies'] ?? array(),
+		$asset['version'] ?? (string) filemtime( $script ),
+		true
+	);
+}

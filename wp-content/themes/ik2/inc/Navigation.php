@@ -29,53 +29,53 @@ function ik2_normalize_path( string $url ): string {
 	return strtolower( $path );
 }
 
+add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\\mark_current_navigation_link', 10, 2 );
+
 /**
  * Inject aria-current="page" and a `current-menu-item` class on the anchor
  * when a navigation-link block points at the current request path.
+ *
+ * @param string       $block_content Rendered navigation-link HTML.
+ * @param array<mixed> $block         Parsed block data.
  */
-add_filter(
-	'render_block_core/navigation-link',
-	static function ( string $block_content, array $block ): string {
-		if ( is_admin() || '' === $block_content ) {
-			return $block_content;
-		}
+function mark_current_navigation_link( string $block_content, array $block ): string {
+	if ( is_admin() || '' === $block_content ) {
+		return $block_content;
+	}
 
-		$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
-		$url   = isset( $attrs['url'] ) ? (string) $attrs['url'] : '';
+	$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+	$url   = isset( $attrs['url'] ) ? (string) $attrs['url'] : '';
 
-		if ( '' === $url ) {
-			return $block_content;
-		}
+	if ( '' === $url ) {
+		return $block_content;
+	}
 
-		$link_path    = ik2_normalize_path( $url );
-		$current_path = ik2_normalize_path( home_url( add_query_arg( array() ) ) );
+	$link_path    = ik2_normalize_path( $url );
+	$current_path = ik2_normalize_path( home_url( add_query_arg( array() ) ) );
 
-		if ( $link_path !== $current_path ) {
-			return $block_content;
-		}
+	if ( $link_path !== $current_path ) {
+		return $block_content;
+	}
 
-		$processor = new \WP_HTML_Tag_Processor( $block_content );
+	$processor = new \WP_HTML_Tag_Processor( $block_content );
 
-		if ( ! $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
-			return $block_content;
-		}
+	if ( ! $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
+		return $block_content;
+	}
 
-		$processor->set_attribute( 'aria-current', 'page' );
+	$processor->set_attribute( 'aria-current', 'page' );
 
-		$existing_class = (string) $processor->get_attribute( 'class' );
+	$existing_class = (string) $processor->get_attribute( 'class' );
 
-		if ( ! str_contains( $existing_class, 'current-menu-item' ) ) {
-			$processor->set_attribute(
-				'class',
-				trim( $existing_class . ' current-menu-item' )
-			);
-		}
+	if ( ! str_contains( $existing_class, 'current-menu-item' ) ) {
+		$processor->set_attribute(
+			'class',
+			trim( $existing_class . ' current-menu-item' )
+		);
+	}
 
-		return $processor->get_updated_html();
-	},
-	10,
-	2
-);
+	return $processor->get_updated_html();
+}
 
 /**
  * Whether the Resume page is the current request. The pattern uses this to
