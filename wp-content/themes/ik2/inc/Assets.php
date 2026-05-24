@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
 add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 add_action( 'enqueue_block_assets', __NAMESPACE__ . '\\enqueue_theme_stylesheet' );
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
 
 /**
  * Enqueue the theme's front-end JS bundle and dashicons.
@@ -69,4 +70,32 @@ function enqueue_theme_stylesheet(): void {
 
 	// Lets WordPress inline the stylesheet inside the block editor iframe.
 	wp_style_add_data( 'ik2', 'path', $style_path );
+}
+
+/**
+ * Enqueue the shared editor previews script so server-rendered theme blocks
+ * have a `ServerSideRender`-backed edit component in the site editor.
+ */
+function enqueue_block_editor_previews(): void {
+	$script_path = __DIR__ . '/../assets/js/block-editor-previews.js';
+	$asset_path  = __DIR__ . '/../assets/js/block-editor-previews.asset.php';
+
+	if ( ! file_exists( $script_path ) ) {
+		return;
+	}
+
+	$asset = file_exists( $asset_path )
+		? require $asset_path
+		: array(
+			'dependencies' => array(),
+			'version'      => (string) filemtime( $script_path ),
+		);
+
+	wp_enqueue_script(
+		'ik2-block-editor-previews',
+		get_theme_file_uri( 'assets/js/block-editor-previews.js' ),
+		$asset['dependencies'] ?? array(),
+		$asset['version'] ?? (string) filemtime( $script_path ),
+		true
+	);
 }
