@@ -1,14 +1,13 @@
 /**
  * IK2 — Articles filters (Interactivity API view module).
  *
- * Provides a synchronous `navigate` action used by the format pills.
+ * Provides a synchronous `navigate` action used by the archive filter pills.
  * It calls `preventDefault` on the click event and hands the link's
  * href to the core router, which fetches the new page and swaps the
  * matching `data-wp-router-region` in place — no full reload.
  *
- * Topic pills are plain `<a>` links with no IAPI directive, so they
- * navigate normally and the whole page reloads (the archive context
- * itself changes, so a real navigation is honest).
+ * The shared `ik-articles` router region includes both the archive
+ * header and the grid, so topic and format changes can update in place.
  */
 import { store, getElement, withSyncEvent } from '@wordpress/interactivity';
 

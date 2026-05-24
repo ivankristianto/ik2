@@ -5,9 +5,8 @@
  * Detects the current archive context (page-articles, category, tag,
  * or other) from the queried object, then renders two pill rows:
  *
- *   - Topic pills: plain `<a href>` links that switch archive context.
- *   - Format pills: same links plus the IAPI router action so the
- *     grid swaps in place without a full reload.
+ *   - Topic pills: IAPI router links that switch archive context.
+ *   - Format pills: same router navigation while preserving topic/tag context.
  *
  * Pretty URLs only — no query strings. URLs are generated to preserve
  * the other active dimension where possible (e.g. clicking a topic
@@ -187,6 +186,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<a
 				class="ik-articles-filters__pill<?php echo $is_current ? ' is-active' : ''; ?>"
 				href="<?php echo esc_url( $href ); ?>"
+				data-wp-on--click="actions.navigate"
 				<?php echo $is_current ? 'aria-current="true"' : ''; ?>
 			><?php echo esc_html( $label ); ?></a>
 		<?php endforeach; ?>

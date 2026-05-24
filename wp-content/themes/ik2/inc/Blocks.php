@@ -11,8 +11,11 @@ namespace IK2\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
-const ARTICLES_QUERY_ID = 42;
-const ARCHIVE_QUERY_ID  = 43;
+const ARTICLES_PAGE_SLUG = 'articles';
+const ARTICLES_QUERY_ID  = 42;
+const ARCHIVE_QUERY_ID   = 43;
+const FORMAT_SLUGS       = array( 'guide', 'note', 'experiment' );
+const REWRITE_VERSION    = 2;
 
 add_action(
 	'init',
@@ -56,28 +59,18 @@ add_filter(
 			return $query;
 		}
 
-		$allowed_formats = array( 'guide', 'note', 'experiment' );
-		$format          = (string) get_query_var( 'format', '' );
+		$format = (string) get_query_var( 'format', '' );
 
-		if ( '' === $format || ! in_array( $format, $allowed_formats, true ) ) {
+		if ( ! ik2_is_valid_format( $format ) ) {
 			return $query;
 		}
 
-		$existing_tax_query = isset( $query['tax_query'] ) && is_array( $query['tax_query'] )
-			? $query['tax_query']
-			: array();
-
-		$existing_tax_query[] = array(
-			'taxonomy' => 'category',
-			'field'    => 'slug',
-			'terms'    => array( $format ),
+		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		$query['tax_query'] = ik2_append_format_tax_query(
+			isset( $query['tax_query'] ) && is_array( $query['tax_query'] ) ? $query['tax_query'] : array(),
+			$format
 		);
-
-		if ( count( $existing_tax_query ) > 1 && ! isset( $existing_tax_query['relation'] ) ) {
-			$existing_tax_query['relation'] = 'AND';
-		}
-
-		$query['tax_query'] = $existing_tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 
 		return $query;
 	},
@@ -111,10 +104,9 @@ add_action(
 			return;
 		}
 
-		$allowed_formats = array( 'guide', 'note', 'experiment' );
-		$format          = (string) $wp_query->get( 'format', '' );
+		$format = (string) $wp_query->get( 'format', '' );
 
-		if ( '' === $format || ! in_array( $format, $allowed_formats, true ) ) {
+		if ( ! ik2_is_valid_format( $format ) ) {
 			return;
 		}
 
@@ -123,17 +115,7 @@ add_action(
 			$existing_tax_query = array();
 		}
 
-		$existing_tax_query[] = array(
-			'taxonomy' => 'category',
-			'field'    => 'slug',
-			'terms'    => array( $format ),
-		);
-
-		if ( count( $existing_tax_query ) > 1 && ! isset( $existing_tax_query['relation'] ) ) {
-			$existing_tax_query['relation'] = 'AND';
-		}
-
-		$wp_query->set( 'tax_query', $existing_tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		$wp_query->set( 'tax_query', ik2_append_format_tax_query( $existing_tax_query, $format ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 	}
 );
 
@@ -156,6 +138,13 @@ add_action(
 			'tag'      => isset( $wp->query_vars['tag'] ) ? (string) $wp->query_vars['tag'] : '',
 			'format'   => isset( $wp->query_vars['format'] ) ? (string) $wp->query_vars['format'] : '',
 		);
+
+		if (
+			ARTICLES_PAGE_SLUG === (string) ( $wp->query_vars['pagename'] ?? '' ) &&
+			isset( $wp->query_vars['paged'] )
+		) {
+			$_GET[ 'query-' . ARTICLES_QUERY_ID . '-page' ] = (string) $wp->query_vars['paged']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
 	}
 );
 
@@ -205,13 +194,33 @@ add_action(
 	'init',
 	static function (): void {
 		add_rewrite_rule(
+			'^articles/format/([^/]+)/page/([0-9]+)/?$',
+			'index.php?pagename=articles&format=$matches[1]&paged=$matches[2]',
+			'top'
+		);
+		add_rewrite_rule(
 			'^articles/format/([^/]+)/?$',
 			'index.php?pagename=articles&format=$matches[1]',
 			'top'
 		);
 		add_rewrite_rule(
+			'^articles/page/([0-9]+)/?$',
+			'index.php?pagename=articles&paged=$matches[1]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^category/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
+			'index.php?category_name=$matches[1]&format=$matches[2]&paged=$matches[3]',
+			'top'
+		);
+		add_rewrite_rule(
 			'^category/([^/]+)/format/([^/]+)/?$',
 			'index.php?category_name=$matches[1]&format=$matches[2]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^tag/([^/]+)/format/([^/]+)/page/([0-9]+)/?$',
+			'index.php?tag=$matches[1]&format=$matches[2]&paged=$matches[3]',
 			'top'
 		);
 		add_rewrite_rule(
@@ -223,6 +232,99 @@ add_action(
 );
 
 /**
+ * Flush rewrite rules once after deploys that change the archive routes.
+ */
+add_action(
+	'init',
+	static function (): void {
+		if ( (int) get_option( 'ik2_rewrite_version', 0 ) >= REWRITE_VERSION ) {
+			return;
+		}
+
+		flush_rewrite_rules( false );
+		update_option( 'ik2_rewrite_version', REWRITE_VERSION );
+	},
+	20
+);
+
+/**
+ * Rewrite the custom articles Query Loop pagination links to clean permalinks.
+ *
+ * The block core still renders query-string pagination for non-inherited
+ * queries. We keep the loop as-is but swap the generated hrefs to the
+ * matching pretty route, then let the rewrite rules above map those routes
+ * back to the loop's page query var.
+ *
+ * @param string        $content Rendered block HTML.
+ * @param array<mixed> $block Parsed block data.
+ * @return string
+ */
+add_filter(
+	'render_block_core/query',
+	static function ( string $content, array $block ): string {
+		$query_id = isset( $block['attrs']['queryId'] ) ? (int) $block['attrs']['queryId'] : 0;
+
+		if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
+			return $content;
+		}
+
+		$page_key = 'query-' . $query_id . '-page';
+		if ( ! str_contains( $content, $page_key ) ) {
+			return $content;
+		}
+
+		$processor = new \WP_HTML_Tag_Processor( $content );
+
+		while ( $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
+			$href = $processor->get_attribute( 'href' );
+
+			if ( ! is_string( $href ) || '' === $href ) {
+				continue;
+			}
+
+			$page = ik2_extract_query_loop_page_from_href( $href, $page_key );
+
+			if ( null === $page ) {
+				continue;
+			}
+
+			$processor->set_attribute( 'href', ik2_build_archive_pagination_url( $page ) );
+		}
+
+		return $processor->get_updated_html();
+	},
+	10,
+	2
+);
+
+/**
+ * Keep the Articles page canonical aligned with the active format/paged route.
+ *
+ * @param string   $url  Canonical URL computed by core.
+ * @param \WP_Post $post Post being canonicalized.
+ * @return string
+ */
+add_filter(
+	'get_canonical_url',
+	static function ( string $url, $post ): string {
+		if ( ! $post instanceof \WP_Post || ARTICLES_PAGE_SLUG !== $post->post_name || ! is_page( ARTICLES_PAGE_SLUG ) ) {
+			return $url;
+		}
+
+		$format = (string) get_query_var( 'format', '' );
+		$page   = max( 1, (int) get_query_var( 'paged', 1 ) );
+
+		if ( 1 === $page && ! ik2_is_valid_format( $format ) ) {
+			return $url;
+		}
+
+		return ik2_build_archive_pagination_url( $page );
+	},
+	10,
+	2
+);
+
+/**
  * Flush rewrite rules once when the theme is activated so the new
  * rules above register with the rewrite cache.
  */
@@ -230,5 +332,96 @@ add_action(
 	'after_switch_theme',
 	static function (): void {
 		flush_rewrite_rules();
+		update_option( 'ik2_rewrite_version', REWRITE_VERSION );
 	}
 );
+
+/**
+ * Check whether the format slug is one the archive UI supports.
+ *
+ * @param string $format Candidate format slug.
+ * @return bool
+ */
+function ik2_is_valid_format( string $format ): bool {
+	return '' !== $format && in_array( $format, FORMAT_SLUGS, true );
+}
+
+/**
+ * AND the format category onto an existing tax query array.
+ *
+ * @param array<int|string,mixed> $tax_query Existing tax query clauses.
+ * @param string                  $format    Valid format slug.
+ * @return array<int|string,mixed>
+ */
+function ik2_append_format_tax_query( array $tax_query, string $format ): array {
+	$tax_query[] = array(
+		'taxonomy' => 'category',
+		'field'    => 'slug',
+		'terms'    => array( $format ),
+	);
+
+	if ( count( $tax_query ) > 1 && ! isset( $tax_query['relation'] ) ) {
+		$tax_query['relation'] = 'AND';
+	}
+
+	return $tax_query;
+}
+
+/**
+ * Build the clean archive URL for the current context and page number.
+ *
+ * @param int $page Target page number.
+ * @return string
+ */
+function ik2_build_archive_pagination_url( int $page ): string {
+	$context = ik2_get_archive_context();
+	$parts   = array();
+
+	if ( '' !== $context['category'] ) {
+		$parts[] = 'category';
+		$parts[] = rawurlencode( $context['category'] );
+	} elseif ( '' !== $context['tag'] ) {
+		$parts[] = 'tag';
+		$parts[] = rawurlencode( $context['tag'] );
+	} else {
+		$parts[] = ARTICLES_PAGE_SLUG;
+	}
+
+	if ( '' !== $context['format'] && ik2_is_valid_format( $context['format'] ) ) {
+		$parts[] = 'format';
+		$parts[] = rawurlencode( $context['format'] );
+	}
+
+	if ( $page > 1 ) {
+		$parts[] = 'page';
+		$parts[] = (string) $page;
+	}
+
+	return home_url( '/' . implode( '/', $parts ) . '/' );
+}
+
+/**
+ * Read the requested custom Query Loop page out of a generated href.
+ *
+ * @param string $href     Pagination href.
+ * @param string $page_key Query-string key to extract.
+ * @return ?int
+ */
+function ik2_extract_query_loop_page_from_href( string $href, string $page_key ): ?int {
+	$query = wp_parse_url( $href, PHP_URL_QUERY );
+
+	if ( ! is_string( $query ) || '' === $query ) {
+		return null;
+	}
+
+	$args = array();
+	wp_parse_str( $query, $args );
+
+	if ( ! isset( $args[ $page_key ] ) ) {
+		return array_key_exists( 'cst', $args ) ? 1 : null;
+	}
+
+	$page = (int) $args[ $page_key ];
+
+	return $page > 0 ? $page : null;
+}

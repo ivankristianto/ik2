@@ -17,9 +17,11 @@
 >
 <!-- /wp:html -->
 
+	<!-- wp:pattern {"slug":"ik2/archive-header"} /-->
+
 	<!-- wp:ik2/articles-filters {} /-->
 
-	<!-- wp:query {"queryId":43,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"className":"ik-articles-archive__query"} -->
+	<!-- wp:query {"queryId":43,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"enhancedPagination":true,"className":"ik-articles-archive__query"} -->
 	<div class="wp-block-query ik-articles-archive__query">
 
 		<!-- wp:post-template {"className":"ik-articles-grid"} -->
