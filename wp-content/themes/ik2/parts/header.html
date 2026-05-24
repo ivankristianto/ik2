@@ -1,1 +1,41 @@
-<!-- wp:pattern {"slug":"ik2/header"} /-->
+<!-- wp:group {"metadata":{"patternName":"ik2/header","name":"Header","description":"Site header with wordmark, primary navigation, command palette trigger and Resume CTA.","categories":["header"]},"className":"ik-header","layout":{"type":"default"}} -->
+<div class="wp-block-group ik-header">
+	<!-- wp:group {"className":"container-full ik-header__row","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group container-full ik-header__row">
+		<!-- wp:site-title {"level":0,"className":"ik-wordmark"} /-->
+
+		<!-- wp:group {"className":"ik-header__right","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+		<div class="wp-block-group ik-header__right">
+			<!-- wp:navigation {"ref":5,"className":"ik-header__nav","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left"}} /-->
+
+			<!-- wp:html -->
+			<button
+				type="button"
+				class="ik-header__cmd"
+				aria-label="Open command palette"
+				aria-keyshortcuts="Meta+K Control+K"
+			>
+				<span>Search</span>
+				<kbd>⌘K</kbd>
+			</button>
+			<!-- /wp:html -->
+
+			<!-- wp:buttons {"className":"ik-header__resume-wrap"} -->
+			<div class="wp-block-buttons ik-header__resume-wrap">
+				<!-- wp:button {"className":"ik-header__resume"} -->
+				<div class="wp-block-button ik-header__resume">
+					<a
+						class="wp-block-button__link wp-element-button"
+						href="/resume"
+						>Resume</a
+					>
+				</div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+		</div>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
+</div>
+<!-- /wp:group -->

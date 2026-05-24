@@ -134,6 +134,10 @@ When in doubt, widen margins instead of adding a shadow; tighten type instead of
 5. For the WP theme: prefer block templates (`templates/*.html`, `parts/*.html`) over PHP templates. PHP goes in `inc/` under the `IK2\Theme` namespace.
 6. If you add a token, add it to **all** of `design-system/colors_and_type.css`, `design-system/theme.json`, **and** `wp-content/themes/ik2/theme.json`.
 
+## PHP conventions
+
+- **Prefer named functions and class methods over anonymous closures and arrow functions.** Hook callbacks (`add_action` / `add_filter`), `auth_callback`, `sanitize_callback`, and non-trivial `usort` / `array_map` / `array_filter` callbacks should be named static methods on the registering class — pass `[ self::class, 'method_name' ]`. Local closures inside `render.php` / template files should be namespaced functions in the same file. Named callables show up in stack traces, can be removed by `remove_action` / `remove_filter`, and are easier to test.
+
 ## When the user asks to "add a plugin"
 
 ```bash

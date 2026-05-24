@@ -1,149 +1,80 @@
-@use 'tokens' as *;
+@use "tokens" as *;
 
 .ik-footer {
 	color: $color-graphite;
 	font-size: $size-sm;
 	border-top: 1px solid $color-line;
+	padding-top: $space-8;
+	padding-bottom: $space-6;
 }
 
-.ik-footer__columns {
-	gap: $space-7;
-
-	// Brand sits left, link clusters sit right — pushes the whitespace into the
-	// middle of the row, which reads as a deliberate masthead rather than
-	// orphaned dead space at the right edge.
-	@media (min-width: 782px) {
-		justify-content: space-between;
-	}
-
-	.wp-block-column.ik-footer__brand {
-		flex: 0 1 360px;
-	}
-
-	.wp-block-column.ik-footer__col {
-		flex: 0 0 auto;
-		min-width: 160px;
-	}
-}
-
-.ik-footer__brand .ik-wordmark {
-	font-size: $size-md;
-	margin-bottom: $space-4;
-}
-
-// Prose, not signal — sans body, not mono. Mono is reserved for metadata
-// (the handle below, dates, tags, code).
-.ik-footer__tagline {
-	max-width: 34ch;
-	color: $color-graphite;
-	margin: 0 0 $space-3;
-	line-height: 1.55;
-}
-
-.ik-footer__handle {
-	font-family: $font-mono;
-	font-size: $size-xs;
-	color: $color-graphite;
-	margin: 0 0 $space-5;
-	letter-spacing: 0.01em;
-}
-
-.ik-footer__social {
-	display: flex;
-	gap: $space-2;
-
-	a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 44px;
-		height: 44px;
-		border-radius: $radius-sm;
-		color: $color-graphite;
-		text-decoration: none;
-		border: 1px solid transparent;
-		transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
-	}
-
-	svg {
-		width: 18px;
-		height: 18px;
-	}
-}
-
-.ik-footer__col {
-
-	h3 {
-		font-size: $size-xs;
-		font-family: $font-mono;
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: $color-ink;
-		margin: 0 0 $space-4;
-	}
-
-	ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	a {
-		display: block;
-		padding: $space-2 0;
-		color: $color-graphite;
-		text-decoration: none;
-		transition: color 200ms ease;
-	}
-}
-
-.ik-footer__bottom {
-	margin-top: $space-7;
-	padding-top: $space-4;
-	border-top: 1px solid $color-line;
-	color: $color-graphite;
-	font-family: $font-mono;
-	font-size: $size-xs;
+// Scoped under `.ik-footer` so this beats the per-block layout class WP
+// injects (`.wp-container-core-group-is-layout-…`), which sets
+// `align-items: center` at the same specificity.
+.ik-footer .ik-footer__bottom {
+	align-items: center;
 	gap: $space-4;
+	color: $color-graphite;
+	font-family: $font-mono;
+	font-size: $size-xs;
 
 	p {
 		margin: 0;
 	}
 
-	// On mobile the row wraps; flip the order so the meta links sit
-	// above the copyright (which becomes the very last line).
+	// Mobile: stack with copyright as the last line, left-aligned so the
+	// rhythm matches the reading column above.
 	@media (max-width: 600px) {
 		flex-direction: column-reverse;
 		align-items: flex-start;
 		gap: $space-3;
-		margin-top: $space-6;
 	}
 }
 
-.ik-footer__meta {
-	display: flex;
-	gap: $space-5;
+.ik-footer__copy {
+	letter-spacing: 0.01em;
+	// Keep the year range together so "2010–2026" never wraps mid-range.
+	white-space: nowrap;
+}
 
-	a {
-		display: inline-block;
-		padding: $space-2 0;
+// The footer navigation is pulled from a wp_navigation post and renders as
+// the standard navigation block. Restyle its items to read as quiet meta
+// links — mono, graphite, with the single Terracotta accent on hover.
+.ik-footer__meta.wp-block-navigation {
+	font-size: $size-xs;
+
+	.wp-block-navigation__container {
+		gap: $space-5;
+		row-gap: $space-2;
+	}
+
+	.wp-block-navigation-item__content {
+		font-family: $font-mono;
 		color: $color-graphite;
+		padding: $space-2 0;
 		text-decoration: none;
 		transition: color 200ms ease;
 	}
-}
 
-.ik-footer__social a:hover {
-	color: $color-ink;
-	background-color: $color-surface;
-	border-color: $color-line;
-}
+	.wp-block-navigation-item__content:hover {
+		color: $color-signal;
+	}
 
-.ik-footer__col a:hover,
-.ik-footer__meta a:hover {
-	color: $color-signal;
+	// The wp_navigation post sets the social-link color to Terracotta via an
+	// inline `style` on each <li>. That paints five saturated icons across
+	// this single row — well past the "≤10% accent per screen" rule. Pin
+	// the icons to Graphite by setting color on the descendant <a>, which
+	// wins over the inherited inline color without !important.
+	.wp-block-social-links {
+		gap: $space-3;
+	}
+
+	.wp-block-social-link .wp-block-social-link-anchor {
+		color: $color-graphite;
+		transition: color 200ms ease;
+	}
+
+	.wp-block-social-link .wp-block-social-link-anchor:hover {
+		color: $color-signal;
+	}
 }
