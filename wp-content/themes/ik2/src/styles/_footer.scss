@@ -21,6 +21,7 @@
 }
 
 .ik-footer__brand .ik-wordmark {
+	font-size: $size-md;
 	margin-bottom: $space-3;
 }
 
@@ -33,7 +34,7 @@
 
 .ik-footer__handle {
 	font-family: $font-mono;
-	color: $color-dust;
+	color: $color-graphite;
 	margin: 0 0 $space-4;
 }
 
@@ -45,8 +46,8 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 32px;
-		height: 32px;
+		width: 40px;
+		height: 40px;
 		border-radius: $radius-sm;
 		color: $color-graphite;
 		text-decoration: none;
@@ -58,20 +59,14 @@
 		width: 18px;
 		height: 18px;
 	}
-
-	.dashicons {
-		width: 18px;
-		height: 18px;
-		font-size: 18px;
-		line-height: 1;
-	}
 }
 
 .ik-footer__col {
 
-	h4 {
+	h2 {
 		font-size: $size-xs;
 		font-family: $font-mono;
+		font-weight: 500;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: $color-ink;
@@ -98,7 +93,7 @@
 	margin-top: $space-8;
 	padding-top: $space-5;
 	border-top: 1px solid $color-line;
-	color: $color-dust;
+	color: $color-graphite;
 	font-family: $font-mono;
 	font-size: $size-xs;
 	gap: $space-4;
@@ -120,7 +115,7 @@
 	gap: $space-4;
 
 	a {
-		color: $color-dust;
+		color: $color-graphite;
 		text-decoration: none;
 		transition: color 200ms ease;
 	}
@@ -129,7 +124,7 @@
 .ik-footer__social a:hover {
 	opacity: 1;
 	color: $color-ink;
-	background: $color-paper;
+	background: $color-surface;
 }
 
 .ik-footer__col a:hover {
@@ -138,4 +133,8 @@
 
 .ik-footer__meta a:hover {
 	color: $color-ink;
+}
+
+.ik-footer__col a:focus-visible {
+	outline-offset: 2px;
 }
