@@ -3,6 +3,7 @@
 .ik-header {
 	background: $color-paper;
 	border-bottom: 1px solid $color-line;
+	padding-block: $space-5;
 }
 
 .ik-header__row {
@@ -105,15 +106,230 @@
 	min-width: 44px;
 	min-height: 44px;
 	padding: $space-2;
+	touch-action: manipulation;
 }
 
 @media (max-width: 768px) {
+
+	.ik-header {
+		padding-block: $space-4;
+	}
+
+	.ik-header__row {
+		gap: $space-3;
+	}
+
+	.ik-header__right {
+		gap: $space-2;
+	}
+
+	.ik-header__nav {
+		font-size: $size-md;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-open,
+	.ik-header .wp-block-navigation__responsive-container-close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: $space-2;
+		width: auto;
+		height: 44px;
+		border: 1px solid $color-line;
+		border-radius: $radius-md;
+		background: $color-surface;
+		color: $color-ink;
+		padding-inline: $space-3;
+		transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+		touch-action: manipulation;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-open:hover,
+	.ik-header .wp-block-navigation__responsive-container-close:hover {
+		border-color: $color-rule;
+		background: $color-soft-paper;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-open svg,
+	.ik-header .wp-block-navigation__responsive-container-close svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-open::after,
+	.ik-header .wp-block-navigation__responsive-container-close::after {
+		font-family: $font-mono;
+		font-size: $size-xs;
+		line-height: 1;
+		color: currentcolor;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-open::after {
+		content: 'menu';
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-close::after {
+		content: 'close';
+	}
 
 	.ik-header__cmd {
 		display: none;
 	}
 
-	.ik-header__nav {
-		font-size: $size-md;
+	.ik-header__resume .wp-block-button__link {
+		min-height: 44px;
+		padding-inline: $space-3;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container {
+		padding: 0;
+		background: rgba(23, 23, 23, 0.35);
+	}
+
+	.ik-header .wp-block-navigation__responsive-close {
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-start;
+		min-height: 100%;
+		padding: 0;
+	}
+
+	.ik-header .wp-block-navigation__responsive-dialog {
+		position: relative;
+		width: 85%;
+		height: 100dvh;
+		max-height: 100dvh;
+		margin: 0;
+		margin-left: auto;
+		padding: $space-5;
+		background: $color-surface;
+		border: none;
+		border-left: 1px solid $color-line;
+		border-radius: 0;
+		box-shadow: none;
+		display: grid;
+		grid-template-rows: auto 1fr;
+		grid-template-columns: 1fr auto;
+		transform: translateX(100%);
+		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: transform;
+		overflow: auto;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-dialog {
+		transform: translateX(0);
+	}
+
+	.ik-header .wp-block-navigation__responsive-dialog::before {
+		content: 'Browse the site';
+		grid-column: 1;
+		grid-row: 1;
+		align-self: end;
+		margin-right: 0;
+		margin-bottom: 0;
+		text-indent: $space-4;
+		padding-bottom: $space-3;
+		border-bottom: 1px solid $color-line;
+		color: $color-dust;
+		font-family: $font-mono;
+		font-size: $size-xs;
+		line-height: 1.4;
+	}
+
+	.ik-header .wp-block-navigation__responsive-dialog .wp-block-navigation__responsive-container-close {
+		position: static;
+		grid-column: 2;
+		grid-row: 1;
+		align-self: end;
+		justify-self: end;
+		margin-bottom: $space-3;
+		background: transparent;
+		border-color: transparent;
+		color: $color-graphite;
+		padding-inline: $space-2;
+		transition: color 200ms ease;
+	}
+
+	.ik-header .wp-block-navigation__responsive-dialog .wp-block-navigation__responsive-container-close:hover {
+		color: $color-ink;
+		background: transparent;
+		border-color: transparent;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		display: flex;
+		align-items: flex-start;
+		padding-top: $space-5;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content ul.wp-block-navigation__container.is-responsive.ik-header__nav.wp-block-navigation.wp-block-navigation__container.is-responsive {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		width: 100%;
+		height: auto;
+		align-self: flex-start;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item {
+		width: 100%;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item + .wp-block-navigation-item {
+		border-top: 1px solid $color-line;
+	}
+
+	// The final three links are about Ivan rather than content browsing, so
+	// the menu gives them a quieter second group instead of one flat list.
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(4) {
+		margin-top: $space-3;
+		padding-top: $space-3;
+		border-top-color: $color-rule;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(4)::before {
+		content: 'About Ivan';
+		display: block;
+		margin-bottom: $space-3;
+		text-indent: $space-4;
+		color: $color-dust;
+		font-family: $font-mono;
+		font-size: $size-xs;
+		line-height: 1.4;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		min-height: 56px;
+		padding: $space-3 $space-4;
+		font-size: $size-lg;
+		line-height: 1.2;
+		letter-spacing: -0.01em;
+		font-weight: 500;
+		border-radius: $radius-sm;
+		transition: background-color 200ms ease, color 200ms ease;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content:hover {
+		background: $color-soft-paper;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content[aria-current='page'],
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content.current-menu-item {
+		color: $color-signal-deep;
+		background: $color-signal-soft;
+		font-weight: 600;
+		text-decoration: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.ik-header .wp-block-navigation__responsive-dialog {
+		transition: none;
 	}
 }
