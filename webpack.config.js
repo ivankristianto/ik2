@@ -6,8 +6,9 @@ const defaultEntries =
 		? defaultConfig.entry()
 		: defaultConfig.entry || {};
 
-module.exports = {
+const themeConfig = {
 	...defaultConfig,
+	name: 'theme',
 	entry: {
 		...defaultEntries,
 		index: path.resolve( __dirname, 'wp-content/themes/ik2/src/index.js' ),
@@ -18,3 +19,17 @@ module.exports = {
 		path: path.resolve( __dirname, 'wp-content/themes/ik2/build' ),
 	},
 };
+
+const pluginConfig = {
+	...defaultConfig,
+	name: 'plugin-ik2',
+	entry: {
+		editor: path.resolve( __dirname, 'wp-content/plugins/ik2/src/editor.js' ),
+	},
+	output: {
+		...defaultConfig.output,
+		path: path.resolve( __dirname, 'wp-content/plugins/ik2/build' ),
+	},
+};
+
+module.exports = [ themeConfig, pluginConfig ];

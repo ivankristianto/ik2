@@ -2,14 +2,17 @@
 /vendor/
 /node_modules/
 
-# Composer-managed WordPress plugins (declared in composer.json instead)
+# Composer-managed WordPress plugins (declared in composer.json instead).
+# The first-party `ik2` plugin is whitelisted below.
 /wp-content/plugins/*
 !/wp-content/plugins/.gitkeep
+!/wp-content/plugins/ik2/
 /wp-content/mu-plugins/*
 !/wp-content/mu-plugins/.gitkeep
 
 # Build output
 /wp-content/themes/*/build/
+/wp-content/plugins/*/build/
 
 # WordPress core's bundled default themes (seeded from the WP image, not our code)
 /wp-content/themes/twenty*

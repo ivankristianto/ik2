@@ -4,12 +4,15 @@
 
     <file>wp-content/themes/ik2</file>
     <file>wp-content/mu-plugins</file>
+    <file>wp-content/plugins/ik2</file>
 
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
     <exclude-pattern>*/build/*</exclude-pattern>
-    <!-- Third-party plugins are managed by composer (wpackagist) — never lint them. -->
-    <exclude-pattern>*/wp-content/plugins/*</exclude-pattern>
+    <!-- Third-party plugins are managed by composer (wpackagist) — never lint them.
+         The first-party `ik2` plugin is included via the explicit <file> above. -->
+    <exclude-pattern>*/wp-content/plugins/create-block-theme/*</exclude-pattern>
+    <exclude-pattern>*/wp-content/plugins/query-monitor/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
