@@ -25,6 +25,7 @@ services:
     volumes:
       - wp-html:/var/www/html
       - ./wp-content/themes:/var/www/html/wp-content/themes
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./vendor:/var/www/html/vendor
       - uploads:/var/www/html/wp-content/uploads
@@ -42,6 +43,7 @@ services:
     volumes:
       - wp-html:/var/www/html:ro
       - ./wp-content/themes:/var/www/html/wp-content/themes:ro
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins:ro
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
       - ./vendor:/var/www/html/vendor:ro
       - uploads:/var/www/html/wp-content/uploads:ro
@@ -81,6 +83,7 @@ services:
     volumes:
       - wp-html:/var/www/html
       - ./wp-content/themes:/var/www/html/wp-content/themes
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./vendor:/var/www/html/vendor
       - uploads:/var/www/html/wp-content/uploads
