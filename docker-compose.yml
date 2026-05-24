@@ -1,6 +1,13 @@
 name: ik2org
 
 services:
+    uploads-init:
+        image: busybox:1.36
+        command: ['sh', '-c', 'mkdir -p /uploads && chown -R 82:82 /uploads']
+        volumes:
+            - uploads:/uploads
+        restart: 'no'
+
     app:
         build:
             context: .
@@ -34,6 +41,8 @@ services:
         depends_on:
             db:
                 condition: service_healthy
+            uploads-init:
+                condition: service_completed_successfully
         restart: unless-stopped
 
     nginx:
@@ -74,7 +83,7 @@ services:
     # `docker compose exec` into it for an interactive shell with `wp` on PATH.
     wp-cli:
         image: wordpress:cli-php8.5
-        user: '33:33'
+        user: '82:82'
         environment:
             WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${DB_USER:-wordpress}
@@ -90,6 +99,8 @@ services:
         depends_on:
             db:
                 condition: service_healthy
+            uploads-init:
+                condition: service_completed_successfully
             app:
                 condition: service_started
         entrypoint: ['sh', '-c']

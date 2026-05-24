@@ -8,6 +8,13 @@
 name: ik2org-prod
 
 services:
+    uploads-init:
+        image: busybox:1.36
+        command: ['sh', '-c', 'mkdir -p /uploads && chown -R 82:82 /uploads']
+        volumes:
+            - uploads:/uploads
+        restart: 'no'
+
     app:
         image: ghcr.io/ivankristianto/ik2org-app:latest
         environment:
@@ -36,6 +43,9 @@ services:
             NONCE_SALT: ${NONCE_SALT}
         volumes:
             - uploads:/var/www/html/wp-content/uploads
+        depends_on:
+            uploads-init:
+                condition: service_completed_successfully
         restart: unless-stopped
 
     nginx:
@@ -51,7 +61,7 @@ services:
 
     wp-cli:
         image: wordpress:cli-php8.5
-        user: '33:33'
+        user: '82:82'
         environment:
             WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -60,7 +70,10 @@ services:
         volumes:
             - uploads:/var/www/html/wp-content/uploads
         depends_on:
-            - app
+            uploads-init:
+                condition: service_completed_successfully
+            app:
+                condition: service_started
         entrypoint: ['sh', '-c']
         command: ['tail -f /dev/null']
         tty: true
