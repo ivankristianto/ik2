@@ -71,8 +71,12 @@ function register(): void {
 				'custom-fields',
 			),
 			'template'            => array(
-				array( 'core/heading', array( 'placeholder' => __( 'Project overview', 'ik2' ) ) ),
-				array( 'core/paragraph' ),
+				array(
+					'core/pattern',
+					array(
+						'slug' => 'ik2/project-post-structure',
+					),
+				),
 			),
 		)
 	);
