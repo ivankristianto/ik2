@@ -33,7 +33,8 @@
 
 # MCP / tooling state
 .serena/
-.claude/
+.claude/*
+!.claude/memory/
 
 # Logs
 *.log

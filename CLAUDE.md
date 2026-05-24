@@ -117,6 +117,7 @@ These are enforced by the design brief (see `design-system/README.md` and `SKILL
 -   **System fonts only.** Do not add a `@font-face` or load a webfont unless the user asks.
 -   **No shadows** beyond `--shadow-sm` (card hover) and `--shadow-md` (modal/palette). No gradients, no glassmorphism, no grain, no marketing-style hero imagery.
 -   **No emoji in chrome.** Body content is the writer's call.
+-   **No `!important`.** Fix specificity, source order, or the markup instead of forcing overrides.
 -   **Focus-visible is non-negotiable**: `2px solid var(--color-accent)`, `outline-offset: 3px`.
 -   **Sentence case** for body and most UI; tags in lowercase; dates in monospace (e.g. `July 8, 2020`).
 -   **Article max-width 720px**; container 1080px; full-bleed chrome 1280px.
@@ -145,6 +146,10 @@ Never download a plugin zip into `wp-content/plugins/`. That directory is gitign
 ## Voice (matters for any copy you write into mocks)
 
 First-person, working-engineer, conversational. "I use Cloudflare CDN…", not "We are delighted to announce." Straight quotes, no em-dash flourishes, no exclamation marks unless something genuinely deserves one. CTAs are verb-first with no period: **Browse Guides**, **Read more**, **Subscribe via RSS**.
+
+## Memory
+
+Project-specific memory lives in `.claude/memory/`. The index is `.claude/memory/MEMORY.md` — read it at the start of each session and consult individual files when relevant. When saving new memories for this project, write them to `.claude/memory/`, not to the global memory store.
 
 ## Skill packaging
 
