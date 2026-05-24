@@ -8,24 +8,15 @@
  * @package IK2
  */
 
-$ik2_post_count = (int) wp_count_posts( 'post' )->publish;
 ?>
 <!-- wp:group {"className":"ik-articles-archive__head","layout":{"type":"default"}} -->
 <header class="wp-block-group ik-articles-archive__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-	<p class="ik-section__eyebrow">
-		<?php
-		printf(
-			/* translators: %d: number of posts */
-			esc_html__( '// ARTICLES  ·  %d POSTS  ·  GUIDES, NOTES, EXPERIMENTS, LINKS', 'ik2' ),
-			$ik2_post_count // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		);
-		?>
-	</p>
+	<p class="ik-section__eyebrow"><?php esc_html_e( '// ARTICLES  ·  GUIDES, NOTES, EXPERIMENTS, LINKS', 'ik2' ); ?></p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-articles-archive__title"} -->
-	<h1 class="wp-block-heading ik-articles-archive__title"><?php esc_html_e( 'Everything I&rsquo;ve written', 'ik2' ); ?></h1>
+	<h1 class="wp-block-heading ik-articles-archive__title"><?php esc_html_e( "Everything I've written", 'ik2' ); ?></h1>
 	<!-- /wp:heading -->
 
 	<!-- wp:paragraph {"className":"ik-articles-archive__lede"} -->
