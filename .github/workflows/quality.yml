@@ -37,7 +37,7 @@ jobs:
               run: composer install --prefer-dist --no-progress --no-interaction
 
             - name: PHPCS — WordPress Coding Standards
-              run: composer lint -- --report=checkstyle | cs2pr
+              run: composer lint -- --report=checkstyle -q | cs2pr
 
             - name: PHPStan — static analysis
               run: composer analyse -- --error-format=github
