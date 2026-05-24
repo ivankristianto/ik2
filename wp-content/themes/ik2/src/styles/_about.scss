@@ -122,10 +122,12 @@
 	font-size: $size-sm;
 	color: $color-dust;
 	letter-spacing: 0.02em;
+	margin: 0;
 }
 
 .ik-about__timeline-what {
 	color: $color-ink;
+	margin: 0;
 }
 
 .ik-about__elsewhere {
@@ -159,9 +161,14 @@
 	display: flex;
 	gap: $space-3;
 	flex-wrap: wrap;
+
+	.wp-block-button {
+		margin: 0;
+	}
 }
 
-.ik-btn {
+.ik-btn,
+.ik-about__elsewhere-actions .wp-block-button__link {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -177,27 +184,33 @@
 	cursor: pointer;
 }
 
-.ik-btn--primary {
+.ik-btn--primary,
+.wp-block-button.ik-btn--primary > .wp-block-button__link {
 	background: $color-signal;
 	color: $color-paper;
 	border-color: $color-signal;
-
-	&:hover,
-	&:focus-visible {
-		background: $color-signal-deep;
-		border-color: $color-signal-deep;
-		color: $color-paper;
-	}
 }
 
-.ik-btn--secondary {
+.ik-btn--secondary,
+.wp-block-button.ik-btn--secondary > .wp-block-button__link {
 	background: $color-surface;
 	color: $color-ink;
 	border-color: $color-line;
+}
 
-	&:hover,
-	&:focus-visible {
-		background: $color-soft-paper;
-		border-color: $color-rule;
-	}
+.ik-btn--secondary:hover,
+.ik-btn--secondary:focus-visible,
+.wp-block-button.ik-btn--secondary > .wp-block-button__link:hover,
+.wp-block-button.ik-btn--secondary > .wp-block-button__link:focus-visible {
+	background: $color-soft-paper;
+	border-color: $color-rule;
+}
+
+.ik-btn--primary:hover,
+.ik-btn--primary:focus-visible,
+.wp-block-button.ik-btn--primary > .wp-block-button__link:hover,
+.wp-block-button.ik-btn--primary > .wp-block-button__link:focus-visible {
+	background: $color-signal-deep;
+	border-color: $color-signal-deep;
+	color: $color-paper;
 }
