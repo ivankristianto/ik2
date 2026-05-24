@@ -26,10 +26,10 @@ $ik2_guide_term_id = $ik2_guide_term instanceof WP_Term ? (int) $ik2_guide_term-
 				<!-- wp:query {"queryId":1,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","taxQuery":{"category":[<?php echo absint( $ik2_guide_term_id ); ?>]},"inherit":false}} -->
 				<div class="wp-block-query">
 					<!-- wp:post-template {"className":"ik-guides-list"} -->
-						<!-- wp:group {"className":"ik-guide","layout":{"type":"constrained"}} -->
+						<!-- wp:group {"className":"ik-guide","layout":{"type":"default"}} -->
 						<article class="wp-block-group ik-guide">
 							<!-- wp:post-date {"className":"ik-guide__date","format":"F j, Y"} /-->
-							<!-- wp:group {"className":"ik-guide__body","layout":{"type":"constrained"}} -->
+							<!-- wp:group {"className":"ik-guide__body","layout":{"type":"default"}} -->
 							<div class="wp-block-group ik-guide__body">
 								<!-- wp:post-title {"isLink":true,"level":3,"className":"ik-guide__title"} /-->
 								<!-- wp:post-excerpt {"className":"ik-guide__excerpt","excerptLength":24} /-->

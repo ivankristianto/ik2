@@ -58,6 +58,15 @@
 	counter-increment: ik-guide;
 }
 
+.ik-guide > * {
+	margin: 0;
+}
+
+.ik-guide.is-layout-flow > * {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
 .ik-guide__date {
 	display: grid;
 	gap: $space-2;
