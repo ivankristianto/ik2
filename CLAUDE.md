@@ -147,6 +147,16 @@ Never download a plugin zip into `wp-content/plugins/`. That directory is gitign
 
 First-person, working-engineer, conversational. "I use Cloudflare CDN…", not "We are delighted to announce." Straight quotes, no em-dash flourishes, no exclamation marks unless something genuinely deserves one. CTAs are verb-first with no period: **Browse Guides**, **Read more**, **Subscribe via RSS**.
 
+## Committing
+
+**Always use atomic commits.** One logical change per commit. Never bundle unrelated work into a single commit, even when several files happen to be modified at the same time.
+
+- Group by intent, not by file or directory. A template change + the SCSS that styles it is one commit; a Docker config tweak is a separate commit; an unrelated pattern fix is its own commit.
+- Stage explicitly (`git add <files>`), never `git add -A` / `git add .`. If unrelated changes share a file, split with `git add -p`.
+- Commit messages follow Conventional Commits: `type(scope): summary`. Types in use here: `feat`, `fix`, `chore`, `refactor`, `docs`, `style`, `test`, `ci`. Scope is the affected area (`theme`, `single`, `articles`, `compose`, `ci`, etc.). Subject is imperative, lowercase, no trailing period, under ~72 chars.
+- One commit should ideally pass lint/build on its own. If a commit needs a follow-up to compile, the split is wrong — fold them, or restructure the changes.
+- Untracked debug artifacts (screenshots, dumps, `artifacts/`) are never committed without an explicit ask.
+
 ## Memory
 
 Project-specific memory lives in `.claude/memory/`. The index is `.claude/memory/MEMORY.md` — read it at the start of each session and consult individual files when relevant. When saving new memories for this project, write them to `.claude/memory/`, not to the global memory store.
