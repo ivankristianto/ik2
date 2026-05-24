@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/not-found",
+	"version": "1.0.0",
+	"title": "Not Found",
+	"category": "theme",
+	"description": "The 404 page content used by the theme template.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false,
+		"multiple": false,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}

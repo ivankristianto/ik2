@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/home-latest-notes",
+	"version": "1.0.0",
+	"title": "Home Latest Notes",
+	"category": "theme",
+	"description": "Homepage section for latest notes and the /now sidebar.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false,
+		"multiple": false,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}

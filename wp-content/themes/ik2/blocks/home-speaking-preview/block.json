@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/home-speaking-preview",
+	"version": "1.0.0",
+	"title": "Home Speaking Preview",
+	"category": "theme",
+	"description": "Homepage section previewing recent talks.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false,
+		"multiple": false,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}

@@ -25,6 +25,12 @@
 	const BLOCKS = [
 		'ik2/articles-filters',
 		'ik2/contact-channels',
+		'ik2/home-evergreen-guides',
+		'ik2/home-featured-topics',
+		'ik2/home-hero',
+		'ik2/home-latest-notes',
+		'ik2/home-speaking-preview',
+		'ik2/not-found',
 		'ik2/projects-archive',
 		'ik2/resume-experience',
 		'ik2/resume-skills',
