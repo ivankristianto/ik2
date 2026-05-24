@@ -7,7 +7,9 @@
  *
  * Provides a Sidebar panel that lets the editor curate which Projects show
  * on the homepage by selecting from the list of published Project CPT entries.
- * Up to three picks are shown, in the chosen order.
+ * Up to four picks are shown, in the chosen order. The front end always
+ * renders an even count (2 or 4); odd picks are padded up with the latest
+ * non-curated projects.
  *
  * @param {Object} wp The global WordPress namespace exposed by core.
  */
@@ -90,7 +92,7 @@
 			} ) )
 		);
 
-		const slots = [ 0, 1, 2 ];
+		const slots = [ 0, 1, 2, 3 ];
 		const current = Array.isArray( value ) ? value : [];
 
 		const setSlot = ( index, idStr ) => {
@@ -232,7 +234,7 @@
 						Notice,
 						{ status: 'info', isDismissible: false },
 						__(
-							'No projects curated yet — pick up to three from the sidebar. Until you do, the latest three published projects will render on the front end.',
+							'No projects curated yet — pick up to four from the sidebar. The front end always shows an even count (2 or 4); odd picks are padded up with the latest projects, and an empty list falls back to the four latest.',
 							'ik2'
 						)
 				  )

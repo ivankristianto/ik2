@@ -5,7 +5,7 @@
 	"version": "2.0.0",
 	"title": "Home — Projects Preview",
 	"category": "theme",
-	"description": "Curated three-card grid of Projects shown on the homepage. The editor picks which Project IDs to feature.",
+	"description": "Curated grid of Projects shown on the homepage. The editor picks up to four Project IDs; the front end always renders an even count (2 or 4) so the 2-column grid never leaves a dangling card.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
