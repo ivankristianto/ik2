@@ -1,0 +1,93 @@
+<?php
+/**
+ * Server render for ik2/home-projects-preview.
+ *
+ * Renders a curated grid of `ik2/project-card` blocks. The editor picks the
+ * Project IDs via the block's sidebar. If no IDs are curated, the latest
+ * three published projects are shown so the homepage never goes empty.
+ *
+ * @package IK2
+ * @var array<string,mixed> $attributes
+ * @var string              $content
+ * @var WP_Block            $block
+ */
+
+declare(strict_types=1);
+
+use IK2\Plugin\PostTypes\Project;
+
+defined( 'ABSPATH' ) || exit;
+
+$ik2_eyebrow    = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '// THINGS I’VE BUILT';
+$ik2_title      = isset( $attributes['title'] ) ? (string) $attributes['title'] : 'Projects';
+$ik2_more_label = isset( $attributes['moreLabel'] ) ? (string) $attributes['moreLabel'] : 'All projects';
+
+$ik2_curated_ids = array();
+if ( isset( $attributes['projectIds'] ) && is_array( $attributes['projectIds'] ) ) {
+	foreach ( $attributes['projectIds'] as $ik2_raw_id ) {
+		$ik2_id = (int) $ik2_raw_id;
+		if ( $ik2_id > 0 ) {
+			$ik2_curated_ids[] = $ik2_id;
+		}
+	}
+}
+
+if ( ! empty( $ik2_curated_ids ) ) {
+	$ik2_project_ids = array();
+	foreach ( $ik2_curated_ids as $ik2_curated_id ) {
+		$ik2_post = get_post( $ik2_curated_id );
+		if ( $ik2_post && Project\POST_TYPE === $ik2_post->post_type && 'publish' === $ik2_post->post_status ) {
+			$ik2_project_ids[] = $ik2_curated_id;
+		}
+	}
+} else {
+	$ik2_project_ids = get_posts(
+		array(
+			'post_type'      => Project\POST_TYPE,
+			'post_status'    => 'publish',
+			'posts_per_page' => 3,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+		)
+	);
+}
+
+$ik2_wrapper_attrs = get_block_wrapper_attributes(
+	array( 'class' => 'wp-block-group ik-section ik-section--muted' )
+);
+?>
+<section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<div class="container-full">
+		<div class="ik-section__head">
+			<div>
+				<?php if ( '' !== $ik2_eyebrow ) : ?>
+					<p class="ik-section__eyebrow"><?php echo esc_html( $ik2_eyebrow ); ?></p>
+				<?php endif; ?>
+				<h2 class="wp-block-heading ik-section__title"><?php echo esc_html( $ik2_title ); ?></h2>
+			</div>
+			<p class="ik-section__more">
+				<a href="<?php echo esc_url( home_url( '/projects' ) ); ?>"><?php echo esc_html( $ik2_more_label ); ?> →</a>
+			</p>
+		</div>
+
+		<div class="ik-project-grid">
+			<?php if ( empty( $ik2_project_ids ) ) : ?>
+				<p class="ik-project__blurb"><?php esc_html_e( 'No projects published yet.', 'ik2' ); ?></p>
+			<?php else : ?>
+				<?php
+				foreach ( $ik2_project_ids as $ik2_id ) {
+					// `do_blocks` returns block-rendered HTML; each ik2/project-card
+					// already calls `esc_*` on every untrusted field internally.
+					echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						sprintf(
+							'<!-- wp:ik2/project-card {"postId":%d,"compact":true} /-->',
+							(int) $ik2_id
+						)
+					);
+				}
+				?>
+			<?php endif; ?>
+		</div>
+	</div>
+</section>

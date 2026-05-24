@@ -12,7 +12,10 @@ const themeConfig = {
 	entry: {
 		...defaultEntries,
 		index: path.resolve( __dirname, 'wp-content/themes/ik2/src/index.js' ),
-		editor: path.resolve( __dirname, 'wp-content/themes/ik2/src/editor.js' ),
+		editor: path.resolve(
+			__dirname,
+			'wp-content/themes/ik2/src/editor.js'
+		),
 	},
 	output: {
 		...defaultConfig.output,
@@ -24,7 +27,10 @@ const pluginConfig = {
 	...defaultConfig,
 	name: 'plugin-ik2',
 	entry: {
-		editor: path.resolve( __dirname, 'wp-content/plugins/ik2/src/editor.js' ),
+		editor: path.resolve(
+			__dirname,
+			'wp-content/plugins/ik2/src/editor.js'
+		),
 	},
 	output: {
 		...defaultConfig.output,

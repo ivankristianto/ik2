@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/home-projects-preview",
+	"version": "2.0.0",
+	"title": "Home — Projects Preview",
+	"category": "theme",
+	"description": "Curated three-card grid of Projects shown on the homepage. The editor picks which Project IDs to feature.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"multiple": false,
+		"align": false
+	},
+	"attributes": {
+		"projectIds": {
+			"type": "array",
+			"default": [],
+			"items": { "type": "number" }
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": "// THINGS I’VE BUILT"
+		},
+		"title": {
+			"type": "string",
+			"default": "Projects"
+		},
+		"moreLabel": {
+			"type": "string",
+			"default": "All projects"
+		}
+	},
+	"editorScript": "file:./editor.js",
+	"render": "file:./render.php"
+}

@@ -1,65 +1,65 @@
 {
-    "name": "ik2org",
-    "version": "0.1.0",
-    "description": "ivankristianto.com — WordPress site, design system, and theme assets",
-    "private": true,
-    "packageManager": "pnpm@9.12.0",
-    "engines": {
-        "node": ">=24"
-    },
-    "scripts": {
-        "start": "wp-scripts start",
-        "build": "wp-scripts build",
-        "format": "wp-scripts format",
-        "lint": "pnpm run \"/^lint:.*/\"",
-        "lint:js": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\"",
-        "lint:js:fix": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\" --fix",
-        "lint:css": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\"",
-        "lint:css:fix": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\" --fix",
-        "packages-update": "wp-scripts packages-update"
-    },
-    "devDependencies": {
-        "@wordpress/eslint-plugin": "^21.0.0",
-        "@wordpress/interactivity": "^6.0.0",
-        "@wordpress/prettier-config": "^4.0.0",
-        "@wordpress/scripts": "^30.0.0",
-        "@wordpress/stylelint-config": "^23.0.0",
-        "postcss-scss": "^4.0.9",
-        "sass": "^1.77.0"
-    },
-    "prettier": "@wordpress/prettier-config",
-    "stylelint": {
-        "extends": "@wordpress/stylelint-config",
-        "customSyntax": "postcss-scss",
-        "rules": {
-            "at-rule-no-unknown": [
-                true,
-                {
-                    "ignoreAtRules": [
-                        "use",
-                        "forward",
-                        "mixin",
-                        "include",
-                        "extend",
-                        "if",
-                        "else",
-                        "each",
-                        "for",
-                        "function",
-                        "return",
-                        "at-root",
-                        "debug",
-                        "warn",
-                        "error"
-                    ]
-                }
-            ],
-            "selector-class-pattern": [
-                "^[a-z][a-z0-9-]*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$",
-                {
-                    "message": "Expected class selector to be kebab-case BEM (block, block__element, block--modifier)"
-                }
-            ]
-        }
-    }
+	"name": "ik2org",
+	"version": "0.1.0",
+	"description": "ivankristianto.com — WordPress site, design system, and theme assets",
+	"private": true,
+	"packageManager": "pnpm@9.12.0",
+	"engines": {
+		"node": ">=24"
+	},
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint": "pnpm run \"/^lint:.*/\"",
+		"lint:js": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\"",
+		"lint:js:fix": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\" --fix",
+		"lint:css": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\"",
+		"lint:css:fix": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\" --fix",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"devDependencies": {
+		"@wordpress/eslint-plugin": "^21.0.0",
+		"@wordpress/interactivity": "^6.0.0",
+		"@wordpress/prettier-config": "^4.0.0",
+		"@wordpress/scripts": "^30.0.0",
+		"@wordpress/stylelint-config": "^23.0.0",
+		"postcss-scss": "^4.0.9",
+		"sass": "^1.77.0"
+	},
+	"prettier": "@wordpress/prettier-config",
+	"stylelint": {
+		"extends": "@wordpress/stylelint-config",
+		"customSyntax": "postcss-scss",
+		"rules": {
+			"at-rule-no-unknown": [
+				true,
+				{
+					"ignoreAtRules": [
+						"use",
+						"forward",
+						"mixin",
+						"include",
+						"extend",
+						"if",
+						"else",
+						"each",
+						"for",
+						"function",
+						"return",
+						"at-root",
+						"debug",
+						"warn",
+						"error"
+					]
+				}
+			],
+			"selector-class-pattern": [
+				"^[a-z][a-z0-9-]*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$",
+				{
+					"message": "Expected class selector to be kebab-case BEM (block, block__element, block--modifier)"
+				}
+			]
+		}
+	}
 }

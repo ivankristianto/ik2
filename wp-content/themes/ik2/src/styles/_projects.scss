@@ -1,25 +1,58 @@
 @use 'tokens' as *;
 
+/* Projects archive page — header */
+.ik-projects-archive {
+	padding-block: $space-7 $space-8;
+}
+
+.ik-projects-archive__head {
+	margin-bottom: $space-7;
+	display: flex;
+	flex-direction: column;
+	gap: $space-3;
+}
+
+.ik-projects-archive__title {
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	letter-spacing: -0.04em;
+	margin: 0;
+}
+
+.ik-projects-archive__lede {
+	max-width: $width-content;
+	color: $color-graphite;
+	font-size: $size-md;
+	line-height: 1.7;
+	margin: 0;
+}
+
+/* Grid */
 .ik-project-grid {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: $space-5;
 
-	@media (max-width: 960px) {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	@media (max-width: 600px) {
+	@media (max-width: 800px) {
 		grid-template-columns: 1fr;
+		gap: $space-4;
 	}
 }
 
+/* Card */
 .ik-project {
 	background: $color-surface;
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
-	padding: $space-5;
+	padding: $space-5 $space-6;
+	display: flex;
+	flex-direction: column;
+	gap: $space-3;
 	transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.ik-project:hover {
+	border-color: $color-rule;
+	box-shadow: $shadow-sm;
 }
 
 .ik-project__head {
@@ -27,13 +60,15 @@
 	align-items: baseline;
 	justify-content: space-between;
 	gap: $space-3;
-	margin-bottom: $space-3;
+	flex-wrap: wrap;
 }
 
 .ik-project__name {
 	font-family: $font-mono;
-	font-size: $size-md;
+	font-size: 1.375rem;
+	letter-spacing: -0.025em;
 	margin: 0;
+	font-weight: 700;
 
 	a {
 		color: $color-ink;
@@ -44,70 +79,123 @@
 .ik-project__status {
 	font-family: $font-mono;
 	font-size: $size-xs;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	padding: $space-1 $space-2;
-	border-radius: $radius-sm;
+	padding: 2px 10px;
+	border-radius: 999px;
+	letter-spacing: 0.04em;
+	border: 1px solid $color-line;
+	background: $color-paper;
 	color: $color-graphite;
-	background: $color-soft-paper;
 
-	&[data-status='building'] { color: $color-amber; background: rgba(180, 83, 9, 0.08); }
+	&[data-status='Active'] {
+		color: $color-build-green;
+		border-color: color-mix(in srgb, #{$color-build-green} 30%, transparent);
+	}
 
-	&[data-status='shipped']  { color: $color-build-green; background: rgba(21, 128, 61, 0.08); }
+	&[data-status='Experiment'] {
+		color: $color-amber;
+		border-color: color-mix(in srgb, #{$color-amber} 30%, transparent);
+	}
 
-	&[data-status='exploring']{ color: $color-signal; background: $color-signal-soft; }
+	&[data-status='Archived'] {
+		color: $color-dust;
+	}
 }
 
 .ik-project__blurb {
-	color: $color-graphite;
-	font-size: $size-sm;
-	line-height: 1.55;
-	margin: 0 0 $space-4;
+	margin: 0;
+	color: $color-ink;
+	line-height: 1.6;
 }
 
 .ik-project__tech {
 	display: flex;
 	flex-wrap: wrap;
-	gap: $space-2;
+	gap: 6px;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	color: $color-graphite;
 
-	span {
-		font-family: $font-mono;
-		font-size: $size-xs;
-		color: $color-graphite;
-		background: $color-code-paper;
-		padding: $space-1 $space-2;
-		border-radius: $radius-sm;
+	> span {
+		white-space: nowrap;
+	}
+
+	> span + span::before {
+		content: '· ';
+		color: $color-dust;
+		margin-right: 2px;
 	}
 }
 
-.ik-project:hover {
-	border-color: $color-rule;
-	box-shadow: $shadow-sm;
+.ik-project__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-4;
+	font-family: $font-mono;
+	font-size: $size-sm;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
 }
 
+/* Hover states grouped at the bottom so descending-specificity stays clean. */
 .ik-project__name a:hover {
 	color: $color-signal;
 }
 
+.ik-project__links a:hover {
+	color: $color-signal-deep;
+	text-decoration: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+}
+
+.ik-project__learned {
+	margin: 0;
+	padding-top: $space-3;
+	border-top: 1px solid $color-line;
+	font-size: 0.9375rem;
+	line-height: 1.55;
+	color: $color-graphite;
+
+	strong {
+		font-family: $font-mono;
+		font-size: $size-xs;
+		color: $color-dust;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		display: block;
+		margin-bottom: 4px;
+		font-weight: 500;
+	}
+}
+
 @media (max-width: 600px) {
 
-	.ik-project-grid {
-		gap: $space-4;
+	.ik-projects-archive {
+		padding-block: $space-5 $space-7;
+	}
+
+	.ik-projects-archive__head {
+		margin-bottom: $space-5;
 	}
 
 	.ik-project {
-		padding: $space-4;
+		padding: $space-4 $space-5;
 	}
 
 	.ik-project__head {
 		flex-direction: column;
 		align-items: flex-start;
 		gap: $space-2;
-		margin-bottom: $space-2;
 	}
 
-	.ik-project__blurb {
-		font-size: $size-xs;
-		margin-bottom: $space-3;
+	.ik-project__name {
+		font-size: 1.25rem;
+	}
+
+	.ik-project__links {
+		gap: $space-3;
 	}
 }

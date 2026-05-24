@@ -28,6 +28,7 @@ require_once __DIR__ . '/inc/Setup.php';
 require_once __DIR__ . '/inc/Assets.php';
 require_once __DIR__ . '/inc/Blocks.php';
 require_once __DIR__ . '/inc/PostTypes/Project.php';
+require_once __DIR__ . '/inc/PostTypes/ProjectData.php';
 
 register_activation_hook(
 	__FILE__,

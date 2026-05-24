@@ -7,6 +7,12 @@ parameters:
     paths:
         - wp-content/themes/ik2
         - wp-content/mu-plugins
+    scanFiles:
+        # First-party plugin: theme blocks reference its constants & functions
+        # (e.g. IK2\Plugin\PostTypes\Project\POST_TYPE). Scanning these makes
+        # the symbols resolvable without expanding our analyse paths.
+        - wp-content/plugins/ik2/inc/PostTypes/Project.php
+        - wp-content/plugins/ik2/inc/PostTypes/ProjectData.php
     excludePaths:
         - wp-content/plugins/*
         - wp-content/themes/ik2/build/*

@@ -8,64 +8,64 @@
 name: ik2org-prod
 
 services:
-  app:
-    image: ghcr.io/ivankristianto/ik2org-app:latest
-    environment:
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', '${WP_HOME}');
-        define('WP_SITEURL', '${WP_SITEURL}');
-        define('DISALLOW_FILE_EDIT', true);
-        define('DISALLOW_FILE_MODS', true);
-        define('FORCE_SSL_ADMIN', true);
-        define('WP_DEBUG', false);
-        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-            $$_SERVER['HTTPS'] = 'on';
-        }
-      AUTH_KEY: ${AUTH_KEY}
-      SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
-      LOGGED_IN_KEY: ${LOGGED_IN_KEY}
-      NONCE_KEY: ${NONCE_KEY}
-      AUTH_SALT: ${AUTH_SALT}
-      SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
-      LOGGED_IN_SALT: ${LOGGED_IN_SALT}
-      NONCE_SALT: ${NONCE_SALT}
-    volumes:
-      - uploads:/var/www/html/wp-content/uploads
-    restart: unless-stopped
+    app:
+        image: ghcr.io/ivankristianto/ik2org-app:latest
+        environment:
+            WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+            WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+            WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+            WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+            WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
+            WORDPRESS_CONFIG_EXTRA: |
+                define('WP_HOME', '${WP_HOME}');
+                define('WP_SITEURL', '${WP_SITEURL}');
+                define('DISALLOW_FILE_EDIT', true);
+                define('DISALLOW_FILE_MODS', true);
+                define('FORCE_SSL_ADMIN', true);
+                define('WP_DEBUG', false);
+                if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+                    $$_SERVER['HTTPS'] = 'on';
+                }
+            AUTH_KEY: ${AUTH_KEY}
+            SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
+            LOGGED_IN_KEY: ${LOGGED_IN_KEY}
+            NONCE_KEY: ${NONCE_KEY}
+            AUTH_SALT: ${AUTH_SALT}
+            SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
+            LOGGED_IN_SALT: ${LOGGED_IN_SALT}
+            NONCE_SALT: ${NONCE_SALT}
+        volumes:
+            - uploads:/var/www/html/wp-content/uploads
+        restart: unless-stopped
 
-  nginx:
-    image: ghcr.io/ivankristianto/ik2org-nginx:latest
-    volumes:
-      - uploads:/var/www/html/wp-content/uploads:ro
-    depends_on:
-      - app
-    restart: unless-stopped
-    labels:
-      # Traefik labels set by Dokploy — example only
-      - "traefik.enable=true"
+    nginx:
+        image: ghcr.io/ivankristianto/ik2org-nginx:latest
+        volumes:
+            - uploads:/var/www/html/wp-content/uploads:ro
+        depends_on:
+            - app
+        restart: unless-stopped
+        labels:
+            # Traefik labels set by Dokploy — example only
+            - 'traefik.enable=true'
 
-  wp-cli:
-    image: wordpress:cli-php8.5
-    user: "33:33"
-    environment:
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-    volumes:
-      - uploads:/var/www/html/wp-content/uploads
-    depends_on:
-      - app
-    entrypoint: ["sh", "-c"]
-    command: ["tail -f /dev/null"]
-    tty: true
-    stdin_open: true
-    restart: unless-stopped
+    wp-cli:
+        image: wordpress:cli-php8.5
+        user: '33:33'
+        environment:
+            WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+            WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+            WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+            WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+        volumes:
+            - uploads:/var/www/html/wp-content/uploads
+        depends_on:
+            - app
+        entrypoint: ['sh', '-c']
+        command: ['tail -f /dev/null']
+        tty: true
+        stdin_open: true
+        restart: unless-stopped
 
 volumes:
-  uploads:
+    uploads:

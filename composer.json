@@ -1,101 +1,107 @@
 {
-    "name": "ivankristianto/ik2org",
-    "description": "ivankristianto.com — personal WordPress site",
-    "type": "project",
-    "license": "proprietary",
-    "require": {
-        "php": "^8.4",
-        "composer/installers": "^2.3",
-        "wpackagist-plugin/create-block-theme": "^2.9",
-        "wpackagist-plugin/query-monitor": "^4.0"
-    },
-    "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-        "phpcsstandards/phpcsextra": "^1.2",
-        "phpstan/phpstan": "^2.0",
-        "squizlabs/php_codesniffer": "^3.10",
-        "szepeviktor/phpstan-wordpress": "^2.0",
-        "wp-coding-standards/wpcs": "^3.1"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://wpackagist.org",
-            "only": [
-                "wpackagist-plugin/*",
-                "wpackagist-theme/*"
-            ]
-        }
-    ],
-    "extra": {
-        "installer-paths": {
-            "wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
-            "wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-            "wp-content/themes/{$name}/": ["type:wordpress-theme"]
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        },
-        "sort-packages": true,
-        "platform": {
-            "php": "8.4"
-        }
-    },
-    "scripts": {
-        "lint": "phpcs",
-        "lint:fix": "phpcbf",
-        "analyse": "phpstan analyse --memory-limit=1G",
-        "quality": [
-            "@lint",
-            "@analyse"
-        ],
-        "dev": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose up -d",
-            "@php -r \"echo PHP_EOL . '  WordPress  → http://localhost:8080' . PHP_EOL . '  Logs       → composer dev:logs' . PHP_EOL . PHP_EOL;\""
-        ],
-        "dev:build": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose up -d --build"
-        ],
-        "dev:down": "docker compose down",
-        "dev:reset": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose down -v",
-            "docker compose up -d --build"
-        ],
-        "dev:logs": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose logs -f"
-        ],
-        "dev:shell": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose exec app sh"
-        ],
-        "dev:wp": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose exec wp-cli sh"
-        ],
-        "dev:wp:cmd": [
-            "Composer\\Config::disableProcessTimeout",
-            "docker compose exec wp-cli wp"
-        ]
-    },
-    "scripts-descriptions": {
-        "lint": "Run WordPress Coding Standards (PHPCS).",
-        "lint:fix": "Auto-fix PHPCS violations where possible.",
-        "analyse": "Run PHPStan static analysis (level 6).",
-        "quality": "Run both lint + analyse — the full PHP quality gate.",
-        "dev": "Start the local Docker dev stack (app + nginx + db) in the background.",
-        "dev:build": "Start the dev stack, rebuilding images first.",
-        "dev:down": "Stop the dev stack (preserves DB and uploads).",
-        "dev:reset": "Wipe DB + uploads, rebuild, and start fresh.",
-        "dev:logs": "Tail logs from all running services.",
-        "dev:shell": "Open a shell inside the running app (PHP-FPM) container.",
-        "dev:wp": "Shell into the persistent wp-cli container (interactive — run `wp ...` once inside).",
-        "dev:wp:cmd": "Run a single wp-cli command from the host, e.g. `composer dev:wp:cmd -- plugin list`."
-    }
+	"name": "ivankristianto/ik2org",
+	"description": "ivankristianto.com — personal WordPress site",
+	"type": "project",
+	"license": "proprietary",
+	"require": {
+		"php": "^8.4",
+		"composer/installers": "^2.3",
+		"wpackagist-plugin/create-block-theme": "^2.9",
+		"wpackagist-plugin/query-monitor": "^4.0"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcsstandards/phpcsextra": "^1.2",
+		"phpstan/phpstan": "^2.0",
+		"squizlabs/php_codesniffer": "^3.10",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://wpackagist.org",
+			"only": [
+				"wpackagist-plugin/*",
+				"wpackagist-theme/*"
+			]
+		}
+	],
+	"extra": {
+		"installer-paths": {
+			"wp-content/plugins/{$name}/": [
+				"type:wordpress-plugin"
+			],
+			"wp-content/mu-plugins/{$name}/": [
+				"type:wordpress-muplugin"
+			],
+			"wp-content/themes/{$name}/": [
+				"type:wordpress-theme"
+			]
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"sort-packages": true,
+		"platform": {
+			"php": "8.4"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"analyse": "phpstan analyse --memory-limit=1G",
+		"quality": [
+			"@lint",
+			"@analyse"
+		],
+		"dev": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose up -d",
+			"@php -r \"echo PHP_EOL . '  WordPress  → http://localhost:8080' . PHP_EOL . '  Logs       → composer dev:logs' . PHP_EOL . PHP_EOL;\""
+		],
+		"dev:build": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose up -d --build"
+		],
+		"dev:down": "docker compose down",
+		"dev:reset": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose down -v",
+			"docker compose up -d --build"
+		],
+		"dev:logs": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose logs -f"
+		],
+		"dev:shell": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose exec app sh"
+		],
+		"dev:wp": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose exec wp-cli sh"
+		],
+		"dev:wp:cmd": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker compose exec wp-cli wp"
+		]
+	},
+	"scripts-descriptions": {
+		"lint": "Run WordPress Coding Standards (PHPCS).",
+		"lint:fix": "Auto-fix PHPCS violations where possible.",
+		"analyse": "Run PHPStan static analysis (level 6).",
+		"quality": "Run both lint + analyse — the full PHP quality gate.",
+		"dev": "Start the local Docker dev stack (app + nginx + db) in the background.",
+		"dev:build": "Start the dev stack, rebuilding images first.",
+		"dev:down": "Stop the dev stack (preserves DB and uploads).",
+		"dev:reset": "Wipe DB + uploads, rebuild, and start fresh.",
+		"dev:logs": "Tail logs from all running services.",
+		"dev:shell": "Open a shell inside the running app (PHP-FPM) container.",
+		"dev:wp": "Shell into the persistent wp-cli container (interactive — run `wp ...` once inside).",
+		"dev:wp:cmd": "Run a single wp-cli command from the host, e.g. `composer dev:wp:cmd -- plugin list`."
+	}
 }
