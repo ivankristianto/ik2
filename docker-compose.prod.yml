@@ -33,14 +33,16 @@ services:
                 if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
                     $$_SERVER['HTTPS'] = 'on';
                 }
-            AUTH_KEY: ${AUTH_KEY}
-            SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
-            LOGGED_IN_KEY: ${LOGGED_IN_KEY}
-            NONCE_KEY: ${NONCE_KEY}
-            AUTH_SALT: ${AUTH_SALT}
-            SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
-            LOGGED_IN_SALT: ${LOGGED_IN_SALT}
-            NONCE_SALT: ${NONCE_SALT}
+            # WordPress reads the WORDPRESS_-prefixed names (via
+            # wp-config-docker.php); bare AUTH_KEY etc. were silently ignored.
+            WORDPRESS_AUTH_KEY: ${WORDPRESS_AUTH_KEY}
+            WORDPRESS_SECURE_AUTH_KEY: ${WORDPRESS_SECURE_AUTH_KEY}
+            WORDPRESS_LOGGED_IN_KEY: ${WORDPRESS_LOGGED_IN_KEY}
+            WORDPRESS_NONCE_KEY: ${WORDPRESS_NONCE_KEY}
+            WORDPRESS_AUTH_SALT: ${WORDPRESS_AUTH_SALT}
+            WORDPRESS_SECURE_AUTH_SALT: ${WORDPRESS_SECURE_AUTH_SALT}
+            WORDPRESS_LOGGED_IN_SALT: ${WORDPRESS_LOGGED_IN_SALT}
+            WORDPRESS_NONCE_SALT: ${WORDPRESS_NONCE_SALT}
         volumes:
             - uploads:/var/www/html/wp-content/uploads
         depends_on:
