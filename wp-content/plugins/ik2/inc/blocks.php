@@ -15,7 +15,12 @@ use const IK2\Plugin\PLUGIN_DIR;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', __NAMESPACE__ . '\\register_block_types' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\register_block_types' );
+}
 
 /**
  * Register every block whose `block.json` lives under build/blocks/ or blocks/.

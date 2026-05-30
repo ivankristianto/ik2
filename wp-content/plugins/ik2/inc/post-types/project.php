@@ -13,8 +13,13 @@ defined( 'ABSPATH' ) || exit;
 
 const POST_TYPE = 'project';
 
-add_action( 'init', __NAMESPACE__ . '\\register' );
-add_action( 'init', __NAMESPACE__ . '\\register_meta_fields' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\register' );
+	add_action( 'init', __NAMESPACE__ . '\\register_meta_fields' );
+}
 
 /**
  * Register the `project` post type.

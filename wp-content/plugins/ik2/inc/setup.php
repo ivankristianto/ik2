@@ -7,11 +7,18 @@
 
 declare(strict_types=1);
 
-namespace IK2\Plugin;
+namespace IK2\Plugin\Setup;
+
+use const IK2\Plugin\PLUGIN_FILE;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', __NAMESPACE__ . '\\load_textdomain' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\load_textdomain' );
+}
 
 /**
  * Load the plugin text domain from /languages.

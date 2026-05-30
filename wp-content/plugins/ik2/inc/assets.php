@@ -16,7 +16,12 @@ use const IK2\Plugin\PLUGIN_FILE;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_assets' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_assets' );
+}
 
 /**
  * Enqueue the plugin's block editor JS bundle when the build is present.
