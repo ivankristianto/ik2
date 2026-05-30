@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/speaking-archive",
+	"version": "1.0.0",
+	"title": "Speaking Archive",
+	"category": "theme",
+	"description": "Dated timeline of every published talk (posts in the `talk` category), newest first.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}

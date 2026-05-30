@@ -135,6 +135,129 @@
 	}
 }
 
+/* ===========================================================================
+   Speaking page (templates/page-speaking.html)
+
+   Full-width like the About page: the head prose caps at the 720 reading
+   measure, while the talks timeline and invite card span the full container.
+   The timeline reuses .ik-talks-list / .ik-talk from the home preview above.
+   =========================================================================== */
+
+.ik-speaking-archive {
+	padding-block: $space-7 $space-8;
+}
+
+.ik-speaking-archive__head {
+	margin-block: 0 $space-7;
+
+	> * {
+		max-width: $width-content;
+	}
+}
+
+.ik-speaking-archive__title {
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+	margin: $space-3 0 $space-4;
+}
+
+.ik-speaking-archive__lede {
+	font-size: $size-lg;
+	line-height: 1.7;
+	color: $color-graphite;
+	text-wrap: pretty;
+	margin: 0;
+}
+
+.ik-speaking-archive__timeline {
+	margin-bottom: $space-8;
+
+	.ik-section__eyebrow {
+		margin: 0 0 $space-4;
+	}
+}
+
+// Keep the full-width timeline rows from sprawling: the title stays on a
+// comfortable measure while the date and kind anchor the outer columns.
+.ik-speaking-archive .ik-talk__title {
+	max-width: 54ch;
+}
+
+.ik-speaking-invite {
+	margin-top: $space-9;
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	padding: $space-7;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+	gap: $space-7;
+	align-items: center;
+
+	@media (max-width: 760px) {
+		grid-template-columns: 1fr;
+		padding: $space-6;
+		gap: $space-5;
+		align-items: start;
+	}
+}
+
+.ik-speaking-invite__copy {
+	min-width: 0;
+
+	.ik-section__eyebrow {
+		margin: 0 0 $space-3;
+	}
+}
+
+.ik-speaking-invite__title {
+	font-size: clamp(1.375rem, 2.4vw, 1.625rem);
+	line-height: 1.2;
+	letter-spacing: -0.025em;
+	margin: 0 0 $space-3;
+	color: $color-ink;
+	max-width: 22ch;
+	text-wrap: balance;
+}
+
+.ik-speaking-invite__cta {
+	margin: $space-5 0 0;
+	font-size: $size-md;
+	line-height: 1.6;
+	color: $color-graphite;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
+}
+
+.ik-speaking-invite__topics {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		display: grid;
+		grid-template-columns: 1.25rem 1fr;
+		gap: $space-3;
+		align-items: start;
+		padding-block: $space-2;
+		font-size: $size-md;
+		line-height: 1.55;
+		color: $color-ink;
+
+		&::before {
+			content: '→';
+			color: $color-signal;
+			font-family: $font-mono;
+			font-size: $size-sm;
+			line-height: 1.7;
+		}
+	}
+}
+
 // Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
 .ik-speaking-layout__more a:hover {
 	text-decoration: underline;
@@ -142,4 +265,8 @@
 
 .ik-talk__title a:hover {
 	color: $color-signal;
+}
+
+.ik-speaking-invite__cta a:hover {
+	text-decoration: underline;
 }

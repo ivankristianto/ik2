@@ -34,6 +34,7 @@
 		'ik2/projects-archive',
 		'ik2/resume-experience',
 		'ik2/resume-skills',
+		'ik2/speaking-archive',
 	];
 
 	function makeEdit( name ) {
