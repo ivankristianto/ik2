@@ -59,6 +59,16 @@ RUN apk add --no-cache \
 COPY docker/php/php.ini    /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/php/www.conf   /usr/local/etc/php-fpm.d/zz-www.conf
 
+# WordPress core. The official image only populates /var/www/html at container
+# startup (via its entrypoint), so the nginx image — built FROM this one —
+# would otherwise copy a webroot with no index.php or wp-includes and 404 every
+# request. Baking core in at build time makes the image self-contained; at
+# runtime the entrypoint sees index.php and skips its core copy, but still
+# generates wp-config.php from env (that is a separate block in the entrypoint).
+RUN cp -a /usr/src/wordpress/. /var/www/html/ \
+    && rm -rf /var/www/html/wp-content/plugins/* \
+              /var/www/html/wp-content/themes/*
+
 # Composer plugins + vendor
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    /var/www/html/wp-content/plugins
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/html/wp-content/mu-plugins
