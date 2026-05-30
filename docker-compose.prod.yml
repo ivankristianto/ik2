@@ -17,6 +17,7 @@ services:
 
     app:
         image: ghcr.io/ivankristianto/ik2-app:latest
+        pull_policy: always
         environment:
             WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -52,6 +53,7 @@ services:
 
     nginx:
         image: ghcr.io/ivankristianto/ik2-nginx:latest
+        pull_policy: always
         volumes:
             - uploads:/var/www/html/wp-content/uploads:ro
         depends_on:
