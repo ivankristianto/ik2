@@ -30,7 +30,6 @@ services:
                 define('DISALLOW_FILE_EDIT', true);
                 define('DISALLOW_FILE_MODS', true);
                 define('FORCE_SSL_ADMIN', true);
-                define('WP_DEBUG', false);
                 if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
                     $$_SERVER['HTTPS'] = 'on';
                 }
@@ -61,11 +60,12 @@ services:
         restart: unless-stopped
 
     wp-cli:
-        # Runs the app image so it has identical WordPress core, theme/plugins,
-        # vendor, and the baked wp-config.php (which reads creds from env). The
-        # generic wordpress:cli image has `wp` but no install, so it cannot
-        # bootstrap WordPress. No shared code volume — stays fresh per deploy.
-        image: ghcr.io/ivankristianto/ik2-app:latest
+        # Dedicated wp-cli image (Dockerfile `cli` target): the lean
+        # wordpress:cli runtime with the same WordPress core, theme/plugins,
+        # vendor, and baked wp-config.php (reads creds from env) copied in, so it
+        # can bootstrap WordPress without reusing the php-fpm app image. No
+        # shared code volume — stays fresh per deploy.
+        image: ghcr.io/ivankristianto/ik2-cli:latest
         pull_policy: always
         user: "82:82"
         environment:

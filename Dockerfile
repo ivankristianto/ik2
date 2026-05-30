@@ -65,12 +65,6 @@ RUN apk add --no-cache \
 COPY docker/php/php.ini    /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/php/www.conf   /usr/local/etc/php-fpm.d/zz-www.conf
 
-# wp-cli — the prod wp-cli service runs this same image (it has the code +
-# wp-config), so `wp` must be on PATH. Runs as www-data, no --allow-root needed.
-RUN curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-        -o /usr/local/bin/wp \
-    && chmod +x /usr/local/bin/wp
-
 # WordPress core. The official image only populates /var/www/html at container
 # startup (via its entrypoint), so the nginx image — built FROM this one —
 # would otherwise copy a webroot with no index.php or wp-includes and 404 every
@@ -78,9 +72,9 @@ RUN curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-
 # runtime the entrypoint sees index.php and skips its core copy.
 #
 # wp-config.php is baked from the env-driven wp-config-docker.php so the image
-# is usable without the entrypoint (the wp-cli service overrides the entrypoint
-# and would otherwise have no config). The app's entrypoint sees it exists and
-# skips its own generation; all values still resolve from env at runtime.
+# is usable without the entrypoint (the `cli` image below copies this webroot
+# wholesale and would otherwise have no config). The app's entrypoint sees it
+# exists and skips its own generation; all values still resolve from env.
 RUN cp -a /usr/src/wordpress/. /var/www/html/ \
     && cp /var/www/html/wp-config-docker.php /var/www/html/wp-config.php \
     && rm -rf /var/www/html/wp-content/plugins/* \
@@ -131,3 +125,27 @@ RUN find /var/www/html/wp-content -type d -exec chmod 755 {} \; \
 # Healthcheck — PHP-FPM ping
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
     CMD php-fpm -t || exit 1
+
+
+# ---------------------------------------------------------------------------
+# Stage 4c — wp-cli (standalone, php-cli runtime)
+# ---------------------------------------------------------------------------
+# A dedicated wp-cli image so the prod wp-cli service no longer reuses the app
+# (php-fpm) image. It carries the same WordPress core / theme / plugins /
+# vendor / baked wp-config as the app — copied wholesale from `base` — but on
+# the lean wordpress:cli runtime, matching the dev wp-cli service
+# (wordpress:cli-php8.5). `wp` ships with this base image, on PATH, run as
+# www-data (uid 82), no --allow-root needed.
+FROM wordpress:cli-php8.5 AS cli
+
+USER root
+
+# Match the app's PHP runtime config so wp-cli bootstraps WordPress (and its
+# plugins/mu-plugins) identically to php-fpm.
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
+
+# Full, ready-to-run webroot (core + vendor + plugins + theme build + wp-config).
+COPY --from=base --chown=82:82 /var/www/html /var/www/html
+
+USER www-data
+WORKDIR /var/www/html
