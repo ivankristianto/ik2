@@ -59,13 +59,24 @@ RUN apk add --no-cache \
 COPY docker/php/php.ini    /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/php/www.conf   /usr/local/etc/php-fpm.d/zz-www.conf
 
+# wp-cli — the prod wp-cli service runs this same image (it has the code +
+# wp-config), so `wp` must be on PATH. Runs as www-data, no --allow-root needed.
+RUN curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+        -o /usr/local/bin/wp \
+    && chmod +x /usr/local/bin/wp
+
 # WordPress core. The official image only populates /var/www/html at container
 # startup (via its entrypoint), so the nginx image — built FROM this one —
 # would otherwise copy a webroot with no index.php or wp-includes and 404 every
 # request. Baking core in at build time makes the image self-contained; at
-# runtime the entrypoint sees index.php and skips its core copy, but still
-# generates wp-config.php from env (that is a separate block in the entrypoint).
+# runtime the entrypoint sees index.php and skips its core copy.
+#
+# wp-config.php is baked from the env-driven wp-config-docker.php so the image
+# is usable without the entrypoint (the wp-cli service overrides the entrypoint
+# and would otherwise have no config). The app's entrypoint sees it exists and
+# skips its own generation; all values still resolve from env at runtime.
 RUN cp -a /usr/src/wordpress/. /var/www/html/ \
+    && cp /var/www/html/wp-config-docker.php /var/www/html/wp-config.php \
     && rm -rf /var/www/html/wp-content/plugins/* \
               /var/www/html/wp-content/themes/*
 
