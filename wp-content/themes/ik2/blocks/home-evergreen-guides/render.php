@@ -21,11 +21,11 @@ $ik2_guides_query = new WP_Query(
 );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'container-full ik-section ik-section--muted' )
+	array( 'class' => 'ik-section ik-section--muted' )
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="ik-guides-layout">
+	<div class="container-full ik-guides-layout">
 		<div class="ik-guides-layout__intro">
 			<p class="ik-section__eyebrow"><?php esc_html_e( '// START HERE', 'ik2' ); ?></p>
 			<h2 class="wp-block-heading ik-section__title"><?php esc_html_e( 'Evergreen guides', 'ik2' ); ?></h2>
