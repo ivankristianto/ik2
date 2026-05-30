@@ -16,9 +16,9 @@ services:
                 INSTALL_XDEBUG: ${INSTALL_XDEBUG:-true}
         environment:
             WORDPRESS_DB_HOST: db
-            WORDPRESS_DB_USER: ${DB_USER:-wordpress}
-            WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
-            WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+            WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
+            WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-wordpress}
+            WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
             WORDPRESS_DEBUG: 1
             WORDPRESS_CONFIG_EXTRA: |
                 define('WP_HOME',    'http://localhost:8080');
@@ -65,9 +65,9 @@ services:
         image: mariadb:11
         environment:
             MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
-            MARIADB_DATABASE: ${DB_NAME:-wordpress}
-            MARIADB_USER: ${DB_USER:-wordpress}
-            MARIADB_PASSWORD: ${DB_PASSWORD:-wordpress}
+            MARIADB_DATABASE: ${WORDPRESS_DB_NAME:-wordpress}
+            MARIADB_USER: ${WORDPRESS_DB_USER:-wordpress}
+            MARIADB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-wordpress}
         volumes:
             - db-data:/var/lib/mysql
         ports:
@@ -86,9 +86,9 @@ services:
         user: '82:82'
         environment:
             WORDPRESS_DB_HOST: db
-            WORDPRESS_DB_USER: ${DB_USER:-wordpress}
-            WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
-            WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+            WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
+            WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-wordpress}
+            WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
         volumes:
             - wp-html:/var/www/html
             - ./wp-content/themes:/var/www/html/wp-content/themes
