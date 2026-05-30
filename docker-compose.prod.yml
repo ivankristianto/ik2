@@ -62,13 +62,19 @@ services:
             - "traefik.enable=true"
 
     wp-cli:
-        image: wordpress:cli-php8.5
+        # Runs the app image so it has identical WordPress core, theme/plugins,
+        # vendor, and the baked wp-config.php (which reads creds from env). The
+        # generic wordpress:cli image has `wp` but no install, so it cannot
+        # bootstrap WordPress. No shared code volume — stays fresh per deploy.
+        image: ghcr.io/ivankristianto/ik2-app:latest
+        pull_policy: always
         user: "82:82"
         environment:
             WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
             WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
             WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+            WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
         volumes:
             - uploads:/var/www/html/wp-content/uploads
         depends_on:
