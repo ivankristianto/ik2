@@ -11,11 +11,16 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\BlockStyles;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', __NAMESPACE__ . '\\register_callout_block_styles' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\register_callout_block_styles' );
+}
 
 /**
  * Register the three callout variants on core/group.

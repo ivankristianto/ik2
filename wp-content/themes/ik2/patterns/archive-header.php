@@ -11,7 +11,7 @@
 // Re-derive the archive term from the stashed URL context. We can't use
 // get_queried_object() because pre_get_posts appends a tax_query item for
 // the format filter, which causes WP to shift the queried term.
-$ik2_archive = \IK2\Theme\ik2_get_archive_context();
+$ik2_archive = \IK2\Theme\Blocks\ik2_get_archive_context();
 
 if ( '' !== $ik2_archive['category'] ) {
 	$ik2_term = get_term_by( 'slug', $ik2_archive['category'], 'category' );

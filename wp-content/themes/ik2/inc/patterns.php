@@ -8,11 +8,16 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\Patterns;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', __NAMESPACE__ . '\\register_pattern_categories' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\register_pattern_categories' );
+}
 
 /**
  * Register theme pattern categories used by patterns under patterns/.

@@ -34,7 +34,7 @@ function detect_context(): array {
 		'format' => '',
 	);
 
-	$stash = \IK2\Theme\ik2_get_archive_context();
+	$stash = \IK2\Theme\Blocks\ik2_get_archive_context();
 
 	if ( '' !== $stash['category'] ) {
 		$ctx['kind']  = 'category';

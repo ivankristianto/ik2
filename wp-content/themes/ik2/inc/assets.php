@@ -8,14 +8,19 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\Assets;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
-add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
-add_action( 'enqueue_block_assets', __NAMESPACE__ . '\\enqueue_theme_stylesheet' );
-add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
+	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
+	add_action( 'enqueue_block_assets', __NAMESPACE__ . '\\enqueue_theme_stylesheet' );
+	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
+}
 
 /**
  * Enqueue the theme's front-end JS bundle and dashicons.

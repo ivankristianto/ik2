@@ -30,7 +30,7 @@
 			<!-- wp:buttons {"className":"ik-header__resume-wrap"} -->
 			<div class="wp-block-buttons ik-header__resume-wrap">
 				<?php
-				$ik2_resume_is_current = \IK2\Theme\ik2_is_resume_current();
+				$ik2_resume_is_current = \IK2\Theme\Navigation\ik2_is_resume_current();
 				$ik2_resume_link_class = 'wp-block-button__link wp-element-button';
 				$ik2_resume_aria       = '';
 

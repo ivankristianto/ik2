@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,7 +17,21 @@ const ARCHIVE_QUERY_ID   = 43;
 const FORMAT_SLUGS       = array( 'guide', 'note', 'experiment' );
 const REWRITE_VERSION    = 2;
 
-add_action( 'init', __NAMESPACE__ . '\\register_theme_blocks' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'init', __NAMESPACE__ . '\\register_theme_blocks' );
+	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
+	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
+	add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
+	add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
+	add_action( 'init', __NAMESPACE__ . '\\register_archive_rewrite_rules' );
+	add_action( 'init', __NAMESPACE__ . '\\maybe_flush_rewrite_rules', 20 );
+	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\rewrite_query_loop_pagination_hrefs', 10, 2 );
+	add_filter( 'get_canonical_url', __NAMESPACE__ . '\\filter_articles_canonical_url', 10, 2 );
+	add_action( 'after_switch_theme', __NAMESPACE__ . '\\flush_rewrite_on_theme_switch' );
+}
 
 /**
  * Auto-register every block whose `block.json` lives under `blocks/<name>/`.
@@ -36,8 +50,6 @@ function register_theme_blocks(): void {
 		}
 	}
 }
-
-add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
 
 /**
  * Apply the `format` query var to the Articles and Archive Query Loops.
@@ -77,8 +89,6 @@ function filter_query_loop_format( array $query, $block ): array {
 	return $query;
 }
 
-add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
-
 /**
  * Apply the `format` query var to the main query on category/tag archives.
  *
@@ -116,8 +126,6 @@ function narrow_archive_query_by_format( $wp_query ): void {
 
 	$wp_query->set( 'tax_query', ik2_append_format_tax_query( $existing_tax_query, $format ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 }
-
-add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
 
 /**
  * Stash the URL-derived archive term so consumers can recover it after
@@ -162,8 +170,6 @@ function ik2_get_archive_context(): array {
 	);
 }
 
-add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
-
 /**
  * Register `format` as a public query var so the rewrite rules below
  * can populate it from the URL path.
@@ -175,9 +181,6 @@ function register_format_query_var( array $vars ): array {
 	$vars[] = 'format';
 	return $vars;
 }
-
-add_action( 'init', __NAMESPACE__ . '\\register_archive_rewrite_rules' );
-add_action( 'init', __NAMESPACE__ . '\\maybe_flush_rewrite_rules', 20 );
 
 /**
  * Pretty URLs for the format filter.
@@ -239,8 +242,6 @@ function maybe_flush_rewrite_rules(): void {
 	update_option( 'ik2_rewrite_version', REWRITE_VERSION );
 }
 
-add_filter( 'render_block_core/query', __NAMESPACE__ . '\\rewrite_query_loop_pagination_hrefs', 10, 2 );
-
 /**
  * Rewrite the custom articles Query Loop pagination links to clean permalinks.
  *
@@ -285,9 +286,6 @@ function rewrite_query_loop_pagination_hrefs( string $content, array $block ): s
 
 	return $processor->get_updated_html();
 }
-
-add_filter( 'get_canonical_url', __NAMESPACE__ . '\\filter_articles_canonical_url', 10, 2 );
-add_action( 'after_switch_theme', __NAMESPACE__ . '\\flush_rewrite_on_theme_switch' );
 
 /**
  * Keep the Articles page canonical aligned with the active format/paged route.

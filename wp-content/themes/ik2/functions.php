@@ -11,9 +11,12 @@ namespace IK2\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once __DIR__ . '/inc/Setup.php';
-require_once __DIR__ . '/inc/Assets.php';
-require_once __DIR__ . '/inc/Patterns.php';
-require_once __DIR__ . '/inc/Blocks.php';
-require_once __DIR__ . '/inc/BlockStyles.php';
-require_once __DIR__ . '/inc/Navigation.php';
+require_once __DIR__ . '/inc/namespace.php';
+require_once __DIR__ . '/inc/setup.php';
+require_once __DIR__ . '/inc/assets.php';
+require_once __DIR__ . '/inc/patterns.php';
+require_once __DIR__ . '/inc/blocks.php';
+require_once __DIR__ . '/inc/block-styles.php';
+require_once __DIR__ . '/inc/navigation.php';
+
+bootstrap();

@@ -7,12 +7,17 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\Setup;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'after_setup_theme', __NAMESPACE__ . '\\register_theme_supports' );
-add_action( 'init', __NAMESPACE__ . '\\register_primary_nav_menu' );
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_action( 'after_setup_theme', __NAMESPACE__ . '\\register_theme_supports' );
+	add_action( 'init', __NAMESPACE__ . '\\register_primary_nav_menu' );
+}
 
 /**
  * Declare theme supports, editor styles, and load the theme text domain.

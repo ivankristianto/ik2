@@ -11,9 +11,16 @@
 
 declare(strict_types=1);
 
-namespace IK2\Theme;
+namespace IK2\Theme\Navigation;
 
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Register hooks owned by this module.
+ */
+function bootstrap(): void {
+	add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\\mark_current_navigation_link', 10, 2 );
+}
 
 /**
  * Normalize a URL to a path with no host and no trailing slash, decoded once,
@@ -28,8 +35,6 @@ function ik2_normalize_path( string $url ): string {
 
 	return strtolower( $path );
 }
-
-add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\\mark_current_navigation_link', 10, 2 );
 
 /**
  * Inject aria-current="page" and a `current-menu-item` class on the anchor
