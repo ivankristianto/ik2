@@ -50,16 +50,11 @@ services:
 
     nginx:
         image: ghcr.io/ivankristianto/ik2-nginx:latest
-        ports:
-            - "8080:80"
         volumes:
             - uploads:/var/www/html/wp-content/uploads:ro
         depends_on:
             - app
         restart: unless-stopped
-        labels:
-            # Traefik labels set by Dokploy — example only
-            - "traefik.enable=true"
 
     wp-cli:
         # Runs the app image so it has identical WordPress core, theme/plugins,

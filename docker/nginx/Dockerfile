@@ -4,7 +4,7 @@
 # serve static assets without sharing a volume with the PHP-FPM container.
 # It is built AFTER the app image and references it via build arg.
 
-ARG APP_IMAGE=ghcr.io/ivankristianto/ik2org-app:latest
+ARG APP_IMAGE=ghcr.io/ivankristianto/ik2-app:latest
 
 FROM ${APP_IMAGE} AS app
 
