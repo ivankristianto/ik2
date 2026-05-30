@@ -8,8 +8,8 @@
 		"node": ">=24"
 	},
 	"scripts": {
-		"start": "wp-scripts start",
-		"build": "wp-scripts build",
+		"start": "wp-scripts start --config wp-content/themes/ik2/webpack.config.js",
+		"build": "wp-scripts build --config wp-content/themes/ik2/webpack.config.js",
 		"format": "wp-scripts format",
 		"lint": "pnpm run \"/^lint:.*/\"",
 		"lint:js": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\"",
