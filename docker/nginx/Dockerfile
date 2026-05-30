@@ -14,5 +14,8 @@ COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=app /var/www/html /var/www/html
 
+# Use 127.0.0.1, not localhost: localhost resolves to ::1 first, but nginx
+# listens only on IPv4 (the base image's ipv6 listener is skipped because our
+# default.conf differs from the packaged one), so localhost would 404/refuse.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget -q -O - http://localhost/healthz || exit 1
+    CMD wget -q -O - http://127.0.0.1/healthz || exit 1
