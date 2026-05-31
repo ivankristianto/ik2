@@ -1,11 +1,39 @@
 name: Build & push images
 
+# Skip rebuilds for changes that never make it into the app/nginx/cli images.
+# Denylist (paths-ignore): anything NOT listed here still triggers a build, so a
+# future build-relevant file can't be silently skipped. Build context (per the
+# Dockerfiles + .dockerignore) is: Dockerfile, docker/**, composer.json/lock,
+# package.json, pnpm-lock.yaml, .npmrc, webpack.config.js, .dockerignore and
+# wp-content/**. Use workflow_dispatch to force a build regardless of paths.
 on:
     push:
         branches: [main]
         tags: ['v*']
+        paths-ignore: &ignore
+            - '**.md' # README, CLAUDE, DESIGN, PRODUCT, docs, etc.
+            - 'docker-compose.yml' # dev orchestration, not baked into images
+            - 'docker-compose.prod.yml' # prod orchestration, not baked into images
+            - 'design-system/**' # reference/prototype kit, excluded from build context
+            - 'samples/**' # gitignored sandbox
+            - 'docs/**'
+            - 'tests/**' # not copied into the image
+            - '.github/workflows/quality.yml' # lint CI, doesn't change the image
+            - 'phpcs.xml.dist'
+            - 'phpstan.neon.dist'
+            - '.eslintrc.json'
+            - '.eslintignore'
+            - '.stylelintignore'
+            - '.editorconfig'
+            - '.env.example'
+            - '.vscode/**'
+            - '.idea/**'
+            - '.claude/**'
+            - '.serena/**'
+            - '.impeccable/**'
     pull_request:
         branches: [main]
+        paths-ignore: *ignore
     workflow_dispatch:
 
 concurrency:
