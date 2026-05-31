@@ -1,1 +1,2 @@
 - [impeccable skill: no superpowers mixing](feedback-impeccable-no-superpowers.md) — when using impeccable, do not invoke any superpowers:* skills alongside it
+- [prod cli webroot is non-volume /var/www/cli](project-cli-webroot-non-volume.md) — `VOLUME /var/www/html` shadowing on Dokploy caused the wp-cli restart loop; webroot baked off-volume to fix it
