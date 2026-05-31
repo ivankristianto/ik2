@@ -144,8 +144,20 @@ USER root
 # plugins/mu-plugins) identically to php-fpm.
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
 
-# Full, ready-to-run webroot (core + vendor + plugins + theme build + wp-config).
-COPY --from=base --chown=82:82 /var/www/html /var/www/html
+# Full, ready-to-run webroot (core + vendor + plugins + theme build + wp-config),
+# baked at a NON-volume path. wordpress:cli declares `VOLUME /var/www/html`, so
+# baking straight into the webroot would let a stale anonymous volume — which
+# Compose preserves across redeploys — shadow this build's code. Keeping the
+# canonical copy here and mirroring it in at startup keeps the cli fresh per
+# deploy regardless of how the runtime treats the volume.
+COPY --from=base --chown=82:82 /var/www/html /usr/src/html
+
+# Refresh /var/www/html from /usr/src/html on every container start.
+COPY docker/cli/docker-entrypoint.sh /usr/local/bin/ik2-cli-entrypoint.sh
+RUN chmod +x /usr/local/bin/ik2-cli-entrypoint.sh
 
 USER www-data
 WORKDIR /var/www/html
+
+ENTRYPOINT ["ik2-cli-entrypoint.sh"]
+CMD ["wp", "shell"]

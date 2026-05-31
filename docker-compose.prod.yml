@@ -87,8 +87,10 @@ services:
                 condition: service_completed_successfully
             app:
                 condition: service_started
-        entrypoint: ["sh", "-c"]
-        command: ["tail -f /dev/null"]
+        # Use the image entrypoint (ik2-cli-entrypoint.sh): it mirrors the baked
+        # webroot from /usr/src/html into /var/www/html on start, so the cli runs
+        # this deploy's code even if the inherited anonymous volume is stale.
+        command: ["tail", "-f", "/dev/null"]
         tty: true
         stdin_open: true
         restart: unless-stopped
