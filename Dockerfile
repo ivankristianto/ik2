@@ -85,9 +85,11 @@ COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/html/wp-content/mu-plugins
 COPY --from=composer-build --chown=www-data:www-data /app/vendor                /var/www/html/vendor
 
-# Theme source
-COPY --chown=www-data:www-data wp-content/themes    /var/www/html/wp-content/themes
-COPY --chown=www-data:www-data wp-content/mu-plugins /var/www/html/wp-content/mu-plugins
+# Theme source + first-party plugin (committed to this repo, unlike the
+# composer-managed third-party plugins copied above).
+COPY --chown=www-data:www-data wp-content/themes       /var/www/html/wp-content/themes
+COPY --chown=www-data:www-data wp-content/plugins/ik2  /var/www/html/wp-content/plugins/ik2
+COPY --chown=www-data:www-data wp-content/mu-plugins   /var/www/html/wp-content/mu-plugins
 
 # Built theme assets (from pnpm build)
 COPY --from=node-build --chown=www-data:www-data /app/wp-content /var/www/html/wp-content

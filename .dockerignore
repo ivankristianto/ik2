@@ -6,8 +6,13 @@
 # Dev artifacts
 node_modules
 vendor
+# Third-party plugins are composer-managed (installed at build time), so they're
+# excluded from the context — except the first-party `ik2` plugin, which is
+# committed to this repo and must be baked into the image. Its `build/` is still
+# dropped by the `**/build` rule below (the plugin guards its absence).
 /wp-content/plugins/*
 !/wp-content/plugins/.gitkeep
+!/wp-content/plugins/ik2
 
 # Build output
 **/build
