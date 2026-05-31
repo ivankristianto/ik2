@@ -66,14 +66,14 @@ services:
     wp-cli:
         # Dedicated wp-cli image (Dockerfile `cli` target): the lean
         # wordpress:cli runtime with the same WordPress core, theme/plugins,
-        # vendor, and baked wp-config.php (reads creds from env) copied in, so it
-        # can bootstrap WordPress without reusing the php-fpm app image. No
-        # shared code volume — stays fresh per deploy.
+        # mu-plugins, vendor, and baked wp-config.php (reads creds from env)
+        # copied in, so it can bootstrap WordPress without reusing the php-fpm
+        # app image.
         image: ghcr.io/ivankristianto/ik2-cli:latest
         pull_policy: always
-        # Runs as www-data (uid 82): the image seeds an 82-owned wp-content
-        # skeleton so the entrypoint can refresh the webroot without root, and
-        # `docker compose exec wp-cli wp ...` works without --allow-root.
+        # Runs as www-data (uid 82). The webroot is baked at the non-volume path
+        # /var/www/cli (WORKDIR), so `docker compose exec wp-cli wp ...` runs this
+        # deploy's code without --allow-root and without any startup file copy.
         user: "82:82"
         networks:
             - dokploy-network
@@ -83,16 +83,17 @@ services:
             WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
             WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
             WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
+        # Mount uploads under the baked webroot (NOT /var/www/html, which is an
+        # unused anonymous volume inherited from the wordpress:cli base image).
         volumes:
-            - uploads:/var/www/html/wp-content/uploads
+            - uploads:/var/www/cli/wp-content/uploads
         depends_on:
             uploads-init:
                 condition: service_completed_successfully
             app:
                 condition: service_started
-        # Use the image entrypoint (ik2-cli-entrypoint.sh): it mirrors the baked
-        # webroot from /usr/src/html into /var/www/html on start, so the cli runs
-        # this deploy's code even if the inherited anonymous volume is stale.
+        # Keep the container alive for `docker compose exec`. The inherited
+        # wordpress:cli entrypoint execs this verbatim (it is not a wp subcommand).
         command: ["tail", "-f", "/dev/null"]
         tty: true
         stdin_open: true

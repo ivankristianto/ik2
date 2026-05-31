@@ -130,14 +130,28 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 
 
 # ---------------------------------------------------------------------------
-# Stage 4c — wp-cli (standalone, php-cli runtime)
+# Stage 4c — wp-cli (standalone, self-contained, no runtime volume writes)
 # ---------------------------------------------------------------------------
 # A dedicated wp-cli image so the prod wp-cli service no longer reuses the app
 # (php-fpm) image. It carries the same WordPress core / theme / plugins /
-# vendor / baked wp-config as the app — copied wholesale from `base` — but on
-# the lean wordpress:cli runtime, matching the dev wp-cli service
-# (wordpress:cli-php8.5). `wp` ships with this base image, on PATH, run as
-# www-data (uid 82), no --allow-root needed.
+# mu-plugins / vendor / baked wp-config as the app — copied wholesale from
+# `base` — on the lean wordpress:cli runtime. `wp` ships with this base image,
+# on PATH, run as www-data (uid 82), no --allow-root needed.
+#
+# wordpress:cli inherits `VOLUME /var/www/html` from its base. ANY webroot baked
+# at that path becomes an anonymous volume at runtime that an orchestrator
+# (Dokploy/Compose) preserves across redeploys — shadowing the image with stale,
+# often root-owned content. That is what caused the earlier
+# "cp: can't create directory '.../wp-content/themes': Permission denied" restart
+# loop: a previous entrypoint tried to refresh code INSIDE that persisted volume
+# as www-data, which could not write into a root-owned wp-content. No amount of
+# build-time seeding fixes an ALREADY-persisted volume.
+#
+# Fix: never use the volume path for code. The webroot lives at /var/www/cli
+# (NOT a volume); wp runs from there; only wp-content/uploads is a mounted
+# volume. Nothing is written into a volume at startup, so there is no permission
+# problem and the cli always runs THIS build's code, fresh per deploy. The
+# inherited /var/www/html anonymous volume is left empty and unused.
 FROM wordpress:cli-php8.5 AS cli
 
 USER root
@@ -147,28 +161,14 @@ USER root
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
 
 # Full, ready-to-run webroot (core + vendor + plugins + theme build + wp-config),
-# baked at a NON-volume path. wordpress:cli declares `VOLUME /var/www/html`, so
-# baking straight into the webroot would let a stale anonymous volume — which
-# Compose preserves across redeploys — shadow this build's code. Keeping the
-# canonical copy here and mirroring it in at startup keeps the cli fresh per
-# deploy regardless of how the runtime treats the volume.
-COPY --from=base --chown=82:82 /var/www/html /usr/src/html
+# baked at a NON-volume path, owned by www-data (uid 82). Pre-create
+# wp-content/uploads so the uploads volume's mountpoint exists and is
+# www-data-owned (the volume is mounted here, not at /var/www/html).
+COPY --from=base --chown=82:82 /var/www/html /var/www/cli
+RUN mkdir -p /var/www/cli/wp-content/uploads \
+    && chown -R 82:82 /var/www/cli
 
-# Pre-create the writable webroot skeleton owned by www-data. The uploads volume
-# mounts at /var/www/html/wp-content/uploads; if wp-content didn't already exist
-# in the (anonymous) webroot volume, Docker would create that parent as root and
-# the www-data entrypoint couldn't populate it. Seeding it here keeps the
-# entrypoint — and `docker compose exec wp ...` — running as www-data (uid 82),
-# no root or --allow-root needed.
-RUN mkdir -p /var/www/html/wp-content/uploads \
-    && chown -R 82:82 /var/www/html
-
-# Refresh /var/www/html from /usr/src/html on every container start (as www-data).
-COPY docker/cli/docker-entrypoint.sh /usr/local/bin/ik2-cli-entrypoint.sh
-RUN chmod +x /usr/local/bin/ik2-cli-entrypoint.sh
-
+# Run as www-data (uid 82) from the baked, non-volume webroot. The inherited
+# wordpress:cli entrypoint (prepends `wp` to wp-cli subcommands) is reused as-is.
 USER www-data
-WORKDIR /var/www/html
-
-ENTRYPOINT ["ik2-cli-entrypoint.sh"]
-CMD ["wp", "shell"]
+WORKDIR /var/www/cli
