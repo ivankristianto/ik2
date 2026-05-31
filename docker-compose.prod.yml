@@ -71,9 +71,10 @@ services:
         # shared code volume — stays fresh per deploy.
         image: ghcr.io/ivankristianto/ik2-cli:latest
         pull_policy: always
-        # No `user:` override — the entrypoint starts as root to refresh the
-        # webroot and fix ownership of the root-created wp-content mount parent,
-        # then drops to www-data (uid 82) via su-exec to run wp.
+        # Runs as www-data (uid 82): the image seeds an 82-owned wp-content
+        # skeleton so the entrypoint can refresh the webroot without root, and
+        # `docker compose exec wp-cli wp ...` works without --allow-root.
+        user: "82:82"
         networks:
             - dokploy-network
         environment:
