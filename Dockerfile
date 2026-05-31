@@ -140,6 +140,9 @@ FROM wordpress:cli-php8.5 AS cli
 
 USER root
 
+# su-exec lets the root entrypoint drop to www-data after fixing up the webroot.
+RUN apk add --no-cache su-exec
+
 # Match the app's PHP runtime config so wp-cli bootstraps WordPress (and its
 # plugins/mu-plugins) identically to php-fpm.
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
@@ -152,11 +155,12 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
 # deploy regardless of how the runtime treats the volume.
 COPY --from=base --chown=82:82 /var/www/html /usr/src/html
 
-# Refresh /var/www/html from /usr/src/html on every container start.
+# Refresh /var/www/html from /usr/src/html on every container start. Runs as
+# root (so it can own the root-created wp-content mount parent), then drops to
+# www-data via su-exec to run wp.
 COPY docker/cli/docker-entrypoint.sh /usr/local/bin/ik2-cli-entrypoint.sh
 RUN chmod +x /usr/local/bin/ik2-cli-entrypoint.sh
 
-USER www-data
 WORKDIR /var/www/html
 
 ENTRYPOINT ["ik2-cli-entrypoint.sh"]
