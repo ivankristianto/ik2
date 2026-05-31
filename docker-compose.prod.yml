@@ -18,6 +18,8 @@ services:
     app:
         image: ghcr.io/ivankristianto/ik2-app:latest
         pull_policy: always
+        networks:
+            - dokploy-network
         environment:
             WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -53,6 +55,8 @@ services:
     nginx:
         image: ghcr.io/ivankristianto/ik2-nginx:latest
         pull_policy: always
+        networks:
+            - dokploy-network
         volumes:
             - uploads:/var/www/html/wp-content/uploads:ro
         depends_on:
@@ -68,6 +72,8 @@ services:
         image: ghcr.io/ivankristianto/ik2-cli:latest
         pull_policy: always
         user: "82:82"
+        networks:
+            - dokploy-network
         environment:
             WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -86,6 +92,13 @@ services:
         tty: true
         stdin_open: true
         restart: unless-stopped
+
+networks:
+    # Dokploy's shared network. The Dokploy-managed MySQL service
+    # (e.g. ik2-db-a3zfgl) lives here; services must join it to resolve
+    # the DB host. Verify the name on the host: `docker network ls`.
+    dokploy-network:
+        external: true
 
 volumes:
     uploads:
