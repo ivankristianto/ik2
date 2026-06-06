@@ -28,6 +28,7 @@ services:
                 define('SCRIPT_DEBUG', true);
                 define('DISABLE_WP_CRON', true);
                 define('WP_DEVELOPMENT_MODE', 'theme');
+            REDIS_SERVER: redis://redis:6379/0
             XDEBUG_MODE: ${XDEBUG_MODE:-off}
         # The webroot is baked at /var/www/app (NOT /var/www/html, which is an
         # unused anonymous volume inherited from the wordpress base image).
@@ -42,6 +43,8 @@ services:
             - 'host.docker.internal:host-gateway'
         depends_on:
             db:
+                condition: service_healthy
+            redis:
                 condition: service_healthy
             uploads-init:
                 condition: service_completed_successfully
@@ -61,6 +64,17 @@ services:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
         depends_on:
             - app
+        restart: unless-stopped
+
+    # Object cache backend for wp-redis. No persistence volume on purpose —
+    # it's a cache; a restart just starts cold.
+    redis:
+        image: redis:7-alpine
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            interval: 10s
+            timeout: 3s
+            retries: 6
         restart: unless-stopped
 
     db:
@@ -84,13 +98,20 @@ services:
     # Persistent wp-cli container — stays running so `composer dev:wp` can
     # `docker compose exec` into it for an interactive shell with `wp` on PATH.
     wp-cli:
-        image: wordpress:cli-php8.5
+        # Built from this repo's `cli` target (not the stock wordpress:cli
+        # image) so it ships PhpRedis — cache writes/flushes from wp-cli hit
+        # the same Redis the web container reads, instead of a per-process
+        # fallback cache that would leave the web serving stale values.
+        build:
+            context: .
+            target: cli
         user: '82:82'
         environment:
             WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
             WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-wordpress}
             WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
+            REDIS_SERVER: redis://redis:6379/0
         # The base image's WORKDIR is /var/www/html (its volume path); point it
         # at the shared webroot instead so `wp` finds the install.
         working_dir: /var/www/app
