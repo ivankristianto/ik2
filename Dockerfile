@@ -22,6 +22,22 @@ RUN --mount=type=cache,target=/tmp/cache \
 # so the COPY --from=composer-build lines in the runtime stage never fail.
 RUN mkdir -p wp-content/plugins wp-content/mu-plugins
 
+# The mcp-adapter plugin carries its OWN composer.json (runtime dependency:
+# wordpress/php-mcp-schema) and bootstraps from its own vendor/autoload.php via
+# includes/Autoloader.php — without it the plugin bails out with an admin notice
+# and registers nothing. The top-level install above places the plugin but does
+# not resolve a wordpress-plugin package's nested dependencies, so install them
+# explicitly and fail loudly if the autoloader never materialises.
+RUN --mount=type=cache,target=/tmp/cache \
+    composer install \
+        --no-dev \
+        --no-scripts \
+        --prefer-dist \
+        --ignore-platform-req=ext-* \
+        --optimize-autoloader \
+        --working-dir=wp-content/plugins/mcp-adapter \
+    && test -f wp-content/plugins/mcp-adapter/vendor/autoload.php
+
 
 # ---------------------------------------------------------------------------
 # Stage 2 — frontend build (pnpm + @wordpress/scripts)
