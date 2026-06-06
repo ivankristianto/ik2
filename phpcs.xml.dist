@@ -5,6 +5,7 @@
     <file>wp-content/themes/ik2</file>
     <file>wp-content/mu-plugins</file>
     <file>wp-content/plugins/ik2</file>
+    <file>docker/wordpress</file>
 
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
