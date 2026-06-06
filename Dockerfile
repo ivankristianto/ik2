@@ -81,36 +81,48 @@ RUN apk add --no-cache \
 COPY docker/php/php.ini    /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/php/www.conf   /usr/local/etc/php-fpm.d/zz-www.conf
 
-# WordPress core. The official image only populates /var/www/html at container
-# startup (via its entrypoint), so the nginx image — built FROM this one —
-# would otherwise copy a webroot with no index.php or wp-includes and 404 every
-# request. Baking core in at build time makes the image self-contained; at
-# runtime the entrypoint sees index.php and skips its core copy.
+# WordPress core, baked at /var/www/app — NOT /var/www/html. The wordpress base
+# image declares `VOLUME /var/www/html`, so any code baked there becomes an
+# anonymous volume at runtime that an orchestrator (Dokploy/Compose) preserves
+# across redeploys — every deploy after the first keeps serving the FIRST
+# deploy's volume snapshot instead of the new image. Same root cause (and same
+# fix) as the `cli` stage below: never put code at the volume path. The
+# inherited /var/www/html anonymous volume is left empty and unused.
+#
+# Baking core at build time (instead of the entrypoint's startup copy) also
+# keeps the image self-contained, so the nginx image — built FROM this one —
+# gets a complete webroot. The entrypoint operates on WORKDIR, sees index.php
+# there, and skips its core copy.
 #
 # wp-config.php is baked from the env-driven wp-config-docker.php so the image
 # is usable without the entrypoint (the `cli` image below copies this webroot
 # wholesale and would otherwise have no config). The app's entrypoint sees it
 # exists and skips its own generation; all values still resolve from env.
-RUN cp -a /usr/src/wordpress/. /var/www/html/ \
-    && cp /var/www/html/wp-config-docker.php /var/www/html/wp-config.php \
-    && rm -rf /var/www/html/wp-content/plugins/* \
-              /var/www/html/wp-content/themes/*
+RUN mkdir -p /var/www/app \
+    && cp -a /usr/src/wordpress/. /var/www/app/ \
+    && cp /var/www/app/wp-config-docker.php /var/www/app/wp-config.php \
+    && rm -rf /var/www/app/wp-content/plugins/* \
+              /var/www/app/wp-content/themes/* \
+    && chown www-data:www-data /var/www/app
 
 # Composer plugins + vendor
-COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    /var/www/html/wp-content/plugins
-COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/html/wp-content/mu-plugins
-COPY --from=composer-build --chown=www-data:www-data /app/vendor                /var/www/html/vendor
+COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    /var/www/app/wp-content/plugins
+COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/app/wp-content/mu-plugins
+COPY --from=composer-build --chown=www-data:www-data /app/vendor                /var/www/app/vendor
 
 # Theme source + first-party plugin (committed to this repo, unlike the
 # composer-managed third-party plugins copied above).
-COPY --chown=www-data:www-data wp-content/themes       /var/www/html/wp-content/themes
-COPY --chown=www-data:www-data wp-content/plugins/ik2  /var/www/html/wp-content/plugins/ik2
-COPY --chown=www-data:www-data wp-content/mu-plugins   /var/www/html/wp-content/mu-plugins
+COPY --chown=www-data:www-data wp-content/themes       /var/www/app/wp-content/themes
+COPY --chown=www-data:www-data wp-content/plugins/ik2  /var/www/app/wp-content/plugins/ik2
+COPY --chown=www-data:www-data wp-content/mu-plugins   /var/www/app/wp-content/mu-plugins
 
 # Built theme assets (from pnpm build)
-COPY --from=node-build --chown=www-data:www-data /app/wp-content /var/www/html/wp-content
+COPY --from=node-build --chown=www-data:www-data /app/wp-content /var/www/app/wp-content
 
-WORKDIR /var/www/html
+# The official entrypoint operates on the current directory, so pointing
+# WORKDIR at the non-volume webroot is all it takes for php-fpm + entrypoint
+# to run this build's code.
+WORKDIR /var/www/app
 
 
 # ---------------------------------------------------------------------------
@@ -137,8 +149,8 @@ COPY docker/php/dev.ini    /usr/local/etc/php/conf.d/zz-dev.ini
 FROM base AS production
 
 # Tighten filesystem permissions
-RUN find /var/www/html/wp-content -type d -exec chmod 755 {} \; \
-    && find /var/www/html/wp-content -type f -exec chmod 644 {} \;
+RUN find /var/www/app/wp-content -type d -exec chmod 755 {} \; \
+    && find /var/www/app/wp-content -type f -exec chmod 644 {} \;
 
 # Healthcheck — PHP-FPM ping
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
@@ -163,11 +175,12 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 # as www-data, which could not write into a root-owned wp-content. No amount of
 # build-time seeding fixes an ALREADY-persisted volume.
 #
-# Fix: never use the volume path for code. The webroot lives at /var/www/cli
-# (NOT a volume); wp runs from there; only wp-content/uploads is a mounted
-# volume. Nothing is written into a volume at startup, so there is no permission
-# problem and the cli always runs THIS build's code, fresh per deploy. The
-# inherited /var/www/html anonymous volume is left empty and unused.
+# Fix: never use the volume path for code. The webroot lives at /var/www/app
+# (NOT a volume, same path as the app and nginx images); wp runs from there;
+# only wp-content/uploads is a mounted volume. Nothing is written into a volume
+# at startup, so there is no permission problem and the cli always runs THIS
+# build's code, fresh per deploy. The inherited /var/www/html anonymous volume
+# is left empty and unused.
 FROM wordpress:cli-php8.5 AS cli
 
 USER root
@@ -180,11 +193,11 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
 # baked at a NON-volume path, owned by www-data (uid 82). Pre-create
 # wp-content/uploads so the uploads volume's mountpoint exists and is
 # www-data-owned (the volume is mounted here, not at /var/www/html).
-COPY --from=base --chown=82:82 /var/www/html /var/www/cli
-RUN mkdir -p /var/www/cli/wp-content/uploads \
-    && chown -R 82:82 /var/www/cli
+COPY --from=base --chown=82:82 /var/www/app /var/www/app
+RUN mkdir -p /var/www/app/wp-content/uploads \
+    && chown -R 82:82 /var/www/app
 
 # Run as www-data (uid 82) from the baked, non-volume webroot. The inherited
 # wordpress:cli entrypoint (prepends `wp` to wp-cli subcommands) is reused as-is.
 USER www-data
-WORKDIR /var/www/cli
+WORKDIR /var/www/app

@@ -29,13 +29,15 @@ services:
                 define('DISABLE_WP_CRON', true);
                 define('WP_DEVELOPMENT_MODE', 'theme');
             XDEBUG_MODE: ${XDEBUG_MODE:-off}
+        # The webroot is baked at /var/www/app (NOT /var/www/html, which is an
+        # unused anonymous volume inherited from the wordpress base image).
         volumes:
-            - wp-html:/var/www/html
-            - ./wp-content/themes:/var/www/html/wp-content/themes
-            - ./wp-content/plugins:/var/www/html/wp-content/plugins
-            - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
-            - ./vendor:/var/www/html/vendor
-            - uploads:/var/www/html/wp-content/uploads
+            - wp-html:/var/www/app
+            - ./wp-content/themes:/var/www/app/wp-content/themes
+            - ./wp-content/plugins:/var/www/app/wp-content/plugins
+            - ./wp-content/mu-plugins:/var/www/app/wp-content/mu-plugins
+            - ./vendor:/var/www/app/vendor
+            - uploads:/var/www/app/wp-content/uploads
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         depends_on:
@@ -50,12 +52,12 @@ services:
         ports:
             - '8080:80'
         volumes:
-            - wp-html:/var/www/html:ro
-            - ./wp-content/themes:/var/www/html/wp-content/themes:ro
-            - ./wp-content/plugins:/var/www/html/wp-content/plugins:ro
-            - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
-            - ./vendor:/var/www/html/vendor:ro
-            - uploads:/var/www/html/wp-content/uploads:ro
+            - wp-html:/var/www/app:ro
+            - ./wp-content/themes:/var/www/app/wp-content/themes:ro
+            - ./wp-content/plugins:/var/www/app/wp-content/plugins:ro
+            - ./wp-content/mu-plugins:/var/www/app/wp-content/mu-plugins:ro
+            - ./vendor:/var/www/app/vendor:ro
+            - uploads:/var/www/app/wp-content/uploads:ro
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
         depends_on:
             - app
@@ -89,13 +91,16 @@ services:
             WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
             WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-wordpress}
             WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
+        # The base image's WORKDIR is /var/www/html (its volume path); point it
+        # at the shared webroot instead so `wp` finds the install.
+        working_dir: /var/www/app
         volumes:
-            - wp-html:/var/www/html
-            - ./wp-content/themes:/var/www/html/wp-content/themes
-            - ./wp-content/plugins:/var/www/html/wp-content/plugins
-            - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
-            - ./vendor:/var/www/html/vendor
-            - uploads:/var/www/html/wp-content/uploads
+            - wp-html:/var/www/app
+            - ./wp-content/themes:/var/www/app/wp-content/themes
+            - ./wp-content/plugins:/var/www/app/wp-content/plugins
+            - ./wp-content/mu-plugins:/var/www/app/wp-content/mu-plugins
+            - ./vendor:/var/www/app/vendor
+            - uploads:/var/www/app/wp-content/uploads
         depends_on:
             db:
                 condition: service_healthy

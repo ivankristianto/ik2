@@ -45,8 +45,12 @@ services:
             WORDPRESS_SECURE_AUTH_SALT: ${WORDPRESS_SECURE_AUTH_SALT}
             WORDPRESS_LOGGED_IN_SALT: ${WORDPRESS_LOGGED_IN_SALT}
             WORDPRESS_NONCE_SALT: ${WORDPRESS_NONCE_SALT}
+        # Mount uploads under the baked webroot /var/www/app (NOT /var/www/html,
+        # which is an unused anonymous volume inherited from the wordpress base
+        # image — code baked there would be shadowed by a stale volume snapshot
+        # on every redeploy).
         volumes:
-            - uploads:/var/www/html/wp-content/uploads
+            - uploads:/var/www/app/wp-content/uploads
         depends_on:
             uploads-init:
                 condition: service_completed_successfully
@@ -58,7 +62,7 @@ services:
         networks:
             - dokploy-network
         volumes:
-            - uploads:/var/www/html/wp-content/uploads:ro
+            - uploads:/var/www/app/wp-content/uploads:ro
         depends_on:
             - app
         restart: unless-stopped
@@ -72,7 +76,7 @@ services:
         image: ghcr.io/ivankristianto/ik2-cli:latest
         pull_policy: always
         # Runs as www-data (uid 82). The webroot is baked at the non-volume path
-        # /var/www/cli (WORKDIR), so `docker compose exec wp-cli wp ...` runs this
+        # /var/www/app (WORKDIR), so `docker compose exec wp-cli wp ...` runs this
         # deploy's code without --allow-root and without any startup file copy.
         user: "82:82"
         networks:
@@ -86,7 +90,7 @@ services:
         # Mount uploads under the baked webroot (NOT /var/www/html, which is an
         # unused anonymous volume inherited from the wordpress:cli base image).
         volumes:
-            - uploads:/var/www/cli/wp-content/uploads
+            - uploads:/var/www/app/wp-content/uploads
         depends_on:
             uploads-init:
                 condition: service_completed_successfully
