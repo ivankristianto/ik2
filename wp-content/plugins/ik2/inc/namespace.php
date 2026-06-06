@@ -19,6 +19,7 @@ function bootstrap(): void {
 	Setup\bootstrap();
 	Assets\bootstrap();
 	Blocks\bootstrap();
+	CLI\bootstrap();
 	PostTypes\Project\bootstrap();
 
 	register_activation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_activate' );
