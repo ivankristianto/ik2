@@ -77,6 +77,13 @@ RUN apk add --no-cache \
         git \
         mariadb-client
 
+# PhpRedis — required by the wp-redis object cache drop-in; without it the
+# plugin silently falls back to a non-persistent in-process cache.
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
+
 # PHP configuration
 COPY docker/php/php.ini    /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/php/www.conf   /usr/local/etc/php-fpm.d/zz-www.conf
@@ -105,6 +112,14 @@ RUN mkdir -p /var/www/app \
               /var/www/app/wp-content/themes/* \
     && chown www-data:www-data /var/www/app
 
+# Object cache config: parse REDIS_SERVER (redis://user:pass@host:port/db) into
+# the $redis_server global wp-redis reads. Hooked into wp-config.php right after
+# its opening <?php so it runs for every request; fail the build loudly if the
+# hook didn't land.
+COPY --chown=www-data:www-data docker/wordpress/wp-config-redis.php /var/www/app/wp-config-redis.php
+RUN sed -i "1a require_once __DIR__ . '/wp-config-redis.php';" /var/www/app/wp-config.php \
+    && grep -q "wp-config-redis.php" /var/www/app/wp-config.php
+
 # Composer plugins + vendor
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    /var/www/app/wp-content/plugins
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/app/wp-content/mu-plugins
@@ -118,6 +133,18 @@ COPY --chown=www-data:www-data wp-content/mu-plugins   /var/www/app/wp-content/m
 
 # Built theme assets (from pnpm build)
 COPY --from=node-build --chown=www-data:www-data /app/wp-content /var/www/app/wp-content
+
+# Enable the wp-redis object cache drop-in. Relative symlink so it resolves in
+# every image that copies this webroot (cli, nginx) and under the dev bind
+# mount of ./wp-content/plugins. Skipped when the plugin isn't installed (e.g.
+# removed from composer.json) — WordPress treats a missing/dangling
+# object-cache.php as "no drop-in" and falls back to its internal cache.
+RUN if [ -s /var/www/app/wp-content/plugins/wp-redis/object-cache.php ]; then \
+        ln -s plugins/wp-redis/object-cache.php /var/www/app/wp-content/object-cache.php \
+        && chown -h www-data:www-data /var/www/app/wp-content/object-cache.php; \
+    else \
+        echo "wp-redis drop-in not found — skipping object-cache.php symlink"; \
+    fi
 
 # The official entrypoint operates on the current directory, so pointing
 # WORKDIR at the non-volume webroot is all it takes for php-fpm + entrypoint
@@ -188,6 +215,13 @@ USER root
 # Match the app's PHP runtime config so wp-cli bootstraps WordPress (and its
 # plugins/mu-plugins) identically to php-fpm.
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-app.ini
+
+# PhpRedis, same as the app image — so `wp redis info` / `wp cache flush`
+# operate on the real Redis backend instead of the in-process fallback.
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 # Full, ready-to-run webroot (core + vendor + plugins + theme build + wp-config),
 # baked at a NON-volume path, owned by www-data (uid 82). Pre-create
