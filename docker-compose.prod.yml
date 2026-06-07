@@ -29,6 +29,9 @@ services:
             # Object cache (wp-redis): redis://user:pass@host:port/db, parsed by
             # the baked wp-config-redis.php. Unset → wp-redis degrades gracefully.
             REDIS_SERVER: ${REDIS_SERVER:-}
+            # Explicit (matches the WP default): `wp ik2 setup` skips dev-only
+            # plugins when this is production.
+            WP_ENVIRONMENT_TYPE: production
             WORDPRESS_CONFIG_EXTRA: |
                 define('WP_HOME', '${WP_HOME}');
                 define('WP_SITEURL', '${WP_SITEURL}');
@@ -93,6 +96,7 @@ services:
             # Same Redis as the app so wp-cli cache writes/flushes hit the
             # real backend (the cli image ships PhpRedis).
             REDIS_SERVER: ${REDIS_SERVER:-}
+            WP_ENVIRONMENT_TYPE: production
         # Mount uploads under the baked webroot (NOT /var/www/html, which is an
         # unused anonymous volume inherited from the wordpress:cli base image).
         volumes:
