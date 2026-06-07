@@ -5,10 +5,6 @@ const template = readFileSync(
 	'wp-content/themes/ik2/templates/404.html',
 	'utf8'
 );
-const pattern = readFileSync(
-	'wp-content/themes/ik2/patterns/notfound.php',
-	'utf8'
-);
 
 assert.match(
 	template,
@@ -17,7 +13,7 @@ assert.match(
 );
 
 assert.doesNotMatch(
-	pattern,
+	template,
 	/<!-- wp:html -->/,
-	'Expected the notfound pattern to stop wrapping the page chrome in a Custom HTML block.'
+	'Expected the 404 template to avoid wrapping the page chrome in a Custom HTML block.'
 );

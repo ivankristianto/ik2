@@ -1,19 +1,19 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const pattern = readFileSync(
-	'wp-content/themes/ik2/patterns/articles-archive-header.php',
+const template = readFileSync(
+	'wp-content/themes/ik2/templates/page-articles.html',
 	'utf8'
 );
 
 assert.doesNotMatch(
-	pattern,
+	template,
 	/wp_count_posts\s*\(/,
-	'Expected the articles archive header pattern to avoid runtime post counts inside static block markup.'
+	'Expected the articles archive header markup to avoid runtime post counts inside static block markup.'
 );
 
 assert.doesNotMatch(
-	pattern,
+	template,
 	/&rsquo;/,
-	'Expected the articles archive header pattern to use literal punctuation in block text, not HTML entities.'
+	'Expected the articles archive header markup to use literal punctuation in block text, not HTML entities.'
 );
