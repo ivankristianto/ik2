@@ -1,0 +1,19 @@
+<?php
+/**
+ * Title: Home — Full page
+ * Slug: ik2/home-page
+ * Categories: ik2-home
+ * Block Types: core/post-content
+ * Post Types: page
+ * Description: The full homepage composition: hero, featured topics, evergreen guides, latest notes, projects, and speaking.
+ *
+ * @package IK2
+ */
+
+?>
+<!-- wp:ik2/home-hero /-->
+<!-- wp:ik2/home-featured-topics /-->
+<!-- wp:ik2/home-evergreen-guides /-->
+<!-- wp:ik2/home-latest-notes /-->
+<!-- wp:ik2/home-projects-preview /-->
+<!-- wp:ik2/home-speaking-preview /-->
