@@ -44,8 +44,26 @@ class Permalinks_Step implements Setup_Step {
 		global $wp_rewrite;
 
 		$wp_rewrite->set_permalink_structure( self::STRUCTURE );
-		flush_rewrite_rules();
 
-		return array( new Check_Result( self::STRUCTURE, true, 'set' ) );
+		// Flush in a fresh process, not in-process: plugins the plugins
+		// step activated earlier in this run were included but their init
+		// hooks never fired here, so an in-process flush_rewrite_rules()
+		// would bake rules that miss theirs (e.g. Yoast sitemaps) — and a
+		// re-run would never heal it, because the structure then matches
+		// and this branch is skipped.
+		$flush = \WP_CLI::runcommand(
+			'rewrite flush',
+			array(
+				'launch'     => true,
+				'exit_error' => false,
+				'return'     => 'all',
+			)
+		);
+
+		if ( 0 !== $flush->return_code ) {
+			return array( new Check_Result( self::STRUCTURE, false, 'set, but rewrite flush failed' ) );
+		}
+
+		return array( new Check_Result( self::STRUCTURE, true, 'set and flushed' ) );
 	}
 }
