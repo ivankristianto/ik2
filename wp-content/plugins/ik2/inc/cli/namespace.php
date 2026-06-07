@@ -27,6 +27,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/setup/class-plugins-step.php';
 	require_once __DIR__ . '/setup/class-pages-step.php';
 	require_once __DIR__ . '/setup/class-privacy-page-step.php';
+	require_once __DIR__ . '/setup/class-home-page-step.php';
 	require_once __DIR__ . '/setup/class-permalinks-step.php';
 	require_once __DIR__ . '/setup/class-timezone-step.php';
 	require_once __DIR__ . '/setup/class-date-formats-step.php';

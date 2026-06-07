@@ -12,11 +12,11 @@ namespace IK2\Plugin\CLI\Setup;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Converges the reading settings the theme expects: the front-page.html
- * block template owns the homepage (so show_on_front stays "posts"),
- * posts_per_page matches the 9-per-page articles grid, and blog_public
- * guards against the classic "cloned from staging, search engines still
- * discouraged" trap.
+ * Converges the reading settings the theme expects: posts_per_page
+ * matches the 9-per-page articles grid, and blog_public guards against
+ * the classic "cloned from staging, search engines still discouraged"
+ * trap. The front page itself (show_on_front / page_on_front) is
+ * provisioned by Home_Page_Step.
  */
 class Reading_Step extends Options_Step {
 
@@ -34,7 +34,6 @@ class Reading_Step extends Options_Step {
 	 */
 	protected function options(): array {
 		return array(
-			'show_on_front'  => 'posts',
 			'posts_per_page' => 9,
 			'blog_public'    => 1,
 		);

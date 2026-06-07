@@ -62,10 +62,12 @@ full-page composition:
      note pointing at the theme step.
    - Existing page → never touch its content (it is editorial); only
      converge the options.
-   - Converge `show_on_front = page` and `page_on_front = <id>` with the
+   - Converge `page_on_front = <id>` and `show_on_front = page` with the
      usual already-set / set notes. A `page_on_front` pointing at a
-     different published page is a deliberate choice: skip unless
-     `--force`, mirroring `Privacy_Page_Step`.
+     different published page fails the check (✗) with a note to re-run
+     with `--force`; `show_on_front` is only flipped to `page` once
+     `page_on_front` actually points at the Home page, so a bare run
+     never redirects the homepage to a page the step did not choose.
    - `page_for_posts` stays unset — `/articles` is a page with its own
      template (`page-articles.html`), there is no separate posts page.
 2. **`Reading_Step`** — drop the `show_on_front => 'posts'` pin and the

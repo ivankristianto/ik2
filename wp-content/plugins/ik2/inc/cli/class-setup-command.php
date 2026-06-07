@@ -11,6 +11,7 @@ namespace IK2\Plugin\CLI;
 
 use IK2\Plugin\CLI\Setup\Date_Formats_Step;
 use IK2\Plugin\CLI\Setup\Discussion_Step;
+use IK2\Plugin\CLI\Setup\Home_Page_Step;
 use IK2\Plugin\CLI\Setup\Object_Cache_Step;
 use IK2\Plugin\CLI\Setup\Pages_Step;
 use IK2\Plugin\CLI\Setup\Permalinks_Step;
@@ -40,7 +41,8 @@ class Setup_Command {
 	 *
 	 * Activates the ik2 theme and the composer-installed plugins, creates
 	 * the pages the theme templates link to, designates the privacy page,
-	 * converges permalinks / timezone / date formats / reading /
+	 * provisions the static Home front page, converges permalinks /
+	 * timezone / date formats / reading /
 	 * discussion / registration / site identity options, verifies the
 	 * Redis object cache, and trashes WordPress's sample content. Every
 	 * step is idempotent: state that already matches is skipped, so the
@@ -51,12 +53,13 @@ class Setup_Command {
 	 * [--force]
 	 * : Re-apply state that exists but was deliberately changed: page
 	 * title/slug/status (the page ID is preserved), a custom site title,
-	 * and a privacy page pointing at a different published page.
+	 * a privacy page pointing at a different published page, and a front
+	 * page that is unpublished or pointing at a different published page.
 	 *
 	 * [--only=<steps>]
 	 * : Comma-separated list of steps to run, e.g. --only=plugins,pages.
 	 * Case-insensitive. Valid keys: theme, plugins, pages, privacy-page,
-	 * permalinks, timezone, date-formats, reading, discussion,
+	 * home-page, permalinks, timezone, date-formats, reading, discussion,
 	 * registration, site-identity, object-cache, sample-content.
 	 *
 	 * [--skip=<steps>]
@@ -126,6 +129,7 @@ class Setup_Command {
 			new Plugins_Step(),
 			new Pages_Step(),
 			new Privacy_Page_Step(),
+			new Home_Page_Step(),
 			new Permalinks_Step(),
 			new Timezone_Step(),
 			new Date_Formats_Step(),
