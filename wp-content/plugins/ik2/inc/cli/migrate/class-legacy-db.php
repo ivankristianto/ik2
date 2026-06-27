@@ -84,7 +84,7 @@ class Legacy_DB {
 			$sql .= $this->db->prepare( ' AND ID = %d', $only_post );
 		}
 
-		$sql .= ' ORDER BY ID ASC';
+		$sql .= ' ORDER BY post_date DESC, ID DESC';
 
 		if ( $limit > 0 ) {
 			$sql .= $this->db->prepare( ' LIMIT %d', $limit );
