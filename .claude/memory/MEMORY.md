@@ -1,3 +1,4 @@
 - [impeccable skill: no superpowers mixing](feedback-impeccable-no-superpowers.md) — when using impeccable, do not invoke any superpowers:* skills alongside it
 - [all webroots are non-volume /var/www/app](project-cli-webroot-non-volume.md) — `VOLUME /var/www/html` shadowing on Dokploy served stale code across redeploys; app/nginx/cli all bake at /var/www/app
 - [Docker is OrbStack](project-docker-is-orbstack.md) — start the daemon with `open -a OrbStack`, there is no Docker.app
+- [theme depends on plugin blocks](project-theme-depends-on-plugin-blocks.md) — single-project + projects-archive render `ik2/project-card`, a block registered by the ik2 plugin, not the theme
