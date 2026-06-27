@@ -47,44 +47,44 @@ class Stats_Command {
 	 * @param array<string, string> $assoc_args Associative arguments.
 	 */
 	public function __invoke( array $args, array $assoc_args ): void {
-		$items = array(
-			array(
+		$items = [
+			[
 				'metric' => 'Posts (published)',
 				'value'  => (int) wp_count_posts( 'post' )->publish,
-			),
-			array(
+			],
+			[
 				'metric' => 'Pages (published)',
 				'value'  => (int) wp_count_posts( 'page' )->publish,
-			),
-			array(
+			],
+			[
 				'metric' => 'Tags',
 				'value'  => $this->count_terms( 'post_tag' ),
-			),
-			array(
+			],
+			[
 				'metric' => 'Categories',
 				'value'  => $this->count_terms( 'category' ),
-			),
-			array(
+			],
+			[
 				'metric' => 'Redis object cache',
 				'value'  => $this->redis_cache_status(),
-			),
-			array(
+			],
+			[
 				'metric' => 'Active plugins',
-				'value'  => count( (array) get_option( 'active_plugins', array() ) ),
-			),
-			array(
+				'value'  => count( (array) get_option( 'active_plugins', [] ) ),
+			],
+			[
 				'metric' => 'Upcoming cron events',
 				'value'  => $this->count_upcoming_cron_events(),
-			),
-			array(
+			],
+			[
 				'metric' => 'Database size',
 				'value'  => $this->database_size(),
-			),
-		);
+			],
+		];
 
 		$format = WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
 
-		WP_CLI\Utils\format_items( $format, $items, array( 'metric', 'value' ) );
+		WP_CLI\Utils\format_items( $format, $items, [ 'metric', 'value' ] );
 	}
 
 	/**
@@ -94,10 +94,10 @@ class Stats_Command {
 	 */
 	private function count_terms( string $taxonomy ): int {
 		$count = wp_count_terms(
-			array(
+			[
 				'taxonomy'   => $taxonomy,
 				'hide_empty' => false,
-			)
+			]
 		);
 
 		return is_wp_error( $count ) ? 0 : (int) $count;
@@ -142,10 +142,10 @@ class Stats_Command {
 	private function database_size(): string {
 		$bytes = WP_CLI::runcommand(
 			'db size --size_format=b',
-			array(
+			[
 				'return'     => true,
 				'exit_error' => false,
-			)
+			]
 		);
 
 		$bytes = (int) trim( (string) $bytes );

@@ -15,43 +15,43 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-$ik2_experience = array(
-	array(
+$ik2_experience = [
+	[
 		'from'    => '2024',
 		'to'      => __( 'Present', 'ik2' ),
 		'current' => true,
 		'role'    => __( 'Senior Web Engineer', 'ik2' ),
 		'org'     => 'Human Made',
 		'note'    => __( 'Enterprise WordPress, editorial tooling, performance work for large publishers.', 'ik2' ),
-	),
-	array(
+	],
+	[
 		'from'    => '2018',
 		'to'      => '2024',
 		'current' => false,
 		'role'    => __( 'Senior Web Engineer', 'ik2' ),
 		'org'     => '10up',
 		'note'    => __( 'Custom WordPress for newsrooms and enterprise. Performance audits, Gutenberg block libraries, design system tooling.', 'ik2' ),
-	),
-	array(
+	],
+	[
 		'from'    => '2017',
 		'to'      => '2017',
 		'current' => false,
 		'role'    => __( 'Lead Organiser', 'ik2' ),
 		'org'     => 'WordCamp Jakarta 2017',
 		'note'    => __( 'Lead organiser for the largest WordCamp held in Indonesia at the time.', 'ik2' ),
-	),
-	array(
+	],
+	[
 		'from'    => '2015',
 		'to'      => __( 'Present', 'ik2' ),
 		'current' => true,
 		'role'    => __( 'Lead Organiser', 'ik2' ),
 		'org'     => __( 'Jakarta WordPress Meetup', 'ik2' ),
 		'note'    => __( 'Monthly meetup &mdash; talks, workshops, and a community that ships.', 'ik2' ),
-	),
-);
+	],
+];
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-resume__section ik-resume__section--exp' )
+	[ 'class' => 'ik-resume__section ik-resume__section--exp' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -70,7 +70,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 				<div class="ik-resume__exp-body">
 					<p class="ik-resume__exp-role"><?php echo esc_html( $ik2_row['role'] ); ?></p>
 					<p class="ik-resume__exp-org"><?php echo esc_html( $ik2_row['org'] ); ?></p>
-					<p class="ik-resume__exp-note"><?php echo wp_kses( $ik2_row['note'], array() ); ?></p>
+					<p class="ik-resume__exp-note"><?php echo wp_kses( $ik2_row['note'], [] ); ?></p>
 				</div>
 			</li>
 		<?php endforeach; ?>

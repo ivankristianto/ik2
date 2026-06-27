@@ -24,7 +24,7 @@ class Pages_Step implements Setup_Step {
 	/**
 	 * Slug => title manifest of pages the theme templates link to.
 	 */
-	private const PAGES = array(
+	private const PAGES = [
 		'articles' => 'Articles',
 		'projects' => 'Projects',
 		'speaking' => 'Speaking',
@@ -32,7 +32,7 @@ class Pages_Step implements Setup_Step {
 		'contact'  => 'Contact',
 		'resume'   => 'Resume',
 		'privacy'  => 'Privacy',
-	);
+	];
 
 	/**
 	 * Section heading shown above this step's checks.
@@ -48,7 +48,7 @@ class Pages_Step implements Setup_Step {
 	 * @return array<int, Check_Result>
 	 */
 	public function run( bool $force ): array {
-		$results = array();
+		$results = [];
 
 		foreach ( self::PAGES as $slug => $title ) {
 			$results[] = $this->ensure_page( $slug, $title, $force );
@@ -67,12 +67,12 @@ class Pages_Step implements Setup_Step {
 	private function ensure_page( string $slug, string $title, bool $force ): Check_Result {
 		$existing = get_page_by_path( $slug, OBJECT, 'page' );
 
-		if ( null === $existing ) {
+		if ( $existing === null ) {
 			return $this->create_page( $slug, $title );
 		}
 
 		if ( ! $force ) {
-			$note = 'publish' === $existing->post_status
+			$note = $existing->post_status === 'publish'
 				? 'exists, skipped'
 				: sprintf( 'exists (%s), skipped', $existing->post_status );
 
@@ -91,13 +91,13 @@ class Pages_Step implements Setup_Step {
 	 */
 	private function create_page( string $slug, string $title ): Check_Result {
 		$created = wp_insert_post(
-			array(
+			[
 				'post_title'   => $title,
 				'post_name'    => $slug,
 				'post_type'    => 'page',
 				'post_status'  => 'publish',
 				'post_content' => '',
-			),
+			],
 			true
 		);
 
@@ -119,12 +119,12 @@ class Pages_Step implements Setup_Step {
 	 */
 	private function reapply_page( int $page_id, string $slug, string $title ): Check_Result {
 		$updated = wp_update_post(
-			array(
+			[
 				'ID'          => $page_id,
 				'post_title'  => $title,
 				'post_name'   => $slug,
 				'post_status' => 'publish',
-			),
+			],
 			true
 		);
 

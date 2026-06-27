@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/helpers.php';
 
-$ik2_topics = array(
+$ik2_topics = [
 	'all'         => __( 'all', 'ik2' ),
 	'wordpress'   => __( 'wordpress', 'ik2' ),
 	'ai'          => __( 'ai', 'ik2' ),
@@ -35,24 +35,24 @@ $ik2_topics = array(
 	'security'    => __( 'security', 'ik2' ),
 	'web-apis'    => __( 'web-apis', 'ik2' ),
 	'tooling'     => __( 'tooling', 'ik2' ),
-);
+];
 
-$ik2_formats = array(
+$ik2_formats = [
 	'all'        => __( 'All', 'ik2' ),
 	'guide'      => __( 'Guides', 'ik2' ),
 	'note'       => __( 'Notes', 'ik2' ),
 	'experiment' => __( 'Experiments', 'ik2' ),
-);
+];
 
 $ik2_context = detect_context();
 
 $ik2_active_topic  = 'all';
 $ik2_context_topic = $ik2_context['topic'];
-if ( 'category' === $ik2_context['kind'] && null !== $ik2_context_topic ) {
+if ( $ik2_context['kind'] === 'category' && $ik2_context_topic !== null ) {
 	$ik2_active_topic = $ik2_context_topic;
 }
 
-$ik2_active_format = '' !== $ik2_context['format'] ? $ik2_context['format'] : 'all';
+$ik2_active_format = $ik2_context['format'] !== '' ? $ik2_context['format'] : 'all';
 
 $ik2_show_count = ! empty( $attributes['showCount'] );
 
@@ -62,40 +62,40 @@ $ik2_shown = 0;
 if ( $ik2_show_count ) {
 	$ik2_total = (int) wp_count_posts( 'post' )->publish;
 
-	$ik2_count_args = array(
+	$ik2_count_args = [
 		'post_type'      => 'post',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
 		'no_found_rows'  => false,
 		'fields'         => 'ids',
-	);
+	];
 
-	$ik2_tax_query = array();
+	$ik2_tax_query = [];
 
 	$ik2_topic_slug = $ik2_context['topic'];
-	if ( 'category' === $ik2_context['kind'] && null !== $ik2_topic_slug ) {
-		$ik2_tax_query[] = array(
+	if ( $ik2_context['kind'] === 'category' && $ik2_topic_slug !== null ) {
+		$ik2_tax_query[] = [
 			'taxonomy' => 'category',
 			'field'    => 'slug',
-			'terms'    => array( $ik2_topic_slug ),
-		);
+			'terms'    => [ $ik2_topic_slug ],
+		];
 	}
 
 	$ik2_tag_slug = $ik2_context['tag'];
-	if ( 'tag' === $ik2_context['kind'] && null !== $ik2_tag_slug ) {
-		$ik2_tax_query[] = array(
+	if ( $ik2_context['kind'] === 'tag' && $ik2_tag_slug !== null ) {
+		$ik2_tax_query[] = [
 			'taxonomy' => 'post_tag',
 			'field'    => 'slug',
-			'terms'    => array( $ik2_tag_slug ),
-		);
+			'terms'    => [ $ik2_tag_slug ],
+		];
 	}
 
-	if ( 'all' !== $ik2_active_format ) {
-		$ik2_tax_query[] = array(
+	if ( $ik2_active_format !== 'all' ) {
+		$ik2_tax_query[] = [
 			'taxonomy' => 'category',
 			'field'    => 'slug',
-			'terms'    => array( $ik2_active_format ),
-		);
+			'terms'    => [ $ik2_active_format ],
+		];
 	}
 
 	if ( count( $ik2_tax_query ) > 1 ) {
@@ -112,7 +112,7 @@ if ( $ik2_show_count ) {
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-articles-filters' )
+	[ 'class' => 'ik-articles-filters' ]
 );
 ?>
 <div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

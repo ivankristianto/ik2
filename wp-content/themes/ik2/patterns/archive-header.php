@@ -14,9 +14,9 @@
 // the format filter, which causes WP to shift the queried term.
 $ik2_archive = \IK2\Theme\Blocks\ik2_get_archive_context();
 
-if ( '' !== $ik2_archive['category'] ) {
+if ( $ik2_archive['category'] !== '' ) {
 	$ik2_term = get_term_by( 'slug', $ik2_archive['category'], 'category' );
-} elseif ( '' !== $ik2_archive['tag'] ) {
+} elseif ( $ik2_archive['tag'] !== '' ) {
 	$ik2_term = get_term_by( 'slug', $ik2_archive['tag'], 'post_tag' );
 } else {
 	$ik2_term = get_queried_object();
@@ -60,7 +60,7 @@ $ik2_description     = is_string( $ik2_description ) ? trim( $ik2_description ) 
 	<h1 class="wp-block-heading ik-articles-archive__title"><?php echo esc_html( $ik2_term->name ); ?></h1>
 	<!-- /wp:heading -->
 
-	<?php if ( '' !== $ik2_description ) : ?>
+	<?php if ( $ik2_description !== '' ) : ?>
 		<!-- wp:paragraph {"className":"ik-articles-archive__lede"} -->
 		<p class="ik-articles-archive__lede"><?php echo wp_kses_post( $ik2_description ); ?></p>
 		<!-- /wp:paragraph -->

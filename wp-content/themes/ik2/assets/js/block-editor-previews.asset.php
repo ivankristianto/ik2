@@ -10,12 +10,12 @@
  * @package IK2
  */
 
-return array(
-	'dependencies' => array(
+return [
+	'dependencies' => [
 		'wp-blocks',
 		'wp-element',
 		'wp-block-editor',
 		'wp-server-side-render',
-	),
+	],
 	'version'      => (string) filemtime( __DIR__ . '/block-editor-previews.js' ),
-);
+];

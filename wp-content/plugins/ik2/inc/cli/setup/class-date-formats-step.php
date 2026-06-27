@@ -30,9 +30,9 @@ class Date_Formats_Step extends Options_Step {
 	 * @return array<string, string|int>
 	 */
 	protected function options(): array {
-		return array(
+		return [
 			'date_format'   => 'F j, Y',
 			'start_of_week' => 1,
-		);
+		];
 	}
 }

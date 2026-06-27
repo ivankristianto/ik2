@@ -33,9 +33,9 @@ class Reading_Step extends Options_Step {
 	 * @return array<string, string|int>
 	 */
 	protected function options(): array {
-		return array(
+		return [
 			'posts_per_page' => 9,
 			'blog_public'    => 1,
-		);
+		];
 	}
 }

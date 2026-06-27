@@ -25,11 +25,21 @@
     <config name="text_domain" value="ik2"/>
 
     <rule ref="WordPress">
-        <!-- Modern PHP: allow short array syntax and namespaces -->
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
         <exclude name="WordPress.Files.FileName"/>
     </rule>
     <rule ref="WordPress-Extra"/>
+
+    <!-- Modern PHP style: require short array syntax ([]) and allow natural
+         (non-Yoda) comparison order. WPCS 3 enforces long arrays via the
+         Universal sniff and Yoda via the WordPress sniff, so both are disabled
+         here (severity 0 survives the WordPress-Extra re-include). -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Universal.Arrays.DisallowShortArraySyntax">
+        <severity>0</severity>
+    </rule>
+    <rule ref="WordPress.PHP.YodaConditions">
+        <severity>0</severity>
+    </rule>
 
     <!--
         Homepage patterns use tax_query against indexed taxonomy tables.

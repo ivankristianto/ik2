@@ -30,8 +30,8 @@ function bootstrap(): void {
 function register(): void {
 	register_post_type(
 		POST_TYPE,
-		array(
-			'labels'              => array(
+		[
+			'labels'              => [
 				'name'                  => _x( 'Projects', 'post type general name', 'ik2' ),
 				'singular_name'         => _x( 'Project', 'post type singular name', 'ik2' ),
 				'menu_name'             => _x( 'Projects', 'admin menu', 'ik2' ),
@@ -50,7 +50,7 @@ function register(): void {
 				'filter_items_list'     => __( 'Filter projects list', 'ik2' ),
 				'items_list_navigation' => __( 'Projects list navigation', 'ik2' ),
 				'items_list'            => __( 'Projects list', 'ik2' ),
-			),
+			],
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
@@ -59,14 +59,14 @@ function register(): void {
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-portfolio',
 			'has_archive'         => false,
-			'rewrite'             => array(
+			'rewrite'             => [
 				'slug'       => 'project',
 				'with_front' => false,
-			),
+			],
 			'capability_type'     => 'post',
 			'hierarchical'        => false,
 			'exclude_from_search' => false,
-			'supports'            => array(
+			'supports'            => [
 				'title',
 				'editor',
 				'excerpt',
@@ -74,16 +74,16 @@ function register(): void {
 				'revisions',
 				'author',
 				'custom-fields',
-			),
-			'template'            => array(
-				array(
+			],
+			'template'            => [
+				[
 					'core/pattern',
-					array(
+					[
 						'slug' => 'ik2/project-post-structure',
-					),
-				),
-			),
-		)
+					],
+				],
+			],
+		]
 	);
 }
 
@@ -99,53 +99,53 @@ function register_meta_fields(): void {
 	register_post_meta(
 		POST_TYPE,
 		'status',
-		array(
+		[
 			'type'              => 'string',
 			'single'            => true,
 			'default'           => 'Active',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_text_field',
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
-		)
+		]
 	);
 
 	register_post_meta(
 		POST_TYPE,
 		'tech',
-		array(
+		[
 			'type'              => 'string',
 			'single'            => true,
 			'default'           => '',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_text_field',
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
-		)
+		]
 	);
 
 	register_post_meta(
 		POST_TYPE,
 		'links',
-		array(
+		[
 			'type'              => 'string',
 			'single'            => true,
 			'default'           => '',
 			'show_in_rest'      => true,
 			'sanitize_callback' => __NAMESPACE__ . '\\sanitize_string_trim',
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
-		)
+		]
 	);
 
 	register_post_meta(
 		POST_TYPE,
 		'learned',
-		array(
+		[
 			'type'              => 'string',
 			'single'            => true,
 			'default'           => '',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'sanitize_textarea_field',
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
-		)
+		]
 	);
 }
 

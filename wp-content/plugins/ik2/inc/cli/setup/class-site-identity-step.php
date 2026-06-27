@@ -42,10 +42,10 @@ class Site_Identity_Step implements Setup_Step {
 	 * @return array<int, Check_Result>
 	 */
 	public function run( bool $force ): array {
-		return array(
+		return [
 			$this->ensure_title( $force ),
 			$this->ensure_tagline(),
-		);
+		];
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Site_Identity_Step implements Setup_Step {
 			return new Check_Result( 'blogname', true, 'already set' );
 		}
 
-		if ( ! $force && '' !== $current && 'WordPress' !== $current ) {
+		if ( ! $force && $current !== '' && $current !== 'WordPress' ) {
 			return new Check_Result( 'blogname', true, sprintf( "is '%s', skipped", $current ) );
 		}
 
@@ -76,7 +76,7 @@ class Site_Identity_Step implements Setup_Step {
 		$current = (string) get_option( 'blogdescription' );
 
 		if ( self::DEFAULT_TAGLINE !== $current ) {
-			return new Check_Result( 'blogdescription', true, '' === $current ? 'empty, ok' : 'custom, kept' );
+			return new Check_Result( 'blogdescription', true, $current === '' ? 'empty, ok' : 'custom, kept' );
 		}
 
 		update_option( 'blogdescription', '' );

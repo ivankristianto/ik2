@@ -38,7 +38,7 @@ class Permalinks_Step implements Setup_Step {
 		$current = (string) get_option( 'permalink_structure', '' );
 
 		if ( self::STRUCTURE === $current ) {
-			return array( new Check_Result( self::STRUCTURE, true, 'already set' ) );
+			return [ new Check_Result( self::STRUCTURE, true, 'already set' ) ];
 		}
 
 		global $wp_rewrite;
@@ -53,17 +53,17 @@ class Permalinks_Step implements Setup_Step {
 		// and this branch is skipped.
 		$flush = \WP_CLI::runcommand(
 			'rewrite flush',
-			array(
+			[
 				'launch'     => true,
 				'exit_error' => false,
 				'return'     => 'all',
-			)
+			]
 		);
 
-		if ( 0 !== $flush->return_code ) {
-			return array( new Check_Result( self::STRUCTURE, false, 'set, but rewrite flush failed' ) );
+		if ( $flush->return_code !== 0 ) {
+			return [ new Check_Result( self::STRUCTURE, false, 'set, but rewrite flush failed' ) ];
 		}
 
-		return array( new Check_Result( self::STRUCTURE, true, 'set and flushed' ) );
+		return [ new Check_Result( self::STRUCTURE, true, 'set and flushed' ) ];
 	}
 }

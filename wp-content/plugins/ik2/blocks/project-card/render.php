@@ -28,8 +28,8 @@ defined( 'ABSPATH' ) || exit;
 
 $ik2_post_id = (int) ( $attributes['postId'] ?? 0 );
 $ik2_compact = ! empty( $attributes['compact'] );
-$ik2_variant = isset( $attributes['variant'] ) && 'feature' === $attributes['variant'] ? 'feature' : 'default';
-$ik2_feature = 'feature' === $ik2_variant;
+$ik2_variant = isset( $attributes['variant'] ) && $attributes['variant'] === 'feature' ? 'feature' : 'default';
+$ik2_feature = $ik2_variant === 'feature';
 
 if ( $ik2_post_id <= 0 && isset( $block->context['postId'] ) ) {
 	$ik2_post_id = (int) $block->context['postId'];
@@ -41,7 +41,7 @@ if ( $ik2_post_id <= 0 ) {
 
 $ik2_card = $ik2_post_id > 0 ? Project\get_card_data( $ik2_post_id ) : null;
 
-if ( null === $ik2_card ) {
+if ( $ik2_card === null ) {
 	return;
 }
 
@@ -55,11 +55,11 @@ if ( $ik2_feature ) {
 
 $ik2_tag           = $ik2_feature ? 'div' : 'article';
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array(
+	[
 		'class'             => $ik2_classes,
 		'data-status'       => $ik2_card['status'],
 		'data-project-slug' => get_post_field( 'post_name', $ik2_post_id ),
-	)
+	]
 );
 ?>
 <<?php echo esc_attr( $ik2_tag ); ?> <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -68,7 +68,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<h3 class="ik-project__name">
 				<a href="<?php echo esc_url( $ik2_card['permalink'] ); ?>"><?php echo esc_html( $ik2_card['title'] ); ?></a>
 			</h3>
-			<?php if ( '' !== $ik2_card['status'] ) : ?>
+			<?php if ( $ik2_card['status'] !== '' ) : ?>
 				<span class="ik-project__status" data-status="<?php echo esc_attr( $ik2_card['status'] ); ?>">
 					<?php echo esc_html( $ik2_card['status'] ); ?>
 				</span>
@@ -76,7 +76,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 		</div>
 	<?php endif; ?>
 
-	<?php if ( '' !== $ik2_card['excerpt'] ) : ?>
+	<?php if ( $ik2_card['excerpt'] !== '' ) : ?>
 		<p class="ik-project__blurb"><?php echo esc_html( $ik2_card['excerpt'] ); ?></p>
 	<?php endif; ?>
 
@@ -104,7 +104,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 		</div>
 	<?php endif; ?>
 
-	<?php if ( ! $ik2_compact && '' !== $ik2_card['learned'] ) : ?>
+	<?php if ( ! $ik2_compact && $ik2_card['learned'] !== '' ) : ?>
 		<p class="ik-project__learned">
 			<strong><?php esc_html_e( 'What I learned', 'ik2' ); ?></strong>
 			<?php echo esc_html( $ik2_card['learned'] ); ?>

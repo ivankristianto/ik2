@@ -14,7 +14,7 @@ namespace IK2\Theme\Blocks\ArticlesFilters;
 
 defined( 'ABSPATH' ) || exit;
 
-const ALLOWED_FORMATS = array( 'guide', 'note', 'experiment' );
+const ALLOWED_FORMATS = [ 'guide', 'note', 'experiment' ];
 
 /**
  * Detect the current archive context from the request stash.
@@ -27,24 +27,24 @@ const ALLOWED_FORMATS = array( 'guide', 'note', 'experiment' );
  * @return array{kind:string,topic:?string,tag:?string,format:string}
  */
 function detect_context(): array {
-	$ctx = array(
+	$ctx = [
 		'kind'   => 'page',
 		'topic'  => null,
 		'tag'    => null,
 		'format' => '',
-	);
+	];
 
 	$stash = \IK2\Theme\Blocks\ik2_get_archive_context();
 
-	if ( '' !== $stash['category'] ) {
+	if ( $stash['category'] !== '' ) {
 		$ctx['kind']  = 'category';
 		$ctx['topic'] = $stash['category'];
-	} elseif ( '' !== $stash['tag'] ) {
+	} elseif ( $stash['tag'] !== '' ) {
 		$ctx['kind'] = 'tag';
 		$ctx['tag']  = $stash['tag'];
 	}
 
-	if ( '' !== $stash['format'] && in_array( $stash['format'], ALLOWED_FORMATS, true ) ) {
+	if ( $stash['format'] !== '' && in_array( $stash['format'], ALLOWED_FORMATS, true ) ) {
 		$ctx['format'] = $stash['format'];
 	}
 
@@ -65,15 +65,15 @@ function detect_context(): array {
  * @param string                                                     $format  Format slug or 'all'.
  */
 function build_url( array $context, string $topic, string $format ): string {
-	if ( 'all' !== $topic ) {
+	if ( $topic !== 'all' ) {
 		$base = home_url( '/category/' . rawurlencode( $topic ) . '/' );
-	} elseif ( 'tag' === $context['kind'] && null !== $context['tag'] ) {
+	} elseif ( $context['kind'] === 'tag' && $context['tag'] !== null ) {
 		$base = home_url( '/tag/' . rawurlencode( $context['tag'] ) . '/' );
 	} else {
 		$base = home_url( '/articles/' );
 	}
 
-	if ( 'all' !== $format ) {
+	if ( $format !== 'all' ) {
 		$base .= 'format/' . rawurlencode( $format ) . '/';
 	}
 

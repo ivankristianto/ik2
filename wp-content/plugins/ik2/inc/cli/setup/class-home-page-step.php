@@ -52,14 +52,14 @@ class Home_Page_Step implements Setup_Step {
 	 * @return array<int, Check_Result>
 	 */
 	public function run( bool $force ): array {
-		$results = array();
+		$results = [];
 		$page    = get_page_by_path( self::SLUG, OBJECT, 'page' );
 
 		if ( $page instanceof WP_Post ) {
 			$result = $this->ensure_published( $page, $force );
 
 			if ( ! $result->success ) {
-				return array( $result );
+				return [ $result ];
 			}
 
 			$results[] = $result;
@@ -67,23 +67,23 @@ class Home_Page_Step implements Setup_Step {
 		} else {
 			$content = $this->pattern_content();
 
-			if ( null === $content ) {
-				return array( new Check_Result( self::SLUG, false, sprintf( 'pattern %s not found (is the ik2 theme installed?)', self::PATTERN ) ) );
+			if ( $content === null ) {
+				return [ new Check_Result( self::SLUG, false, sprintf( 'pattern %s not found (is the ik2 theme installed?)', self::PATTERN ) ) ];
 			}
 
 			$home_id = wp_insert_post(
-				array(
+				[
 					'post_type'    => 'page',
 					'post_status'  => 'publish',
 					'post_title'   => 'Home',
 					'post_name'    => self::SLUG,
 					'post_content' => $content,
-				),
+				],
 				true
 			);
 
 			if ( is_wp_error( $home_id ) ) {
-				return array( new Check_Result( self::SLUG, false, $home_id->get_error_message() ) );
+				return [ new Check_Result( self::SLUG, false, $home_id->get_error_message() ) ];
 			}
 
 			$results[] = new Check_Result( self::SLUG, true, 'created' );
@@ -105,7 +105,7 @@ class Home_Page_Step implements Setup_Step {
 	 * @param bool    $force Publish a non-published page instead of failing.
 	 */
 	private function ensure_published( WP_Post $page, bool $force ): Check_Result {
-		if ( 'publish' === $page->post_status ) {
+		if ( $page->post_status === 'publish' ) {
 			return new Check_Result( self::SLUG, true, 'exists, content untouched' );
 		}
 
@@ -114,10 +114,10 @@ class Home_Page_Step implements Setup_Step {
 		}
 
 		$updated = wp_update_post(
-			array(
+			[
 				'ID'          => $page->ID,
 				'post_status' => 'publish',
-			),
+			],
 			true
 		);
 
@@ -132,7 +132,7 @@ class Home_Page_Step implements Setup_Step {
 	 * Converge show_on_front to "page".
 	 */
 	private function converge_show_on_front(): Check_Result {
-		if ( 'page' === get_option( 'show_on_front' ) ) {
+		if ( get_option( 'show_on_front' ) === 'page' ) {
 			return new Check_Result( 'show_on_front', true, 'already set' );
 		}
 
@@ -156,7 +156,7 @@ class Home_Page_Step implements Setup_Step {
 
 		$current = $current_id > 0 ? get_post( $current_id ) : null;
 
-		if ( ! $force && $current instanceof WP_Post && 'publish' === $current->post_status ) {
+		if ( ! $force && $current instanceof WP_Post && $current->post_status === 'publish' ) {
 			return new Check_Result( 'page_on_front', false, sprintf( 'points to page %d — re-run with --force to override', $current_id ) );
 		}
 
@@ -179,7 +179,7 @@ class Home_Page_Step implements Setup_Step {
 	private function pattern_content(): ?string {
 		$pattern = WP_Block_Patterns_Registry::get_instance()->get_registered( self::PATTERN );
 
-		if ( is_array( $pattern ) && isset( $pattern['content'] ) && '' !== trim( (string) $pattern['content'] ) ) {
+		if ( is_array( $pattern ) && isset( $pattern['content'] ) && trim( (string) $pattern['content'] ) !== '' ) {
 			return trim( (string) $pattern['content'] );
 		}
 
@@ -193,6 +193,6 @@ class Home_Page_Step implements Setup_Step {
 		include $file;
 		$content = trim( (string) ob_get_clean() );
 
-		return '' !== $content ? $content : null;
+		return $content !== '' ? $content : null;
 	}
 }

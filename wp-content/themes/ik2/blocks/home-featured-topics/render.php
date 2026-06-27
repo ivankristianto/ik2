@@ -9,18 +9,32 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-$ik2_topic_slugs = array( 'wordpress', 'ai', 'performance', 'web-apis', 'tooling' );
-$ik2_topics      = array();
+$ik2_topic_slugs = [ 'wordpress', 'ai', 'performance', 'web-apis', 'tooling' ];
 
+// Fetch all featured topics in one query, then restore the curated slug order
+// (get_terms() does not honour the order of the `slug` array).
+$ik2_terms     = get_terms(
+	[
+		'taxonomy'   => 'category',
+		'slug'       => $ik2_topic_slugs,
+		'hide_empty' => false,
+	]
+);
+$ik2_terms     = is_wp_error( $ik2_terms ) ? [] : $ik2_terms;
+$ik2_terms_map = [];
+foreach ( $ik2_terms as $ik2_term ) {
+	$ik2_terms_map[ $ik2_term->slug ] = $ik2_term;
+}
+
+$ik2_topics = [];
 foreach ( $ik2_topic_slugs as $ik2_topic_slug ) {
-	$ik2_term = get_term_by( 'slug', $ik2_topic_slug, 'category' );
-	if ( $ik2_term instanceof WP_Term ) {
-		$ik2_topics[] = $ik2_term;
+	if ( isset( $ik2_terms_map[ $ik2_topic_slug ] ) ) {
+		$ik2_topics[] = $ik2_terms_map[ $ik2_topic_slug ];
 	}
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'container-full ik-section' )
+	[ 'class' => 'container-full ik-section' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

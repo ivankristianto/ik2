@@ -38,15 +38,15 @@ class Theme_Step implements Setup_Step {
 	 */
 	public function run( bool $force ): array {
 		if ( self::THEME === get_stylesheet() ) {
-			return array( new Check_Result( self::THEME, true, 'already active' ) );
+			return [ new Check_Result( self::THEME, true, 'already active' ) ];
 		}
 
 		if ( ! wp_get_theme( self::THEME )->exists() ) {
-			return array( new Check_Result( self::THEME, false, 'not installed' ) );
+			return [ new Check_Result( self::THEME, false, 'not installed' ) ];
 		}
 
 		switch_theme( self::THEME );
 
-		return array( new Check_Result( self::THEME, true, 'activated' ) );
+		return [ new Check_Result( self::THEME, true, 'activated' ) ];
 	}
 }

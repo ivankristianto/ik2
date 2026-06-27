@@ -31,10 +31,10 @@ class Discussion_Step extends Options_Step {
 	 * @return array<string, string|int>
 	 */
 	protected function options(): array {
-		return array(
+		return [
 			'default_ping_status'         => 'closed',
 			'default_pingback_flag'       => 0,
 			'comment_previously_approved' => 1,
-		);
+		];
 	}
 }

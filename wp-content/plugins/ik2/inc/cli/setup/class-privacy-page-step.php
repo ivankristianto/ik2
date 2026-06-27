@@ -42,24 +42,24 @@ class Privacy_Page_Step implements Setup_Step {
 	public function run( bool $force ): array {
 		$page = get_page_by_path( self::SLUG, OBJECT, 'page' );
 
-		if ( null === $page || 'publish' !== $page->post_status ) {
-			return array( new Check_Result( 'wp_page_for_privacy_policy', false, 'no published /privacy page (run the pages step first)' ) );
+		if ( $page === null || $page->post_status !== 'publish' ) {
+			return [ new Check_Result( 'wp_page_for_privacy_policy', false, 'no published /privacy page (run the pages step first)' ) ];
 		}
 
 		$current_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
 		if ( $current_id === $page->ID ) {
-			return array( new Check_Result( 'wp_page_for_privacy_policy', true, 'already set' ) );
+			return [ new Check_Result( 'wp_page_for_privacy_policy', true, 'already set' ) ];
 		}
 
 		$current = $current_id > 0 ? get_post( $current_id ) : null;
 
-		if ( ! $force && $current instanceof WP_Post && 'publish' === $current->post_status ) {
-			return array( new Check_Result( 'wp_page_for_privacy_policy', true, sprintf( 'set to page %d, skipped', $current_id ) ) );
+		if ( ! $force && $current instanceof WP_Post && $current->post_status === 'publish' ) {
+			return [ new Check_Result( 'wp_page_for_privacy_policy', true, sprintf( 'set to page %d, skipped', $current_id ) ) ];
 		}
 
 		update_option( 'wp_page_for_privacy_policy', $page->ID );
 
-		return array( new Check_Result( 'wp_page_for_privacy_policy', true, 'set to /' . self::SLUG ) );
+		return [ new Check_Result( 'wp_page_for_privacy_policy', true, 'set to /' . self::SLUG ) ];
 	}
 }

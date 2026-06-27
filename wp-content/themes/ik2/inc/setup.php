@@ -29,7 +29,7 @@ function register_theme_supports(): void {
 	add_theme_support( 'editor-styles' );
 	add_theme_support(
 		'html5',
-		array( 'style', 'script', 'comment-form', 'comment-list', 'gallery', 'caption' )
+		[ 'style', 'script', 'comment-form', 'comment-list', 'gallery', 'caption' ]
 	);
 
 	add_editor_style( 'build/editor.css' );
@@ -47,7 +47,7 @@ function register_primary_nav_menu(): void {
 		return;
 	}
 
-	if ( false !== wp_get_nav_menu_object( 'IK2 Primary' ) ) {
+	if ( wp_get_nav_menu_object( 'IK2 Primary' ) !== false ) {
 		return;
 	}
 
@@ -57,42 +57,42 @@ function register_primary_nav_menu(): void {
 		return;
 	}
 
-	$items = array(
-		array(
+	$items = [
+		[
 			'title' => 'Home',
 			'url'   => home_url( '/' ),
-		),
-		array(
+		],
+		[
 			'title' => 'Articles',
 			'url'   => home_url( '/articles' ),
-		),
-		array(
+		],
+		[
 			'title' => 'Projects',
 			'url'   => home_url( '/projects' ),
-		),
-		array(
+		],
+		[
 			'title' => 'Speaking',
 			'url'   => home_url( '/speaking' ),
-		),
-		array(
+		],
+		[
 			'title' => 'About',
 			'url'   => home_url( '/about' ),
-		),
-		array(
+		],
+		[
 			'title' => 'Contact',
 			'url'   => home_url( '/contact' ),
-		),
-	);
+		],
+	];
 
 	foreach ( $items as $item ) {
 		wp_update_nav_menu_item(
 			$menu_id,
 			0,
-			array(
+			[
 				'menu-item-title'  => $item['title'],
 				'menu-item-url'    => $item['url'],
 				'menu-item-status' => 'publish',
-			)
+			]
 		);
 	}
 }

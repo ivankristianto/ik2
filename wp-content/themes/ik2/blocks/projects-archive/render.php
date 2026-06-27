@@ -20,19 +20,26 @@ defined( 'ABSPATH' ) || exit;
 require_once __DIR__ . '/helpers.php';
 
 $ik2_projects = get_posts(
-	array(
-		'post_type'      => Project\POST_TYPE,
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	)
+	[
+		'post_type'              => Project\POST_TYPE,
+		'post_status'            => 'publish',
+		'posts_per_page'         => 100,
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'update_post_term_cache' => false,
+	]
 );
+
+// Prime the meta cache in a single query so the comparator's per-pair
+// get_post_meta() calls during usort() are served from cache, not re-queried.
+if ( ! empty( $ik2_projects ) ) {
+	update_meta_cache( 'post', wp_list_pluck( $ik2_projects, 'ID' ) );
+}
 
 usort( $ik2_projects, 'IK2\\Theme\\Blocks\\ProjectsArchive\\compare_projects' );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-project-grid' )
+	[ 'class' => 'ik-project-grid' ]
 );
 ?>
 <div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

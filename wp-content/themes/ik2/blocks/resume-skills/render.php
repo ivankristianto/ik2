@@ -15,43 +15,43 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-$ik2_skills = array(
-	array(
+$ik2_skills = [
+	[
 		'group' => __( 'WordPress', 'ik2' ),
-		'items' => array(
+		'items' => [
 			__( 'Core, REST API, Gutenberg blocks', 'ik2' ),
 			__( 'Block themes, theme.json, Interactivity API', 'ik2' ),
 			__( 'Multisite, VIP-style scale', 'ik2' ),
-		),
-	),
-	array(
+		],
+	],
+	[
 		'group' => __( 'Performance', 'ik2' ),
-		'items' => array(
+		'items' => [
 			__( 'LiteSpeed / Nginx / Varnish', 'ik2' ),
 			__( 'Cloudflare edge rules', 'ik2' ),
 			__( 'Core Web Vitals audits', 'ik2' ),
-		),
-	),
-	array(
+		],
+	],
+	[
 		'group' => __( 'Stack', 'ik2' ),
-		'items' => array(
+		'items' => [
 			__( 'PHP 8.x, MySQL, Redis', 'ik2' ),
 			__( 'Node.js, TypeScript', 'ik2' ),
 			__( 'Docker, GitHub Actions', 'ik2' ),
-		),
-	),
-	array(
+		],
+	],
+	[
 		'group' => __( 'Other', 'ik2' ),
-		'items' => array(
+		'items' => [
 			__( 'AI in the dev loop &mdash; Claude Code, Copilot', 'ik2' ),
 			__( 'Talks: WordCamp, WordPress meetups', 'ik2' ),
 			__( 'Mentoring junior engineers', 'ik2' ),
-		),
-	),
-);
+		],
+	],
+];
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-resume__section ik-resume__section--skills' )
+	[ 'class' => 'ik-resume__section ik-resume__section--skills' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -65,7 +65,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 				<h3 class="ik-resume__skill-group"><?php echo esc_html( $ik2_skill['group'] ); ?></h3>
 				<ul class="ik-resume__skill-list">
 					<?php foreach ( $ik2_skill['items'] as $ik2_item ) : ?>
-						<li><?php echo wp_kses( $ik2_item, array() ); ?></li>
+						<li><?php echo wp_kses( $ik2_item, [] ); ?></li>
 					<?php endforeach; ?>
 				</ul>
 			</section>

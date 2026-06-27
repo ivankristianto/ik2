@@ -10,18 +10,21 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 $ik2_notes_query = new WP_Query(
-	array(
-		'post_type'           => 'post',
-		'posts_per_page'      => 6,
-		'orderby'             => 'date',
-		'order'               => 'DESC',
-		'ignore_sticky_posts' => true,
-		'category_name'       => 'note',
-	)
+	[
+		'post_type'              => 'post',
+		'posts_per_page'         => 6,
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'ignore_sticky_posts'    => true,
+		'category_name'          => 'note',
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+	]
 );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'container-full ik-section' )
+	[ 'class' => 'container-full ik-section' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

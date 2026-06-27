@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 const ARTICLES_PAGE_SLUG = 'articles';
 const ARTICLES_QUERY_ID  = 42;
 const ARCHIVE_QUERY_ID   = 43;
-const FORMAT_SLUGS       = array( 'guide', 'note', 'experiment' );
+const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
 const REWRITE_VERSION    = 2;
 
 /**
@@ -66,7 +66,7 @@ function register_theme_blocks(): void {
  * @return array<string,mixed>
  */
 function filter_query_loop_format( array $query, $block ): array {
-	$context  = is_object( $block ) && isset( $block->context ) ? $block->context : array();
+	$context  = is_object( $block ) && isset( $block->context ) ? $block->context : [];
 	$query_id = isset( $context['queryId'] ) ? (int) $context['queryId'] : 0;
 
 	if ( ARTICLES_QUERY_ID !== $query_id && ARCHIVE_QUERY_ID !== $query_id ) {
@@ -81,7 +81,7 @@ function filter_query_loop_format( array $query, $block ): array {
 
 	// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 	$query['tax_query'] = ik2_append_format_tax_query(
-		isset( $query['tax_query'] ) && is_array( $query['tax_query'] ) ? $query['tax_query'] : array(),
+		isset( $query['tax_query'] ) && is_array( $query['tax_query'] ) ? $query['tax_query'] : [],
 		$format
 	);
 	// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
@@ -121,7 +121,7 @@ function narrow_archive_query_by_format( $wp_query ): void {
 
 	$existing_tax_query = $wp_query->get( 'tax_query' );
 	if ( ! is_array( $existing_tax_query ) ) {
-		$existing_tax_query = array();
+		$existing_tax_query = [];
 	}
 
 	$wp_query->set( 'tax_query', ik2_append_format_tax_query( $existing_tax_query, $format ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
@@ -139,11 +139,11 @@ function narrow_archive_query_by_format( $wp_query ): void {
  * @param \WP $wp The WP environment instance.
  */
 function stash_archive_context( $wp ): void {
-	$GLOBALS['ik2_archive_context'] = array(
+	$GLOBALS['ik2_archive_context'] = [
 		'category' => isset( $wp->query_vars['category_name'] ) ? (string) $wp->query_vars['category_name'] : '',
 		'tag'      => isset( $wp->query_vars['tag'] ) ? (string) $wp->query_vars['tag'] : '',
 		'format'   => isset( $wp->query_vars['format'] ) ? (string) $wp->query_vars['format'] : '',
-	);
+	];
 
 	if (
 		ARTICLES_PAGE_SLUG === (string) ( $wp->query_vars['pagename'] ?? '' ) &&
@@ -161,13 +161,13 @@ function stash_archive_context( $wp ): void {
 function ik2_get_archive_context(): array {
 	$ctx = isset( $GLOBALS['ik2_archive_context'] ) && is_array( $GLOBALS['ik2_archive_context'] )
 		? $GLOBALS['ik2_archive_context']
-		: array();
+		: [];
 
-	return array(
+	return [
 		'category' => isset( $ctx['category'] ) ? (string) $ctx['category'] : '',
 		'tag'      => isset( $ctx['tag'] ) ? (string) $ctx['tag'] : '',
 		'format'   => isset( $ctx['format'] ) ? (string) $ctx['format'] : '',
-	);
+	];
 }
 
 /**
@@ -268,16 +268,16 @@ function rewrite_query_loop_pagination_hrefs( string $content, array $block ): s
 
 	$processor = new \WP_HTML_Tag_Processor( $content );
 
-	while ( $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
+	while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 		$href = $processor->get_attribute( 'href' );
 
-		if ( ! is_string( $href ) || '' === $href ) {
+		if ( ! is_string( $href ) || $href === '' ) {
 			continue;
 		}
 
 		$page = ik2_extract_query_loop_page_from_href( $href, $page_key );
 
-		if ( null === $page ) {
+		if ( $page === null ) {
 			continue;
 		}
 
@@ -302,7 +302,7 @@ function filter_articles_canonical_url( string $url, $post ): string {
 	$format = (string) get_query_var( 'format', '' );
 	$page   = max( 1, (int) get_query_var( 'paged', 1 ) );
 
-	if ( 1 === $page && ! ik2_is_valid_format( $format ) ) {
+	if ( $page === 1 && ! ik2_is_valid_format( $format ) ) {
 		return $url;
 	}
 
@@ -325,7 +325,7 @@ function flush_rewrite_on_theme_switch(): void {
  * @return bool
  */
 function ik2_is_valid_format( string $format ): bool {
-	return '' !== $format && in_array( $format, FORMAT_SLUGS, true );
+	return $format !== '' && in_array( $format, FORMAT_SLUGS, true );
 }
 
 /**
@@ -336,11 +336,11 @@ function ik2_is_valid_format( string $format ): bool {
  * @return array<int|string,mixed>
  */
 function ik2_append_format_tax_query( array $tax_query, string $format ): array {
-	$tax_query[] = array(
+	$tax_query[] = [
 		'taxonomy' => 'category',
 		'field'    => 'slug',
-		'terms'    => array( $format ),
-	);
+		'terms'    => [ $format ],
+	];
 
 	if ( count( $tax_query ) > 1 && ! isset( $tax_query['relation'] ) ) {
 		$tax_query['relation'] = 'AND';
@@ -357,19 +357,19 @@ function ik2_append_format_tax_query( array $tax_query, string $format ): array 
  */
 function ik2_build_archive_pagination_url( int $page ): string {
 	$context = ik2_get_archive_context();
-	$parts   = array();
+	$parts   = [];
 
-	if ( '' !== $context['category'] ) {
+	if ( $context['category'] !== '' ) {
 		$parts[] = 'category';
 		$parts[] = rawurlencode( $context['category'] );
-	} elseif ( '' !== $context['tag'] ) {
+	} elseif ( $context['tag'] !== '' ) {
 		$parts[] = 'tag';
 		$parts[] = rawurlencode( $context['tag'] );
 	} else {
 		$parts[] = ARTICLES_PAGE_SLUG;
 	}
 
-	if ( '' !== $context['format'] && ik2_is_valid_format( $context['format'] ) ) {
+	if ( $context['format'] !== '' && ik2_is_valid_format( $context['format'] ) ) {
 		$parts[] = 'format';
 		$parts[] = rawurlencode( $context['format'] );
 	}
@@ -392,11 +392,11 @@ function ik2_build_archive_pagination_url( int $page ): string {
 function ik2_extract_query_loop_page_from_href( string $href, string $page_key ): ?int {
 	$query = wp_parse_url( $href, PHP_URL_QUERY );
 
-	if ( ! is_string( $query ) || '' === $query ) {
+	if ( ! is_string( $query ) || $query === '' ) {
 		return null;
 	}
 
-	$args = array();
+	$args = [];
 	wp_parse_str( $query, $args );
 
 	if ( ! isset( $args[ $page_key ] ) ) {

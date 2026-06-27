@@ -36,12 +36,12 @@ class Sample_Content_Step implements Setup_Step {
 	 * @return array<int, Check_Result>
 	 */
 	public function run( bool $force ): array {
-		return array(
+		return [
 			$this->trash_post( 'hello-world', 'post' ),
 			$this->trash_post( 'sample-page', 'page' ),
 			$this->trash_draft_privacy_page(),
 			$this->trash_default_comment(),
-		);
+		];
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Sample_Content_Step implements Setup_Step {
 	private function trash_post( string $slug, string $type ): Check_Result {
 		$post = get_page_by_path( $slug, OBJECT, $type );
 
-		if ( null === $post || 'trash' === $post->post_status ) {
+		if ( $post === null || $post->post_status === 'trash' ) {
 			return new Check_Result( $slug, true, 'absent' );
 		}
 
@@ -72,7 +72,7 @@ class Sample_Content_Step implements Setup_Step {
 	private function trash_draft_privacy_page(): Check_Result {
 		$page = get_page_by_path( 'privacy-policy', OBJECT, 'page' );
 
-		if ( null === $page || 'draft' !== $page->post_status ) {
+		if ( $page === null || $page->post_status !== 'draft' ) {
 			return new Check_Result( 'privacy-policy', true, 'absent' );
 		}
 
@@ -93,11 +93,11 @@ class Sample_Content_Step implements Setup_Step {
 	private function trash_default_comment(): Check_Result {
 		$comment = get_comment( 1 );
 
-		if ( ! $comment instanceof WP_Comment || 'A WordPress Commenter' !== $comment->comment_author ) {
+		if ( ! $comment instanceof WP_Comment || $comment->comment_author !== 'A WordPress Commenter' ) {
 			return new Check_Result( 'default comment', true, 'absent' );
 		}
 
-		if ( 'trash' === $comment->comment_approved ) {
+		if ( $comment->comment_approved === 'trash' ) {
 			return new Check_Result( 'default comment', true, 'already trashed' );
 		}
 

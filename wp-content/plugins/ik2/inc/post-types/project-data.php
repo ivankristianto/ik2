@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @var array<int,string>
  */
-const STATUS_VALUES = array( 'Active', 'Experiment', 'Archived' );
+const STATUS_VALUES = [ 'Active', 'Experiment', 'Archived' ];
 
 /**
  * Return a normalised array describing a project for card rendering.
@@ -43,7 +43,7 @@ function get_card_data( int $post_id ): ?array {
 		return null;
 	}
 
-	return array(
+	return [
 		'id'        => $post_id,
 		'title'     => get_the_title( $post ),
 		'permalink' => (string) get_permalink( $post ),
@@ -52,7 +52,7 @@ function get_card_data( int $post_id ): ?array {
 		'tech'      => parse_tech( (string) get_post_meta( $post_id, 'tech', true ) ),
 		'links'     => parse_links( (string) get_post_meta( $post_id, 'links', true ) ),
 		'learned'   => trim( (string) get_post_meta( $post_id, 'learned', true ) ),
-	);
+	];
 }
 
 /**
@@ -65,12 +65,12 @@ function get_card_data( int $post_id ): ?array {
 function normalize_status( string $value ): string {
 	$trimmed = trim( $value );
 
-	if ( '' === $trimmed ) {
+	if ( $trimmed === '' ) {
 		return 'Active';
 	}
 
 	foreach ( STATUS_VALUES as $allowed ) {
-		if ( 0 === strcasecmp( $trimmed, $allowed ) ) {
+		if ( strcasecmp( $trimmed, $allowed ) === 0 ) {
 			return $allowed;
 		}
 	}
@@ -85,8 +85,8 @@ function normalize_status( string $value ): string {
  * @return array<int,string>
  */
 function parse_tech( string $value ): array {
-	if ( '' === $value ) {
-		return array();
+	if ( $value === '' ) {
+		return [];
 	}
 
 	$parts = array_map( 'trim', explode( '|', $value ) );
@@ -100,7 +100,7 @@ function parse_tech( string $value ): array {
  * @param string $value Candidate string.
  */
 function is_non_empty_string( string $value ): bool {
-	return '' !== $value;
+	return $value !== '';
 }
 
 /**
@@ -110,26 +110,26 @@ function is_non_empty_string( string $value ): bool {
  * @return array<int,array{label:string,href:string}>
  */
 function parse_links( string $value ): array {
-	if ( '' === $value ) {
-		return array();
+	if ( $value === '' ) {
+		return [];
 	}
 
-	$out = array();
+	$out = [];
 	foreach ( explode( '|', $value ) as $pair ) {
 		$pair = trim( $pair );
-		if ( '' === $pair ) {
+		if ( $pair === '' ) {
 			continue;
 		}
 
 		$parts = array_map( 'trim', explode( '::', $pair, 2 ) );
-		if ( count( $parts ) !== 2 || '' === $parts[0] || '' === $parts[1] ) {
+		if ( count( $parts ) !== 2 || $parts[0] === '' || $parts[1] === '' ) {
 			continue;
 		}
 
-		$out[] = array(
+		$out[] = [
 			'label' => $parts[0],
 			'href'  => $parts[1],
-		);
+		];
 	}
 
 	return $out;

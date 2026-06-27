@@ -25,7 +25,7 @@ $ik2_status  = $ik2_project['status'] ?? '';
 	<div class="wp-block-group ik-article__meta ik-project-single__meta">
 		<!-- wp:post-date {"format":"F j, Y","className":"ik-article__date"} /-->
 
-		<?php if ( '' !== $ik2_status ) : ?>
+		<?php if ( $ik2_status !== '' ) : ?>
 			<!-- wp:paragraph {"className":"ik-article__sep"} -->
 			<p class="ik-article__sep" aria-hidden="true">·</p>
 			<!-- /wp:paragraph -->

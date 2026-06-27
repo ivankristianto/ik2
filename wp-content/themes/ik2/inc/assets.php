@@ -35,7 +35,7 @@ function enqueue_frontend_scripts(): void {
 		wp_enqueue_script(
 			'ik2',
 			$build_uri . '/index.js',
-			array(),
+			[],
 			(string) filemtime( $build_dir . '/index.js' ),
 			true
 		);
@@ -50,7 +50,7 @@ function enqueue_frontend_scripts(): void {
  * @param string $url Site icon URL resolved by core.
  */
 function fallback_site_icon_url( string $url ): string {
-	return '' === $url ? get_theme_file_uri( 'assets/favicon/favicon.svg' ) : $url;
+	return $url === '' ? get_theme_file_uri( 'assets/favicon/favicon.svg' ) : $url;
 }
 
 /**
@@ -69,7 +69,7 @@ function enqueue_theme_stylesheet(): void {
 	wp_enqueue_style(
 		'ik2',
 		$build_uri . '/style-index.css',
-		array(),
+		[],
 		(string) filemtime( $style_path )
 	);
 
@@ -91,15 +91,15 @@ function enqueue_block_editor_previews(): void {
 
 	$asset = file_exists( $asset_path )
 		? require $asset_path
-		: array(
-			'dependencies' => array(),
+		: [
+			'dependencies' => [],
 			'version'      => (string) filemtime( $script_path ),
-		);
+		];
 
 	wp_enqueue_script(
 		'ik2-block-editor-previews',
 		get_theme_file_uri( 'assets/js/block-editor-previews.js' ),
-		$asset['dependencies'] ?? array(),
+		$asset['dependencies'] ?? [],
 		$asset['version'] ?? (string) filemtime( $script_path ),
 		true
 	);

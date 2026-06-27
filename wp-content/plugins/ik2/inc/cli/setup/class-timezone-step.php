@@ -37,12 +37,12 @@ class Timezone_Step implements Setup_Step {
 	 */
 	public function run( bool $force ): array {
 		if ( self::TIMEZONE === get_option( 'timezone_string' ) ) {
-			return array( new Check_Result( self::TIMEZONE, true, 'already set' ) );
+			return [ new Check_Result( self::TIMEZONE, true, 'already set' ) ];
 		}
 
 		update_option( 'timezone_string', self::TIMEZONE );
 		update_option( 'gmt_offset', '' );
 
-		return array( new Check_Result( self::TIMEZONE, true, 'set' ) );
+		return [ new Check_Result( self::TIMEZONE, true, 'set' ) ];
 	}
 }

@@ -29,21 +29,21 @@ class Plugins_Step implements Setup_Step {
 	 * inactive on purpose (use-once import tool). Adding a plugin via
 	 * `composer require` does NOT activate it — add it here too.
 	 */
-	private const PLUGINS = array(
+	private const PLUGINS = [
 		'two-factor/two-factor.php',
 		'wordpress-seo/wp-seo.php',
 		'performance-lab/load.php',
 		'wp-redis/wp-redis.php',
 		'ai/ai.php',
-	);
+	];
 
 	/**
 	 * Plugin basenames to activate everywhere except production.
 	 */
-	private const DEV_PLUGINS = array(
+	private const DEV_PLUGINS = [
 		'query-monitor/query-monitor.php',
 		'create-block-theme/create-block-theme.php',
-	);
+	];
 
 	/**
 	 * Section heading shown above this step's checks.
@@ -61,13 +61,13 @@ class Plugins_Step implements Setup_Step {
 	public function run( bool $force ): array {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		$results = array();
+		$results = [];
 
 		foreach ( self::PLUGINS as $basename ) {
 			$results[] = $this->ensure_active( $basename );
 		}
 
-		$is_production = 'production' === wp_get_environment_type();
+		$is_production = wp_get_environment_type() === 'production';
 
 		foreach ( self::DEV_PLUGINS as $basename ) {
 			if ( $is_production ) {

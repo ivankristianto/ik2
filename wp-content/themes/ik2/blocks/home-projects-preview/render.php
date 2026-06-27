@@ -26,7 +26,7 @@ $ik2_eyebrow    = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebro
 $ik2_title      = isset( $attributes['title'] ) ? (string) $attributes['title'] : 'Projects';
 $ik2_more_label = isset( $attributes['moreLabel'] ) ? (string) $attributes['moreLabel'] : 'All projects';
 
-$ik2_curated_ids = array();
+$ik2_curated_ids = [];
 if ( isset( $attributes['projectIds'] ) && is_array( $attributes['projectIds'] ) ) {
 	foreach ( $attributes['projectIds'] as $ik2_raw_id ) {
 		$ik2_id = (int) $ik2_raw_id;
@@ -36,26 +36,26 @@ if ( isset( $attributes['projectIds'] ) && is_array( $attributes['projectIds'] )
 	}
 }
 
-$ik2_project_ids = array();
+$ik2_project_ids = [];
 foreach ( $ik2_curated_ids as $ik2_curated_id ) {
 	if ( count( $ik2_project_ids ) >= $ik2_max_projects ) {
 		break;
 	}
 	$ik2_post = get_post( $ik2_curated_id );
-	if ( $ik2_post && Project\POST_TYPE === $ik2_post->post_type && 'publish' === $ik2_post->post_status ) {
+	if ( $ik2_post && Project\POST_TYPE === $ik2_post->post_type && $ik2_post->post_status === 'publish' ) {
 		$ik2_project_ids[] = $ik2_curated_id;
 	}
 }
 
 // Round up to the nearest even count (0 -> 4, 1 -> 2, 3 -> 4) by padding with
 // the latest non-curated projects so the 2-column grid is never left odd.
-$ik2_target_count = 0 === count( $ik2_project_ids )
+$ik2_target_count = count( $ik2_project_ids ) === 0
 	? $ik2_max_projects
 	: (int) ( ceil( count( $ik2_project_ids ) / 2 ) * 2 );
 
 if ( count( $ik2_project_ids ) < $ik2_target_count ) {
 	$ik2_fill = get_posts(
-		array(
+		[
 			'post_type'      => Project\POST_TYPE,
 			'post_status'    => 'publish',
 			'posts_per_page' => $ik2_target_count - count( $ik2_project_ids ),
@@ -63,7 +63,7 @@ if ( count( $ik2_project_ids ) < $ik2_target_count ) {
 			'order'          => 'DESC',
 			'fields'         => 'ids',
 			'post__not_in'   => $ik2_project_ids,
-		)
+		]
 	);
 	foreach ( $ik2_fill as $ik2_fill_id ) {
 		$ik2_project_ids[] = (int) $ik2_fill_id;
@@ -71,14 +71,14 @@ if ( count( $ik2_project_ids ) < $ik2_target_count ) {
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'wp-block-group ik-section ik-section--muted' )
+	[ 'class' => 'wp-block-group ik-section ik-section--muted' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="container-full">
 		<div class="ik-section__head">
 			<div>
-				<?php if ( '' !== $ik2_eyebrow ) : ?>
+				<?php if ( $ik2_eyebrow !== '' ) : ?>
 					<p class="ik-section__eyebrow"><?php echo esc_html( $ik2_eyebrow ); ?></p>
 				<?php endif; ?>
 				<h2 class="wp-block-heading ik-section__title"><?php echo esc_html( $ik2_title ); ?></h2>

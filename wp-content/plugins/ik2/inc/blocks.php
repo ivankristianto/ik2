@@ -26,10 +26,10 @@ function bootstrap(): void {
  * Register every block whose `block.json` lives under build/blocks/ or blocks/.
  */
 function register_block_types(): void {
-	$candidates = array(
+	$candidates = [
 		PLUGIN_DIR . '/build/blocks',
 		PLUGIN_DIR . '/blocks',
-	);
+	];
 
 	foreach ( $candidates as $base ) {
 		if ( ! is_dir( $base ) ) {

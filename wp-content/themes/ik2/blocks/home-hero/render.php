@@ -13,7 +13,7 @@ $ik2_portrait_uri = get_theme_file_uri( 'assets/images/ivan-portrait.webp' );
 $ik2_portrait_dir = get_theme_file_path( 'assets/images/ivan-portrait.webp' );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'container-full ik-section ik-hero' )
+	[ 'class' => 'container-full ik-section ik-hero' ]
 );
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

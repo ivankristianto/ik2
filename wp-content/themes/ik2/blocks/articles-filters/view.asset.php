@@ -9,10 +9,10 @@
  * @package IK2
  */
 
-return array(
-	'dependencies' => array(
+return [
+	'dependencies' => [
 		'@wordpress/interactivity',
 		'@wordpress/interactivity-router',
-	),
+	],
 	'version'      => (string) filemtime( __DIR__ . '/view.js' ),
-);
+];

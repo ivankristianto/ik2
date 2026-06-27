@@ -124,7 +124,7 @@ class Setup_Command {
 	 * @return array<int, Setup_Step>
 	 */
 	private function steps(): array {
-		return array(
+		return [
 			new Theme_Step(),
 			new Plugins_Step(),
 			new Pages_Step(),
@@ -139,7 +139,7 @@ class Setup_Command {
 			new Site_Identity_Step(),
 			new Object_Cache_Step(),
 			new Sample_Content_Step(),
-		);
+		];
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Setup_Command {
 		$only = $this->parse_step_list( $assoc_args, 'only' );
 		$skip = $this->parse_step_list( $assoc_args, 'skip' );
 
-		$keyed = array();
+		$keyed = [];
 
 		foreach ( $this->steps() as $step ) {
 			$keyed[ sanitize_title( $step->label() ) ] = $step;
@@ -161,7 +161,7 @@ class Setup_Command {
 
 		$unknown = array_diff( array_merge( $only, $skip ), array_keys( $keyed ) );
 
-		if ( array() !== $unknown ) {
+		if ( [] !== $unknown ) {
 			WP_CLI::error(
 				sprintf(
 					'Unknown step(s): %s. Valid keys: %s.',
@@ -171,13 +171,13 @@ class Setup_Command {
 			);
 		}
 
-		if ( array() !== $only ) {
+		if ( [] !== $only ) {
 			$keyed = array_intersect_key( $keyed, array_flip( $only ) );
 		}
 
 		$selected = array_values( array_diff_key( $keyed, array_flip( $skip ) ) );
 
-		if ( array() === $selected ) {
+		if ( [] === $selected ) {
 			WP_CLI::error( 'No steps left to run: --skip removed everything --only selected.' );
 		}
 
@@ -198,16 +198,16 @@ class Setup_Command {
 	private function parse_step_list( array $assoc_args, string $name ): array {
 		$raw = WP_CLI\Utils\get_flag_value( $assoc_args, $name, '' );
 
-		if ( true === $raw ) {
+		if ( $raw === true ) {
 			WP_CLI::error( sprintf( '--%s requires a comma-separated list of step keys.', $name ) );
 		}
 
-		$tokens = array();
+		$tokens = [];
 
 		foreach ( explode( ',', (string) $raw ) as $token ) {
 			$token = str_replace( '_', '-', sanitize_title( $token ) );
 
-			if ( '' !== $token ) {
+			if ( $token !== '' ) {
 				$tokens[] = $token;
 			}
 		}

@@ -15,18 +15,20 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 $ik2_talks_query = new WP_Query(
-	array(
-		'post_type'           => 'post',
-		'posts_per_page'      => -1,
-		'orderby'             => 'date',
-		'order'               => 'DESC',
-		'ignore_sticky_posts' => true,
-		'category_name'       => 'talk',
-	)
+	[
+		'post_type'              => 'post',
+		'posts_per_page'         => 100,
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'ignore_sticky_posts'    => true,
+		'category_name'          => 'talk',
+		'no_found_rows'          => true,
+		'update_post_term_cache' => false,
+	]
 );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'ik-talks-list' )
+	[ 'class' => 'ik-talks-list' ]
 );
 ?>
 <div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -40,12 +42,12 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<article class="ik-talk">
 				<span class="ik-talk__date"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></span>
 				<div class="ik-talk__body">
-					<h2 class="ik-talk__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-					<?php if ( '' !== $ik2_venue ) : ?>
+					<h2 class="ik-talk__title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
+					<?php if ( $ik2_venue !== '' ) : ?>
 						<div class="ik-talk__venue"><?php echo esc_html( $ik2_venue ); ?></div>
 					<?php endif; ?>
 				</div>
-				<?php if ( '' !== $ik2_kind ) : ?>
+				<?php if ( $ik2_kind !== '' ) : ?>
 					<span class="ik-talk__kind"><?php echo esc_html( $ik2_kind ); ?></span>
 				<?php endif; ?>
 			</article>

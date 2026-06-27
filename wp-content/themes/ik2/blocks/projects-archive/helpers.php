@@ -17,11 +17,11 @@ use WP_Post;
 
 defined( 'ABSPATH' ) || exit;
 
-const STATUS_RANK = array(
+const STATUS_RANK = [
 	'Active'     => 0,
 	'Experiment' => 1,
 	'Archived'   => 2,
-);
+];
 
 /**
  * Order projects by status (Active → Experiment → Archived), then newest first.

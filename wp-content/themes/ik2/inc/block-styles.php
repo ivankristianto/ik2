@@ -28,23 +28,23 @@ function bootstrap(): void {
 function register_callout_block_styles(): void {
 	register_block_style(
 		'core/group',
-		array(
+		[
 			'name'  => 'callout-note',
 			'label' => __( 'Callout — Note', 'ik2' ),
-		)
+		]
 	);
 	register_block_style(
 		'core/group',
-		array(
+		[
 			'name'  => 'callout-updated',
 			'label' => __( 'Callout — Updated', 'ik2' ),
-		)
+		]
 	);
 	register_block_style(
 		'core/group',
-		array(
+		[
 			'name'  => 'callout-outdated',
 			'label' => __( 'Callout — Outdated', 'ik2' ),
-		)
+		]
 	);
 }

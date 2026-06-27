@@ -39,7 +39,7 @@ function enqueue_editor_assets(): void {
 	wp_enqueue_script(
 		'ik2-plugin-editor',
 		plugins_url( 'build/editor.js', PLUGIN_FILE ),
-		$asset['dependencies'] ?? array(),
+		$asset['dependencies'] ?? [],
 		$asset['version'] ?? (string) filemtime( $script ),
 		true
 	);

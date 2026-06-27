@@ -36,22 +36,22 @@ class Object_Cache_Step implements Setup_Step {
 	 */
 	public function run( bool $force ): array {
 		if ( ! file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-			return array( new Check_Result( 'drop-in', false, 'wp-content/object-cache.php missing' ) );
+			return [ new Check_Result( 'drop-in', false, 'wp-content/object-cache.php missing' ) ];
 		}
 
 		if ( ! wp_using_ext_object_cache() ) {
-			return array(
+			return [
 				new Check_Result( 'drop-in', true, 'present' ),
 				new Check_Result( 'external cache', false, 'not in use' ),
-			);
+			];
 		}
 
-		return array(
+		return [
 			new Check_Result( 'drop-in', true, 'present' ),
 			new Check_Result( 'external cache', true, 'in use' ),
 			$this->check_redis_connection(),
 			$this->check_roundtrip(),
-		);
+		];
 	}
 
 	/**

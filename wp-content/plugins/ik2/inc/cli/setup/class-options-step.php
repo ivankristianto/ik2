@@ -32,7 +32,7 @@ abstract class Options_Step implements Setup_Step {
 	 * @return array<int, Check_Result>
 	 */
 	public function run( bool $force ): array {
-		$results = array();
+		$results = [];
 
 		foreach ( $this->options() as $name => $value ) {
 			$results[] = $this->ensure_option( $name, $value );

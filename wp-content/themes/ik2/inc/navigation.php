@@ -44,19 +44,19 @@ function ik2_normalize_path( string $url ): string {
  * @param array<mixed> $block         Parsed block data.
  */
 function mark_current_navigation_link( string $block_content, array $block ): string {
-	if ( is_admin() || '' === $block_content ) {
+	if ( is_admin() || $block_content === '' ) {
 		return $block_content;
 	}
 
-	$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+	$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : [];
 	$url   = isset( $attrs['url'] ) ? (string) $attrs['url'] : '';
 
-	if ( '' === $url ) {
+	if ( $url === '' ) {
 		return $block_content;
 	}
 
 	$link_path    = ik2_normalize_path( $url );
-	$current_path = ik2_normalize_path( home_url( add_query_arg( array() ) ) );
+	$current_path = ik2_normalize_path( home_url( add_query_arg( [] ) ) );
 
 	if ( $link_path !== $current_path ) {
 		return $block_content;
@@ -64,7 +64,7 @@ function mark_current_navigation_link( string $block_content, array $block ): st
 
 	$processor = new \WP_HTML_Tag_Processor( $block_content );
 
-	if ( ! $processor->next_tag( array( 'tag_name' => 'a' ) ) ) {
+	if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
 		return $block_content;
 	}
 
@@ -87,7 +87,7 @@ function mark_current_navigation_link( string $block_content, array $block ): st
  * mark the Resume CTA in the header as current.
  */
 function ik2_is_resume_current(): bool {
-	$current_path = ik2_normalize_path( home_url( add_query_arg( array() ) ) );
+	$current_path = ik2_normalize_path( home_url( add_query_arg( [] ) ) );
 
-	return '/resume' === $current_path;
+	return $current_path === '/resume';
 }

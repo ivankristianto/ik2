@@ -20,51 +20,51 @@ $ik2_request_uri = '/';
 if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 	$ik2_uri_raw     = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	$ik2_uri_path    = (string) wp_parse_url( $ik2_uri_raw, PHP_URL_PATH );
-	$ik2_request_uri = '' === $ik2_uri_path ? '/' : $ik2_uri_path;
+	$ik2_request_uri = $ik2_uri_path === '' ? '/' : $ik2_uri_path;
 }
 
 $ik2_now_utc = gmdate( 'Y-m-d H:i:s' ) . ' UTC';
 $ik2_ray_id  = sprintf( '%04x-CGK', wp_rand( 0, 0xffff ) );
 $ik2_host    = (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST );
 
-$ik2_routes = array(
-	array(
+$ik2_routes = [
+	[
 		'path'  => '/',
 		'label' => 'Home',
 		'desc'  => 'The notebook front page — latest writing, guides, and notes.',
-	),
-	array(
+	],
+	[
 		'path'  => '/articles',
 		'label' => 'Articles',
 		'desc'  => 'Posts on WordPress, AI, performance, security, and developer tooling.',
-	),
-	array(
+	],
+	[
 		'path'  => '/projects',
 		'label' => 'Projects',
 		'desc'  => 'Open-source CLIs, plugins, and side experiments worth shipping.',
-	),
-	array(
+	],
+	[
 		'path'  => '/speaking',
 		'label' => 'Speaking',
 		'desc'  => 'Talks at WordCamps, meetups, and Google Developer events.',
-	),
-	array(
+	],
+	[
 		'path'  => '/about',
 		'label' => 'About',
 		'desc'  => 'Who I am, what I work on, and what this site is for.',
-	),
-	array(
+	],
+	[
 		'path'  => '/contact',
 		'label' => 'Contact',
 		'desc'  => 'Email, social, and how to reach me for work or speaking.',
-	),
-);
+	],
+];
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	array( 'class' => 'container-full ik-section' )
+	[ 'class' => 'container-full ik-section' ]
 );
 ?>
-<main <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="ik-main" <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<section class="ik-404">
 		<div class="ik-404__hero">
 			<div>

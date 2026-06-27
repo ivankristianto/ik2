@@ -10,14 +10,14 @@
  * @package IK2\Plugin
  */
 
-return array(
-	'dependencies' => array(
+return [
+	'dependencies' => [
 		'wp-blocks',
 		'wp-element',
 		'wp-block-editor',
 		'wp-components',
 		'wp-i18n',
 		'wp-server-side-render',
-	),
+	],
 	'version'      => (string) filemtime( __DIR__ . '/editor.js' ),
-);
+];
