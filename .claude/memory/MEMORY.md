@@ -2,3 +2,4 @@
 - [all webroots are non-volume /var/www/app](project-cli-webroot-non-volume.md) — `VOLUME /var/www/html` shadowing on Dokploy served stale code across redeploys; app/nginx/cli all bake at /var/www/app
 - [Docker is OrbStack](project-docker-is-orbstack.md) — start the daemon with `open -a OrbStack`, there is no Docker.app
 - [theme depends on plugin blocks](project-theme-depends-on-plugin-blocks.md) — single-project + projects-archive render `ik2/project-card`, a block registered by the ik2 plugin, not the theme
+- [no worktrees for container-verified work](project-no-worktrees-docker-bindmount.md) — Docker bind-mounts the main checkout; use a feature branch in place so containers see the changes
