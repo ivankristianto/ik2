@@ -95,7 +95,12 @@ class Post_Importer {
 			$existing = $this->find_by_slug( $slug );
 
 			if ( null !== $existing && ! $this->config->force ) {
-				return new Migration_Result( 'skipped', $slug, 'slug already exists' );
+				// If the post was previously imported but flagged as having media
+				// failures, fall through and reprocess it so the missing images
+				// can be retried on a plain re-run without --force.
+				if ( ! get_post_meta( $existing, '_ik2_media_incomplete', true ) ) {
+					return new Migration_Result( 'skipped', $slug, 'slug already exists' );
+				}
 			}
 
 			if ( $this->config->dry_run ) {
@@ -104,18 +109,23 @@ class Post_Importer {
 				return new Migration_Result( $status, $slug, sprintf( 'dry-run: %d inline image(s)', $inline ), 0 );
 			}
 
-			$media_added = 0;
+			$media_added  = 0;
+			$media_failed = 0;
 
 			// 1. Insert or update the post (content rewritten in step 3).
 			$post_id = $this->upsert_post( $legacy_post, $existing );
 
-			// 2. Featured image.
+			// 2. Featured image — failure is per-image, not fatal to the post.
 			$thumb_url = $this->legacy->thumbnail_url( $legacy_id );
 
 			if ( null !== $thumb_url ) {
-				$thumb = $this->media->import( $thumb_url, $post_id, $this->config->force );
-				set_post_thumbnail( $post_id, $thumb['id'] );
-				$media_added += $thumb['reused'] ? 0 : 1;
+				try {
+					$thumb = $this->media->import( $thumb_url, $post_id, $this->config->force );
+					set_post_thumbnail( $post_id, $thumb['id'] );
+					$media_added += $thumb['reused'] ? 0 : 1;
+				} catch ( \Throwable $e ) {
+					++$media_failed;
+				}
 			}
 
 			// 3. Inline images + content rewrite.
@@ -124,9 +134,15 @@ class Post_Importer {
 			$map     = [];
 
 			foreach ( $urls as $url ) {
-				$imported     = $this->media->import( $url, $post_id, $this->config->force );
-				$map[ $url ]  = $imported['url'];
-				$media_added += $imported['reused'] ? 0 : 1;
+				// Each image failure is isolated: the URL is left unmapped so the
+				// original src stays in content and can be retried on the next run.
+				try {
+					$imported     = $this->media->import( $url, $post_id, $this->config->force );
+					$map[ $url ]  = $imported['url'];
+					$media_added += $imported['reused'] ? 0 : 1;
+				} catch ( \Throwable $e ) {
+					++$media_failed;
+				}
 			}
 
 			$rewritten = $this->rewriter->rewrite( $content, $map );
@@ -147,12 +163,20 @@ class Post_Importer {
 			// 5. Yoast meta.
 			$this->copy_yoast_meta( $post_id, $legacy_id );
 
-			// 6. Stamp legacy id for traceability.
+			// 6. Set or clear the incomplete flag, then stamp legacy id.
+			if ( $media_failed > 0 ) {
+				update_post_meta( $post_id, '_ik2_media_incomplete', $media_failed );
+				$note = sprintf( 'ok, %d image(s) failed', $media_failed );
+			} else {
+				delete_post_meta( $post_id, '_ik2_media_incomplete' );
+				$note = 'ok';
+			}
+
 			update_post_meta( $post_id, '_ik2_legacy_id', $legacy_id );
 
 			$status = null === $existing ? 'created' : 'overwritten';
 
-			return new Migration_Result( $status, $slug, 'ok', $media_added );
+			return new Migration_Result( $status, $slug, $note, $media_added, $media_failed );
 		} catch ( Throwable $e ) {
 			return new Migration_Result( 'failed', $slug, $e->getMessage() );
 		}

@@ -114,38 +114,46 @@ class Migrate_Articles_Command {
 			)
 		);
 
-		$tally       = [
+		$tally               = [
 			'created'     => 0,
 			'overwritten' => 0,
 			'skipped'     => 0,
 			'failed'      => 0,
 		];
-		$media_added = 0;
-		$failures    = [];
+		$media_added         = 0;
+		$media_failed_total  = 0;
+		$failures            = [];
+		$media_problem_posts = [];
 
 		foreach ( $posts as $post ) {
 			$result                   = $importer->import_one( $post );
 			$tally[ $result->status ] = ( $tally[ $result->status ] ?? 0 ) + 1;
 			$media_added             += $result->media_added;
+			$media_failed_total      += $result->media_failed;
 
 			if ( 'failed' === $result->status ) {
 				$failures[] = sprintf( '#%s %s — %s', $post['ID'], $result->slug, $result->note );
 			}
 
+			if ( $result->media_failed > 0 ) {
+				$media_problem_posts[] = sprintf( '#%s %s — %d image(s) failed', $post['ID'], $result->slug, $result->media_failed );
+			}
+
 			if ( $config->verbose ) {
-				WP_CLI::log( sprintf( '  [%s] %s — %s (+%d media)', $result->status, $result->slug, $result->note, $result->media_added ) );
+				WP_CLI::log( sprintf( '  [%s] %s — %s (+%d media, %d failed)', $result->status, $result->slug, $result->note, $result->media_added, $result->media_failed ) );
 			}
 		}
 
 		WP_CLI::log( '' );
 		WP_CLI::log(
 			sprintf(
-				'Summary: %d created, %d overwritten, %d skipped, %d failed; %d media added.',
+				'Summary: %d created, %d overwritten, %d skipped, %d failed; %d media added, %d media failed.',
 				$tally['created'],
 				$tally['overwritten'],
 				$tally['skipped'],
 				$tally['failed'],
-				$media_added
+				$media_added,
+				$media_failed_total
 			)
 		);
 
@@ -155,8 +163,18 @@ class Migrate_Articles_Command {
 			foreach ( $failures as $failure ) {
 				WP_CLI::log( '  ✗ ' . $failure );
 			}
+		}
 
-			WP_CLI::error( sprintf( '%d post(s) failed. Fix the cause and re-run; successful posts are skipped.', $tally['failed'] ) );
+		if ( [] !== $media_problem_posts ) {
+			WP_CLI::log( 'Media failures (post imported; fix the files and re-run):' );
+
+			foreach ( $media_problem_posts as $problem ) {
+				WP_CLI::log( '  ✗ ' . $problem );
+			}
+		}
+
+		if ( [] !== $failures || [] !== $media_problem_posts ) {
+			WP_CLI::error( sprintf( '%d post failure(s), %d post(s) with media failures. Fix the cause and re-run; posts flagged as incomplete are retried automatically.', $tally['failed'], count( $media_problem_posts ) ) );
 		}
 
 		WP_CLI::success( $config->dry_run ? 'Dry run complete.' : 'Migration complete.' );
