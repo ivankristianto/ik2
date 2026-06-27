@@ -34,31 +34,34 @@ The new ik2 site is nearly complete but empty of historical content. The old sit
 | What to carry over | Slugs + dates, categories + tags, post formats, Yoast SEO meta. |
 | Target author | All imported posts assigned to the current site's user (default: `ik2` admin / user ID 1). |
 | Comments | Skipped. |
+| Packaging | A command in the first-party **ik2 plugin** at `wp-content/plugins/ik2/inc/cli`, alongside the existing `ik2 stats` / `ik2 setup` commands. |
+| Idempotency key | **Slug.** Skip a post whose slug already exists and whose media already exist; `--force` overrides. |
+| Flags | `--dry-run`, `--verbose` (per-post logging), `--force` (re-force the copy). |
 
 ## Architecture
 
 ### Packaging
 
-A self-contained WP-CLI command, **not** part of the deployed app image. It lives in the repo under `scripts/migration/` and is loaded on demand with `--require`:
+A WP-CLI command in the **first-party ik2 plugin**, alongside the existing `ik2 stats` and `ik2 setup` commands. It follows the plugin's established CLI conventions exactly:
 
-```bash
-composer dev:wp:cmd -- --require=scripts/migration/cli.php ik2 migrate-articles --dry-run
-```
-
-Rationale: the migration is a one-off operation that should not ship in the theme, mu-plugins, or production runtime, but should be version-controlled and easy to iterate on. Loading via `--require` keeps it out of normal WordPress bootstrap while making it runnable inside the existing wp-cli container.
-
-Files:
-
-- `scripts/migration/cli.php` — registers the `wp ik2 migrate-articles` command and wires dependencies.
-- A command class (e.g. `IK2\Migration\Migrate_Articles_Command`) exposing the command callback.
-- Supporting classes for the discrete units below, each with one responsibility:
+- New command class `IK2\Plugin\CLI\Migrate_Articles_Command` in `wp-content/plugins/ik2/inc/cli/class-migrate-articles-command.php`, with a full WP-CLI docblock (`## OPTIONS`, `## EXAMPLES`).
+- Registered in `inc/cli/namespace.php` `bootstrap()` via `require_once` + `\WP_CLI::add_command( 'ik2 migrate-articles', Migrate_Articles_Command::class )`.
+- Helper classes live in a `cli/migrate/` subfolder — mirroring how the `setup` command keeps its step classes in `cli/setup/`. Each helper has one responsibility:
   - **Legacy DB reader** — opens the second `wpdb`, fetches posts, meta, terms.
-  - **Post upserter** — matches/inserts/updates a post on the new site.
+  - **Post upserter** — matches by slug, then inserts or skips/overwrites on the new site.
   - **Media sideloader** — resolves an old URL to a local file, sideloads it, returns the new attachment + URL.
   - **Content rewriter** — replaces old upload URLs in content using the sideloader's map.
   - **Reporter** — accumulates per-post outcomes and prints the run summary.
 
-Functions and callbacks are named (per project PHP conventions), not closures.
+Run it through the existing wp-cli wrapper:
+
+```bash
+composer dev:wp:cmd -- ik2 migrate-articles --dry-run
+composer dev:wp:cmd -- ik2 migrate-articles --verbose
+composer dev:wp:cmd -- ik2 migrate-articles --force
+```
+
+Because the plugin loads it, no `--require` is needed. Functions and callbacks are named (per project PHP conventions), not closures.
 
 ### Legacy database access
 
@@ -71,7 +74,7 @@ The old **table prefix** is a required input (often `wp_`, but may be randomized
 For each legacy published post, ordered by ID:
 
 1. **Select** the post row and its postmeta from the legacy DB.
-2. **Upsert** — look up an existing new-site post by `_ik2_legacy_id == <old ID>`. Insert if absent, otherwise update in place. Set title, content (pre-rewrite), excerpt, slug (`post_name`), publish date, modified date, status, and author.
+2. **Match by slug** — look up an existing new-site post with the same `post_name`. If one exists and `--force` is not set, **skip** the post (it is already migrated). Otherwise insert a new post, or overwrite the matched one when `--force` is set. Set title, content (pre-rewrite), excerpt, slug (`post_name`), publish date, modified date, status, and author. Stamp `_ik2_legacy_id` for traceability.
 3. **Featured image** — resolve the old thumbnail to a local file, sideload it (or reuse if already imported), set as `_thumbnail_id`.
 4. **Inline images** — scan `post_content` for old upload URLs, sideload each (or reuse), building an old-URL → new-URL map. Resized variants (e.g. `-1024x768.jpg`) resolve back to the originally-uploaded file so WordPress regenerates its own sizes.
 5. **Rewrite** `post_content` with the URL map and save the updated content.
@@ -81,10 +84,11 @@ For each legacy published post, ordered by ID:
 
 ## Idempotency
 
-The "run until fixed" requirement drives every matching decision:
+The "run until fixed" requirement drives every matching decision. **Slug is the matching key:**
 
-- **Posts** are keyed by the `_ik2_legacy_id` post meta. Re-runs update; they never duplicate.
-- **Attachments** are stamped with `_ik2_legacy_src` (the old URL or path). Before sideloading, the script checks for an attachment with that stamp and reuses it, so re-runs do not re-download or duplicate media.
+- **Posts** are matched by `post_name` (slug). If a post with that slug already exists, the new post is skipped — re-runs never duplicate. `--force` overwrites the matched post instead of skipping.
+- **Media** are matched by attachment slug (the sanitized filename). If an attachment with that slug already exists, the sideload is skipped and the existing attachment is reused. `--force` re-sideloads and overwrites.
+- **The skip rule, stated plainly:** if the post slug exists *and* its media already exist, skip the whole post. `--force` re-forces the copy.
 - **Terms** are matched by slug via `wp_insert_term` / existing-term lookup, which is naturally idempotent.
 - A failed post leaves prior successful posts untouched; the next run retries only what failed.
 
@@ -93,15 +97,15 @@ The "run until fixed" requirement drives every matching decision:
 | Flag | Effect |
 | :-- | :-- |
 | `--dry-run` | Report what would happen; write nothing. |
+| `--verbose` | Emit a per-post log line (matched/created/skipped, media added, errors). Default output is the summary only. |
+| `--force` | Re-force the copy: overwrite existing posts and re-sideload media even when slugs already exist. |
 | `--limit=N` | Process at most N posts (for incremental testing). |
 | `--post=<old_id>` | Process a single legacy post by its old ID. |
-| `--force-media` | Re-sideload media even if a stamped attachment exists. |
-| `--reset` | Delete previously-imported posts and media (by their stamps) for a clean redo. |
 | `--legacy-db=` `--legacy-prefix=` `--uploads-path=` `--author=` | Connection, prefix, local uploads location, and target author overrides. |
 
 ### Run summary
 
-Every run prints: created, updated, skipped, media added, and **failures with reasons** (post ID + error). The user re-runs until the failure count is zero.
+Every run prints: created, skipped, overwritten (`--force`), media added, and **failures with reasons** (post ID + error). With `--verbose`, each post also logs its individual outcome. The user re-runs until the failure count is zero.
 
 ## Data flow
 
@@ -127,8 +131,8 @@ local uploads copy ──(filesystem)─────────> media sideload
 
 - **Dry run first** on the full set to validate selection counts and surface unresolved images before any writes.
 - **`--limit=1` / `--post=<id>`** to verify a single article end to end: body, featured image, inline images, slug, date, terms, format, Yoast meta.
-- **Re-run** the same scope to confirm idempotency: second run reports updates/skips, adds no duplicate posts or media.
-- **`--reset` then full run** to confirm a clean redo path.
+- **Re-run** the same scope to confirm idempotency: second run reports skips (slug already exists), adds no duplicate posts or media.
+- **`--force`** on an already-migrated post to confirm the overwrite/re-sideload path works.
 - Spot-check rewritten content URLs resolve to new attachments, and that no old-domain URLs remain.
 
 ## Inputs required from the user
