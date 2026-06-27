@@ -44,3 +44,6 @@
 
 # Lock files: keep composer.lock and pnpm-lock.yaml in git
 /.pnpm-store/
+
+# One-off migration inputs (old DB dump + uploads copy). Never committed.
+/legacy/

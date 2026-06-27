@@ -127,6 +127,9 @@ services:
             - ./wp-content/mu-plugins:/var/www/app/wp-content/mu-plugins
             - ./vendor:/var/www/app/vendor
             - uploads:/var/www/app/wp-content/uploads
+            # Dev-only: legacy MySQL dump + old wp-content/uploads copy for the
+            # one-off `wp ik2 migrate-articles` command. Read-only; gitignored.
+            - ./legacy:/legacy:ro
         depends_on:
             db:
                 condition: service_healthy
