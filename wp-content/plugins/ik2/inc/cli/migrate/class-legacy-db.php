@@ -53,7 +53,7 @@ class Legacy_DB {
 
 		$this->db = new wpdb( $config->legacy_user, $config->legacy_pass, $config->legacy_db, $config->legacy_host );
 
-		if ( ! empty( $this->db->error ) ) {
+		if ( ! empty( $this->db->last_error ) ) {
 			WP_CLI::error( sprintf( 'Cannot connect to legacy DB "%s": %s', $config->legacy_db, (string) $this->db->last_error ) );
 		}
 
