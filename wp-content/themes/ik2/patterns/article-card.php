@@ -21,19 +21,13 @@
 	<!-- wp:group {"className":"ik-article-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
 	<div class="wp-block-group ik-article-card__meta">
 		<!-- wp:post-date {"format":"F j, Y","className":"ik-article-card__date"} /-->
-		<!-- wp:paragraph {"className":"ik-article-card__sep"} -->
-		<p class="ik-article-card__sep" aria-hidden="true">·</p>
-		<!-- /wp:paragraph -->
-		<!-- wp:paragraph {"className":"ik-article-card__reading"} -->
-		<p class="ik-article-card__reading"><?php esc_html_e( '5 min read', 'ik2' ); ?></p>
-		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:post-title {"isLink":true,"level":3,"className":"ik-article-card__title"} /-->
+	<!-- wp:post-title {"isLink":true,"level":2,"className":"ik-article-card__title"} /-->
 
 	<!-- wp:post-excerpt {"excerptLength":26,"className":"ik-article-card__excerpt","moreText":""} /-->
 
-	<!-- wp:post-terms {"term":"category","prefix":"","separator":" ","className":"ik-article-card__tags"} /-->
+	<!-- wp:post-terms {"term":"post_tag","prefix":"","separator":" ","className":"ik-article-card__tags"} /-->
 </article>
 <!-- /wp:group -->

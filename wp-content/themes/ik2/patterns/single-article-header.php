@@ -21,14 +21,6 @@
 		<p class="ik-article__sep" aria-hidden="true">·</p>
 		<!-- /wp:paragraph -->
 
-		<!-- wp:paragraph {"className":"ik-article__reading"} -->
-		<p class="ik-article__reading"><?php esc_html_e( '9 min read', 'ik2' ); ?></p>
-		<!-- /wp:paragraph -->
-
-		<!-- wp:paragraph {"className":"ik-article__sep"} -->
-		<p class="ik-article__sep" aria-hidden="true">·</p>
-		<!-- /wp:paragraph -->
-
 		<!-- wp:post-terms {"term":"category","separator":" ","className":"ik-article__tags"} /-->
 	</div>
 	<!-- /wp:group -->

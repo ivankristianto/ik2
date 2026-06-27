@@ -83,7 +83,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 				<div class="ik-404__stats" aria-label="Diagnostic">
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">status</span><code class="ik-404__stats-v err">404</code></span>
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">path</span><code class="ik-404__stats-v"><?php echo esc_html( $ik2_request_uri ); ?></code></span>
-					<span class="ik-404__stats-item"><span class="ik-404__stats-k">cache</span><code class="ik-404__stats-v ok">HIT</code></span>
+					<span class="ik-404__stats-item"><span class="ik-404__stats-k">cache</span><code class="ik-404__stats-v">MISS</code></span>
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">server</span><code class="ik-404__stats-v">cloudflare</code></span>
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">cf-ray</span><code class="ik-404__stats-v"><?php echo esc_html( $ik2_ray_id ); ?></code></span>
 				</div>
