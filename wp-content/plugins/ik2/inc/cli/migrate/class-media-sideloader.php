@@ -157,8 +157,11 @@ class Media_Sideloader {
 	 * @param string $old_url Absolute old upload URL.
 	 */
 	private function resolve_local_path( string $old_url ): ?string {
-		$url_path  = (string) wp_parse_url( $old_url, PHP_URL_PATH );
-		$marker    = '/wp-content/uploads/';
+		$url_path = (string) wp_parse_url( $old_url, PHP_URL_PATH );
+
+		// Derive the uploads marker from the configured old base URL so sites
+		// that serve uploads from /uploads/ (not /wp-content/uploads/) resolve.
+		$marker    = trailingslashit( (string) wp_parse_url( $this->old_base_url, PHP_URL_PATH ) );
 		$marker_at = strpos( $url_path, $marker );
 
 		if ( false === $marker_at ) {
