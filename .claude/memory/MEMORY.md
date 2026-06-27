@@ -3,3 +3,5 @@
 - [Docker is OrbStack](project-docker-is-orbstack.md) — start the daemon with `open -a OrbStack`, there is no Docker.app
 - [theme depends on plugin blocks](project-theme-depends-on-plugin-blocks.md) — single-project + projects-archive render `ik2/project-card`, a block registered by the ik2 plugin, not the theme
 - [no worktrees for container-verified work](project-no-worktrees-docker-bindmount.md) — Docker bind-mounts the main checkout; use a feature branch in place so containers see the changes
+- [legacy migration specifics](project-legacy-migration-specifics.md) — old-site prefix is `cfx_`, uploads at `/uploads/`, dev DB pre-loaded with article text minus images so `--force` is required
+- [articles normalized](project-articles-normalized.md) — all 487 posts block-converted + shortcode→code + proofread + recategorized to feature topics/misc; stamped `_ik2_normalized`/`_ik2_topic`
