@@ -3,7 +3,8 @@
  * Title: Single project — breadcrumbs
  * Slug: ik2/single-project-breadcrumbs
  * Categories: ik2-page
- * Description: Home / Projects / current-title breadcrumb trail for the single project template.
+ * Inserter: no
+ * Description: Home / Projects / current-title breadcrumb trail for the single project template. Depends on the current project — hidden from the manual inserter.
  *
  * @package IK2
  */

@@ -3,7 +3,8 @@
  * Title: Single article — header
  * Slug: ik2/single-article-header
  * Categories: ik2-page
- * Description: Title, meta line (date · reading time · categories) for the single post template.
+ * Inserter: no
+ * Description: Title and meta line (date · categories) for the single post template. Depends on the current post — hidden from the manual inserter.
  *
  * @package IK2
  */

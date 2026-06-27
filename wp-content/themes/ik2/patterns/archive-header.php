@@ -3,7 +3,8 @@
  * Title: Archive — Header
  * Slug: ik2/archive-header
  * Categories: ik2-archive
- * Description: Eyebrow, title, and lede built from the queried category or tag term.
+ * Inserter: no
+ * Description: Eyebrow, title, and lede built from the queried category or tag term. Depends on archive query context — hidden from the manual inserter.
  *
  * @package IK2
  */

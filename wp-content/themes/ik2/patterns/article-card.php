@@ -3,7 +3,8 @@
  * Title: Article card
  * Slug: ik2/article-card
  * Categories: ik2-archive
- * Description: Card used inside the Articles archive Query Loop — coloured cover, meta line, title, excerpt, and categories.
+ * Inserter: no
+ * Description: Card used inside the Articles archive Query Loop — coloured cover, meta line, title, excerpt, and tags. Renders only inside a post Query Loop, so it is hidden from the manual inserter.
  *
  * @package IK2
  */

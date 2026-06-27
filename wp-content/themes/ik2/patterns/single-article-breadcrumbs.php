@@ -3,7 +3,8 @@
  * Title: Single article — breadcrumbs
  * Slug: ik2/single-article-breadcrumbs
  * Categories: ik2-page
- * Description: Home / Articles / current-title breadcrumb trail for the single post template.
+ * Inserter: no
+ * Description: Home / Articles / current-title breadcrumb trail for the single post template. Depends on the current post — hidden from the manual inserter.
  *
  * @package IK2
  */

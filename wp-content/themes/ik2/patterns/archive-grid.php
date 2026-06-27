@@ -3,7 +3,8 @@
  * Title: Archive — Grid
  * Slug: ik2/archive-grid
  * Categories: ik2-archive
- * Description: Filter bar plus an inherited Query Loop of posts for category and tag archives.
+ * Inserter: no
+ * Description: Filter bar plus an inherited Query Loop of posts for category and tag archives. Template-only — hidden from the manual inserter.
  *
  * @package IK2
  */

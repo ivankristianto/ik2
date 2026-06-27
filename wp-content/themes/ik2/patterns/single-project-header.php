@@ -3,7 +3,8 @@
  * Title: Single project — header
  * Slug: ik2/single-project-header
  * Categories: ik2-page
- * Description: Eyebrow, title, and project meta for the single project template.
+ * Inserter: no
+ * Description: Eyebrow, title, and project meta for the single project template. Depends on the current project — hidden from the manual inserter.
  *
  * @package IK2
  */
