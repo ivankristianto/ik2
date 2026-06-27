@@ -41,6 +41,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/migrate/class-migration-config.php';
 	require_once __DIR__ . '/migrate/class-migration-result.php';
 	require_once __DIR__ . '/migrate/class-content-rewriter.php';
+	require_once __DIR__ . '/migrate/class-legacy-db.php';
 	require_once __DIR__ . '/class-migrate-articles-command.php';
 
 	\WP_CLI::add_command( 'ik2 stats', Stats_Command::class );
