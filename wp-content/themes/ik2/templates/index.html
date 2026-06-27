@@ -1,19 +1,23 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
-<main class="wp-block-group">
+<!-- wp:group {"tagName":"main","anchor":"ik-main","layout":{"type":"constrained"}} -->
+<main id="ik-main" class="wp-block-group">
+	<!-- wp:heading {"level":1} -->
+	<h1 class="wp-block-heading">Latest articles</h1>
+	<!-- /wp:heading -->
+
 	<!-- wp:query {"queryId":0,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true}} -->
 	<div class="wp-block-query">
 		<!-- wp:post-template -->
-			<!-- wp:post-title {"isLink":true,"level":2} /-->
-			<!-- wp:post-date /-->
-			<!-- wp:post-excerpt /-->
+		<!-- wp:post-title {"isLink":true,"level":2} /-->
+		<!-- wp:post-date /-->
+		<!-- wp:post-excerpt {"moreText":"Read more"} /-->
 		<!-- /wp:post-template -->
 
 		<!-- wp:query-pagination -->
-			<!-- wp:query-pagination-previous /-->
-			<!-- wp:query-pagination-numbers /-->
-			<!-- wp:query-pagination-next /-->
+		<!-- wp:query-pagination-previous /-->
+		<!-- wp:query-pagination-numbers /-->
+		<!-- wp:query-pagination-next /-->
 		<!-- /wp:query-pagination -->
 	</div>
 	<!-- /wp:query -->

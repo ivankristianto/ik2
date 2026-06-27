@@ -10,8 +10,8 @@
 
 ?>
 <!-- wp:html -->
-<aside class="ik-contact__note">
+<div class="ik-contact__note">
 	<p>// I&rsquo;m not currently looking for new full-time work, but I read every</p>
 	<p>// legitimate email. Cold pitches from sales tools go straight to /dev/null.</p>
-</aside>
+</div>
 <!-- /wp:html -->

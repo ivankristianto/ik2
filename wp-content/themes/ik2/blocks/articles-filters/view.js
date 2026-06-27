@@ -38,6 +38,18 @@ store( 'ik2/articles-filters', {
 				'@wordpress/interactivity-router'
 			);
 			yield actions.navigate( ref.href );
+
+			// The router has swapped the region in place; keyboard and
+			// screen-reader users get no page reload to signal the change.
+			// Move focus to the refreshed results so the new context (and the
+			// aria-live count) is announced and keyboard focus stays sensible.
+			const results = document.querySelector(
+				'.ik-articles-archive__query'
+			);
+			if ( results ) {
+				results.setAttribute( 'tabindex', '-1' );
+				results.focus( { preventScroll: true } );
+			}
 		} ),
 	},
 } );

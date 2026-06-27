@@ -151,7 +151,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 	</div>
 
 	<?php if ( $ik2_show_count ) : ?>
-		<span class="ik-articles-filters__count">
+		<span class="ik-articles-filters__count" role="status" aria-live="polite" aria-atomic="true">
 			<?php
 			printf(
 				/* translators: 1: number of posts matching the current filters, 2: total posts */

@@ -1,12 +1,16 @@
 <!-- wp:group {"metadata":{"name":"Header","description":"Site header with wordmark, primary navigation, command palette trigger and Resume CTA."},"className":"ik-header","layout":{"type":"default"}} -->
 <div class="wp-block-group ik-header">
+	<!-- wp:html -->
+	<a class="ik-skip-link" href="#ik-main">Skip to content</a>
+	<!-- /wp:html -->
+
 	<!-- wp:group {"className":"container-full ik-header__row","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group container-full ik-header__row">
 		<!-- wp:site-title {"level":0,"className":"ik-wordmark"} /-->
 
 		<!-- wp:group {"className":"ik-header__right","layout":{"type":"flex","flexWrap":"nowrap"}} -->
 		<div class="wp-block-group ik-header__right">
-			<!-- wp:navigation {"className":"ik-header__nav","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left"}} -->
+			<!-- wp:navigation {"ariaLabel":"Primary","overlayMenu":"mobile","className":"ik-header__nav","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left"}} -->
 			<!-- wp:navigation-link {"label":"Home","url":"/","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"Articles","url":"/articles","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"Projects","url":"/projects","kind":"custom"} /-->
@@ -21,6 +25,9 @@
 				class="ik-header__cmd"
 				aria-label="Open command palette"
 				aria-keyshortcuts="Meta+K Control+K"
+				aria-haspopup="dialog"
+				aria-controls="ik-command-palette"
+				aria-expanded="false"
 			>
 				<span>Search</span>
 				<kbd>⌘K</kbd>

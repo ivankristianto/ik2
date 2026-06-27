@@ -9,8 +9,8 @@
  */
 
 ?>
-<!-- wp:group {"tagName":"section","className":"ik-about__elsewhere","layout":{"type":"default"}} -->
-<section class="wp-block-group ik-about__elsewhere">
+<!-- wp:group {"className":"ik-about__elsewhere","layout":{"type":"default"}} -->
+<div class="wp-block-group ik-about__elsewhere">
 	<!-- wp:group {"className":"ik-about__elsewhere-copy","layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-about__elsewhere-copy">
 		<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
@@ -34,5 +34,5 @@
 		<!-- /wp:button -->
 	</div>
 	<!-- /wp:buttons -->
-</section>
+</div>
 <!-- /wp:group -->

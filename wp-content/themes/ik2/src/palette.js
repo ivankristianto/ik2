@@ -54,6 +54,30 @@ let palette;
 let input;
 let listEl;
 let emptyEl;
+// Element focus is returned to when the palette closes (the trigger that
+// opened it, or whatever held focus when ⌘K fired).
+let lastFocused = null;
+
+const FOCUSABLE = [
+	'a[href]',
+	'button:not([disabled])',
+	'input:not([disabled])',
+	'[tabindex]:not([tabindex="-1"])',
+].join( ',' );
+
+/**
+ * Reflect the open/closed state on every trigger button so assistive tech
+ * announces it.
+ *
+ * @param {boolean} expanded Whether the palette is open.
+ */
+function setTriggersExpanded( expanded ) {
+	document
+		.querySelectorAll( '.ik-header__cmd' )
+		.forEach( ( btn ) =>
+			btn.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' )
+		);
+}
 
 function filteredNav( q ) {
 	if ( ! q ) {
@@ -180,12 +204,21 @@ function runActive() {
 	}
 }
 
-function open() {
+function open( trigger ) {
 	if ( state.open ) {
 		return;
 	}
+	const activeEl = palette.ownerDocument.activeElement;
+	if ( trigger instanceof window.HTMLElement ) {
+		lastFocused = trigger;
+	} else if ( activeEl instanceof window.HTMLElement ) {
+		lastFocused = activeEl;
+	} else {
+		lastFocused = null;
+	}
 	state.open = true;
 	palette.hidden = false;
+	setTriggersExpanded( true );
 	window.requestAnimationFrame( () => palette.classList.add( 'is-open' ) );
 	document.body.style.overflow = 'hidden';
 	state.query = '';
@@ -204,6 +237,37 @@ function close() {
 	palette.classList.remove( 'is-open' );
 	palette.hidden = true;
 	document.body.style.overflow = '';
+	setTriggersExpanded( false );
+	// Return focus to the trigger so keyboard users aren't dropped at the
+	// top of the document.
+	if ( lastFocused && typeof lastFocused.focus === 'function' ) {
+		lastFocused.focus();
+	}
+	lastFocused = null;
+}
+
+/**
+ * Keep Tab focus inside the open dialog (basic focus trap).
+ *
+ * @param {KeyboardEvent} e The keydown event.
+ */
+function trapFocus( e ) {
+	const focusable = Array.from(
+		palette.querySelectorAll( FOCUSABLE )
+	).filter( ( el ) => el.offsetParent !== null );
+	if ( focusable.length === 0 ) {
+		return;
+	}
+	const first = focusable[ 0 ];
+	const last = focusable[ focusable.length - 1 ];
+	const activeEl = palette.ownerDocument.activeElement;
+	if ( e.shiftKey && activeEl === first ) {
+		e.preventDefault();
+		last.focus();
+	} else if ( ! e.shiftKey && activeEl === last ) {
+		e.preventDefault();
+		first.focus();
+	}
 }
 
 function onKeydown( e ) {
@@ -222,6 +286,10 @@ function onKeydown( e ) {
 	if ( e.key === 'Escape' ) {
 		e.preventDefault();
 		close();
+		return;
+	}
+	if ( e.key === 'Tab' ) {
+		trapFocus( e );
 		return;
 	}
 	if ( e.key === 'ArrowDown' ) {
@@ -269,6 +337,7 @@ function onInput( e ) {
 function buildSkeleton() {
 	const overlay = document.createElement( 'div' );
 	overlay.className = 'ik-cmdk__overlay';
+	overlay.id = 'ik-command-palette';
 	overlay.hidden = true;
 	overlay.setAttribute( 'role', 'dialog' );
 	overlay.setAttribute( 'aria-modal', 'true' );
@@ -354,7 +423,7 @@ function wireTriggers() {
 	document.querySelectorAll( '.ik-header__cmd' ).forEach( ( btn ) => {
 		btn.addEventListener( 'click', ( e ) => {
 			e.preventDefault();
-			open();
+			open( btn );
 		} );
 	} );
 }

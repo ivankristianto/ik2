@@ -1,0 +1,22 @@
+@use 'tokens' as *;
+
+// Skip link — visually hidden until focused, then pinned to the top-left so
+// keyboard and screen-reader users can jump straight past the header chrome
+// (nav, command palette, Resume CTA) to #ik-main.
+.ik-skip-link {
+	position: absolute;
+	left: $space-3;
+	top: -100%;
+	z-index: 1000;
+	padding: $space-3 $space-4;
+	background: $color-ink;
+	color: $color-paper;
+	font-family: $font-mono;
+	font-size: $size-sm;
+	text-decoration: none;
+	border-radius: $radius-md;
+
+	&:focus {
+		top: $space-3;
+	}
+}
