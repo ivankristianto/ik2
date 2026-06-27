@@ -44,7 +44,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 						<article class="wp-block-group ik-note">
 							<div class="ik-note__date"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></div>
 							<div class="wp-block-group ik-note__body">
-								<h3 class="ik-note__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+								<h3 class="ik-note__title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h3>
 								<div class="ik-note__excerpt"><?php the_excerpt(); ?></div>
 							</div>
 						</article>
