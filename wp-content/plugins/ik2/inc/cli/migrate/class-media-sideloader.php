@@ -60,8 +60,9 @@ class Media_Sideloader {
 	/**
 	 * Find an already-imported attachment for this source filename.
 	 *
-	 * Matches first on the _ik2_legacy_src stamp (any size of the same
-	 * source), then on the sanitized original filename used as the slug.
+	 * Looks up by the sanitized filename slug (the post_name of the attachment).
+	 * Note: _ik2_legacy_src is stamped on each attachment at import time as an
+	 * audit trail, but it is not used as a lookup key here.
 	 *
 	 * @param string $filename Original basename (size suffix stripped).
 	 */
