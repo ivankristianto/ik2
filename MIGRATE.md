@@ -117,16 +117,16 @@ re-run; only failures are retried.
 
 Useful flags:
 
-| Flag | Effect |
-| :-- | :-- |
-| `--dry-run` | Report what would happen; write nothing. |
-| `--verbose` | Log one line per post (status, media added, errors). |
-| `--force` | Re-import and overwrite posts/media even when the slug exists. |
-| `--limit=<n>` | Import at most N posts (incremental testing). |
-| `--post=<old_id>` | Import only the single legacy post with that old ID. |
-| `--legacy-prefix=<p>` | Old table prefix (default `wp_`). |
-| `--uploads-path=<p>` | Local uploads copy (default `/legacy/uploads`). |
-| `--author=<id>` | Target author (default: lowest-ID administrator). |
+| Flag                  | Effect                                                         |
+| :-------------------- | :------------------------------------------------------------- |
+| `--dry-run`           | Report what would happen; write nothing.                       |
+| `--verbose`           | Log one line per post (status, media added, errors).           |
+| `--force`             | Re-import and overwrite posts/media even when the slug exists. |
+| `--limit=<n>`         | Import at most N posts (incremental testing).                  |
+| `--post=<old_id>`     | Import only the single legacy post with that old ID.           |
+| `--legacy-prefix=<p>` | Old table prefix (default `wp_`).                              |
+| `--uploads-path=<p>`  | Local uploads copy (default `/legacy/uploads`).                |
+| `--author=<id>`       | Target author (default: lowest-ID administrator).              |
 
 Example — verify one post end to end first:
 
@@ -138,10 +138,10 @@ composer dev:wp:cmd -- ik2 migrate-articles --legacy-db=legacy --post=1234 --ver
 
 ## 6. Spot-check
 
-- Open a few imported posts. Images should load from the new media library and
-  no `www.ivankristianto.com` URLs should remain in the content.
-- Confirm categories, tags, post format, and the featured image are set.
-- Confirm Yoast title/description carried over (Yoast meta box on the post).
+-   Open a few imported posts. Images should load from the new media library and
+    no `www.ivankristianto.com` URLs should remain in the content.
+-   Confirm categories, tags, post format, and the featured image are set.
+-   Confirm Yoast title/description carried over (Yoast meta box on the post).
 
 ```bash
 composer dev:wp:cmd -- post list --post_type=post --fields=ID,post_name,post_status,post_date
@@ -163,9 +163,9 @@ rm -rf ./legacy
 
 ## How re-running stays safe
 
-- **Posts** are matched by slug (`post_name`). Existing slug → skipped (or
-  overwritten with `--force`). No duplicates.
-- **Media** are matched by the original filename / `_ik2_legacy_src` stamp.
-  Already-imported images are reused, not re-downloaded.
-- Each post is imported in isolation; one failure never blocks the others.
-  Fix the cause, re-run, watch the failure count drop to zero.
+-   **Posts** are matched by slug (`post_name`). Existing slug → skipped (or
+    overwritten with `--force`). No duplicates.
+-   **Media** are matched by the original filename / `_ik2_legacy_src` stamp.
+    Already-imported images are reused, not re-downloaded.
+-   Each post is imported in isolation; one failure never blocks the others.
+    Fix the cause, re-run, watch the failure count drop to zero.
