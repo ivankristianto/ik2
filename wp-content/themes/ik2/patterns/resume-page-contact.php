@@ -12,7 +12,7 @@
 <!-- wp:html -->
 <section class="ik-resume__section ik-resume__section--contact">
 	<h2 class="ik-resume__section-title">
-		<span class="ik-resume__section-num" aria-hidden="true">03</span>
+		<span class="ik-resume__section-num" aria-hidden="true">04</span>
 		<span class="ik-resume__section-name">Contact</span>
 	</h2>
 	<ul class="ik-resume__contact">
@@ -32,6 +32,12 @@
 			<a href="https://www.linkedin.com/in/ivankristianto">
 				<span class="ik-resume__contact-label">LinkedIn</span>
 				<span class="ik-resume__contact-value">linkedin.com/in/ivankristianto</span>
+			</a>
+		</li>
+		<li>
+			<a href="https://profiles.wordpress.org/ivankristianto/">
+				<span class="ik-resume__contact-label">WordPress</span>
+				<span class="ik-resume__contact-value">profiles.wordpress.org/ivankristianto</span>
 			</a>
 		</li>
 	</ul>

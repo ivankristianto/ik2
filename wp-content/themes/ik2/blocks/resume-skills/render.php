@@ -52,7 +52,6 @@ $ik2_skills = [
 		'group' => __( 'Other', 'ik2' ),
 		'items' => [
 			__( 'AI in the dev loop &mdash; Claude Code, Copilot', 'ik2' ),
-			__( 'Talks: WordCamp, WordPress meetups', 'ik2' ),
 			__( 'Mentoring junior engineers', 'ik2' ),
 		],
 	],
@@ -64,7 +63,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 ?>
 <section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<h2 class="ik-resume__section-title">
-		<span class="ik-resume__section-num" aria-hidden="true">02</span>
+		<span class="ik-resume__section-num" aria-hidden="true">03</span>
 		<span class="ik-resume__section-name"><?php esc_html_e( 'Skills', 'ik2' ); ?></span>
 	</h2>
 	<div class="ik-resume__skills">

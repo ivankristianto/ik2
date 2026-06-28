@@ -40,14 +40,6 @@ $ik2_experience = [
 		'org'     => 'Calibreworks',
 		'note'    => __( 'Built and architected web applications end to end, from data model to front end.', 'ik2' ),
 	],
-	[
-		'from'    => '2015',
-		'to'      => __( 'Present', 'ik2' ),
-		'current' => true,
-		'role'    => __( 'Lead Organiser', 'ik2' ),
-		'org'     => __( 'Jakarta WordPress Meetup', 'ik2' ),
-		'note'    => __( 'Monthly meetup &mdash; talks, workshops, and a community that ships. WordCamp organiser and speaker.', 'ik2' ),
-	],
 ];
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
@@ -64,8 +56,10 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<li class="ik-resume__exp-row<?php echo $ik2_row['current'] ? ' is-current' : ''; ?>">
 				<div class="ik-resume__exp-when">
 					<span class="ik-resume__exp-from"><?php echo esc_html( $ik2_row['from'] ); ?></span>
-					<span class="ik-resume__exp-arrow" aria-hidden="true">&rarr;</span>
-					<span class="ik-resume__exp-to<?php echo $ik2_row['current'] ? ' is-now' : ''; ?>"><?php echo esc_html( $ik2_row['to'] ); ?></span>
+					<span class="ik-resume__exp-range">
+						<span class="ik-resume__exp-arrow" aria-hidden="true">&rarr;</span>
+						<span class="ik-resume__exp-to<?php echo $ik2_row['current'] ? ' is-now' : ''; ?>"><?php echo esc_html( $ik2_row['to'] ); ?></span>
+					</span>
 				</div>
 				<div class="ik-resume__exp-body">
 					<p class="ik-resume__exp-role"><?php echo esc_html( $ik2_row['role'] ); ?></p>

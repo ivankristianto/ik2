@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/resume-community",
+	"version": "1.0.0",
+	"title": "Resume Community",
+	"category": "theme",
+	"description": "Volunteer and community involvement rows (period, role, organisation) for the Resume page.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false
+	},
+	"attributes": {},
+	"render": "file:./render.php"
+}
