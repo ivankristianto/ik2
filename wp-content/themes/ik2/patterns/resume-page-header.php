@@ -30,6 +30,6 @@
 		</aside>
 	</div>
 
-	<p class="ik-resume__summary">Web engineer focused on WordPress, web performance, AI-assisted workflows, and developer tooling. Twelve years building content publishing platforms, contributing to open source, and supporting the WordPress community in Indonesia through talks and events.</p>
+	<p class="ik-resume__summary">Web engineer focused on WordPress, web performance, AI-assisted workflows, and developer tooling. Over a decade building content publishing platforms, contributing to WordPress core and plugins, and supporting the WordPress community in Indonesia through talks and events.</p>
 </header>
 <!-- /wp:html -->

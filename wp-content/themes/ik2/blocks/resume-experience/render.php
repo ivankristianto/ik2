@@ -17,28 +17,28 @@ defined( 'ABSPATH' ) || exit;
 
 $ik2_experience = [
 	[
-		'from'    => '2024',
+		'from'    => '2020',
 		'to'      => __( 'Present', 'ik2' ),
 		'current' => true,
-		'role'    => __( 'Senior Web Engineer', 'ik2' ),
-		'org'     => 'Human Made',
-		'note'    => __( 'Enterprise WordPress, editorial tooling, performance work for large publishers.', 'ik2' ),
+		'role'    => __( 'Senior Engineer', 'ik2' ),
+		'org'     => 'Human Made · Altis DXP',
+		'note'    => __( 'Enterprise WordPress on the Altis platform &mdash; editorial tooling and performance work for large publishers.', 'ik2' ),
 	],
 	[
-		'from'    => '2018',
-		'to'      => '2024',
+		'from'    => '2017',
+		'to'      => '2020',
 		'current' => false,
 		'role'    => __( 'Senior Web Engineer', 'ik2' ),
 		'org'     => '10up',
 		'note'    => __( 'Custom WordPress for newsrooms and enterprise. Performance audits, Gutenberg block libraries, design system tooling.', 'ik2' ),
 	],
 	[
-		'from'    => '2017',
-		'to'      => '2017',
+		'from'    => '2011',
+		'to'      => '2016',
 		'current' => false,
-		'role'    => __( 'Lead Organiser', 'ik2' ),
-		'org'     => 'WordCamp Jakarta 2017',
-		'note'    => __( 'Lead organiser for the largest WordCamp held in Indonesia at the time.', 'ik2' ),
+		'role'    => __( 'Senior Web Developer & System Architect', 'ik2' ),
+		'org'     => 'Calibreworks',
+		'note'    => __( 'Built and architected web applications end to end, from data model to front end.', 'ik2' ),
 	],
 	[
 		'from'    => '2015',
@@ -46,7 +46,7 @@ $ik2_experience = [
 		'current' => true,
 		'role'    => __( 'Lead Organiser', 'ik2' ),
 		'org'     => __( 'Jakarta WordPress Meetup', 'ik2' ),
-		'note'    => __( 'Monthly meetup &mdash; talks, workshops, and a community that ships.', 'ik2' ),
+		'note'    => __( 'Monthly meetup &mdash; talks, workshops, and a community that ships. WordCamp organiser and speaker.', 'ik2' ),
 	],
 ];
 

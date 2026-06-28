@@ -41,6 +41,14 @@ $ik2_skills = [
 		],
 	],
 	[
+		'group' => __( 'Open Source', 'ik2' ),
+		'items' => [
+			__( 'WordPress core contributor &mdash; 5 releases', 'ik2' ),
+			__( 'Plugin author &mdash; wp-passkey, and more', 'ik2' ),
+			__( 'id_ID translation editor, plugin reviewer', 'ik2' ),
+		],
+	],
+	[
 		'group' => __( 'Other', 'ik2' ),
 		'items' => [
 			__( 'AI in the dev loop &mdash; Claude Code, Copilot', 'ik2' ),

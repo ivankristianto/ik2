@@ -22,17 +22,30 @@ upload re-files into the CURRENT month folder (`/uploads/2026/06/...`), NOT the
 original date, so in-content `/uploads/` URLs are rewritten by basename to the
 returned staging URLs (sized variants fall back to full-size).
 
-**Gotcha — staging does not serve runtime-uploaded media.** All 461 files
-uploaded fine via REST (WordPress on the PHP-FPM *app* container stored and
-processed them — dimensions/thumbnails confirmed), but their public URLs 404.
-Cause: per the prod architecture (see [[project-cli-webroot-non-volume]]), the
-`docker/nginx/Dockerfile` image BAKES its own copy of `wp-content` and runs with
-**no shared uploads volume** with the app container — nginx serves
-`/wp-content/uploads/` from its frozen build-time copy. Dev `compose.yaml` mounts
-the shared `uploads` named volume into BOTH app and nginx (`:ro` on nginx), so
-media serves locally (verified 200 local vs 404 staging for the same file).
-Fix is Dokploy-side: mount a persistent `uploads` volume into the staging nginx
-service too (mirror dev), or redeploy. The DB records + URLs are already correct,
-so once nginx sees the files no re-sync is needed.
+**Gotcha — staging media 404s because the prod compose mounts the uploads
+volume at the WRONG path.** All 461 files uploaded fine via REST (WordPress on
+the *app* container stored + processed them — dimensions/thumbnails confirmed),
+but their public URLs 404. Root cause: all three runtime images (app, nginx, cli)
+bake their webroot at `/var/www/app` (see [[project-cli-webroot-non-volume]];
+Dockerfile WORKDIR /var/www/app, nginx `root /var/www/app`). The Dokploy prod
+compose, however, mounts the shared `uploads` named volume at
+`/var/www/html/wp-content/uploads` (app + nginx) and `/var/www/cli/...` (wp-cli)
+— none is the real webroot. So WP writes uploads to the app container's EPHEMERAL
+layer at `/var/www/app/wp-content/uploads` (volume unused → also lost on every
+redeploy), and nginx serves its empty baked copy → 404. Dev `compose.yaml` gets
+it right (`uploads:/var/www/app/wp-content/uploads:ro` on nginx), which is why
+media serves 200 locally vs 404 staging for the same file.
+
+Fix (DONE 2026-06-27): mounted the volume at `/var/www/app/wp-content/uploads`
+on all three prod services (matches the Dockerfile comment at line 229) and
+redeployed. The 461 ephemeral files were gone after redeploy, so Option B was
+run: `media_reset.php` deleted the 461 fileless staging attachments + cleared
+`media.json`; re-ran `media.php` (fresh upload into the now-shared volume); cleared
+`post/page/project.json` and re-ran those phases (upsert-by-slug UPDATES existing
+entries). Verified: content + featured images now serve HTTP 200 on staging.
+Posts 3406/3800 carry `http://localhost:8080` home links in LOCAL content, so any
+posts.php re-run re-introduces them on staging — re-patch after
+(str_replace localhost:8080 -> staging domain via the lib). Final staging: 487
+posts, 8 pages, 5 projects, 9 cats, 1114 tags, 462 media (461 + 1 pre-existing).
 
 App password used was disposable (user said they'd rotate it after).
