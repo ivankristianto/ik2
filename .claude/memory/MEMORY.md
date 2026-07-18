@@ -6,3 +6,4 @@
 - [legacy migration specifics](project-legacy-migration-specifics.md) — old-site prefix is `cfx_`, uploads at `/uploads/`, dev DB pre-loaded with article text minus images so `--force` is required
 - [articles normalized](project-articles-normalized.md) — all 487 posts block-converted + shortcode→code + proofread + recategorized to feature topics/misc; stamped `_ik2_normalized`/`_ik2_topic`
 - [staging sync](project-staging-sync.md) — REST API sync local→next.ivankristianto.com (toolkit in `_ik2_work/sync/`); staging nginx 404s runtime-uploaded media (no shared uploads volume in prod)
+- [native layout refactor](project-native-layout-refactor.md) — container-full is gone (alignfull + constrained 1280 + root-padding gutters); gotchas: useRootPaddingAwareAlignments is top-level, wp_slash serialize_blocks before wp_update_post, constrained child rules override direct-child CSS caps

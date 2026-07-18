@@ -1,0 +1,21 @@
+---
+name: project-native-layout-refactor
+description: theme uses native WP layout (alignfull + constrained 1280 via custom.width.full); container-full CSS is gone; gotchas hit during the refactor
+metadata:
+  type: project
+---
+
+Branch `refactor/block-editor-native-layout` (July 2026) replaced the `.container-full` CSS width system with native WordPress layout. The conventions now are:
+
+- Every template `<main>` and full-bleed section is `align:"full"` + `layout:{"type":"constrained","contentSize":"var(--wp--custom--width--full)"}` (1280). Gutters come from `settings.useRootPaddingAwareAlignments` + `styles.spacing.padding` (clamp 24→32px), giving the same 1280/1216 box as the old `.container-full`.
+- Only 3 dynamic theme blocks remain: `articles-filters`, `home-featured-topics` (term grid only), `home-projects-preview` (curated grid only), plus `speaking-archive` (now takes `perPage`/`headingLevel`) and `not-found`/`projects-archive`. Everything else is core-block patterns; home guides/notes are core Query Loops with taxQuery resolved from category slug in pattern PHP.
+- Homepage post_content (page 1882) holds the expanded pattern markup — editable in the page editor.
+
+**Gotchas (cost real debugging time):**
+
+- `useRootPaddingAwareAlignments` is a TOP-LEVEL `settings` key, not `settings.spacing.*`. Misplaced it is silently ignored (body gets plain padding, no `has-global-padding`).
+- `wp_update_post` with `serialize_blocks()` output MUST be wrapped in `wp_slash()` — serialize escapes `--` as `--` and unslashing strips the backslashes, which corrupts `var(--wp--*)` values in attrs (block renders but layout attrs silently drop).
+- Core constrained layout gives direct children `max-width` + `margin:auto !important`, printed AFTER theme CSS — any theme cap (e.g. 720/900px flush-left prose) on a DIRECT child of a constrained group is overridden. Shield with a plain flow group in between (see page-contact.html).
+- Theme.json changes need `wp cache flush` (Redis object cache holds theme.json data), on top of the [[feedback-opcache-restart]] app restart.
+
+See also [[reference-editor-canvas-blob-iframe]] — agent-browser CDP can't reach the canvas either (`frame @ref` falls back to main); verify editor state via `wp.data` (`getBlocks()` validity, `getSettings().__experimentalFeatures`).
