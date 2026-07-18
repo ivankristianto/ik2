@@ -99,6 +99,7 @@
 			"wideSize": "1080px"
 		},
 		"spacing": {
+			"useRootPaddingAwareAlignments": true,
 			"spacingSizes": [
 				{
 					"name": "1 — 4px",
@@ -219,6 +220,12 @@
 		"color": {
 			"background": "var(--wp--preset--color--paper)",
 			"text": "var(--wp--preset--color--ink)"
+		},
+		"spacing": {
+			"padding": {
+				"left": "clamp(1.5rem, 5vw, 2rem)",
+				"right": "clamp(1.5rem, 5vw, 2rem)"
+			}
 		},
 		"elements": {
 			"button": {

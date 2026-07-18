@@ -50,6 +50,7 @@
 			"wideSize": "1080px"
 		},
 		"spacing": {
+			"useRootPaddingAwareAlignments": true,
 			"spacingSizes": [
 				{ "slug": "1", "name": "1 — 4px", "size": "0.25rem" },
 				{ "slug": "2", "name": "2 — 8px", "size": "0.5rem" },
@@ -103,6 +104,12 @@
 		"color": {
 			"background": "var:preset|color|paper",
 			"text": "var:preset|color|ink"
+		},
+		"spacing": {
+			"padding": {
+				"left": "clamp(1.5rem, 5vw, 2rem)",
+				"right": "clamp(1.5rem, 5vw, 2rem)"
+			}
 		},
 		"typography": {
 			"fontFamily": "var:preset|font-family|sans",
