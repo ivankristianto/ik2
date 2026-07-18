@@ -34,7 +34,7 @@
 		<!-- /wp:button -->
 
 		<!-- wp:button {"className":"ik-btn--secondary"} -->
-		<div class="wp-block-button ik-btn--secondary"><a class="wp-block-button__link wp-element-button" href="/contact/">Get in Touch</a></div>
+		<div class="wp-block-button ik-btn--secondary"><a class="wp-block-button__link wp-element-button" href="/contact/">Get in touch</a></div>
 		<!-- /wp:button -->
 	</div>
 	<!-- /wp:buttons -->

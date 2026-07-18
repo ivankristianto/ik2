@@ -22,7 +22,7 @@ $ik2_community = [
 		'note' => __( 'Led the volunteer team across the multi-day conference.', 'ik2' ),
 	],
 	[
-		'when' => '2015 — 2020',
+		'when' => '2015 – 2020',
 		'role' => __( 'Lead Organiser', 'ik2' ),
 		'org'  => __( 'Jakarta WordPress Meetup', 'ik2' ),
 		'note' => __( 'Monthly meetup — talks, workshops, and a community that ships.', 'ik2' ),

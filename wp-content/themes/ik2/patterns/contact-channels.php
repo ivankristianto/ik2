@@ -41,7 +41,7 @@ $ik2_channels = [
 	],
 	[
 		'label' => __( 'RSS', 'ik2' ),
-		'value' => '/feed.xml',
+		'value' => '/feed/',
 		'href'  => home_url( '/feed/' ),
 		'note'  => __( 'Subscribe via your reader of choice.', 'ik2' ),
 	],
