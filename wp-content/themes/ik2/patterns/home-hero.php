@@ -60,7 +60,7 @@
 			<!-- /wp:html -->
 
 			<!-- wp:image {"sizeSlug":"full","className":"ik-hero__portrait-frame"} -->
-			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption ik-hero__portrait-caption">// Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
+			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption">// Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
 			<!-- /wp:image -->
 		</aside>
 		<!-- /wp:group -->
