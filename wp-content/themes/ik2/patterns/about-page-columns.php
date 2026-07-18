@@ -19,11 +19,25 @@
 
 		<!-- wp:list {"className":"ik-about__focus"} -->
 		<ul class="wp-block-list ik-about__focus">
+			<!-- wp:list-item -->
 			<li>WordPress block themes and editor experience</li>
+			<!-- /wp:list-item -->
+
+			<!-- wp:list-item -->
 			<li>Web performance for large publishers</li>
+			<!-- /wp:list-item -->
+
+			<!-- wp:list-item -->
 			<li>AI-assisted development workflows</li>
-			<li>Browser APIs &mdash; View Transitions, Interactivity API, scroll-driven animations</li>
+			<!-- /wp:list-item -->
+
+			<!-- wp:list-item -->
+			<li>Browser APIs: View Transitions, Interactivity API, scroll-driven animations</li>
+			<!-- /wp:list-item -->
+
+			<!-- wp:list-item -->
 			<li>Developer tooling and CLI ergonomics</li>
+			<!-- /wp:list-item -->
 		</ul>
 		<!-- /wp:list -->
 	</div>
@@ -40,7 +54,7 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
-				<p class="ik-about__timeline-when">2024 &mdash; now</p>
+				<p class="ik-about__timeline-when">2020 &ndash; now</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
@@ -52,7 +66,31 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
-				<p class="ik-about__timeline-when">2024</p>
+				<p class="ik-about__timeline-when">2025</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
+				<p class="ik-about__timeline-what">Technology team, WordCamp Asia (volunteer)</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
+			<div class="wp-block-group ik-about__timeline-row">
+				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
+				<p class="ik-about__timeline-when">2023</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
+				<p class="ik-about__timeline-what">Volunteers lead, WordCamp Asia (volunteer)</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
+			<div class="wp-block-group ik-about__timeline-row">
+				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
+				<p class="ik-about__timeline-when">2018</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
@@ -64,7 +102,7 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
-				<p class="ik-about__timeline-when">2018 &mdash; 2024</p>
+				<p class="ik-about__timeline-when">2017 &ndash; 2020</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
@@ -76,11 +114,11 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
-				<p class="ik-about__timeline-when">2017</p>
+				<p class="ik-about__timeline-when">2016 &amp; 2019</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
-				<p class="ik-about__timeline-what">Lead organiser, WordCamp Jakarta</p>
+				<p class="ik-about__timeline-what">Lead organiser, WordCamp Jakarta (volunteer)</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
@@ -88,11 +126,11 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
-				<p class="ik-about__timeline-when">2015 &mdash; now</p>
+				<p class="ik-about__timeline-when">2015 &ndash; 2020</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
-				<p class="ik-about__timeline-what">Lead organiser, Jakarta WordPress Meetup</p>
+				<p class="ik-about__timeline-what">Lead organiser, Jakarta WordPress Meetup (volunteer)</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
