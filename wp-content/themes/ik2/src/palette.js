@@ -115,7 +115,7 @@ async function searchPosts( q ) {
 			label: String( item.title || '' ),
 			href: String( item.url || '#' ),
 		} ) );
-	} catch ( e ) {
+	} catch {
 		return [];
 	}
 }
