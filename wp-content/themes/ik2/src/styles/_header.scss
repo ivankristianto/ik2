@@ -339,6 +339,17 @@
 		font-weight: 600;
 		text-decoration: none;
 	}
+
+	// Core's "mobile" overlay only engages below 600px; this chrome switches to
+	// the drawer at 768px (six links plus the CTA don't fit inline). Extend the
+	// hamburger range so both breakpoints agree.
+	.ik-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
+		display: inline-flex;
+	}
+
+	.ik-header .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+		display: none;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
