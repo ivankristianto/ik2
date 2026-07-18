@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": "ivankristianto.com — WordPress site, design system, and theme assets",
 	"private": true,
-	"packageManager": "pnpm@9.12.0",
+	"packageManager": "pnpm@11.14.0",
 	"engines": {
 		"node": ">=24"
 	},

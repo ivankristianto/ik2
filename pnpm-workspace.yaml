@@ -1,0 +1,9 @@
+# Dependencies allowed to run install/build scripts (pnpm 10+ blocks these by default).
+# @parcel/watcher — native file-watcher used by `wp-scripts start`
+# unrs-resolver   — native import resolver pulled in by @wordpress/eslint-plugin
+# core-js*        — postinstall only prints a funding banner; no build needed
+allowBuilds:
+  '@parcel/watcher': true
+  unrs-resolver: true
+  core-js: false
+  core-js-pure: false
