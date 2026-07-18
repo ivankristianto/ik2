@@ -16,5 +16,8 @@ parameters:
     excludePaths:
         - wp-content/plugins/*
         - wp-content/themes/ik2/build/*
+        # WP-CLI maintenance scripts (wp eval-file): WP_CLI symbols are not in
+        # the wordpress-stubs set this config loads.
+        - wp-content/themes/ik2/bin/*
         - vendor/*
         - node_modules/*
