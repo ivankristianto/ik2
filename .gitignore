@@ -35,6 +35,7 @@
 .vscode/
 
 # MCP / tooling state
+.mcp.json
 .serena/
 .claude/*
 !.claude/memory/
