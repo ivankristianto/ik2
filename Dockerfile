@@ -48,7 +48,9 @@ RUN corepack enable && corepack prepare pnpm@11.14.0 --activate
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* ./
+# pnpm-workspace.yaml carries the dependency build-script approvals — without
+# it pnpm 11 hard-errors on ignored builds under CI.
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
 
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile
