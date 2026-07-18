@@ -9,6 +9,8 @@
  * @package IK2
  */
 
+// Omit taxQuery entirely when the category is missing (fresh install): a baked
+// [0] filter would permanently show "no results" once saved into post_content.
 $ik2_guide_cat = get_category_by_slug( 'guide' );
 $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_id : 0;
 
@@ -39,7 +41,7 @@ $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_
 
 		<!-- wp:group {"className":"ik-guides-layout__list","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-guides-layout__list">
-			<!-- wp:query {"queryId":10,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo (int) $ik2_guide_id; ?>]}}} -->
+			<!-- wp:query {"queryId":10,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false<?php echo $ik2_guide_id > 0 ? ',"taxQuery":{"category":[' . (int) $ik2_guide_id . ']}' : ''; ?>}} -->
 			<div class="wp-block-query">
 				<!-- wp:post-template {"className":"ik-guides-list","layout":{"type":"default"}} -->
 				<!-- wp:group {"className":"ik-guide","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
