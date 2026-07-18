@@ -7,9 +7,9 @@
 .ik-about {
 	padding-block: $space-7 $space-8;
 
-	// Blocks fill the full container-full measure (1280) like the other
-	// pages; the `container-full` class on <main> already supplies the max
-	// width, gutter, and centering, so children just span it edge to edge.
+	// Blocks fill the full 1280 measure like the other pages; the constrained
+	// post-content layout (contentSize var(--wp--custom--width--full)) supplies
+	// the max width, gutter, and centering, so children span it edge to edge.
 }
 
 .ik-about__head {
