@@ -28,7 +28,7 @@
 	text-wrap: pretty;
 }
 
-/* ---- Channels grid (custom block: ik2/contact-channels) ---------------- */
+/* ---- Channels grid (pattern: ik2/contact-channels) --------------------- */
 
 .ik-contact-list {
 	max-width: 900px;
@@ -53,13 +53,6 @@
 	padding: $space-5;
 	border-bottom: 1px solid $color-line;
 	border-right: 1px solid $color-line;
-	text-decoration: none;
-	color: inherit;
-	transition: background 200ms ease;
-
-	&:hover {
-		background: $color-soft-paper;
-	}
 
 	&:nth-child(2n) {
 		border-right: 0;
