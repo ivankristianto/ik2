@@ -54,9 +54,21 @@ function fallback_site_icon_url( string $url ): string {
 }
 
 /**
- * Theme stylesheet — enqueued on the front-end and inside the block editor iframe.
+ * Theme stylesheet — front-end only.
+ *
+ * `enqueue_block_assets` fires on the front end *and* in the admin block
+ * editor. In the editor it loads into the outer editor document, so the
+ * theme's bare element selectors (`body`, headings, `button`, `svg`) would
+ * leak into the editor chrome — restyling the inspector, toolbars, and
+ * sidebar. We bail in the admin and feed the same CSS into the editor
+ * canvas (scoped to `.editor-styles-wrapper`, iframe only) via
+ * `add_editor_style()` in inc/setup.php instead.
  */
 function enqueue_theme_stylesheet(): void {
+	if ( is_admin() ) {
+		return;
+	}
+
 	$build_dir = __DIR__ . '/../build';
 	$build_uri = get_theme_file_uri( 'build' );
 
@@ -72,9 +84,6 @@ function enqueue_theme_stylesheet(): void {
 		[],
 		(string) filemtime( $style_path )
 	);
-
-	// Lets WordPress inline the stylesheet inside the block editor iframe.
-	wp_style_add_data( 'ik2', 'path', $style_path );
 }
 
 /**

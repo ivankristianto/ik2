@@ -32,7 +32,11 @@ function register_theme_supports(): void {
 		[ 'style', 'script', 'comment-form', 'comment-list', 'gallery', 'caption' ]
 	);
 
-	add_editor_style( 'build/editor.css' );
+	// Feed the front-end stylesheet into the editor canvas (scoped to
+	// `.editor-styles-wrapper`, loaded inside the iframe only) so block
+	// previews match the front end without leaking into the editor chrome.
+	// editor.css holds the small set of editor-only overrides and loads last.
+	add_editor_style( [ 'build/style-index.css', 'build/editor.css' ] );
 
 	load_theme_textdomain( 'ik2', __DIR__ . '/../languages' );
 }
