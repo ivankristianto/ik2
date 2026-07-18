@@ -13,10 +13,15 @@
 	counter-reset: ik-resume-section;
 }
 
+// WordPress prints layout rules (`.wp-container-* > *`, `:root :where(.is-layout-*) > *`)
+// after this stylesheet at (0,1,0), zeroing single-class margins on direct
+// children of group/post-content containers. Margin-carrying selectors below
+// are scoped under .ik-resume so the page rhythm actually applies.
+
 /* ---- Masthead: the ink title card ------------------------------------- */
 
-.ik-resume__head {
-	margin: 0 0 $space-8;
+.ik-resume .ik-resume__head {
+	margin: 0 0 $space-7;
 }
 
 .ik-resume__card {
@@ -35,7 +40,7 @@
 	}
 }
 
-.ik-resume__eyebrow {
+.ik-resume .ik-resume__eyebrow {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -137,7 +142,7 @@
 	}
 }
 
-.ik-resume__location {
+.ik-resume .ik-resume__location {
 	margin: $space-4 0 0;
 	font-family: $font-mono;
 	font-size: $size-sm;
@@ -145,7 +150,7 @@
 	letter-spacing: 0.02em;
 }
 
-.ik-resume__summary {
+.ik-resume .ik-resume__summary {
 	max-width: 62ch;
 	margin: $space-7 0 0;
 	font-size: clamp(1.25rem, 1.9vw, 1.625rem);
@@ -158,7 +163,7 @@
 
 /* ---- Receipts ledger (ik2/resume-facts) ------------------------------- */
 
-.ik-resume__facts {
+.ik-resume .ik-resume__facts {
 	display: flex;
 	flex-wrap: wrap;
 	margin: $space-7 0 0;
@@ -215,11 +220,11 @@
 
 /* ---- Section frame ----------------------------------------------------- */
 
-.ik-resume__section {
+.ik-resume .ik-resume__section {
 	margin-top: $space-9;
 }
 
-.ik-resume__section-title {
+.ik-resume .ik-resume__section-title {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	align-items: baseline;
@@ -342,7 +347,7 @@
 	font-size: clamp(1.5rem, 2.6vw, 1.875rem);
 }
 
-.ik-resume__exp-org {
+.ik-resume .ik-resume__exp-org {
 	margin: $space-1 0 0;
 	font-family: $font-mono;
 	font-size: $size-sm;
@@ -351,7 +356,7 @@
 	letter-spacing: 0.02em;
 }
 
-.ik-resume__exp-note {
+.ik-resume .ik-resume__exp-note {
 	margin: $space-3 0 0;
 	font-size: $size-md;
 	color: $color-graphite;
@@ -413,7 +418,7 @@
 	color: $color-ink;
 }
 
-.ik-resume__comm-org {
+.ik-resume .ik-resume__comm-org {
 	margin: $space-1 0 0;
 	font-family: $font-mono;
 	font-size: $size-sm;
@@ -422,7 +427,7 @@
 	letter-spacing: 0.02em;
 }
 
-.ik-resume__comm-note {
+.ik-resume .ik-resume__comm-note {
 	margin: $space-2 0 0;
 	font-size: $size-md;
 	color: $color-graphite;
