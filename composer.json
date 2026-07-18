@@ -14,7 +14,7 @@
 		"wpackagist-plugin/query-monitor": "^4.0",
 		"wpackagist-plugin/two-factor": "^0.16.0",
 		"wpackagist-plugin/wordpress-importer": "^0.9.5",
-		"wpackagist-plugin/wordpress-seo": "^27.7",
+		"wpackagist-plugin/wordpress-seo": "^28.0",
 		"wpackagist-plugin/wp-redis": "^1.4"
 	},
 	"require-dev": {
