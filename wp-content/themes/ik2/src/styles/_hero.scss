@@ -87,16 +87,11 @@
 		font-family: $font-mono;
 		font-weight: 400;
 		color: $color-signal;
-		transition: transform 200ms ease;
 	}
 
 	&:hover {
 		color: $color-signal-deep;
 		background-size: 100% 4px;
-	}
-
-	&:hover::after {
-		transform: translateX(4px);
 	}
 }
 
