@@ -16,7 +16,6 @@
 	align-items: end;
 	justify-content: space-between;
 	gap: $space-5;
-	margin-bottom: $space-7;
 	flex-wrap: wrap;
 }
 
@@ -26,6 +25,18 @@
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
 	color: $color-graphite;
+}
+
+// Margins live on .ik-section-scoped selectors: WordPress prints layout rules
+// (.wp-container-* > *, :root :where(.is-layout-*) > *) after this stylesheet
+// at (0,1,0), so single-class margins on direct children of the section's
+// layout groups would silently compute to 0 or 24px. The typography above
+// stays global — pages outside .ik-section reuse these classes.
+.ik-section .ik-section__head {
+	margin-bottom: $space-7;
+}
+
+.ik-section .ik-section__eyebrow {
 	margin-bottom: $space-2;
 }
 
@@ -58,10 +69,13 @@
 
 	.ik-section__head {
 		gap: $space-3;
+	}
+
+	.ik-section .ik-section__head {
 		margin-bottom: $space-5;
 	}
 
-	.ik-section__eyebrow {
+	.ik-section .ik-section__eyebrow {
 		margin-bottom: $space-1;
 	}
 

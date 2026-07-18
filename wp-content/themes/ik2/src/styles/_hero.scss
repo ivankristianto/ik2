@@ -19,11 +19,15 @@
 
 .ik-hero__main { min-width: 0; }
 
-.ik-hero__eyebrow {
+// Rhythm selectors are scoped under .ik-hero: WordPress prints layout rules
+// (.wp-container-* > *, :root :where(.is-layout-*) > *) after this stylesheet
+// at (0,1,0), so single-class margins on direct children of the hero's layout
+// groups would silently compute to 0 or 24px.
+.ik-hero .ik-hero__eyebrow {
 	margin-bottom: $space-4;
 }
 
-.ik-hero__title {
+.ik-hero .ik-hero__title {
 	max-width: 18ch;
 	margin: 0 0 $space-5;
 	letter-spacing: -0.04em;
@@ -33,13 +37,13 @@
 	}
 }
 
-.ik-hero__blurb {
+.ik-hero .ik-hero__blurb {
 	max-width: 60ch;
 	color: $color-graphite;
 	margin: 0;
 }
 
-.ik-hero__sub {
+.ik-hero .ik-hero__sub {
 	max-width: $width-content;
 	margin: $space-5 0 0;
 	color: $color-graphite;
@@ -47,7 +51,7 @@
 	line-height: 1.7;
 }
 
-.ik-hero__actions {
+.ik-hero .ik-hero__actions {
 	margin-top: $space-7;
 	display: flex;
 	flex-direction: column;
@@ -119,7 +123,7 @@
 	> span { color: $color-dust; }
 }
 
-.ik-hero__quicklinks {
+.ik-hero .ik-hero__quicklinks {
 	margin-top: $space-7;
 	font-family: $font-mono;
 	font-size: $size-sm;
@@ -217,28 +221,28 @@
 		gap: $space-5;
 	}
 
-	.ik-hero__eyebrow {
+	.ik-hero .ik-hero__eyebrow {
 		margin-bottom: $space-3;
 	}
 
-	.ik-hero__title {
+	.ik-hero .ik-hero__title {
 		max-width: 10ch;
 		margin-bottom: $space-4;
 		font-size: clamp(2.6rem, 14vw, 3.5rem);
 	}
 
-	.ik-hero__blurb {
+	.ik-hero .ik-hero__blurb {
 		font-size: $size-md;
 		line-height: 1.6;
 	}
 
-	.ik-hero__sub {
+	.ik-hero .ik-hero__sub {
 		margin-top: $space-4;
 		font-size: $size-sm;
 		line-height: 1.6;
 	}
 
-	.ik-hero__actions {
+	.ik-hero .ik-hero__actions {
 		margin-top: $space-5;
 		gap: $space-3;
 	}
@@ -247,12 +251,12 @@
 		font-size: clamp(1.35rem, 7.5vw, 1.8rem);
 	}
 
-	.ik-hero__secondary,
-	.ik-hero__quicklinks {
+	.ik-hero .ik-hero__secondary,
+	.ik-hero .ik-hero__quicklinks {
 		font-size: $size-xs;
 	}
 
-	.ik-hero__quicklinks {
+	.ik-hero .ik-hero__quicklinks {
 		margin-top: $space-5;
 	}
 

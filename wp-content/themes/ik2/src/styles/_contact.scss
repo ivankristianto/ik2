@@ -129,8 +129,13 @@
 .ik-contact-row__note {
 	font-size: $size-sm;
 	color: $color-graphite;
-	margin-top: 4px;
 	line-height: 1.45;
+}
+
+// Scoped above WP's blockGap rule (.wp-container-* > * { margin-block: 0 }),
+// which prints after this stylesheet and would zero a single-class margin.
+.ik-contact-row .ik-contact-row__note {
+	margin-top: $space-1;
 }
 
 /* ---- Closing note ------------------------------------------------------ */
