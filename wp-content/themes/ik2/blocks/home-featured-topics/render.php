@@ -34,35 +34,25 @@ foreach ( $ik2_topic_slugs as $ik2_topic_slug ) {
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	[ 'class' => 'container-full ik-section' ]
+	[ 'class' => 'ik-topics' ]
 );
 ?>
-<section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="ik-section__head">
-		<div>
-			<p class="ik-section__eyebrow"><?php esc_html_e( '// FEATURED TOPICS', 'ik2' ); ?></p>
-			<h2 class="wp-block-heading ik-section__title"><?php esc_html_e( 'Where I spend my time on the web', 'ik2' ); ?></h2>
-		</div>
-		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>"><?php esc_html_e( 'All articles →', 'ik2' ); ?></a></p>
-	</div>
-
-	<div class="ik-topics">
-		<?php foreach ( $ik2_topics as $ik2_topic ) : ?>
-			<a class="ik-topic" href="<?php echo esc_url( get_category_link( $ik2_topic ) ); ?>">
-				<div class="ik-topic__row">
-					<span class="ik-topic__name"><?php echo esc_html( $ik2_topic->name ); ?></span>
-					<span class="ik-topic__count">
-						<?php
-						printf(
-							/* translators: %d: post count */
-							esc_html( _n( '%d post', '%d posts', (int) $ik2_topic->count, 'ik2' ) ),
-							(int) $ik2_topic->count
-						);
-						?>
-					</span>
-				</div>
-				<p class="ik-topic__blurb"><?php echo esc_html( $ik2_topic->description ); ?></p>
-			</a>
-		<?php endforeach; ?>
-	</div>
-</section>
+<div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<?php foreach ( $ik2_topics as $ik2_topic ) : ?>
+		<a class="ik-topic" href="<?php echo esc_url( get_category_link( $ik2_topic ) ); ?>">
+			<div class="ik-topic__row">
+				<span class="ik-topic__name"><?php echo esc_html( $ik2_topic->name ); ?></span>
+				<span class="ik-topic__count">
+					<?php
+					printf(
+						/* translators: %d: post count */
+						esc_html( _n( '%d post', '%d posts', (int) $ik2_topic->count, 'ik2' ) ),
+						(int) $ik2_topic->count
+					);
+					?>
+				</span>
+			</div>
+			<p class="ik-topic__blurb"><?php echo esc_html( $ik2_topic->description ); ?></p>
+		</a>
+	<?php endforeach; ?>
+</div>

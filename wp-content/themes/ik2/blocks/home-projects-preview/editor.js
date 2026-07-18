@@ -17,8 +17,7 @@
 	const { registerBlockType } = wp.blocks;
 	const { createElement: el, Fragment } = wp.element;
 	const { InspectorControls, useBlockProps } = wp.blockEditor;
-	const { PanelBody, SelectControl, Button, Notice, Spinner, TextControl } =
-		wp.components;
+	const { PanelBody, SelectControl, Button, Notice, Spinner } = wp.components;
 	const { useSelect } = wp.data;
 	const { __, sprintf } = wp.i18n;
 
@@ -138,7 +137,6 @@
 
 	function Edit( { attributes, setAttributes } ) {
 		const blockProps = useBlockProps( {
-			className: 'ik-section ik-section--muted',
 			style: {
 				padding: '16px',
 				border: '1px dashed #c3c4c7',
@@ -167,7 +165,7 @@
 		);
 
 		return el(
-			'section',
+			'div',
 			blockProps,
 			el(
 				InspectorControls,
@@ -183,50 +181,6 @@
 						onChange: ( projectIds ) =>
 							setAttributes( { projectIds } ),
 					} )
-				),
-				el(
-					PanelBody,
-					{ title: __( 'Section copy', 'ik2' ), initialOpen: false },
-					el( TextControl, {
-						label: __( 'Eyebrow', 'ik2' ),
-						value: attributes.eyebrow,
-						onChange: ( eyebrow ) => setAttributes( { eyebrow } ),
-						__nextHasNoMarginBottom: true,
-					} ),
-					el( TextControl, {
-						label: __( 'Title', 'ik2' ),
-						value: attributes.title,
-						onChange: ( title ) => setAttributes( { title } ),
-						__nextHasNoMarginBottom: true,
-					} ),
-					el( TextControl, {
-						label: __( '“More” link label', 'ik2' ),
-						value: attributes.moreLabel,
-						onChange: ( moreLabel ) =>
-							setAttributes( { moreLabel } ),
-						__nextHasNoMarginBottom: true,
-					} )
-				)
-			),
-			el(
-				'header',
-				{ style: { marginBottom: '12px' } },
-				el(
-					'p',
-					{
-						className: 'ik-section__eyebrow',
-						style: {
-							fontFamily: 'monospace',
-							color: '#666',
-							margin: '0 0 4px',
-						},
-					},
-					attributes.eyebrow
-				),
-				el(
-					'h2',
-					{ style: { margin: 0 } },
-					attributes.title || __( 'Projects', 'ik2' )
 				)
 			),
 			previewProjects === null

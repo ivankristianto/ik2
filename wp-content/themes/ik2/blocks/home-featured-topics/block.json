@@ -3,14 +3,14 @@
 	"apiVersion": 3,
 	"name": "ik2/home-featured-topics",
 	"version": "1.0.0",
-	"title": "Home Featured Topics",
+	"title": "Featured Topics Grid",
 	"category": "theme",
-	"description": "Homepage section linking to featured article topics.",
+	"description": "Grid of featured topic cards — curated categories with live post counts and descriptions.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
 		"reusable": false,
-		"inserter": false,
+		"inserter": true,
 		"multiple": false,
 		"align": false
 	},

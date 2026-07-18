@@ -22,10 +22,6 @@ defined( 'ABSPATH' ) || exit;
 
 $ik2_max_projects = 4;
 
-$ik2_eyebrow    = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '// THINGS I’VE BUILT';
-$ik2_title      = isset( $attributes['title'] ) ? (string) $attributes['title'] : 'Projects';
-$ik2_more_label = isset( $attributes['moreLabel'] ) ? (string) $attributes['moreLabel'] : 'All projects';
-
 $ik2_curated_ids = [];
 if ( isset( $attributes['projectIds'] ) && is_array( $attributes['projectIds'] ) ) {
 	foreach ( $attributes['projectIds'] as $ik2_raw_id ) {
@@ -71,40 +67,24 @@ if ( count( $ik2_project_ids ) < $ik2_target_count ) {
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	[ 'class' => 'wp-block-group ik-section ik-section--muted' ]
+	[ 'class' => 'ik-project-grid' ]
 );
 ?>
-<section <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="container-full">
-		<div class="ik-section__head">
-			<div>
-				<?php if ( $ik2_eyebrow !== '' ) : ?>
-					<p class="ik-section__eyebrow"><?php echo esc_html( $ik2_eyebrow ); ?></p>
-				<?php endif; ?>
-				<h2 class="wp-block-heading ik-section__title"><?php echo esc_html( $ik2_title ); ?></h2>
-			</div>
-			<p class="ik-section__more">
-				<a href="<?php echo esc_url( home_url( '/projects' ) ); ?>"><?php echo esc_html( $ik2_more_label ); ?> →</a>
-			</p>
-		</div>
-
-		<div class="ik-project-grid">
-			<?php if ( empty( $ik2_project_ids ) ) : ?>
-				<p class="ik-project__blurb"><?php esc_html_e( 'No projects published yet.', 'ik2' ); ?></p>
-			<?php else : ?>
-				<?php
-				foreach ( $ik2_project_ids as $ik2_id ) {
-					// `do_blocks` returns block-rendered HTML; each ik2/project-card
-					// already calls `esc_*` on every untrusted field internally.
-					echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						sprintf(
-							'<!-- wp:ik2/project-card {"postId":%d} /-->',
-							(int) $ik2_id
-						)
-					);
-				}
-				?>
-			<?php endif; ?>
-		</div>
-	</div>
-</section>
+<div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<?php if ( empty( $ik2_project_ids ) ) : ?>
+		<p class="ik-project__blurb"><?php esc_html_e( 'No projects published yet.', 'ik2' ); ?></p>
+	<?php else : ?>
+		<?php
+		foreach ( $ik2_project_ids as $ik2_id ) {
+			// `do_blocks` returns block-rendered HTML; each ik2/project-card
+			// already calls `esc_*` on every untrusted field internally.
+			echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				sprintf(
+					'<!-- wp:ik2/project-card {"postId":%d} /-->',
+					(int) $ik2_id
+				)
+			);
+		}
+		?>
+	<?php endif; ?>
+</div>

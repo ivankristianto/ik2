@@ -60,11 +60,9 @@ $ik2_routes = [
 	],
 ];
 
-$ik2_wrapper_attrs = get_block_wrapper_attributes(
-	[ 'class' => 'container-full ik-section' ]
-);
+$ik2_wrapper_attrs = get_block_wrapper_attributes();
 ?>
-<main id="ik-main" <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<section class="ik-404">
 		<div class="ik-404__hero">
 			<div>
@@ -145,4 +143,4 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			</div>
 		</div>
 	</section>
-</main>
+</div>

@@ -3,9 +3,9 @@
 	"apiVersion": 3,
 	"name": "ik2/home-projects-preview",
 	"version": "2.0.0",
-	"title": "Home — Projects Preview",
+	"title": "Curated Projects Grid",
 	"category": "theme",
-	"description": "Curated grid of Projects shown on the homepage. The editor picks up to four Project IDs; the front end always renders an even count (2 or 4) so the 2-column grid never leaves a dangling card.",
+	"description": "Curated grid of Project cards. The editor picks up to four Project IDs; the front end always renders an even count (2 or 4) so the 2-column grid never leaves a dangling card.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
@@ -19,18 +19,6 @@
 			"type": "array",
 			"default": [],
 			"items": { "type": "number" }
-		},
-		"eyebrow": {
-			"type": "string",
-			"default": "// THINGS I’VE BUILT"
-		},
-		"title": {
-			"type": "string",
-			"default": "Projects"
-		},
-		"moreLabel": {
-			"type": "string",
-			"default": "All projects"
 		}
 	},
 	"editorScript": "file:./editor.js",

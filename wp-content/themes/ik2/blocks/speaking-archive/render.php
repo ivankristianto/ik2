@@ -14,10 +14,14 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
+$ik2_per_page      = isset( $attributes['perPage'] ) ? max( 1, (int) $attributes['perPage'] ) : 100;
+$ik2_heading_level = isset( $attributes['headingLevel'] ) ? (int) $attributes['headingLevel'] : 2;
+$ik2_heading_tag   = in_array( $ik2_heading_level, [ 2, 3 ], true ) ? "h{$ik2_heading_level}" : 'h2';
+
 $ik2_talks_query = new WP_Query(
 	[
 		'post_type'              => 'post',
-		'posts_per_page'         => 100,
+		'posts_per_page'         => $ik2_per_page,
 		'orderby'                => 'date',
 		'order'                  => 'DESC',
 		'ignore_sticky_posts'    => true,
@@ -42,7 +46,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<article class="ik-talk">
 				<span class="ik-talk__date"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></span>
 				<div class="ik-talk__body">
-					<h2 class="ik-talk__title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
+					<<?php echo $ik2_heading_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- whitelisted h2/h3. ?> class="ik-talk__title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></<?php echo $ik2_heading_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 					<?php if ( $ik2_venue !== '' ) : ?>
 						<div class="ik-talk__venue"><?php echo esc_html( $ik2_venue ); ?></div>
 					<?php endif; ?>
