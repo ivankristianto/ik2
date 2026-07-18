@@ -1,28 +1,7 @@
 @use 'tokens' as *;
 
-// Container widths and section rhythm.
-
-.container-full {
-	width: 100%;
-	max-width: $width-full;
-	margin-inline: auto;
-	padding-inline: $space-5;
-
-	@media (min-width: 768px) {
-		padding-inline: $space-6;
-	}
-}
-
-.container-narrow {
-	width: 100%;
-	max-width: $width-content;
-	margin-inline: auto;
-	padding-inline: $space-5;
-
-	@media (min-width: 768px) {
-		padding-inline: $space-6;
-	}
-}
+// Section rhythm. Widths and gutters come from WordPress layout —
+// theme.json contentSize/wideSize plus root-padding-aware alignments.
 
 .ik-section {
 	padding-block: $space-9;

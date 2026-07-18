@@ -10,6 +10,7 @@
 
 .ik-resume {
 	padding-block: $space-7 $space-9;
+	counter-reset: ik-resume-section;
 }
 
 /* ---- Masthead: the ink title card ------------------------------------- */
@@ -23,13 +24,14 @@
 	color: $color-paper;
 	padding: $space-7 $space-5 $space-8;
 
-	// Break out of the page gutter so the ink band reaches the chrome edge
-	// (full-bleed on small screens, capped at the 1280px container on wide).
-	margin-inline: calc(-1 * #{$space-5});
+	// Break out of the root-padding gutter so the ink band reaches the chrome
+	// edge (full-bleed on small screens, capped at the 1280px container wide).
+	margin-inline:
+		calc(-1 * var(--wp--style--root--padding-left, #{$space-5}))
+		calc(-1 * var(--wp--style--root--padding-right, #{$space-5}));
 
 	@media (min-width: 768px) {
 		padding: $space-8 $space-7 $space-9;
-		margin-inline: calc(-1 * #{$space-7});
 	}
 }
 
@@ -229,19 +231,19 @@
 	letter-spacing: -0.04em;
 	line-height: 1;
 	color: $color-ink;
-}
 
-.ik-resume__section-num {
-	font-family: $font-mono;
-	font-size: $size-lg;
-	font-weight: 600;
-	letter-spacing: 0.04em;
-	color: $color-signal;
-	align-self: baseline;
-}
-
-.ik-resume__section-name {
-	min-width: 0;
+	// Section numbering (01, 02, …) counts the titles in document order, so
+	// the headings stay plain editable text.
+	&::before {
+		counter-increment: ik-resume-section;
+		content: counter(ik-resume-section, decimal-leading-zero);
+		font-family: $font-mono;
+		font-size: $size-lg;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: $color-signal;
+		align-self: baseline;
+	}
 }
 
 /* ---- Experience: the chronological spine ------------------------------ */

@@ -1,1 +1,5 @@
-// IK2 theme — editor-only overrides. Kept small.
+// IK2 theme — editor-only overrides. Keep this file tiny: the front-end
+// stylesheet is already fed into the canvas via add_editor_style() (see
+// inc/setup.php), and widths come from WordPress layout (contentSize/wideSize
+// + align support), so block previews match the front end without per-block
+// width hacks.

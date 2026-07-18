@@ -55,11 +55,16 @@
 	gap: $space-4;
 }
 
-.ik-hero__primary {
+// Primary CTA — registered as the `hero-cta` style on core/button
+// (inc/block-styles.php). Overrides the core button chrome to become the
+// oversized text link with the animated Signal underline.
+.ik-hero .is-style-hero-cta .wp-block-button__link {
 	display: inline-flex;
 	align-items: baseline;
 	gap: 14px;
-	padding-bottom: 6px;
+	padding: 0 0 6px;
+	border-radius: 0;
+	background-color: transparent;
 	font-family: $font-sans;
 	font-size: clamp(1.5rem, 3.5vw, 2rem);
 	font-weight: 700;
@@ -73,20 +78,22 @@
 	background-size: 100% 2px;
 	transition: background-size 200ms ease, color 200ms ease;
 
+	&::after {
+		content: '\2192';
+		font-family: $font-mono;
+		font-weight: 400;
+		color: $color-signal;
+		transition: transform 200ms ease;
+	}
+
 	&:hover {
 		color: $color-signal-deep;
 		background-size: 100% 4px;
 	}
-}
 
-.ik-hero__primary-arrow {
-	color: $color-signal;
-	font-family: $font-mono;
-	transition: transform 200ms ease;
-}
-
-.ik-hero__primary:hover .ik-hero__primary-arrow {
-	transform: translateX(4px);
+	&:hover::after {
+		transform: translateX(4px);
+	}
 }
 
 .ik-hero__secondary {
@@ -171,32 +178,22 @@
 
 .ik-hero__portrait-path { color: $color-graphite; }
 
+// The portrait is a core Image block (figure) with its caption inside, so the
+// frame stacks image over caption and the 1:1 crop lives on the img itself.
 .ik-hero__portrait-frame {
-	width: 100%;
-	aspect-ratio: 1 / 1;
-	background: $color-paper;
 	display: flex;
-}
-
-.ik-hero__portrait-img {
+	flex-direction: column;
 	width: 100%;
-	height: 100%;
-	display: block;
-	object-fit: cover;
-	object-position: center 20%;
-}
+	margin: 0;
 
-.ik-hero__portrait-placeholder {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-family: $font-mono;
-	font-size: 3rem;
-	font-weight: 700;
-	color: $color-rule;
-	background: $color-soft-paper;
+	img {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		display: block;
+		object-fit: cover;
+		object-position: center 20%;
+		background: $color-paper;
+	}
 }
 
 .ik-hero__portrait-caption {
@@ -246,7 +243,7 @@
 		gap: $space-3;
 	}
 
-	.ik-hero__primary {
+	.ik-hero .is-style-hero-cta .wp-block-button__link {
 		font-size: clamp(1.35rem, 7.5vw, 1.8rem);
 	}
 

@@ -42,8 +42,8 @@ $space-8:  var(--wp--preset--spacing--8);
 $space-9:  var(--wp--preset--spacing--9);
 $space-10: var(--wp--preset--spacing--10);
 
-$width-content: 720px;
-$width-wide:    1080px;
+$width-content: var(--wp--style--global--content-size, 720px);
+$width-wide:    var(--wp--style--global--wide-size, 1080px);
 $width-full:    var(--wp--custom--width--full);
 
 $radius-sm: 0.25rem;

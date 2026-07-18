@@ -114,6 +114,16 @@
 	font-weight: 600;
 	margin: 0;
 	overflow-wrap: anywhere;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:hover,
+	a:focus-visible {
+		text-decoration: underline;
+	}
 }
 
 .ik-contact-row__note {
