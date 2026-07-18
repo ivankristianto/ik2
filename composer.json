@@ -9,6 +9,7 @@
 		"wordpress/mcp-adapter": "^0.5.0",
 		"wpackagist-plugin/ai": "^1.0",
 		"wpackagist-plugin/create-block-theme": "^2.9",
+		"wpackagist-plugin/google-site-kit": "^1.183",
 		"wpackagist-plugin/performance-lab": "^4.1",
 		"wpackagist-plugin/query-monitor": "^4.0",
 		"wpackagist-plugin/two-factor": "^0.16.0",
