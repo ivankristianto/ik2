@@ -3,6 +3,7 @@
 	"version": 3,
 	"settings": {
 		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
 		"color": {
 			"custom": false,
 			"defaultPalette": false,
@@ -50,7 +51,6 @@
 			"wideSize": "1080px"
 		},
 		"spacing": {
-			"useRootPaddingAwareAlignments": true,
 			"spacingSizes": [
 				{ "slug": "1", "name": "1 — 4px", "size": "0.25rem" },
 				{ "slug": "2", "name": "2 — 8px", "size": "0.5rem" },
