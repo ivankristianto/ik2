@@ -9,7 +9,7 @@
    =========================================================================== */
 
 .ik-resume {
-	padding-block: $space-7 $space-9;
+	padding-block: $space-7 $space-8;
 	counter-reset: ik-resume-section;
 }
 
@@ -51,7 +51,7 @@
 .ik-resume__eyebrow-tag {
 	background: $color-signal;
 	color: $color-paper;
-	padding: 4px 10px 3px;
+	padding: $space-1 $space-3 3px;
 	font-weight: 600;
 	letter-spacing: 0.08em;
 }
@@ -80,7 +80,7 @@
 .ik-resume__masthead {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
-	gap: $space-6 $space-8;
+	gap: $space-8;
 	align-items: end;
 
 	@media (max-width: 900px) {
@@ -169,7 +169,7 @@
 .ik-resume__fact {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
+	gap: $space-1;
 	min-width: 0;
 	padding: $space-5 $space-6;
 	border-right: 1px solid $color-line;
@@ -195,6 +195,7 @@
 }
 
 .ik-resume__fact-value {
+	margin: 0;
 	font-family: $font-mono;
 	font-size: clamp(1.75rem, 3.4vw, 2.5rem);
 	font-weight: 700;
@@ -471,15 +472,15 @@
 
 .ik-resume__contact a {
 	display: grid;
-	grid-template-columns: 10rem minmax(0, 1fr);
+	grid-template-columns: 11rem minmax(0, 1fr);
 	align-items: baseline;
-	gap: $space-5;
+	gap: $space-7;
 	padding: $space-5 0;
 	text-decoration: none;
 	color: $color-ink;
 	transition: color 200ms ease;
 
-	@media (max-width: 600px) {
+	@media (max-width: 700px) {
 		grid-template-columns: 1fr;
 		gap: $space-1;
 		padding: $space-4 0;
@@ -509,8 +510,8 @@
 
 .ik-resume__skill {
 	display: grid;
-	grid-template-columns: 12rem minmax(0, 1fr);
-	gap: $space-4 $space-7;
+	grid-template-columns: 11rem minmax(0, 1fr);
+	gap: $space-7;
 	min-width: 0;
 	padding: $space-5 0;
 	border-bottom: 1px solid $color-line;
@@ -519,7 +520,7 @@
 		border-top: 1px solid $color-line;
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 700px) {
 		grid-template-columns: 1fr;
 		gap: $space-3;
 		padding: $space-4 0;
