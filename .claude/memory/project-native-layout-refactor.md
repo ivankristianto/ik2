@@ -10,7 +10,7 @@ Branch `refactor/block-editor-native-layout` (July 2026) replaced the `.containe
 - Every template `<main>` and full-bleed section is `align:"full"` + `layout:{"type":"constrained","contentSize":"var(--wp--custom--width--full)"}` (1280). Gutters come from `settings.useRootPaddingAwareAlignments` + `styles.spacing.padding` (clamp 24→32px), giving the same 1280/1216 box as the old `.container-full`.
 - Only 3 dynamic theme blocks remain: `articles-filters`, `home-featured-topics` (term grid only), `home-projects-preview` (curated grid only), plus `speaking-archive` (now takes `perPage`/`headingLevel`) and `not-found`/`projects-archive`. Everything else is core-block patterns; home guides/notes are core Query Loops with taxQuery resolved from category slug in pattern PHP.
 - The /now card is `ik2/now-card` (dynamic wrapper: dot + date + foot attrs) with `ik2/now-item` InnerBlocks children (label/text RichText, `parent` locked to the card) — entries are added/removed like list items. Text attributes carry `"role": "content"` so they stay editable in content-locked contexts.
-- Homepage post_content (page 1882) holds the expanded pattern markup — editable in the page editor.
+- Homepage post_content (page 1882) holds the expanded pattern markup — editable in the page editor. The resume page (page 50) follows the same model: `ik2/resume-page` aggregate pattern, `page-resume.html` renders a constrained post-content block (contentSize var full) inside the `ik-resume` main, expanded markup in post_content.
 
 **Gotchas (cost real debugging time):**
 
