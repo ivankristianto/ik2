@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/now-card",
+	"version": "1.0.0",
+	"title": "Now Card",
+	"category": "theme",
+	"description": "The /now sidebar card. Each entry is a Now Item block — add, remove, or reorder entries directly in the editor.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"align": false
+	},
+	"attributes": {
+		"date": {
+			"type": "string",
+			"role": "content",
+			"default": ""
+		},
+		"foot": {
+			"type": "string",
+			"role": "content",
+			"default": "Inspired by <a href=\"https://nownownow.com\" target=\"_blank\" rel=\"noreferrer\">/now</a>. Updated when the world changes — not on a schedule."
+		}
+	},
+	"editorScript": "file:./editor.js",
+	"render": "file:./render.php"
+}

@@ -73,65 +73,15 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 
 		<!-- wp:column {"className":"ik-notes-layout__aside"} -->
 		<div class="wp-block-column ik-notes-layout__aside">
-			<!-- wp:group {"tagName":"aside","className":"ik-now","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-			<aside class="wp-block-group ik-now">
-				<!-- wp:paragraph {"className":"ik-now__head"} -->
-				<p class="ik-now__head"><span class="ik-now__dot" aria-hidden="true"></span><span class="ik-now__label">// /now</span><span class="ik-now__date">May 12, 2026</span></p>
-				<!-- /wp:paragraph -->
+			<!-- wp:ik2/now-card {"date":"May 12, 2026"} -->
+			<!-- wp:ik2/now-item {"label":"Currently building","text":"\u003ccode\u003eivankristianto-theme\u003c/code\u003e — rebuilding this site as a block theme."} /-->
 
-				<!-- wp:group {"className":"ik-now__group","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group ik-now__group">
-					<!-- wp:paragraph {"className":"ik-now__group-title"} -->
-					<p class="ik-now__group-title">Currently building</p>
-					<!-- /wp:paragraph -->
+			<!-- wp:ik2/now-item {"label":"Currently reading","text":"\u003cem\u003eDesigning Data-Intensive Applications\u003c/em\u003e, Kleppmann — for the third time."} /-->
 
-					<!-- wp:paragraph {"className":"ik-now__item"} -->
-					<p class="ik-now__item"><code>ivankristianto-theme</code> — rebuilding this site as a block theme.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
+			<!-- wp:ik2/now-item {"label":"Currently learning","text":"The WordPress Interactivity API — instant search + a real command palette."} /-->
 
-				<!-- wp:group {"className":"ik-now__group","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group ik-now__group">
-					<!-- wp:paragraph {"className":"ik-now__group-title"} -->
-					<p class="ik-now__group-title">Currently reading</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:paragraph {"className":"ik-now__item"} -->
-					<p class="ik-now__item"><em>Designing Data-Intensive Applications</em>, Kleppmann — for the third time.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-
-				<!-- wp:group {"className":"ik-now__group","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group ik-now__group">
-					<!-- wp:paragraph {"className":"ik-now__group-title"} -->
-					<p class="ik-now__group-title">Currently learning</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:paragraph {"className":"ik-now__item"} -->
-					<p class="ik-now__item">The WordPress Interactivity API — instant search + a real command palette.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-
-				<!-- wp:group {"className":"ik-now__group","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group ik-now__group">
-					<!-- wp:paragraph {"className":"ik-now__group-title"} -->
-					<p class="ik-now__group-title">Listening</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:paragraph {"className":"ik-now__item"} -->
-					<p class="ik-now__item">The Changelog · Syntax.fm · WP Tavern Jukebox</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-
-				<!-- wp:paragraph {"className":"ik-now__foot"} -->
-				<p class="ik-now__foot">Inspired by <a href="https://nownownow.com" target="_blank" rel="noreferrer">/now</a>. Updated when the world changes — not on a schedule.</p>
-				<!-- /wp:paragraph -->
-			</aside>
-			<!-- /wp:group -->
+			<!-- wp:ik2/now-item {"label":"Listening","text":"The Changelog · Syntax.fm · WP Tavern Jukebox"} /-->
+			<!-- /wp:ik2/now-card -->
 		</div>
 		<!-- /wp:column -->
 	</div>
