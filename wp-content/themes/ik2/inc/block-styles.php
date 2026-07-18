@@ -20,6 +20,23 @@ defined( 'ABSPATH' ) || exit;
  */
 function bootstrap(): void {
 	add_action( 'init', __NAMESPACE__ . '\\register_callout_block_styles' );
+	add_action( 'init', __NAMESPACE__ . '\\register_button_block_styles' );
+}
+
+/**
+ * Register button variants.
+ *
+ * Hero CTA: the oversized text link with the animated Signal underline used
+ * as the homepage hero's primary action.
+ */
+function register_button_block_styles(): void {
+	register_block_style(
+		'core/button',
+		[
+			'name'  => 'hero-cta',
+			'label' => __( 'Hero CTA', 'ik2' ),
+		]
+	);
 }
 
 /**

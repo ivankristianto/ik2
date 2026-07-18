@@ -3,43 +3,49 @@
  * Title: Resume — Contact links
  * Slug: ik2/resume-page-contact
  * Categories: ik2-page
- * Description: Contact link list for the Resume page (email, GitHub, LinkedIn).
+ * Description: Contact link list for the Resume page (email, GitHub, LinkedIn, WordPress).
  *
  * @package IK2
  */
 
+$ik2_contacts = [
+	[
+		'label' => __( 'Email', 'ik2' ),
+		'value' => 'hello@ivankristianto.com',
+		'href'  => 'mailto:hello@ivankristianto.com',
+	],
+	[
+		'label' => __( 'GitHub', 'ik2' ),
+		'value' => 'github.com/ivankristianto',
+		'href'  => 'https://github.com/ivankristianto',
+	],
+	[
+		'label' => __( 'LinkedIn', 'ik2' ),
+		'value' => 'linkedin.com/in/ivankristianto',
+		'href'  => 'https://www.linkedin.com/in/ivankristianto',
+	],
+	[
+		'label' => __( 'WordPress', 'ik2' ),
+		'value' => 'profiles.wordpress.org/ivankristianto',
+		'href'  => 'https://profiles.wordpress.org/ivankristianto/',
+	],
+];
+
 ?>
-<!-- wp:html -->
-<section class="ik-resume__section ik-resume__section--contact">
-	<h2 class="ik-resume__section-title">
-		<span class="ik-resume__section-num" aria-hidden="true">04</span>
-		<span class="ik-resume__section-name">Contact</span>
-	</h2>
-	<ul class="ik-resume__contact">
-		<li>
-			<a href="mailto:hello@ivankristianto.com">
-				<span class="ik-resume__contact-label">Email</span>
-				<span class="ik-resume__contact-value">hello@ivankristianto.com</span>
-			</a>
-		</li>
-		<li>
-			<a href="https://github.com/ivankristianto">
-				<span class="ik-resume__contact-label">GitHub</span>
-				<span class="ik-resume__contact-value">github.com/ivankristianto</span>
-			</a>
-		</li>
-		<li>
-			<a href="https://www.linkedin.com/in/ivankristianto">
-				<span class="ik-resume__contact-label">LinkedIn</span>
-				<span class="ik-resume__contact-value">linkedin.com/in/ivankristianto</span>
-			</a>
-		</li>
-		<li>
-			<a href="https://profiles.wordpress.org/ivankristianto/">
-				<span class="ik-resume__contact-label">WordPress</span>
-				<span class="ik-resume__contact-value">profiles.wordpress.org/ivankristianto</span>
-			</a>
-		</li>
+<!-- wp:group {"tagName":"section","className":"ik-resume__section ik-resume__section--contact","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
+<section class="wp-block-group ik-resume__section ik-resume__section--contact">
+	<!-- wp:heading {"level":2,"className":"ik-resume__section-title"} -->
+	<h2 class="wp-block-heading ik-resume__section-title">Contact</h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:list {"className":"ik-resume__contact"} -->
+	<ul class="wp-block-list ik-resume__contact">
+		<?php foreach ( $ik2_contacts as $ik2_contact ) : ?>
+		<!-- wp:list-item -->
+		<li><a href="<?php echo esc_url( $ik2_contact['href'] ); ?>"><span class="ik-resume__contact-label"><?php echo esc_html( $ik2_contact['label'] ); ?></span><span class="ik-resume__contact-value"><?php echo esc_html( $ik2_contact['value'] ); ?></span></a></li>
+		<!-- /wp:list-item -->
+		<?php endforeach; ?>
 	</ul>
+	<!-- /wp:list -->
 </section>
-<!-- /wp:html -->
+<!-- /wp:group -->
