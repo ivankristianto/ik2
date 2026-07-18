@@ -16,7 +16,7 @@
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-about__title"} -->
-	<h1 class="wp-block-heading ik-about__title"><?php esc_html_e( 'About Ivan Kristianto', 'ik2' ); ?></h1>
+	<h1 class="wp-block-heading ik-about__title"><?php esc_html_e( 'About Ivan', 'ik2' ); ?></h1>
 	<!-- /wp:heading -->
 
 	<!-- wp:paragraph {"className":"ik-about__intro"} -->

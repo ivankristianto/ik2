@@ -20,7 +20,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 	<div class="ik-hero__layout">
 		<div class="ik-hero__main">
 			<p class="ik-section__eyebrow ik-hero__eyebrow"><?php esc_html_e( '// Web engineer · WordPress · AI · Performance · Tooling', 'ik2' ); ?></p>
-			<h1 class="wp-block-heading ik-hero__title has-hero-font-size"><?php esc_html_e( "I'm Ivan Kristianto.", 'ik2' ); ?></h1>
+			<h1 class="wp-block-heading ik-hero__title has-hero-font-size"><?php esc_html_e( "I'm Ivan.", 'ik2' ); ?></h1>
 			<p class="ik-hero__blurb has-xl-font-size"><?php esc_html_e( 'I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.', 'ik2' ); ?></p>
 			<p class="ik-hero__sub"><?php esc_html_e( 'This site is my public notebook: deep technical tutorials, short notes, experiments, talks, and links from years of building for the web.', 'ik2' ); ?></p>
 
@@ -46,12 +46,12 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			</div>
 			<div class="ik-hero__portrait-frame">
 				<?php if ( file_exists( $ik2_portrait_dir ) ) : ?>
-					<img src="<?php echo esc_url( $ik2_portrait_uri ); ?>" alt="<?php esc_attr_e( 'Ivan Kristianto', 'ik2' ); ?>" class="ik-hero__portrait-img" loading="eager" decoding="async" />
+					<img src="<?php echo esc_url( $ik2_portrait_uri ); ?>" alt="<?php esc_attr_e( 'Ivan', 'ik2' ); ?>" class="ik-hero__portrait-img" loading="eager" decoding="async" />
 				<?php else : ?>
 					<div class="ik-hero__portrait-placeholder" aria-hidden="true">IK</div>
 				<?php endif; ?>
 			</div>
-			<figcaption class="ik-hero__portrait-caption"><?php echo esc_html( sprintf( '// Ivan Kristianto · Jakarta · c. %s', gmdate( 'Y' ) ) ); ?></figcaption>
+			<figcaption class="ik-hero__portrait-caption"><?php echo esc_html( sprintf( '// Ivan · Jakarta · c. %s', gmdate( 'Y' ) ) ); ?></figcaption>
 		</aside>
 	</div>
 

@@ -21,7 +21,7 @@
 		</p>
 
 		<div class="ik-resume__masthead">
-			<h1 class="ik-resume__name">Ivan<br>Kristianto.</h1>
+			<h1 class="ik-resume__name">Ivan.</h1>
 			<aside class="ik-resume__meta">
 				<p class="ik-resume__title">
 					Senior Web Engineer
