@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
 function bootstrap(): void {
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
+	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
 	add_action( 'enqueue_block_assets', __NAMESPACE__ . '\\enqueue_theme_stylesheet' );
 	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
 }
@@ -47,6 +48,29 @@ function enqueue_frontend_scripts(): void {
 			true
 		);
 	}
+}
+
+/**
+ * Mark the home hero portrait as the LCP image.
+ *
+ * The portrait is the largest above-the-fold element on the front page, so it
+ * should be fetched eagerly at high priority instead of at default priority.
+ * Doing this at render time (rather than baking attributes into the image
+ * block markup) keeps the block valid in the editor. Runs on the last filter
+ * in `wp_filter_content_tags()`, so it overrides any `loading="lazy"` core
+ * assigned to the tag.
+ *
+ * @param string $image The full `<img>` tag HTML.
+ * @return string
+ */
+function prioritize_hero_portrait( string $image ): string {
+	if ( ! is_front_page() || ! str_contains( $image, 'ivan-portrait' ) ) {
+		return $image;
+	}
+
+	$image = preg_replace( '/\s(?:loading|fetchpriority)="[^"]*"/', '', $image );
+
+	return str_replace( '<img ', '<img fetchpriority="high" loading="eager" ', $image );
 }
 
 /**
