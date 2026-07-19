@@ -57,6 +57,13 @@ services:
         # on every redeploy).
         volumes:
             - uploads:/var/www/app/wp-content/uploads
+        # WP Super Cache's page cache (wp-content/cache/) is baked into the image
+        # and left on the container's ephemeral layer ON PURPOSE — do NOT add a
+        # volume for it. A persistent/shared cache volume would keep serving the
+        # previous deploy's HTML (WP Super Cache flushes on content edits, not on
+        # code deploy); an ephemeral dir starts cold each redeploy and always
+        # reflects the freshly-deployed code. The cache ships disabled — enable
+        # it at Settings → WP Super Cache once the plugin is active.
         depends_on:
             uploads-init:
                 condition: service_completed_successfully

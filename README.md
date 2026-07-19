@@ -240,6 +240,15 @@ The `Dockerfile` has two final targets: `development` (with Xdebug, used by `doc
 
 The MariaDB instance is **separate** (a Dokploy database service), not bundled in the app stack, so it survives redeploys independently.
 
+### Caching
+
+Two cache layers are baked into the image at build time — the production webroot is immutable, so nothing is written or configured at runtime:
+
+-   **Object cache — `wp-redis`.** The `object-cache.php` drop-in is symlinked in during the build and the PhpRedis extension is compiled into the image. Connection details come from the `REDIS_SERVER` env var (parsed by `docker/wordpress/wp-config-redis.php`).
+-   **Page cache — WP Super Cache.** The plugin normally writes its drop-ins when you activate it, but that can't happen against an immutable filesystem. So the `Dockerfile` bakes them from the plugin's shipped samples: `wp-content/advanced-cache.php` and `wp-content/wp-cache-config.php`, a writable `wp-content/cache/`, plus `WP_CACHE` + `WPCACHEHOME` defined in `wp-config.php` (via `docker/wordpress/wp-config-cache.php`) — without those two constants the drop-in never loads. **These are only needed at image build time**; removing the plugin from `composer.json` makes the build skip them cleanly.
+
+WP Super Cache ships in Simple mode (no nginx rewrite rules needed) with caching **off** (`$cache_enabled = false`). Turn it on at **Settings → WP Super Cache → Caching On** once the plugin is active. It's a filesystem-backed page cache — it does not use Redis, but coexists with the Redis object cache above (they cache different layers).
+
 ## Theme
 
 The **IK2** block theme at `wp-content/themes/ik2/` consumes the design system:
