@@ -23,13 +23,20 @@ function bootstrap(): void {
 }
 
 /**
- * Enqueue the theme's front-end JS bundle and dashicons.
+ * Enqueue the theme's front-end JS bundle.
+ *
+ * Dashicons (~62KB) is only loaded when the admin bar is showing. The theme's
+ * own markup uses inline SVG and Lucide for iconography, so anonymous visitors
+ * (nearly all traffic) never need the dashicons font sheet. Logged-in users
+ * still get it for the admin bar's icons.
  */
 function enqueue_frontend_scripts(): void {
 	$build_dir = __DIR__ . '/../build';
 	$build_uri = get_theme_file_uri( 'build' );
 
-	wp_enqueue_style( 'dashicons' );
+	if ( is_admin_bar_showing() ) {
+		wp_enqueue_style( 'dashicons' );
+	}
 
 	if ( file_exists( $build_dir . '/index.js' ) ) {
 		wp_enqueue_script(
