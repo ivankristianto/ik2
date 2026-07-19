@@ -122,6 +122,13 @@ COPY --chown=www-data:www-data docker/wordpress/wp-config-redis.php /var/www/app
 RUN sed -i "1a require_once __DIR__ . '/wp-config-redis.php';" /var/www/app/wp-config.php \
     && grep -q "wp-config-redis.php" /var/www/app/wp-config.php
 
+# Page cache config: define WP_CACHE + WPCACHEHOME so core loads WP Super Cache's
+# advanced-cache.php drop-in (baked below). Same require-into-wp-config pattern
+# as the Redis config above; fail the build loudly if the hook didn't land.
+COPY --chown=www-data:www-data docker/wordpress/wp-config-cache.php /var/www/app/wp-config-cache.php
+RUN sed -i "1a require_once __DIR__ . '/wp-config-cache.php';" /var/www/app/wp-config.php \
+    && grep -q "wp-config-cache.php" /var/www/app/wp-config.php
+
 # Composer plugins + vendor
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/plugins    /var/www/app/wp-content/plugins
 COPY --from=composer-build --chown=www-data:www-data /app/wp-content/mu-plugins /var/www/app/wp-content/mu-plugins
@@ -146,6 +153,28 @@ RUN if [ -s /var/www/app/wp-content/plugins/wp-redis/object-cache.php ]; then \
         && chown -h www-data:www-data /var/www/app/wp-content/object-cache.php; \
     else \
         echo "wp-redis drop-in not found — skipping object-cache.php symlink"; \
+    fi
+
+# WP Super Cache page-cache drop-ins. The plugin writes these on activation by
+# editing the filesystem, but the prod webroot is immutable and the plugin is
+# never "activated" via the admin during a build — so bake them from the
+# plugin's shipped samples (same rationale as the wp-redis drop-in above).
+# WP_CACHE + WPCACHEHOME are set via wp-config-cache.php; the wp-cache-config.php
+# sample ships with $cache_enabled = false, so caching stays inert until enabled
+# from Settings → WP Super Cache. Pre-create wp-content/cache (www-data-owned)
+# so the cache backend has a writable target. Skipped when the plugin isn't
+# installed (e.g. removed from composer.json).
+RUN if [ -f /var/www/app/wp-content/plugins/wp-super-cache/advanced-cache.php ]; then \
+        cp /var/www/app/wp-content/plugins/wp-super-cache/advanced-cache.php \
+           /var/www/app/wp-content/advanced-cache.php \
+        && cp /var/www/app/wp-content/plugins/wp-super-cache/wp-cache-config-sample.php \
+              /var/www/app/wp-content/wp-cache-config.php \
+        && mkdir -p /var/www/app/wp-content/cache \
+        && chown www-data:www-data /var/www/app/wp-content/advanced-cache.php \
+                                   /var/www/app/wp-content/wp-cache-config.php \
+                                   /var/www/app/wp-content/cache; \
+    else \
+        echo "wp-super-cache not found — skipping page-cache drop-ins"; \
     fi
 
 # The official entrypoint operates on the current directory, so pointing
