@@ -9,7 +9,11 @@
  *    always needs. Inlining removes a render-blocking request from the
  *    critical path, which is the dominant LCP cost on the home page.
  *  - Block styles ship with their blocks (`block.json` `style`) and load only
- *    when the block is on the page.
+ *    when the block is on the page. Two render-blocking WordPress *core* block
+ *    sheets get the same critical-path treatment as the theme's own CSS: the
+ *    header `wp-block-navigation` sheet is inlined, and the footer-only
+ *    `wp-block-social-links` sheet loads asynchronously (see
+ *    optimise_core_block_style_delivery()).
  *  - Per-template section styles (`build/section-*.css`) are enqueued only on
  *    the templates that use them (see section_slugs_for_request()).
  *  - The command palette stylesheet loads asynchronously — it's chrome that is
@@ -34,6 +38,7 @@ function bootstrap(): void {
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_styles' );
 	add_action( 'wp_head', __NAMESPACE__ . '\\preload_hero_portrait', 1 );
 	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\make_palette_style_async', 10, 4 );
+	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 4 );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
 	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
@@ -228,6 +233,59 @@ function make_palette_style_async( string $html, string $handle, string $href, s
 		return $html;
 	}
 
+	return async_style_tag( $html, $media );
+}
+
+/**
+ * Keep two render-blocking WordPress core block stylesheets off the critical
+ * path:
+ *
+ *  - `wp-block-navigation` is header chrome, above the fold on every page, so
+ *    its sheet is inlined into <head> — the browser applies it during first
+ *    paint without a separate blocking request.
+ *  - `wp-block-social-links` only appears in the footer, below the fold, so it
+ *    loads asynchronously (see async_style_tag) and never blocks first paint.
+ *
+ * Both fall back to the original <link> tag if anything is missing, so a core
+ * change to how these handles register can only cost the optimisation, never
+ * the styles themselves.
+ *
+ * @param string $html   The <link> tag HTML.
+ * @param string $handle Stylesheet handle.
+ * @param string $href   Stylesheet URL.
+ * @param string $media  Media attribute.
+ * @return string
+ */
+function optimise_core_block_style_delivery( string $html, string $handle, string $href, string $media ): string {
+	if ( 'wp-block-social-links' === $handle ) {
+		return async_style_tag( $html, $media );
+	}
+
+	if ( 'wp-block-navigation' === $handle ) {
+		$css = read_registered_style_css( $handle, $href );
+
+		if ( $css !== '' ) {
+			// Mirror the id the <link> would have carried ({handle}-css), which is
+			// distinct from core's own {handle}-inline-css additional-styles block.
+			return sprintf( "<style id='%s-css'>%s</style>\n", esc_attr( $handle ), $css );
+		}
+	}
+
+	return $html;
+}
+
+/**
+ * Rewrite a stylesheet <link> so the browser fetches it off the critical path.
+ *
+ * The `media="print"` + `onload` swap lets the sheet download at low priority
+ * without blocking render, then applies it once loaded. A <noscript> copy of
+ * the original tag keeps it working with JavaScript disabled.
+ *
+ * @param string $html  The <link> tag HTML.
+ * @param string $media Media attribute the tag currently carries.
+ * @return string
+ */
+function async_style_tag( string $html, string $media ): string {
 	$async = str_replace(
 		" media='" . $media . "'",
 		" media='print' onload=\"this.media='all'\"",
@@ -235,6 +293,29 @@ function make_palette_style_async( string $html, string $handle, string $href, s
 	);
 
 	return $async . '<noscript>' . $html . '</noscript>';
+}
+
+/**
+ * Read the on-disk CSS for a registered stylesheet handle so it can be inlined.
+ *
+ * Prefers the absolute `path` core records for block styles; falls back to
+ * mapping the enqueued URL onto ABSPATH. Returns an empty string when neither
+ * resolves to a readable file so callers keep the external <link>.
+ *
+ * @param string $handle Stylesheet handle.
+ * @param string $href   Stylesheet URL as enqueued.
+ * @return string
+ */
+function read_registered_style_css( string $handle, string $href ): string {
+	$styles = wp_styles();
+	$path   = $styles->get_data( $handle, 'path' );
+
+	if ( ! is_string( $path ) || $path === '' ) {
+		$url_path = (string) wp_parse_url( $href, PHP_URL_PATH );
+		$path     = $url_path !== '' ? ABSPATH . ltrim( $url_path, '/' ) : '';
+	}
+
+	return read_build_css( $path );
 }
 
 /**
