@@ -322,14 +322,18 @@ function read_registered_style_css( string $handle, string $href ): string {
 }
 
 /**
- * Mark the home hero portrait as the LCP image.
+ * Mark the home hero portrait as the LCP image and make it responsive.
  *
  * The portrait is the largest above-the-fold element on the front page, so it
- * should be fetched eagerly at high priority instead of at default priority.
- * Doing this at render time (rather than baking attributes into the image
- * block markup) keeps the block valid in the editor. Runs on the last filter
- * in `wp_filter_content_tags()`, so it overrides any `loading="lazy"` core
- * assigned to the tag.
+ * should be fetched eagerly at high priority instead of at default priority,
+ * and it should not overload 1x / small viewports with the full-size file.
+ * The frame renders at ~338px (desktop), 278px (≤900px) and 218px (≤640px), so
+ * a 340px variant covers those at 1x while the 500px original serves high-DPI.
+ * Explicit dimensions keep the layout stable. Doing this at render time (rather
+ * than baking attributes into the image block markup) keeps the block valid in
+ * the editor and applies to the stored page content without a re-save. Runs on
+ * the last filter in `wp_filter_content_tags()`, so it overrides any
+ * `loading="lazy"` core assigned to the tag.
  *
  * @param string $image The full `<img>` tag HTML.
  * @return string
@@ -339,9 +343,19 @@ function prioritize_hero_portrait( string $image ): string {
 		return $image;
 	}
 
-	$image = preg_replace( '/\s(?:loading|fetchpriority)="[^"]*"/', '', $image );
+	// Drop anything core may have added so our attributes are deterministic.
+	$image = preg_replace( '/\s(?:loading|fetchpriority|width|height|srcset|sizes)="[^"]*"/', '', $image );
 
-	return str_replace( '<img ', '<img fetchpriority="high" loading="eager" ', $image );
+	$small = get_theme_file_uri( 'assets/images/ivan-portrait-340.webp' );
+	$full  = get_theme_file_uri( 'assets/images/ivan-portrait.webp' );
+
+	$attrs = sprintf(
+		'fetchpriority="high" loading="eager" width="500" height="479" srcset="%s 340w, %s 500w" sizes="(max-width: 640px) 218px, (max-width: 900px) 278px, 338px" ',
+		esc_url( $small ),
+		esc_url( $full )
+	);
+
+	return str_replace( '<img ', '<img ' . $attrs, $image );
 }
 
 /**
