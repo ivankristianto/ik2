@@ -58,10 +58,11 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
 COPY wp-content ./wp-content
 
 # Build the theme assets and fail loudly if the expected output is missing —
-# a silently empty build would ship an unstyled site (assets.php enqueues are
-# guarded by file_exists).
+# a silently empty build would ship an unstyled site (assets.php inlines the
+# critical CSS and enqueues section styles, both guarded by file_exists).
 RUN pnpm build \
-    && test -s wp-content/themes/ik2/build/style-index.css \
+    && test -s wp-content/themes/ik2/build/critical.css \
+    && test -s wp-content/themes/ik2/build/section-home.css \
     && test -s wp-content/themes/ik2/build/index.js \
     && test -f wp-content/themes/ik2/build/editor.css
 
