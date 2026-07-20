@@ -66,7 +66,10 @@ function enqueue_frontend_scripts(): void {
 			$build_uri . '/index.js',
 			[],
 			(string) filemtime( $build_dir . '/index.js' ),
-			true
+			[
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			]
 		);
 	}
 }
