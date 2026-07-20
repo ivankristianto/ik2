@@ -1,0 +1,12 @@
+// Critical CSS — inlined into <head> on every page (inc/assets.php).
+// The site chrome that the first paint always needs: reset, base typography,
+// section/layout scaffolding, skip link, wordmark, header navigation, footer.
+// Everything else loads on demand (block styles) or per template (sections).
+
+@use 'styles/reset';
+@use 'styles/typography';
+@use 'styles/layout';
+@use 'styles/skiplink';
+@use 'styles/wordmark';
+@use 'styles/header';
+@use 'styles/footer';

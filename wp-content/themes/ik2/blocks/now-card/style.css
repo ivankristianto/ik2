@@ -1,0 +1,100 @@
+/* Now card block (ik2/now-card + ik2/now-item). */
+.ik-now {
+  background: var(--wp--preset--color--surface);
+  border: 1px solid var(--wp--preset--color--line);
+  border-radius: 0.375rem;
+  padding: var(--wp--preset--spacing--5);
+  font-size: var(--wp--preset--font-size--sm);
+}
+
+.ik-now__head {
+  display: flex;
+  align-items: center;
+  gap: var(--wp--preset--spacing--2);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--graphite);
+  margin-bottom: var(--wp--preset--spacing--4);
+}
+
+.ik-now__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--wp--preset--color--build-green);
+  border-radius: 50%;
+  animation: ik-now-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ik-now-pulse {
+
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.ik-now__date {
+  margin-left: auto;
+  color: var(--wp--preset--color--dust);
+}
+
+.ik-now__group {
+  padding: var(--wp--preset--spacing--3) 0;
+  border-top: 1px dashed var(--wp--preset--color--line);
+}
+
+.ik-now__group:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.ik-now__group-title {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--graphite);
+  margin-bottom: var(--wp--preset--spacing--1);
+}
+
+.ik-now__item {
+  color: var(--wp--preset--color--ink);
+  line-height: 1.55;
+}
+
+.ik-now__item code {
+  font-size: 0.9em;
+  background: var(--wp--preset--color--code-paper);
+  padding: 0 var(--wp--preset--spacing--1);
+  border-radius: 0.25rem;
+}
+
+.ik-now__foot {
+  margin-top: var(--wp--preset--spacing--4);
+  padding-top: var(--wp--preset--spacing--3);
+  border-top: 1px solid var(--wp--preset--color--line);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--dust);
+}
+
+.ik-now__foot a {
+  color: var(--wp--preset--color--graphite);
+}
+
+@media (max-width: 640px) {
+
+  .ik-now {
+    padding: var(--wp--preset--spacing--4);
+    font-size: var(--wp--preset--font-size--xs);
+  }
+
+  .ik-now__head {
+    margin-bottom: var(--wp--preset--spacing--3);
+  }
+
+  .ik-now__foot {
+    margin-top: var(--wp--preset--spacing--3);
+    padding-top: var(--wp--preset--spacing--3);
+  }
+}

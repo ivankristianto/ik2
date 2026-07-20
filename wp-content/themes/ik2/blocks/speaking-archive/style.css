@@ -1,0 +1,82 @@
+/* Speaking timeline block (ik2/speaking-archive). */
+.ik-talks-list {
+  border-top: 1px solid var(--wp--preset--color--rule);
+}
+
+.ik-talk {
+  display: grid;
+  grid-template-columns: 9rem 1fr auto;
+  gap: var(--wp--preset--spacing--5);
+  padding: var(--wp--preset--spacing--5) 0;
+  border-bottom: 1px solid var(--wp--preset--color--line);
+  align-items: baseline;
+}
+
+@media (max-width: 600px) {
+
+  .ik-talk {
+    grid-template-columns: 1fr;
+    gap: var(--wp--preset--spacing--2);
+  }
+}
+
+.ik-talk__date {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--dust);
+}
+
+.ik-talk__body {
+  min-width: 0;
+}
+
+.ik-talk__title {
+  font-size: var(--wp--preset--font-size--xl);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.ik-talk__title a {
+  color: var(--wp--preset--color--ink);
+  text-decoration: none;
+}
+
+.ik-talk__venue {
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--md);
+  line-height: 1.6;
+  margin-top: var(--wp--preset--spacing--2);
+}
+
+.ik-talk__kind {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--signal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+
+  .ik-talk {
+    padding: var(--wp--preset--spacing--4) 0;
+  }
+
+  .ik-talk__title {
+    font-size: var(--wp--preset--font-size--lg);
+  }
+
+  .ik-talk__venue {
+    font-size: var(--wp--preset--font-size--md);
+    line-height: 1.5;
+    margin-top: var(--wp--preset--spacing--1);
+  }
+
+  .ik-talk__kind {
+    margin-top: var(--wp--preset--spacing--1);
+  }
+}
+
+.ik-talk__title a:hover {
+  color: var(--wp--preset--color--signal);
+}

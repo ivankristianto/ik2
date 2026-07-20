@@ -23,5 +23,6 @@
 			"default": 2
 		}
 	},
+	"style": "file:./style.css",
 	"render": "file:./render.php"
 }

@@ -1,0 +1,120 @@
+/* Featured topics grid block (ik2/home-featured-topics). */
+.ik-topics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--wp--preset--color--surface);
+  border: 1px solid var(--wp--preset--color--line);
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+
+  .ik-topics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+
+  .ik-topics {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ik-topic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wp--preset--spacing--3);
+  padding: var(--wp--preset--spacing--5);
+  border-right: 1px solid var(--wp--preset--color--line);
+  border-bottom: 1px solid var(--wp--preset--color--line);
+  text-decoration: none;
+  color: inherit;
+  transition: background 200ms ease;
+}
+
+.ik-topic:hover {
+  background: var(--wp--preset--color--soft-paper);
+}
+
+@media (min-width: 1001px) {
+
+  .ik-topic:nth-last-child(-n+5) {
+    border-bottom: 0;
+  }
+
+  .ik-topic:last-child {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 1000px) and (min-width: 601px) {
+
+  .ik-topic:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .ik-topic:last-child {
+    border-bottom: 0;
+  }
+
+  .ik-topic:nth-last-child(-n+2):nth-child(2n+1) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .ik-topic {
+    border-right: 0;
+  }
+
+  .ik-topic:last-child {
+    border-bottom: 0;
+  }
+}
+
+.ik-topic__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--3);
+}
+
+.ik-topic__name {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  color: var(--wp--preset--color--ink);
+}
+
+.ik-topic__count {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--dust);
+  white-space: nowrap;
+}
+
+.ik-topic__blurb {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--wp--preset--color--graphite);
+}
+
+@media (max-width: 600px) {
+
+  .ik-topic {
+    gap: var(--wp--preset--spacing--2);
+    padding: var(--wp--preset--spacing--4);
+  }
+
+  .ik-topic__name {
+    font-size: var(--wp--preset--font-size--md);
+  }
+
+  .ik-topic__blurb {
+    font-size: var(--wp--preset--font-size--sm);
+  }
+}

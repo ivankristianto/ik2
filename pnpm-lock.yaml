@@ -33,6 +33,9 @@ importers:
       sass:
         specifier: ^1.101.0
         version: 1.101.0
+      webpack-remove-empty-scripts:
+        specifier: ^1.0.4
+        version: 1.1.1(webpack@5.108.4)
 
 packages:
 
@@ -3007,6 +3010,10 @@ packages:
 
   ansi-styles@5.2.0:
     resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
+    engines: {node: '>=10'}
+
+  ansis@4.0.0-node10:
+    resolution: {integrity: sha512-BRrU0Bo1X9dFGw6KgGz6hWrqQuOlVEDOzkb0QSLZY9sXHqA7pNj7yHPVJRz7y/rj4EOJ3d/D5uxH+ee9leYgsg==}
     engines: {node: '>=10'}
 
   anymatch@3.1.3:
@@ -7374,6 +7381,12 @@ packages:
     resolution: {integrity: sha512-+4zXKdx7UnO+1jaN4l2lHVD+mFvnlZQP/6ljaJVb4SZiwIKeUnrT5l0gkT8z+n4hKpC+jpOv6O9R+gLtag7pSA==}
     engines: {node: '>=10.0.0'}
 
+  webpack-remove-empty-scripts@1.1.1:
+    resolution: {integrity: sha512-FqmIy7joxXd0/7jz8UjzMXOKc6B7LR+ynfgaaaH72xUT917h3A94ERxOLvGM8a8XdGIvUsdTLIUt8aBQM2Pdqg==}
+    engines: {node: '>=12.14'}
+    peerDependencies:
+      webpack: '>=5.32.0'
+
   webpack-sources@3.5.1:
     resolution: {integrity: sha512-jyuiGJdtvY434z5bUZrjz67v76/ePNvFZTp9Mdz29IlH4+GPsgyGjiv0fKI+M7BdkU6ADjulUcKAd3tUK3WlEw==}
     engines: {node: '>=10.13.0'}
@@ -11736,6 +11749,8 @@ snapshots:
 
   ansi-styles@5.2.0: {}
 
+  ansis@4.0.0-node10: {}
+
   anymatch@3.1.3:
     dependencies:
       normalize-path: 3.0.0
@@ -12155,8 +12170,8 @@ snapshots:
 
   caniuse-api@3.0.0:
     dependencies:
-      browserslist: 4.28.2
-      caniuse-lite: 1.0.30001792
+      browserslist: 4.28.6
+      caniuse-lite: 1.0.30001806
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
@@ -12475,7 +12490,7 @@ snapshots:
 
   cssnano-preset-default@6.1.2(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       css-declaration-sorter: 7.4.0(postcss@8.5.14)
       cssnano-utils: 4.0.2(postcss@8.5.14)
       postcss: 8.5.14
@@ -15143,7 +15158,7 @@ snapshots:
 
   postcss-colormin@6.1.0(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       caniuse-api: 3.0.0
       colord: 2.9.3
       postcss: 8.5.14
@@ -15151,7 +15166,7 @@ snapshots:
 
   postcss-convert-values@6.1.0(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       postcss: 8.5.14
       postcss-value-parser: 4.2.0
 
@@ -15196,7 +15211,7 @@ snapshots:
 
   postcss-merge-rules@6.1.1(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       caniuse-api: 3.0.0
       cssnano-utils: 4.0.2(postcss@8.5.14)
       postcss: 8.5.14
@@ -15216,7 +15231,7 @@ snapshots:
 
   postcss-minify-params@6.1.0(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       cssnano-utils: 4.0.2(postcss@8.5.14)
       postcss: 8.5.14
       postcss-value-parser: 4.2.0
@@ -15278,7 +15293,7 @@ snapshots:
 
   postcss-normalize-unicode@6.1.0(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       postcss: 8.5.14
       postcss-value-parser: 4.2.0
 
@@ -15304,7 +15319,7 @@ snapshots:
 
   postcss-reduce-initial@6.1.0(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       caniuse-api: 3.0.0
       postcss: 8.5.14
 
@@ -16188,7 +16203,7 @@ snapshots:
 
   stylehacks@6.1.1(postcss@8.5.14):
     dependencies:
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       postcss: 8.5.14
       postcss-selector-parser: 6.1.2
 
@@ -16772,6 +16787,11 @@ snapshots:
       flat: 5.0.2
       wildcard: 2.0.1
 
+  webpack-remove-empty-scripts@1.1.1(webpack@5.108.4):
+    dependencies:
+      ansis: 4.0.0-node10
+      webpack: 5.108.4(cssnano@6.1.2(postcss@8.5.14))(csso@5.0.5)(postcss@8.5.14)(webpack-cli@5.1.4)
+
   webpack-sources@3.5.1: {}
 
   webpack@5.108.4(cssnano@6.1.2(postcss@8.5.14))(csso@5.0.5)(postcss@8.5.14)(webpack-cli@5.1.4):
@@ -16783,7 +16803,7 @@ snapshots:
       '@webassemblyjs/wasm-parser': 1.14.1
       acorn: 8.16.0
       acorn-import-phases: 1.0.4(acorn@8.16.0)
-      browserslist: 4.28.2
+      browserslist: 4.28.6
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.24.2
       es-module-lexer: 2.1.0

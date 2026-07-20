@@ -15,5 +15,6 @@
 		"align": false
 	},
 	"attributes": {},
+	"style": "file:./style.css",
 	"render": "file:./render.php"
 }

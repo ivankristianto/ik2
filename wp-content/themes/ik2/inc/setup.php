@@ -32,13 +32,57 @@ function register_theme_supports(): void {
 		[ 'style', 'script', 'comment-form', 'comment-list', 'gallery', 'caption' ]
 	);
 
-	// Feed the front-end stylesheet into the editor canvas (scoped to
+	// Feed the front-end styles into the editor canvas (scoped to
 	// `.editor-styles-wrapper`, loaded inside the iframe only) so block
 	// previews match the front end without leaking into the editor chrome.
-	// editor.css holds the small set of editor-only overrides and loads last.
-	add_editor_style( [ 'build/style-index.css', 'build/editor.css' ] );
+	// The front end splits CSS across critical, per-template section, and
+	// per-block files; the editor gets them all so any block/template previews
+	// correctly. editor.css holds editor-only overrides and loads last.
+	add_editor_style( editor_style_paths() );
 
 	load_theme_textdomain( 'ik2', __DIR__ . '/../languages' );
+}
+
+/**
+ * Collect every theme stylesheet the editor canvas needs, theme-root relative.
+ *
+ * Mirrors the front-end split: critical + per-template section files from
+ * `build/`, every theme block's on-demand `style.css`, and finally the
+ * editor-only overrides.
+ *
+ * @return array<int,string>
+ */
+function editor_style_paths(): array {
+	$paths = [];
+
+	$built = array_merge(
+		glob_paths( __DIR__ . '/../build/critical.css' ),
+		glob_paths( __DIR__ . '/../build/section-*.css' ),
+		glob_paths( __DIR__ . '/../build/palette.css' )
+	);
+	foreach ( $built as $file ) {
+		$paths[] = 'build/' . basename( $file );
+	}
+
+	foreach ( glob_paths( __DIR__ . '/../blocks/*/style.css' ) as $file ) {
+		$paths[] = 'blocks/' . basename( dirname( $file ) ) . '/style.css';
+	}
+
+	$paths[] = 'build/editor.css';
+
+	return $paths;
+}
+
+/**
+ * `glob()` that always returns an array (it returns false on error).
+ *
+ * @param string $pattern Glob pattern.
+ * @return array<int,string>
+ */
+function glob_paths( string $pattern ): array {
+	$matches = glob( $pattern );
+
+	return is_array( $matches ) ? $matches : [];
 }
 
 /**

@@ -1,0 +1,10 @@
+// Front-page sections (templates/front-page.html → patterns/home-*.php) that
+// are composed from core blocks rather than theme blocks, so they can't ship
+// their own block style. Enqueued only on the front page (inc/assets.php).
+// The topics grid, projects grid, and speaking timeline are theme blocks and
+// load their own styles on demand.
+
+@use '../styles/hero';
+@use '../styles/guides';
+@use '../styles/notes';
+@use '../styles/speaking-layout';

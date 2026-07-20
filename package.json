@@ -25,7 +25,8 @@
 		"@wordpress/scripts": "^33.0.0",
 		"@wordpress/stylelint-config": "^24.0.0",
 		"postcss-scss": "^4.0.9",
-		"sass": "^1.101.0"
+		"sass": "^1.101.0",
+		"webpack-remove-empty-scripts": "^1.0.4"
 	},
 	"prettier": "@wordpress/prettier-config",
 	"stylelint": {

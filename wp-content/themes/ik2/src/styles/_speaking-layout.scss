@@ -1,0 +1,72 @@
+@use 'tokens' as *;
+
+// Home speaking teaser layout (patterns/home-speaking.php). The talks timeline
+// itself is styled by the ik2/speaking-archive block (blocks/speaking-archive).
+
+.ik-speaking-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+	gap: $space-8;
+	align-items: start;
+}
+
+.ik-speaking-layout__intro {
+	display: grid;
+	gap: $space-4;
+	align-content: start;
+}
+
+.ik-speaking-layout__deck {
+	max-width: 34ch;
+	color: $color-graphite;
+	font-size: $size-lg;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.ik-speaking-layout__more {
+	margin: 0;
+	font-size: $size-sm;
+
+	a {
+		color: $color-signal;
+		text-decoration: none;
+	}
+}
+
+.ik-speaking-layout__list {
+	min-width: 0;
+}
+
+@media (max-width: 960px) {
+
+	.ik-speaking-layout {
+		grid-template-columns: 1fr;
+		gap: $space-6;
+	}
+
+	.ik-speaking-layout__deck {
+		max-width: 42ch;
+	}
+}
+
+@media (max-width: 640px) {
+
+	.ik-speaking-layout {
+		gap: $space-5;
+	}
+
+	.ik-speaking-layout__intro {
+		gap: $space-3;
+	}
+
+	.ik-speaking-layout__deck {
+		font-size: $size-md;
+		line-height: 1.6;
+	}
+}
+
+// Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
+.ik-speaking-layout__more a:hover {
+	text-decoration: underline;
+}
