@@ -108,6 +108,19 @@ Neither is the production theme. The production theme is `wp-content/themes/ik2/
 
 Brand/social icons are inline SVG in `design-system/assets/icons/` and `samples/assets/icons/`. UI-affordance icons pull from Lucide CDN. Do not introduce an icon font or sprite.
 
+### CSS delivery (theme)
+
+The theme's front-end CSS is split for load performance — there is **no monolithic stylesheet**. Do not reintroduce one.
+
+- **Critical CSS** — `src/critical.scss` (reset, typography, layout, skip link, wordmark, header nav, footer) compiles to `build/critical.css` and is **inlined into `<head>` on every page** by `inc/assets.php`. On the front page the home section styles are inlined alongside it, so the LCP page ships no render-blocking theme stylesheet.
+- **Block styles** — each theme block owns a plain (hand-authored, no build step) `blocks/<name>/style.css` referenced from its `block.json` `style` field, so WordPress loads it only when the block is on the page. The plugin's `project-card` block works the same way. This is the pattern to follow for any new block.
+- **Section styles** — page/template compositions that aren't blocks live in `src/styles/_*.scss`, are bundled by `src/sections/*.scss` (or compiled per-partial) to `build/section-*.css`, and are enqueued per template by `section_slugs_for_request()` in `inc/assets.php`.
+- **Command palette** — `build/palette.css` loads asynchronously (never render-blocking).
+
+`src/styles/_tokens.scss` aliases the `theme.json` custom properties to SCSS vars so partials read naturally; block `style.css` files reference the `var(--wp--preset--*)` custom properties directly.
+
+**Build:** `pnpm build` (and `pnpm start` for watch) runs a single webpack pass — `wp-content/themes/ik2/webpack.config.js` declares one entry per output: `index` (command palette JS), `editor` (`editor.css`), and one SCSS entry per stylesheet (`critical`, `section-*`, `palette`) that webpack's sass → autoprefixer → cssnano pipeline emits as `build/<name>.css`. `webpack-remove-empty-scripts` drops the empty `.js` a CSS-only entry would leave behind. Block `style.css` files are plain CSS and need no build (bind-mounted). The Dockerfile smoke-test asserts `build/critical.css` + `build/section-home.css` exist.
+
 ## Design rules that constrain code changes
 
 These are enforced by the design brief (see `design-system/README.md` and `SKILL.md`). They affect what you may add, not just what you write:
