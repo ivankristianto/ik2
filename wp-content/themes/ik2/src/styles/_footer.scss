@@ -79,9 +79,11 @@
 		transform: none;
 	}
 
+	// The icon colour swaps to Signal on hover instantly — `color` can't be
+	// GPU-composited, so transitioning it registers as a non-composited
+	// animation ("Unsupported CSS Property: color"). Skip the transition here.
 	.wp-block-social-link .wp-block-social-link-anchor {
 		color: $color-graphite;
-		transition: color 200ms ease;
 	}
 
 	.wp-block-social-link .wp-block-social-link-anchor:hover {
