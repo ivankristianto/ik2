@@ -69,6 +69,16 @@
 		gap: $space-3;
 	}
 
+	// WP core's social-links block puts `transition: transform` on each <li>
+	// and a `transform: scale(1.1)` hover. That's a hover scale the design
+	// brief forbids, and the transform animation registers as a non-composited
+	// animation. Drop it — the hover affordance is the colour shift below.
+	.wp-block-social-link,
+	.wp-block-social-link:hover {
+		transition: none;
+		transform: none;
+	}
+
 	.wp-block-social-link .wp-block-social-link-anchor {
 		color: $color-graphite;
 		transition: color 200ms ease;
