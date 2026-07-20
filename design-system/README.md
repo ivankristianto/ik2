@@ -100,7 +100,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 - **Warm paper background** (`#F8F7F3`) — never pure white. Pure white (`#FFFFFF`) is reserved for cards and code wrappers, where it reads as "elevated surface" against the paper.
 - **Ink** (`#171717`) for body text, near-black but not pure black, keeps the page from feeling harsh.
 - **Terracotta** (`#C2410C`) is the single accent. It's used for links, the primary CTA, focus rings, and tag text — and nowhere else.
-- A small set of **muted neutrals** (`Graphite`, `Dust`, `Line`, `Rule`) handle hierarchy without color.
+- A small set of **muted neutrals** (`Graphite`, `Dust`, `Line`, `Rule`) handle hierarchy without color. The two text neutrals — `Graphite` (`#5F6368`) and `Dust` (`#676D79`) — both clear WCAG AA (4.5:1) for normal text on paper, white cards, and soft paper. Don't lighten either for "subtlety"; they're set at the lightest values that still pass. `Line` and `Rule` are borders only, never text.
 - Semantic colors (`Build Green`, `Amber`, `Red`) appear only for status — never as decoration.
 - Dark mode mirrors GitHub's palette (Terminal `#0D1117`, Panel `#161B22`) for engineers who live in dark mode.
 

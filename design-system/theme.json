@@ -17,7 +17,7 @@
 				},
 				{ "slug": "ink", "name": "Ink", "color": "#171717" },
 				{ "slug": "graphite", "name": "Graphite", "color": "#5F6368" },
-				{ "slug": "dust", "name": "Dust", "color": "#8A8F98" },
+				{ "slug": "dust", "name": "Dust", "color": "#676D79" },
 				{ "slug": "line", "name": "Line", "color": "#D8D5CC" },
 				{ "slug": "rule", "name": "Rule", "color": "#B9B5AA" },
 				{ "slug": "signal", "name": "Terracotta", "color": "#C2410C" },
