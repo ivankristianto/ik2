@@ -28,7 +28,26 @@ namespace IK2\Theme\Assets;
 
 defined( 'ABSPATH' ) || exit;
 
-const HERO_PORTRAIT = 'assets/images/ivan-portrait.webp';
+const HERO_PORTRAIT       = 'assets/images/ivan-portrait.webp';
+const HERO_PORTRAIT_SMALL = 'assets/images/ivan-portrait-340.webp';
+const HERO_PORTRAIT_SIZES = '(max-width: 640px) 218px, (max-width: 900px) 278px, 338px';
+
+/**
+ * Responsive `srcset` for the home hero portrait: a 340px variant for 1x /
+ * small viewports plus the 500px original for high-DPI. Shared by the preload
+ * `<link>` and the render filter so the preloaded candidate always matches the
+ * one the browser selects from the rendered `<img>`. The returned value is
+ * unescaped; callers escape it for their output context (`esc_attr`).
+ *
+ * @return string
+ */
+function hero_portrait_srcset(): string {
+	return sprintf(
+		'%s 340w, %s 500w',
+		get_theme_file_uri( HERO_PORTRAIT_SMALL ),
+		get_theme_file_uri( HERO_PORTRAIT )
+	);
+}
 
 /**
  * Register hooks owned by this module.
@@ -203,8 +222,12 @@ function section_slugs_for_request(): array {
 
 /**
  * Preload the home hero portrait so the browser discovers the LCP image
- * immediately instead of after the render-blocking CSS. The single fixed
- * `src` (no srcset) means the preload URL always matches the rendered tag.
+ * immediately instead of after the render-blocking CSS. The `imagesrcset` /
+ * `imagesizes` attributes mirror the responsive `<img>` emitted by
+ * `prioritize_hero_portrait()`, so the browser preloads the exact candidate it
+ * will render (the 340px variant on the frame's real display sizes, the 500px
+ * original for high-DPI) rather than always fetching the full-size file. `href`
+ * stays as the fallback for engines that ignore `imagesrcset`.
  */
 function preload_hero_portrait(): void {
 	if ( ! is_front_page() ) {
@@ -212,7 +235,9 @@ function preload_hero_portrait(): void {
 	}
 
 	printf(
-		'<link rel="preload" as="image" href="%s" type="image/webp" fetchpriority="high">' . "\n",
+		'<link rel="preload" as="image" imagesrcset="%s" imagesizes="%s" href="%s" type="image/webp" fetchpriority="high">' . "\n",
+		esc_attr( hero_portrait_srcset() ),
+		esc_attr( HERO_PORTRAIT_SIZES ),
 		esc_url( get_theme_file_uri( HERO_PORTRAIT ) )
 	);
 }
@@ -346,13 +371,10 @@ function prioritize_hero_portrait( string $image ): string {
 	// Drop anything core may have added so our attributes are deterministic.
 	$image = preg_replace( '/\s(?:loading|fetchpriority|width|height|srcset|sizes)="[^"]*"/', '', $image );
 
-	$small = get_theme_file_uri( 'assets/images/ivan-portrait-340.webp' );
-	$full  = get_theme_file_uri( 'assets/images/ivan-portrait.webp' );
-
 	$attrs = sprintf(
-		'fetchpriority="high" loading="eager" width="500" height="479" srcset="%s 340w, %s 500w" sizes="(max-width: 640px) 218px, (max-width: 900px) 278px, 338px" ',
-		esc_url( $small ),
-		esc_url( $full )
+		'fetchpriority="high" loading="eager" width="500" height="479" srcset="%s" sizes="%s" ',
+		esc_attr( hero_portrait_srcset() ),
+		esc_attr( HERO_PORTRAIT_SIZES )
 	);
 
 	return str_replace( '<img ', '<img ' . $attrs, $image );
