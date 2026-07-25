@@ -1,4 +1,4 @@
-/* Project card block (ik2/project-card), incl. the single-project feature variant. */
+/* Project card block (ik2/project-card). */
 @charset "UTF-8";
 .ik-project {
   background: var(--wp--preset--color--surface);
@@ -30,10 +30,7 @@
   letter-spacing: -0.025em;
   margin: 0;
   font-weight: 700;
-}
-.ik-project__name a {
   color: var(--wp--preset--color--ink);
-  text-decoration: none;
 }
 
 .ik-project__status {
@@ -112,122 +109,6 @@
   font-weight: 500;
 }
 
-.ik-project--feature {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  margin-block: 0 var(--wp--preset--spacing--8);
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  column-gap: var(--wp--preset--spacing--7);
-  row-gap: var(--wp--preset--spacing--5);
-  border-top: 2px solid var(--wp--preset--color--ink);
-  padding-top: var(--wp--preset--spacing--5);
-}
-.ik-project--feature:hover {
-  border-color: var(--wp--preset--color--ink);
-  box-shadow: none;
-}
-.ik-project--feature .ik-project__blurb {
-  grid-column: 1/2;
-  grid-row: 1/span 3;
-  font-family: var(--wp--preset--font-family--sans);
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
-  line-height: 1.4;
-  letter-spacing: -0.015em;
-  color: var(--wp--preset--color--ink);
-  text-wrap: pretty;
-  max-width: 36ch;
-  margin: 0;
-}
-.ik-project--feature .ik-project__tech,
-.ik-project--feature .ik-project__links {
-  grid-column: 2/3;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--wp--preset--spacing--2);
-  font-size: var(--wp--preset--font-size--sm);
-  color: var(--wp--preset--color--ink);
-  padding-block: 0;
-}
-.ik-project--feature .ik-project__tech > span {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--wp--preset--color--soft-paper);
-  border: 1px solid var(--wp--preset--color--line);
-  color: var(--wp--preset--color--graphite);
-  font-size: var(--wp--preset--font-size--xs);
-}
-.ik-project--feature .ik-project__tech > span + span::before {
-  content: none;
-}
-.ik-project--feature .ik-project__tech {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.ik-project--feature .ik-project__tech-label,
-.ik-project--feature .ik-project__links-label {
-  display: block;
-  width: 100%;
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--wp--preset--color--dust);
-  margin-bottom: var(--wp--preset--spacing--2);
-  font-weight: 500;
-}
-.ik-project--feature .ik-project__links a {
-  color: var(--wp--preset--color--signal);
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--sm);
-  text-decoration: none;
-  transition: color 200ms ease;
-}
-.ik-project--feature .ik-project__links a:hover {
-  color: var(--wp--preset--color--signal-deep);
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.18em;
-}
-.ik-project--feature .ik-project__learned {
-  grid-column: 1/-1;
-  margin: 0;
-  padding-top: var(--wp--preset--spacing--5);
-  border-top: 1px solid var(--wp--preset--color--line);
-  font-size: var(--wp--preset--font-size--md);
-  line-height: 1.6;
-  color: var(--wp--preset--color--ink);
-  text-wrap: pretty;
-}
-.ik-project--feature .ik-project__learned strong {
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--xs);
-  color: var(--wp--preset--color--signal);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: var(--wp--preset--spacing--2);
-  font-weight: 500;
-}
-
-@media (max-width: 800px) {
-  .ik-project--feature {
-    grid-template-columns: 1fr;
-    gap: var(--wp--preset--spacing--5);
-  }
-  .ik-project--feature .ik-project__blurb {
-    grid-column: 1;
-    grid-row: auto;
-    max-width: none;
-  }
-  .ik-project--feature .ik-project__tech,
-  .ik-project--feature .ik-project__links {
-    grid-column: 1;
-  }
-}
 @media (max-width: 600px) {
   .ik-project {
     padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5);
@@ -243,16 +124,7 @@
   .ik-project__links {
     gap: var(--wp--preset--spacing--3);
   }
-  .ik-project--feature {
-    padding-top: var(--wp--preset--spacing--4);
-    margin-block-end: var(--wp--preset--spacing--6);
-    gap: var(--wp--preset--spacing--4);
-  }
 }
-.ik-project__name a:hover {
-  color: var(--wp--preset--color--signal);
-}
-
 .ik-project__links a:hover {
   color: var(--wp--preset--color--signal-deep);
   text-decoration: underline;

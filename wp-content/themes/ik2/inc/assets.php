@@ -177,18 +177,13 @@ function read_build_css( string $path ): string {
  * The section stylesheet slugs the current request needs.
  *
  * Section styles cover template/pattern compositions that aren't theme blocks
- * (theme blocks ship their own styles). Single projects reuse the single-post
- * base and add the project-specific extras on top.
+ * (theme blocks ship their own styles).
  *
  * @return array<int,string>
  */
 function section_slugs_for_request(): array {
 	if ( is_front_page() ) {
 		return [ 'home' ];
-	}
-
-	if ( is_singular( 'project' ) ) {
-		return [ 'single', 'project-single' ];
 	}
 
 	if ( is_singular( 'post' ) ) {

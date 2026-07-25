@@ -5,14 +5,10 @@
  * Resolves a Project ID in this order:
  *   1. Explicit `postId` attribute (used by curated previews).
  *   2. `postId` from block context (set by core query loop / post template).
- *   3. The current main query post (single-project context).
+ *   3. The current main query post.
  *
- * Variants:
- *   - `default`: standard project card (h3 title link + status + excerpt + tech + links + learned).
- *   - `feature`: hero summary used on the single-project template. Suppresses the
- *     duplicate h3 title and inline status pill (the surrounding template already
- *     supplies an h1 + status in the page header) and promotes the excerpt to a
- *     full-width lede.
+ * The card is the only front-end view of a Project — the post type has no
+ * single template and no permalink — so the title renders as plain text.
  *
  * @package IK2\Plugin
  * @var array<string,mixed> $attributes
@@ -28,8 +24,6 @@ defined( 'ABSPATH' ) || exit;
 
 $ik2_post_id = (int) ( $attributes['postId'] ?? 0 );
 $ik2_compact = ! empty( $attributes['compact'] );
-$ik2_variant = isset( $attributes['variant'] ) && $attributes['variant'] === 'feature' ? 'feature' : 'default';
-$ik2_feature = $ik2_variant === 'feature';
 
 if ( $ik2_post_id <= 0 && isset( $block->context['postId'] ) ) {
 	$ik2_post_id = (int) $block->context['postId'];
@@ -49,11 +43,7 @@ $ik2_classes = 'ik-project';
 if ( $ik2_compact ) {
 	$ik2_classes .= ' ik-project--compact';
 }
-if ( $ik2_feature ) {
-	$ik2_classes .= ' ik-project--feature';
-}
 
-$ik2_tag           = $ik2_feature ? 'div' : 'article';
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
 	[
 		'class'             => $ik2_classes,
@@ -62,19 +52,15 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 	]
 );
 ?>
-<<?php echo esc_attr( $ik2_tag ); ?> <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<?php if ( ! $ik2_feature ) : ?>
-		<div class="ik-project__head">
-			<h3 class="ik-project__name">
-				<a href="<?php echo esc_url( $ik2_card['permalink'] ); ?>"><?php echo esc_html( $ik2_card['title'] ); ?></a>
-			</h3>
-			<?php if ( $ik2_card['status'] !== '' ) : ?>
-				<span class="ik-project__status" data-status="<?php echo esc_attr( $ik2_card['status'] ); ?>">
-					<?php echo esc_html( $ik2_card['status'] ); ?>
-				</span>
-			<?php endif; ?>
-		</div>
-	<?php endif; ?>
+<article <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<div class="ik-project__head">
+		<h3 class="ik-project__name"><?php echo esc_html( $ik2_card['title'] ); ?></h3>
+		<?php if ( $ik2_card['status'] !== '' ) : ?>
+			<span class="ik-project__status" data-status="<?php echo esc_attr( $ik2_card['status'] ); ?>">
+				<?php echo esc_html( $ik2_card['status'] ); ?>
+			</span>
+		<?php endif; ?>
+	</div>
 
 	<?php if ( $ik2_card['excerpt'] !== '' ) : ?>
 		<p class="ik-project__blurb"><?php echo esc_html( $ik2_card['excerpt'] ); ?></p>
@@ -82,9 +68,6 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 
 	<?php if ( ! empty( $ik2_card['tech'] ) ) : ?>
 		<div class="ik-project__tech">
-			<?php if ( $ik2_feature ) : ?>
-				<span class="ik-project__tech-label">Stack</span>
-			<?php endif; ?>
 			<?php foreach ( $ik2_card['tech'] as $ik2_tech ) : ?>
 				<span><?php echo esc_html( $ik2_tech ); ?></span>
 			<?php endforeach; ?>
@@ -93,9 +76,6 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 
 	<?php if ( ! $ik2_compact && ! empty( $ik2_card['links'] ) ) : ?>
 		<div class="ik-project__links">
-			<?php if ( $ik2_feature ) : ?>
-				<span class="ik-project__links-label">Links</span>
-			<?php endif; ?>
 			<?php foreach ( $ik2_card['links'] as $ik2_link ) : ?>
 				<a href="<?php echo esc_url( $ik2_link['href'] ); ?>" rel="noopener">
 					<?php echo esc_html( $ik2_link['label'] ); ?> →
@@ -110,4 +90,4 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			<?php echo esc_html( $ik2_card['learned'] ); ?>
 		</p>
 	<?php endif; ?>
-</<?php echo esc_attr( $ik2_tag ); ?>>
+</article>

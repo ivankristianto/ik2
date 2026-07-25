@@ -39,7 +39,6 @@ module.exports = {
 		'section-home': src( 'sections/home.scss' ),
 		'section-articles': src( 'styles/_articles.scss' ),
 		'section-single': src( 'styles/_article-single.scss' ),
-		'section-project-single': src( 'styles/_project-single.scss' ),
 		'section-about': src( 'styles/_about.scss' ),
 		'section-contact': src( 'styles/_contact.scss' ),
 		'section-resume': src( 'styles/_resume.scss' ),

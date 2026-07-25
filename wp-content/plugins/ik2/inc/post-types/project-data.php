@@ -28,7 +28,6 @@ const STATUS_VALUES = [ 'Active', 'Experiment', 'Archived' ];
  * @return array{
  *     id:int,
  *     title:string,
- *     permalink:string,
  *     excerpt:string,
  *     status:string,
  *     tech:array<int,string>,
@@ -44,14 +43,13 @@ function get_card_data( int $post_id ): ?array {
 	}
 
 	return [
-		'id'        => $post_id,
-		'title'     => get_the_title( $post ),
-		'permalink' => (string) get_permalink( $post ),
-		'excerpt'   => wp_strip_all_tags( (string) get_the_excerpt( $post ) ),
-		'status'    => normalize_status( (string) get_post_meta( $post_id, 'status', true ) ),
-		'tech'      => parse_tech( (string) get_post_meta( $post_id, 'tech', true ) ),
-		'links'     => parse_links( (string) get_post_meta( $post_id, 'links', true ) ),
-		'learned'   => trim( (string) get_post_meta( $post_id, 'learned', true ) ),
+		'id'      => $post_id,
+		'title'   => get_the_title( $post ),
+		'excerpt' => wp_strip_all_tags( (string) get_the_excerpt( $post ) ),
+		'status'  => normalize_status( (string) get_post_meta( $post_id, 'status', true ) ),
+		'tech'    => parse_tech( (string) get_post_meta( $post_id, 'tech', true ) ),
+		'links'   => parse_links( (string) get_post_meta( $post_id, 'links', true ) ),
+		'learned' => trim( (string) get_post_meta( $post_id, 'learned', true ) ),
 	];
 }
 

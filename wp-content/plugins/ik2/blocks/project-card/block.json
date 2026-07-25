@@ -21,11 +21,6 @@
 		"compact": {
 			"type": "boolean",
 			"default": false
-		},
-		"variant": {
-			"type": "string",
-			"enum": [ "default", "feature" ],
-			"default": "default"
 		}
 	},
 	"usesContext": [ "postId", "postType" ],
