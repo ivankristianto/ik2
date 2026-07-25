@@ -4,32 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-The **WordPress project + design system** behind [ivankristianto.com](https://www.ivankristianto.com/) — Ivan Kristianto's personal engineering blog. PHP 8.4 / pnpm / Composer / Docker. Two-image deployment to Dokploy via GitHub Actions:
+The **WordPress project + design system** behind [ivankristianto.com](https://www.ivankristianto.com/) — Ivan Kristianto's personal engineering blog. PHP 8.4 / pnpm / Composer / Docker. Two-image deployment to Dokploy via GitHub Actions: an `app` image (PHP-FPM) and an `nginx` image with the same public files baked in — **no shared volume in prod**.
 
-- `Dockerfile` — multi-stage build producing the `app` image (PHP-FPM + WP core + `wp-content` + `vendor` + theme build)
-- `docker/nginx/Dockerfile` — builds the `nginx` image with the same public files baked in (no shared volume in prod)
-- `wp-content/themes/ik2/` — the block theme
-- `design-system/` — _"Ink, Paper, and Signal"_ tokens, previews, UI kit, and a self-contained Claude skill (`SKILL.md`)
-- `samples/` (gitignored) — extended HTML/JSX prototype sandbox
-
-The design system was historically the _only_ thing in the repo. It's now one part of a real WordPress site.
+The design system was historically the _only_ thing in the repo. It's now one part of a real WordPress site. `samples/` is gitignored.
 
 ## Commands
 
 ### Day-to-day
 
-Composer scripts wrap the most common Docker actions — run from the host:
-
-```bash
-composer dev                                                      # start the stack (app + nginx + db)
-composer dev:logs                                                 # tail all service logs
-composer dev:shell                                                # shell into the app container
-composer dev:wp                                                   # shell into the persistent wp-cli container
-composer dev:wp:cmd -- plugin list                                # one-shot wp-cli command
-composer dev:down                                                 # stop the stack (preserves volumes)
-composer dev:reset                                                # wipe DB + uploads, rebuild, restart
-composer dev:build                                                # rebuild images, then start
-```
+The `composer dev*` scripts wrap the most common Docker actions and are run **from the host** — see the `scripts` block in `composer.json` for the full list (`dev`, `dev:logs`, `dev:shell`, `dev:wp`, `dev:wp:cmd`, `dev:down`, `dev:reset`, `dev:build`).
 
 For things without a composer shortcut, drop to Docker directly:
 
@@ -42,63 +25,26 @@ docker compose --profile tools run --rm composer require <pkg>    # add a PHP de
 
 ### Quality gates
 
-Four linters, all configured to skip `wp-content/plugins/` (composer-managed third-party code):
+Four linters, all configured to skip `wp-content/plugins/` (composer-managed third-party code). Every gate runs through the tools profile — `docker compose --profile tools run --rm composer <script>` for PHP (`quality`, `lint`, `lint:fix`, `analyse`) and `... run --rm pnpm <script>` for JS/CSS (`lint`, `lint:js`, `lint:css`, `format`):
 
 ```bash
 docker compose --profile tools run --rm composer quality     # PHPCS + PHPStan
 docker compose --profile tools run --rm pnpm lint            # ESLint + Stylelint
-
-# Individually
-docker compose --profile tools run --rm composer lint        # phpcs (WPCS)
-docker compose --profile tools run --rm composer lint:fix    # phpcbf
-docker compose --profile tools run --rm composer analyse     # phpstan level 6
-docker compose --profile tools run --rm pnpm lint:js
-docker compose --profile tools run --rm pnpm lint:css
-docker compose --profile tools run --rm pnpm format          # wp-prettier
 ```
 
 CI: `.github/workflows/quality.yml` runs all four on push/PR. **Always run the relevant gate before finishing a task** — `composer quality` for PHP changes, `pnpm lint` for JS/CSS changes. PHPCS rules are relaxed for modern PHP (short arrays, namespaces); don't add `// phpcs:disable` comments without checking `phpcs.xml.dist` first.
 
-### Reset
-
-```bash
-docker compose down -v          # wipe DB + uploads (full reset)
-docker compose build --no-cache app && docker compose up -d   # full rebuild
-```
-
 ## Design system status
 
-`design-system/` is **both** a reference and a Claude skill (`SKILL.md` is loaded as `ivankristianto-design`). The token files (`colors_and_type.css`, `theme.json`) are the source of truth. The active block theme has its own **copy** of `theme.json` at `wp-content/themes/ik2/theme.json` — keep them in sync manually until we add a sync script.
-
-The `design-system/ui_kits/blog/` and `samples/` HTML prototypes still run standalone via React + Babel UMD (`open design-system/ui_kits/blog/index.html`). They have no build step; JSX `<script type="text/babel">` order matters because components attach to globals.
+`design-system/` is **both** a reference and a self-contained Claude skill (`SKILL.md`, `name: ivankristianto-design`) that can be loaded as a skill. The token files (`colors_and_type.css`, `theme.json`) are the source of truth. The active block theme has its own **copy** of `theme.json` at `wp-content/themes/ik2/theme.json` — keep them in sync manually until we add a sync script.
 
 ## Architecture
 
-### Image layout
-
-```
-Dockerfile
-├─ Stage 1: composer:2          → vendor/ + wp-content/plugins/ (composer-installed)
-├─ Stage 2: node:24-alpine      → wp-content/themes/.../build/
-└─ Stage 3: wordpress:php8.4-fpm-alpine
-            ├─ target development → adds Xdebug (compose default)
-            └─ target production  → locked-down, opcache primed (GHA default)
-
-docker/nginx/Dockerfile         → FROM app to grab public files, then nginx:alpine
-```
-
 `wp-content/plugins/` is **composer-managed via wpackagist**. Don't commit plugin code into that directory; add it to `composer.json` and rebuild the app image.
 
-### Two parallel design-system kits
+### Prototype kits
 
-`design-system/ui_kits/blog/` and `samples/` are **separate, both real**, and **diverged**. They share component names (Header, Hero, ArticleCard, …) and token philosophy, but the files are not symlinked. When you change a component, decide which kit you're editing and check whether the change should propagate to the other.
-
-| Kit                           | Stylesheet(s)                                                    | Status                               |
-| :---------------------------- | :--------------------------------------------------------------- | :----------------------------------- |
-| `design-system/ui_kits/blog/` | `kit.css` only                                                   | Canonical, in git                    |
-| `samples/`                    | `assets/tokens.css` + `assets/kit.css` + `assets/extensions.css` | Sandbox, gitignored, has extra pages |
-
-Neither is the production theme. The production theme is `wp-content/themes/ik2/`.
+`design-system/ui_kits/blog/` and `samples/` are two separate, diverged prototype kits — neither is the production theme, which is `wp-content/themes/ik2/`. Details in `design-system/CLAUDE.md` (loads when you work in that directory).
 
 ### Token flow
 
@@ -119,7 +65,7 @@ The theme's front-end CSS is split for load performance — there is **no monoli
 
 `src/styles/_tokens.scss` aliases the `theme.json` custom properties to SCSS vars so partials read naturally; block `style.css` files reference the `var(--wp--preset--*)` custom properties directly.
 
-**Build:** `pnpm build` (and `pnpm start` for watch) runs a single webpack pass — `wp-content/themes/ik2/webpack.config.js` declares one entry per output: `index` (command palette JS), `editor` (`editor.css`), and one SCSS entry per stylesheet (`critical`, `section-*`, `palette`) that webpack's sass → autoprefixer → cssnano pipeline emits as `build/<name>.css`. `webpack-remove-empty-scripts` drops the empty `.js` a CSS-only entry would leave behind. Block `style.css` files are plain CSS and need no build (bind-mounted). The Dockerfile smoke-test asserts `build/critical.css` + `build/section-home.css` exist.
+**Build:** `pnpm build` (`pnpm start` to watch) runs one webpack pass with an entry per output — see `wp-content/themes/ik2/webpack.config.js`. Block `style.css` files are plain CSS and need no build (bind-mounted).
 
 ## Design rules that constrain code changes
 
