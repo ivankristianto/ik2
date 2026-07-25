@@ -77,8 +77,23 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 	<?php if ( ! $ik2_compact && ! empty( $ik2_card['links'] ) ) : ?>
 		<div class="ik-project__links">
 			<?php foreach ( $ik2_card['links'] as $ik2_link ) : ?>
+				<?php
+				/*
+				 * Every card repeats the same link labels ("GitHub", "Write-up"), so
+				 * the label alone gives several links on the page the same name for
+				 * different destinations. The project title is appended as real —
+				 * visually hidden — text rather than an aria-label, so checkers that
+				 * compare link text see the distinction too, and the accessible name
+				 * still starts with the visible label (WCAG 2.5.3 Label in Name).
+				 */
+				$ik2_link_suffix = sprintf(
+					/* translators: %s: project title, appended to a link label for screen readers. */
+					__( ' — %s', 'ik2' ),
+					$ik2_card['title']
+				);
+				?>
 				<a href="<?php echo esc_url( $ik2_link['href'] ); ?>" rel="noopener">
-					<?php echo esc_html( $ik2_link['label'] ); ?> →
+					<?php echo esc_html( $ik2_link['label'] ); ?><span class="ik-project__link-context"><?php echo esc_html( $ik2_link_suffix ); ?></span> <span aria-hidden="true">&rarr;</span>
 				</a>
 			<?php endforeach; ?>
 		</div>

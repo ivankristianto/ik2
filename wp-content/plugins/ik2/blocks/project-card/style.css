@@ -90,6 +90,20 @@
   text-decoration: none;
 }
 
+/* Project title appended to each link label for assistive tech only, so the
+   repeated "GitHub" labels do not resolve to one name for many destinations. */
+.ik-project__link-context {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .ik-project__learned {
   margin: 0;
   padding-top: var(--wp--preset--spacing--3);
