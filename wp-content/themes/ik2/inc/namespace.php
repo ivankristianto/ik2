@@ -21,4 +21,5 @@ function bootstrap(): void {
 	Blocks\bootstrap();
 	BlockStyles\bootstrap();
 	Navigation\bootstrap();
+	Breadcrumbs\bootstrap();
 }

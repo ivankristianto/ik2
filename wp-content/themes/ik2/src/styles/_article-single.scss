@@ -812,6 +812,15 @@
 	}
 }
 
+/* Yoast wraps its trail in div > span; lay that span out like the fallback items. */
+.ik-crumbs .yoast-breadcrumbs > span {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $space-2;
+	color: $color-dust;
+}
+
 /* ---- Meta line (class+class specificity) -------------------------------- */
 
 .wp-block-group.ik-article__meta {
