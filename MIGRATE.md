@@ -149,7 +149,24 @@ composer dev:wp:cmd -- post list --post_type=post --fields=ID,post_name,post_sta
 
 ---
 
-## 7. Tear down
+## 7. Repair image IDs
+
+The import rewrites image URLs but keeps the old site's attachment IDs in
+`wp-image-N` classes and image block attributes. Until those match, the
+images render without width, height, srcset, or lazy loading. Fix them once
+the import is clean:
+
+```bash
+composer dev:wp:cmd -- ik2 fix-image-ids --dry-run
+composer dev:wp:cmd -- ik2 fix-image-ids
+```
+
+Anything reported `unresolved` is an image that failed to import. Re-run
+step 5, then this step. Details in `CLI.md`.
+
+---
+
+## 8. Tear down
 
 The `./legacy` directory and the `legacy` database are dev-only. Remove them
 once the migration is clean:
