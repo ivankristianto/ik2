@@ -10,9 +10,12 @@ concurrency:
     group: quality-${{ github.ref }}
     cancel-in-progress: true
 
+# The release commit only bumps package.json, and release.mjs already required
+# Quality to pass on its parent, so linting it again is wasted time.
 jobs:
     php:
         name: PHP (PHPCS + PHPStan)
+        if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -44,6 +47,7 @@ jobs:
 
     js:
         name: JS + CSS (ESLint + Stylelint)
+        if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
