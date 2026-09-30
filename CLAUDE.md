@@ -122,7 +122,7 @@ First-person, working-engineer, conversational. "I use Cloudflare CDN…", not "
 
 ## Releasing
 
-Merging to `main` builds and pushes `main` + `sha-*` images to GHCR but does **not** deploy. Production moves only when a `v*` tag is pushed: `build.yml` then builds the semver images, moves `latest`, and calls the Dokploy webhook. `docker-compose.prod.yml` pulls `${IMAGE_TAG:-latest}`.
+`build.yml` does not run on pushes to `main` or on PRs. It runs only when a `v*` tag is pushed or when triggered by hand (`workflow_dispatch`, which pushes `<branch>` + `sha-*` images and does not deploy). On a tag it builds the semver images, moves `latest`, and calls the Dokploy webhook. `docker-compose.prod.yml` pulls `${IMAGE_TAG:-latest}`.
 
 Cut a release from the host (it needs your git and `gh` credentials, so not from the tools container):
 
