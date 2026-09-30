@@ -28,9 +28,9 @@ Use functions, not `C="docker compose ..."` variables. The user's shell is zsh, 
 3. Record a baseline **before touching anything**, so pre-existing failures don't get blamed on an update:
    ```bash
    C install && P install --frozen-lockfile
-   C quality; P lint; P build; node --test tests/
+   C quality; P lint; P build; node --test 'tests/*.test.mjs'
    ```
-   Save the pass/fail of each to the scratchpad. A gate that already failed on `main` is reported, not fixed as part of this task, unless the user says otherwise.
+   Save the pass/fail of each to the scratchpad. If `main`'s latest commit has a green Quality run on GitHub (`gh run list --commit <sha> --workflow Quality`), that stands in for the local `C quality` / `P lint` baseline, which saves downloading the old tool versions only to replace them. On a slow connection to GitHub, run the Composer tracks with `--no-install` (lockfile only) and do one real `C install` before step 5. A gate that already failed on `main` is reported, not fixed as part of this task, unless the user says otherwise.
 4. Snapshot current versions for the final report: the `FROM wordpress:` line in `Dockerfile`, `C show --direct`, and `P list --depth 0`.
 
 ## 1. WordPress core
@@ -108,7 +108,7 @@ Run all of it, even if an earlier step looked fine.
      && test -s wp-content/themes/ik2/build/index.js \
      && test -f wp-content/themes/ik2/build/editor.css
    ```
-2. **Gates and tests**: `C quality`, `P lint`, `node --test tests/`.
+2. **Gates and tests**: `C quality`, `P lint`, `node --test 'tests/*.test.mjs'`.
 3. **Every image target**, the way CI builds them: `docker build --target production -t ik2-app:maint .` and `docker build --target cli -t ik2-cli:maint .`. This exercises the composer no-dev install, the mcp-adapter nested install, the pnpm frozen-lockfile install, and the drop-in steps.
 4. **Running dev stack**. The `wp-html` named volume holds WordPress core, and Docker only seeds a named volume when it is empty, so a rebuilt image alone keeps serving the **old** core. Refresh it without touching the database or uploads:
    ```bash
@@ -195,7 +195,7 @@ Tables for the Changes section:
 | `pnpm build` + output checks | |
 | `composer quality` | |
 | `pnpm lint` | |
-| `node --test tests/` | |
+| `node --test 'tests/*.test.mjs'` | |
 | `docker build --target production` | |
 | `docker build --target cli` | |
 | Dev stack: core version, `update-db`, plugin list | |
