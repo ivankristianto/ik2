@@ -1,45 +1,12 @@
 name: Build & push images
 
-# Push to main builds and pushes `main` + `sha-*` images but does not deploy.
-# A `v*` tag (cut with `pnpm release`) builds the semver images, moves `latest`,
-# and triggers the Dokploy redeploy. Path filters don't apply to tag pushes.
-#
-# Skip rebuilds for changes that never make it into the app/nginx/cli images.
-# Denylist (paths-ignore): anything NOT listed here still triggers a build, so a
-# future build-relevant file can't be silently skipped. Build context (per the
-# Dockerfiles + .dockerignore) is: Dockerfile, docker/**, composer.json/lock,
-# package.json, pnpm-lock.yaml, .npmrc, webpack.config.js, .dockerignore and
-# wp-content/**. Use workflow_dispatch to force a build regardless of paths.
+# Builds only when a release is cut (`pnpm release` pushes a `v*` tag) or when
+# run by hand. A tag build pushes the semver images, moves `latest`, and
+# triggers the Dokploy redeploy. A manual run pushes `<branch>` + `sha-*` images
+# and does not deploy.
 on:
     push:
-        branches: [main]
         tags: ['v*']
-        paths-ignore: &ignore
-            - '**.md' # README, CLAUDE, DESIGN, PRODUCT, docs, etc.
-            - 'docker-compose.yml' # dev orchestration, not baked into images
-            - 'docker-compose.prod.yml' # prod orchestration, not baked into images
-            - 'design-system/**' # reference/prototype kit, excluded from build context
-            - 'samples/**' # gitignored sandbox
-            - 'docs/**'
-            - 'tests/**' # not copied into the image
-            - '.github/workflows/quality.yml' # lint CI, doesn't change the image
-            - 'phpcs.xml.dist'
-            - 'phpstan.neon.dist'
-            - '.eslintrc.json'
-            - '.eslintignore'
-            - '.stylelintignore'
-            - '.editorconfig'
-            - '.env.example'
-            - '.gitignore' # read by git, not by docker build
-            - 'scripts/**' # release tooling, never copied into an image
-            - '.vscode/**'
-            - '.idea/**'
-            - '.claude/**'
-            - '.serena/**'
-            - '.impeccable/**'
-    pull_request:
-        branches: [main]
-        paths-ignore: *ignore
     workflow_dispatch:
 
 concurrency:
@@ -68,7 +35,6 @@ jobs:
             - uses: docker/setup-buildx-action@v3
 
             - name: Log in to GHCR
-              if: github.event_name != 'pull_request'
               uses: docker/login-action@v3
               with:
                   registry: ${{ env.REGISTRY }}
@@ -81,7 +47,6 @@ jobs:
                   images: ${{ env.REGISTRY }}/${{ env.APP_IMAGE }}
                   tags: |
                       type=ref,event=branch
-                      type=ref,event=pr
                       type=semver,pattern={{version}}
                       type=semver,pattern={{major}}.{{minor}}
                       type=sha,format=long
@@ -92,7 +57,7 @@ jobs:
               with:
                   context: .
                   target: production
-                  push: ${{ github.event_name != 'pull_request' }}
+                  push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
                   cache-from: type=gha,scope=app
@@ -103,7 +68,6 @@ jobs:
         name: nginx
         runs-on: ubuntu-latest
         needs: app
-        if: github.event_name != 'pull_request'
         permissions:
             contents: read
             packages: write
@@ -147,7 +111,6 @@ jobs:
         name: wp-cli
         runs-on: ubuntu-latest
         needs: app
-        if: github.event_name != 'pull_request'
         permissions:
             contents: read
             packages: write
