@@ -225,18 +225,20 @@
 }
 
 // Experience can sit in the first viewport on tall screens; everything after it
-// is always below the fold, so skip its layout and paint until it's near.
-.ik-resume .ik-resume__section ~ .ik-resume__section {
+// is always below the fold, so skip its layout and paint until it's near. The
+// body is contained, not the section: content-visibility implies style
+// containment, which would scope the heading counter and number every title 01.
+.ik-resume .ik-resume__section ~ .ik-resume__section > .ik-resume__section-title ~ * {
 	content-visibility: auto;
-	contain-intrinsic-block-size: auto 700px;
+	contain-intrinsic-block-size: auto 550px;
+}
 
-	&.ik-resume__section--skills {
-		contain-intrinsic-block-size: auto 820px;
-	}
+.ik-resume .ik-resume__section ~ .ik-resume__section--skills > .ik-resume__section-title ~ * {
+	contain-intrinsic-block-size: auto 680px;
+}
 
-	&.ik-resume__section--contact {
-		contain-intrinsic-block-size: auto 540px;
-	}
+.ik-resume .ik-resume__section ~ .ik-resume__section--contact > .ik-resume__section-title ~ * {
+	contain-intrinsic-block-size: auto 420px;
 }
 
 .ik-resume .ik-resume__section-title {
