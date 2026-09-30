@@ -31,5 +31,6 @@ require_once __DIR__ . '/inc/blocks.php';
 require_once __DIR__ . '/inc/cli/namespace.php';
 require_once __DIR__ . '/inc/post-types/project.php';
 require_once __DIR__ . '/inc/post-types/project-data.php';
+require_once __DIR__ . '/inc/post-types/talk-meta.php';
 
 bootstrap();
