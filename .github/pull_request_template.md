@@ -41,7 +41,7 @@ Closes #
 ## Checklist
 
 - [ ] `composer quality` passes (PHPCS + PHPStan)
-- [ ] `pnpm lint` passes (ESLint + Stylelint)
+- [ ] `pnpm lint:js` and `pnpm lint:css` pass (ESLint + Stylelint)
 - [ ] `pnpm build` succeeds and `node --test 'tests/*.test.mjs'` passes
 - [ ] Docker images build (`docker build --target production .`) if `Dockerfile`, `composer.json`, or `package.json` changed
 - [ ] No hardcoded colors or spacing; new tokens added to both `theme.json` copies and `colors_and_type.css`
