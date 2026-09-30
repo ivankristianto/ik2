@@ -219,6 +219,6 @@ Tables for the Changes section:
    ```
    Title follows Conventional Commits, lowercase, no trailing period.
 3. Watch the Quality and Build workflows on the PR (`gh pr checks --watch`). If CI fails on something the local run didn't catch, fix it on the branch, push, and update the Verification table in the PR body with `gh pr edit --body-file`.
-4. Don't merge. Hand the PR link back to the user with a two-line summary: how many packages moved, and anything held back.
+4. Don't merge. Hand the PR link back to the user with a two-line summary: how many packages moved, and anything held back. Remind them that merging doesn't deploy: production only picks up the update after a release (`pnpm release patch`, see **Releasing** in `CLAUDE.md`). Don't cut the release yourself unless they ask.
 
 Remove the `ik2-app:maint` / `ik2-cli:maint` images when done (`docker rmi`).
