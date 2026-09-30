@@ -1,6 +1,6 @@
 ---
 name: sync-from-prod
-description: Pull content from production (www.ivankristianto.com) into the local Docker dev site over the WP REST API, authenticated with an application password. Syncs categories, tags, media files, posts, pages, projects, synced patterns, and navigation, keeping production post IDs. Use when the user asks to "sync content from prod", "pull production content", "refresh local content", "get the live posts locally", or types /sync-from-prod.
+description: Pull content from production (www.ivankristianto.com) into the local Docker dev site over the WP REST API, authenticated with an application password. Syncs categories, tags, media files, posts, pages, projects, synced patterns, navigation, and reading settings (static front page), keeping production post IDs. Use when the user asks to "sync content from prod", "pull production content", "refresh local content", "get the live posts locally", or types /sync-from-prod.
 user-invocable: true
 ---
 
@@ -40,7 +40,7 @@ Bare words, not `--flags` (`wp eval-file` would claim those):
 | Argument | Effect |
 | :-- | :-- |
 | `dry-run` | Fetch and compare only. Nothing is written or downloaded. |
-| `only=<phase,...>` | Run some phases: `terms`, `media`, `posts`, `pages`, `projects`, `blocks`, `navigation`. `posts` always syncs terms too, since it needs the term map. |
+| `only=<phase,...>` | Run some phases: `terms`, `media`, `posts`, `pages`, `projects`, `blocks`, `navigation`, `settings`. `posts` always syncs terms too, since it needs the term map. |
 | `limit=N` | Take the first N items (by ID) of each post-type phase. For testing. Terms are never limited. |
 | `force` | Rewrite items even when the production modified date matches, and re-download files that already exist. |
 | `prune` | Delete local items of the synced types (and terms) that production doesn't have. Not allowed with `limit`. |
@@ -53,6 +53,7 @@ Bare words, not `--flags` (`wp eval-file` would claim those):
 - **Media files** download to the same `uploads/YYYY/MM/` path as production, with every generated size and the `-scaled` original, and the production attachment metadata is copied rather than regenerated. Files already on disk are not fetched again.
 - **URLs**: the production home URL in content and excerpts (plain and JSON-escaped) becomes `http://localhost:8080`.
 - **Skip check**: an item whose local `post_modified_gmt` equals production's is skipped. The script writes production's modified dates after each save so this holds.
+- **Settings**: front page, posts page, posts per page, date/time format, week start, and timezone. The site title, tagline, URLs, and admin email stay local. The front page ID only resolves once `pages` has synced.
 - **REST-registered meta** comes across (project `status`/`tech`/`links`/`learned`, `footnotes`). Meta without `show_in_rest`, including Yoast SEO fields, does not.
 
 When a production ID is already taken locally by something else, the local row is displaced:
@@ -63,7 +64,7 @@ When a production ID is already taken locally by something else, the local row i
 
 ## Not synced
 
-Comments, users, site options and menus in the Customizer, template and template-part overrides from the Site Editor, global styles, and plugin data. Those come from the theme files or need a DB dump.
+Comments, users, other site options, Customizer menus, template and template-part overrides from the Site Editor, global styles, and plugin data. Those come from the theme files or need a DB dump.
 
 ## Changing the script
 

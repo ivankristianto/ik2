@@ -7,7 +7,19 @@
 // phpcs:disable WordPress.DB.DirectDatabaseQuery -- dev-only tool, rewrites IDs and modified dates WP has no API for.
 
 const IK2_SYNC_PER_PAGE = 100;
-const IK2_SYNC_PHASES   = [ 'terms', 'media', 'posts', 'pages', 'projects', 'blocks', 'navigation' ];
+const IK2_SYNC_PHASES   = [ 'terms', 'media', 'posts', 'pages', 'projects', 'blocks', 'navigation', 'settings' ];
+
+// REST setting => local option. Title, tagline, URLs, and email stay local so dev is recognisable.
+const IK2_SYNC_SETTINGS = [
+	'show_on_front'  => 'show_on_front',
+	'page_on_front'  => 'page_on_front',
+	'page_for_posts' => 'page_for_posts',
+	'posts_per_page' => 'posts_per_page',
+	'date_format'    => 'date_format',
+	'time_format'    => 'time_format',
+	'start_of_week'  => 'start_of_week',
+	'timezone'       => 'timezone_string',
+];
 
 /**
  * Post-type phases: phase name => [ local post type, REST base ].
@@ -707,6 +719,35 @@ function ik2_sync_prune_posts( string $type, array $keep_ids, string $phase, arr
 	}
 }
 
+function ik2_sync_settings( array $ctx ): void {
+	[ $remote_settings ] = ik2_sync_get( $ctx['remote'], 'wp/v2/settings' );
+
+	foreach ( IK2_SYNC_SETTINGS as $field => $option ) {
+		if ( ! array_key_exists( $field, $remote_settings ) ) {
+			continue;
+		}
+		$value   = $remote_settings[ $field ];
+		$current = get_option( $option );
+		if ( (string) $current === (string) $value ) {
+			ik2_sync_tally( 'settings', 'skipped' );
+			continue;
+		}
+		if ( ! $ctx['opts']['dry'] ) {
+			update_option( $option, $value );
+		}
+		ik2_sync_tally( 'settings', 'updated', "$option: " . wp_json_encode( $current ) . ' -> ' . wp_json_encode( $value ) );
+	}
+
+	// Page IDs match production, but only once pages have been synced.
+	foreach ( [ 'page_on_front', 'page_for_posts' ] as $option ) {
+		$page_id = (int) ( $remote_settings[ $option ] ?? 0 );
+		$pending = $ctx['opts']['dry'] && in_array( 'pages', $ctx['opts']['only'], true );
+		if ( $page_id && ! $pending && 'page' !== get_post_type( $page_id ) ) {
+			ik2_sync_tally( 'settings', 'failed', "$option points at page #$page_id, which isn't local yet. Run only=pages." );
+		}
+	}
+}
+
 function ik2_sync_print_summary( array $opts ): void {
 	[ $tally, $notes ] = ik2_sync_tally();
 
@@ -794,6 +835,10 @@ function ik2_sync_main( array $args ): void {
 		if ( $opts['prune'] ) {
 			ik2_sync_prune_posts( $type, array_map( 'intval', array_column( $items, 'id' ) ), $phase, $ctx );
 		}
+	}
+
+	if ( in_array( 'settings', $opts['only'], true ) ) {
+		ik2_sync_settings( $ctx );
 	}
 
 	wp_defer_term_counting( false );
