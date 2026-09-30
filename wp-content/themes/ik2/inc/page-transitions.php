@@ -1,6 +1,6 @@
 <?php
 /**
- * Cross-page navigation: speculative prerendering of same-origin links.
+ * Cross-page navigation: speculative prerendering and view transition render blocking.
  *
  * @package IK2
  */
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
 function bootstrap(): void {
 	add_filter( 'wp_speculation_rules_configuration', __NAMESPACE__ . '\\prerender_on_hover' );
 	add_filter( 'wp_speculation_rules_href_exclude_paths', __NAMESPACE__ . '\\exclude_feed_paths' );
+	add_action( 'wp_head', __NAMESPACE__ . '\\expect_main_landmark', 1 );
 }
 
 /**
@@ -48,3 +49,12 @@ function exclude_feed_paths( array $paths ): array {
 	return array_merge( $paths, [ '/feed', '/feed/*', '/*/feed', '/*/feed/*' ] );
 }
 
+/**
+ * Hold first render until `<main id="ik-main">` is parsed, so a view transition
+ * never cross-fades into a page that only has its header.
+ */
+function expect_main_landmark(): void {
+	// Block templates render in full before the head is sent, so the wait is only
+	// the body transfer. Browsers without cross-document transitions ignore it.
+	echo '<link rel="expect" href="#ik-main" blocking="render">' . "\n";
+}

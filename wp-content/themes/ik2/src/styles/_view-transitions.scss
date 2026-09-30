@@ -1,0 +1,15 @@
+// Both the page being left and the page being entered must opt in, so this ships in the critical CSS.
+@media (prefers-reduced-motion: no-preference) {
+
+	@view-transition {
+		navigation: auto;
+	}
+}
+
+// Match the site-wide 200ms ease. The header stays unnamed: on a scrolled page
+// it sits above the viewport, and a named group would slide it into place.
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 200ms;
+	animation-timing-function: ease;
+}
