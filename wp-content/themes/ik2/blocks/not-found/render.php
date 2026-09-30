@@ -111,7 +111,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes();
 					</div>
 					<div class="ik-term__line"><span class="key">server:</span> <span class="val">cloudflare</span></div>
 					<div class="ik-term__line"><span class="key">content-type:</span> <span class="val">text/html; charset=utf-8</span></div>
-					<div class="ik-term__line"><span class="key">x-suggestion:</span> <span class="val"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">/articles</a> <span class="dim">&larr; did you mean this?</span></span></div>
+					<div class="ik-term__line"><span class="key">x-suggestion:</span> <span class="val"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">/articles</a> <span class="dim">&larr; did you mean this?</span></span></div>
 					<div class="ik-term__line"><span class="dim">&mdash; try one of the cards below, or head <a href="<?php echo esc_url( home_url( '/' ) ); ?>">home</a>.</span></div>
 				</div>
 			</div>
@@ -139,7 +139,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes();
 				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/' ) ); ?>" style="border-radius:0.375rem">Go home</a>
 			</div>
 			<div class="wp-block-button is-style-outline">
-				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles' ) ); ?>" style="border-radius:0.375rem">Browse articles</a>
+				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>" style="border-radius:0.375rem">Browse articles</a>
 			</div>
 		</div>
 	</section>

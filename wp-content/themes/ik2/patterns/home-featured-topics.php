@@ -27,7 +27,7 @@
 		<!-- /wp:group -->
 
 		<!-- wp:paragraph {"className":"ik-section__more"} -->
-		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All articles →</a></p>
+		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All articles →</a></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->

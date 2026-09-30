@@ -34,7 +34,7 @@ $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"className":"ik-guides-layout__more"} -->
-			<p class="ik-guides-layout__more"><a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">All guides →</a></p>
+			<p class="ik-guides-layout__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All guides →</a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

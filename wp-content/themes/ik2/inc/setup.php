@@ -112,23 +112,23 @@ function register_primary_nav_menu(): void {
 		],
 		[
 			'title' => 'Articles',
-			'url'   => home_url( '/articles' ),
+			'url'   => home_url( '/articles/' ),
 		],
 		[
 			'title' => 'Projects',
-			'url'   => home_url( '/projects' ),
+			'url'   => home_url( '/projects/' ),
 		],
 		[
 			'title' => 'Speaking',
-			'url'   => home_url( '/speaking' ),
+			'url'   => home_url( '/speaking/' ),
 		],
 		[
 			'title' => 'About',
-			'url'   => home_url( '/about' ),
+			'url'   => home_url( '/about/' ),
 		],
 		[
 			'title' => 'Contact',
-			'url'   => home_url( '/contact' ),
+			'url'   => home_url( '/contact/' ),
 		],
 	];
 
