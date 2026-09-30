@@ -21,6 +21,7 @@ function bootstrap(): void {
 	Blocks\bootstrap();
 	CLI\bootstrap();
 	PostTypes\Project\bootstrap();
+	PostTypes\TalkMeta\bootstrap();
 
 	register_activation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_activate' );
 	register_deactivation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_deactivate' );
