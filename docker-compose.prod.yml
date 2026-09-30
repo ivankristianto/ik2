@@ -4,6 +4,9 @@
 # Dokploy can either:
 #   1. Reference this file directly from the repo (compose deployment), or
 #   2. Use the two images independently as separate services.
+#
+# `latest` moves only when a release is cut (`pnpm release`). To roll back or
+# pin, set IMAGE_TAG in the Dokploy UI to a release version, e.g. `1.4.0`.
 
 name: ik2org-prod
 
@@ -16,7 +19,7 @@ services:
         restart: "no"
 
     app:
-        image: ghcr.io/ivankristianto/ik2-app:latest
+        image: ghcr.io/ivankristianto/ik2-app:${IMAGE_TAG:-latest}
         pull_policy: always
         networks:
             - dokploy-network
@@ -70,7 +73,7 @@ services:
         restart: unless-stopped
 
     nginx:
-        image: ghcr.io/ivankristianto/ik2-nginx:latest
+        image: ghcr.io/ivankristianto/ik2-nginx:${IMAGE_TAG:-latest}
         pull_policy: always
         networks:
             - dokploy-network
@@ -86,7 +89,7 @@ services:
         # mu-plugins, vendor, and baked wp-config.php (reads creds from env)
         # copied in, so it can bootstrap WordPress without reusing the php-fpm
         # app image.
-        image: ghcr.io/ivankristianto/ik2-cli:latest
+        image: ghcr.io/ivankristianto/ik2-cli:${IMAGE_TAG:-latest}
         pull_policy: always
         # Runs as www-data (uid 82). The webroot is baked at the non-volume path
         # /var/www/app (WORKDIR), so `docker compose exec wp-cli wp ...` runs this
