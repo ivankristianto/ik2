@@ -18,5 +18,6 @@ require_once __DIR__ . '/inc/patterns.php';
 require_once __DIR__ . '/inc/blocks.php';
 require_once __DIR__ . '/inc/block-styles.php';
 require_once __DIR__ . '/inc/navigation.php';
+require_once __DIR__ . '/inc/breadcrumbs.php';
 
 bootstrap();
