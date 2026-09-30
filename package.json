@@ -16,7 +16,8 @@
 		"lint:js:fix": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\" --fix",
 		"lint:css": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\"",
 		"lint:css:fix": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\" --fix",
-		"packages-update": "wp-scripts packages-update"
+		"packages-update": "wp-scripts packages-update",
+		"release": "node scripts/release.mjs"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^25.7.0",
