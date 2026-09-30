@@ -1,7 +1,7 @@
 /**
  * Theme build config.
  *
- * Extends the @wordpress/scripts default config so the build is reproducible
+ * Extends the `@wordpress/scripts` default config so the build is reproducible
  * from the repo (the root `wp-scripts build` would look for `src/` at the repo
  * root and silently produce nothing). It:
  *

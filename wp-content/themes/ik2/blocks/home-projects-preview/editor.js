@@ -191,7 +191,7 @@
 							'No projects curated yet — pick up to four from the sidebar. The front end always shows an even count (2 or 4); odd picks are padded up with the latest projects, and an empty list falls back to the four latest.',
 							'ik2'
 						)
-				  )
+					)
 				: el(
 						'ul',
 						{
@@ -230,7 +230,7 @@
 								} )
 							)
 						)
-				  )
+					)
 		);
 	}
 
