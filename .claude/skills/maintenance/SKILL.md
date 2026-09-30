@@ -28,7 +28,7 @@ Use functions, not `C="docker compose ..."` variables. The user's shell is zsh, 
 3. Record a baseline **before touching anything**, so pre-existing failures don't get blamed on an update:
    ```bash
    C install && P install --frozen-lockfile
-   C quality; P lint; P build; node --test 'tests/*.test.mjs'
+   C quality; P run lint:js; P run lint:css; P build; node --test 'tests/*.test.mjs'
    ```
    Save the pass/fail of each to the scratchpad. If `main`'s latest commit has a green Quality run on GitHub (`gh run list --commit <sha> --workflow Quality`), that stands in for the local `C quality` / `P lint` baseline, which saves downloading the old tool versions only to replace them. On a slow connection to GitHub, run the Composer tracks with `--no-install` (lockfile only) and do one real `C install` before step 5. A gate that already failed on `main` is reported, not fixed as part of this task, unless the user says otherwise.
 4. Snapshot current versions for the final report: the `FROM wordpress:` line in `Dockerfile`, `C show --direct`, and `P list --depth 0`.
@@ -88,7 +88,7 @@ Commit: `chore(deps): update composer packages`, with the fixes folded in if the
 ## 4. Node packages (pnpm)
 
 1. `P outdated` to see current / wanted / latest.
-2. `@wordpress/*` packages are released together from the Gutenberg monorepo and must stay on the same release line. Update them as a set with the repo's script: `P packages-update`. Then check `@wordpress/scripts` major changes in its CHANGELOG (github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md). Things that have broken this repo's setup before or are likely to: webpack config shape (`wp-content/themes/ik2/webpack.config.js` extends the default config), the ESLint flat config in `eslint.config.js`, and Stylelint rule renames in `@wordpress/stylelint-config`.
+2. `@wordpress/*` packages are released together from the Gutenberg monorepo and must stay on the same release line. Update them as a set with `P up --latest '@wordpress/*'`. Don't use the repo's `packages-update` script: `wp-scripts packages-update` shells out to `npm install`, which writes a `package-lock.json` next to pnpm's lockfile. Then check `@wordpress/scripts` major changes in its CHANGELOG (github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md). Things that have broken this repo's setup before or are likely to: webpack config shape (`wp-content/themes/ik2/webpack.config.js` extends the default config), the ESLint flat config in `eslint.config.js`, and Stylelint rule renames in `@wordpress/stylelint-config`.
 3. Everything else (`sass`, `postcss-scss`, `webpack-remove-empty-scripts`, and anything added since): `P up --latest <pkg>`. For a major bump read the changelog first. For `sass` in particular, look for newly removed deprecations (`@import`, global built-in functions, slash division) and grep `wp-content/themes/ik2/src` for them.
 4. pnpm 10+ blocks dependency build scripts. If install warns about an ignored build for a new package, decide whether it needs its script and add it to `allowBuilds` in `pnpm-workspace.yaml` with a one-line reason comment, matching the existing entries.
 5. pnpm itself: check `npm view pnpm version`. The version lives in **two** places that must match: `packageManager` in `package.json` and `corepack prepare pnpm@<ver>` in the `node-build` stage of `Dockerfile`. Update both (the `packageManager` hash can be regenerated with `P self-update <ver>` or `corepack use pnpm@<ver>`).
@@ -108,7 +108,7 @@ Run all of it, even if an earlier step looked fine.
      && test -s wp-content/themes/ik2/build/index.js \
      && test -f wp-content/themes/ik2/build/editor.css
    ```
-2. **Gates and tests**: `C quality`, `P lint`, `node --test 'tests/*.test.mjs'`.
+2. **Gates and tests**: `C quality`, `P run lint:js`, `P run lint:css`, `node --test 'tests/*.test.mjs'`. Call the two lint scripts by name, the way CI does. `P lint` runs the pattern `/^lint:.*/`, which also matches `lint:js:fix` and `lint:css:fix` and rewrites files, so a gate run can change the tree underneath you.
 3. **Every image target**, the way CI builds them: `docker build --target production -t ik2-app:maint .` and `docker build --target cli -t ik2-cli:maint .`. This exercises the composer no-dev install, the mcp-adapter nested install, the pnpm frozen-lockfile install, and the drop-in steps.
 4. **Running dev stack**. The `wp-html` named volume holds WordPress core, and Docker only seeds a named volume when it is empty, so a rebuilt image alone keeps serving the **old** core. Refresh it without touching the database or uploads:
    ```bash
@@ -194,7 +194,7 @@ Tables for the Changes section:
 |---|---|
 | `pnpm build` + output checks | |
 | `composer quality` | |
-| `pnpm lint` | |
+| `pnpm lint:js` + `pnpm lint:css` | |
 | `node --test 'tests/*.test.mjs'` | |
 | `docker build --target production` | |
 | `docker build --target cli` | |
