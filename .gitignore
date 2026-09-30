@@ -39,6 +39,7 @@
 .serena/
 .claude/*
 !.claude/memory/
+!.claude/skills/
 
 # Logs
 *.log
