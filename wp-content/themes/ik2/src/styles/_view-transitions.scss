@@ -6,10 +6,51 @@
 	}
 }
 
-// Match the site-wide 200ms ease. The header stays unnamed: on a scrolled page
-// it sits above the viewport, and a named group would slide it into place.
-::view-transition-old(root),
+// Chrome that is the same on every page gets its own group so it never fades.
+.ik-header {
+	view-transition-name: ik-header;
+
+	// The name makes the header a stacking context, which would trap the mobile
+	// drawer's z-index beneath <main>. Lift the whole context above the content.
+	position: relative;
+	z-index: 10;
+}
+
+#wpadminbar {
+	view-transition-name: ik-admin-bar;
+}
+
+// No group animation: on a scrolled page the header was captured above the
+// viewport, and the default group animation would slide it down into place.
+::view-transition-group(ik-header),
+::view-transition-group(ik-admin-bar) {
+	animation: none;
+}
+
+// Fade through paper instead of cross-fading. Two unrelated layouts
+// double-exposed mid cross-fade read as a flicker and as content jumping.
+::view-transition {
+	background: var(--wp--preset--color--paper);
+}
+
+::view-transition-old(root) {
+	animation: 100ms ease-in both ik-page-out;
+}
+
 ::view-transition-new(root) {
-	animation-duration: 200ms;
-	animation-timing-function: ease;
+	animation: 160ms ease-out 80ms both ik-page-in;
+}
+
+@keyframes ik-page-out {
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes ik-page-in {
+
+	from {
+		opacity: 0;
+	}
 }
