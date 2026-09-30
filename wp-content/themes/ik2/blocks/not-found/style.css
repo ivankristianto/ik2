@@ -85,7 +85,9 @@
   inset: 12% 18%;
   border: 0.12em solid currentcolor;
   border-radius: 50%;
-  animation: ik-404-blink 1.4s steps(2, start) infinite;
+
+  /* Three blinks (4.2s) keeps it inside WCAG 2.2.2's 5s limit. */
+  animation: ik-404-blink 1.4s steps(2, start) 3;
   pointer-events: none;
 }
 

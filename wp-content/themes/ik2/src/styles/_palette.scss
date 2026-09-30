@@ -39,6 +39,11 @@
 	border-bottom: 1px solid $color-line;
 }
 
+// The input drops its outline to sit flush in the row, so the row's rule carries focus instead.
+.ik-cmdk__input-row:focus-within {
+	border-bottom-color: $color-signal;
+}
+
 .ik-cmdk__caret {
 	color: $color-signal;
 	font-family: $font-mono;
@@ -137,4 +142,13 @@
 	}
 
 	.ik-cmdk__footer-meta { margin-inline-start: auto; }
+}
+
+// Forced colors drop the Signal Soft fill, which is the only active-option cue.
+@media (forced-colors: active) {
+
+	.ik-cmdk__item.is-active {
+		outline: 2px solid Highlight;
+		outline-offset: -2px;
+	}
 }

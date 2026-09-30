@@ -78,3 +78,13 @@
 		text-align: end;
 	}
 }
+
+/* Forced colors flatten the active pill's fill and border to match the rest. */
+@media (forced-colors: active) {
+
+	.ik-articles-filters__pill.is-active {
+		forced-color-adjust: none;
+		background: Highlight;
+		color: HighlightText;
+	}
+}

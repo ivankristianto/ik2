@@ -30,7 +30,8 @@
 @media (prefers-reduced-motion: no-preference) {
 
 	.ik-wordmark::after {
-		animation: ik-cursor-blink 1.1s steps(2, end) infinite;
+		// Four blinks (4.4s): WCAG 2.2.2 allows auto-blinking only when it stops within 5s.
+		animation: ik-cursor-blink 1.1s steps(2, end) 4;
 	}
 }
 

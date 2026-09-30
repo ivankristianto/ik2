@@ -255,3 +255,12 @@
 	text-align: center;
 	color: $color-graphite;
 }
+
+@media (forced-colors: active) {
+
+	.wp-block-query-pagination.ik-articles-pagination .page-numbers.current {
+		forced-color-adjust: none;
+		background: Highlight;
+		color: HighlightText;
+	}
+}

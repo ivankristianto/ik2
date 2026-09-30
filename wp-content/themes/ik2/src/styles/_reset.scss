@@ -2,6 +2,11 @@
 
 // Minimal reset — WordPress already normalises a lot. Keep this small.
 
+// The palette is light-only; without this, OS dark mode paints dark scrollbars and form controls on warm paper.
+:root {
+	color-scheme: light;
+}
+
 *,
 *::before,
 *::after {

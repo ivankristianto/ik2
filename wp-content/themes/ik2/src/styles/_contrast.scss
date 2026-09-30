@@ -1,0 +1,10 @@
+// Line (1.4:1 on paper), Rule (1.9:1) and Dust text are the design's quietest marks.
+// Readers who ask the OS for more contrast get Graphite (5.6:1) for all three.
+@media (prefers-contrast: more) {
+
+	:root {
+		--wp--preset--color--line: var(--wp--preset--color--graphite);
+		--wp--preset--color--rule: var(--wp--preset--color--graphite);
+		--wp--preset--color--dust: var(--wp--preset--color--graphite);
+	}
+}
