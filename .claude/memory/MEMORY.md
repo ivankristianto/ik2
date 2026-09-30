@@ -9,3 +9,4 @@
 - [articles normalized](project-articles-normalized.md) — all 487 posts block-converted + shortcode→code + proofread + recategorized to feature topics/misc; stamped `_ik2_normalized`/`_ik2_topic`
 - [staging sync](project-staging-sync.md) — REST API sync local→next.ivankristianto.com (toolkit in `_ik2_work/sync/`); staging nginx 404s runtime-uploaded media (no shared uploads volume in prod)
 - [native layout refactor](project-native-layout-refactor.md) — container-full is gone (alignfull + constrained 1280 + root-padding gutters); gotchas: useRootPaddingAwareAlignments is top-level, wp_slash serialize_blocks before wp_update_post, constrained child rules override direct-child CSS caps
+- [verify the literal request](feedback-verify-literal-request.md) — check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
