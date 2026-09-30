@@ -20,3 +20,8 @@
 		top: $space-3;
 	}
 }
+
+// The skip link focuses <main> (tabindex="-1"); a ring around the whole page body helps nobody.
+#ik-main:focus {
+	outline: none;
+}

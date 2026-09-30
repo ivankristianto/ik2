@@ -38,7 +38,7 @@
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
 	background: $color-surface;
-	overflow: hidden;
+	overflow: clip;
 
 	@media (max-width: 700px) {
 		grid-template-columns: 1fr;

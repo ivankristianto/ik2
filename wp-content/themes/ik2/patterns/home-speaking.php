@@ -29,7 +29,7 @@
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"className":"ik-speaking-layout__more"} -->
-			<p class="ik-speaking-layout__more"><a href="<?php echo esc_url( home_url( '/speaking' ) ); ?>">All talks →</a></p>
+			<p class="ik-speaking-layout__more"><a href="<?php echo esc_url( home_url( '/speaking/' ) ); ?>">All talks →</a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

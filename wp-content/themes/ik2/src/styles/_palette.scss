@@ -9,7 +9,7 @@
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	padding-top: 12vh;
+	padding-top: 12dvh;
 	z-index: 200;
 	opacity: 0;
 	transition: opacity 140ms ease;
@@ -20,14 +20,15 @@
 }
 
 .ik-cmdk {
-	width: min(640px, 90vw);
+	// Percentages resolve against the fixed overlay, so no scrollbar-width overflow like vw.
+	width: min(640px, 100% - 2 * #{$space-4});
 	background: $color-surface;
 	border: 1px solid $color-line;
 	border-radius: $radius-lg;
 	box-shadow: $shadow-md;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
+	overflow: clip;
 }
 
 .ik-cmdk__input-row {
@@ -36,6 +37,11 @@
 	gap: $space-3;
 	padding: $space-4 $space-5;
 	border-bottom: 1px solid $color-line;
+}
+
+// The input drops its outline to sit flush in the row, so the row's rule carries focus instead.
+.ik-cmdk__input-row:focus-within {
+	border-bottom-color: $color-signal;
 }
 
 .ik-cmdk__caret {
@@ -65,8 +71,9 @@
 }
 
 .ik-cmdk__list {
-	max-height: 56vh;
+	max-height: 56dvh;
 	overflow-y: auto;
+	overscroll-behavior: contain;
 	padding: $space-3 0;
 }
 
@@ -99,7 +106,7 @@
 	width: 16px;
 	color: $color-dust;
 	font-family: $font-mono;
-	font-size: 12px;
+	font-size: $size-xs;
 }
 
 .ik-cmdk__item.is-active .ik-cmdk__item-glyph { color: $color-signal; }
@@ -131,8 +138,17 @@
 		padding: 1px 5px;
 		color: $color-graphite;
 		font-family: $font-mono;
-		font-size: 11px;
+		font-size: 0.6875rem;
 	}
 
-	.ik-cmdk__footer-meta { margin-left: auto; }
+	.ik-cmdk__footer-meta { margin-inline-start: auto; }
+}
+
+// Forced colors drop the Signal Soft fill, which is the only active-option cue.
+@media (forced-colors: active) {
+
+	.ik-cmdk__item.is-active {
+		outline: 2px solid Highlight;
+		outline-offset: -2px;
+	}
 }

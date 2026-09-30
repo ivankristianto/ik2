@@ -5,7 +5,7 @@
   background: var(--wp--preset--color--surface);
   border: 1px solid var(--wp--preset--color--line);
   border-radius: 0.375rem;
-  overflow: hidden;
+  overflow: clip;
 }
 
 @media (max-width: 1000px) {

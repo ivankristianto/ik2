@@ -1,6 +1,6 @@
 <?php
 /**
- * Header navigation: mark the current menu item.
+ * Header navigation: mark the current menu item and make the skip link land.
  *
  * Core's navigation-link block only sets aria-current when it can resolve the
  * link to a real post or page. The IK2 Primary menu uses custom links pointing
@@ -20,6 +20,33 @@ defined( 'ABSPATH' ) || exit;
  */
 function bootstrap(): void {
 	add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\\mark_current_navigation_link', 10, 2 );
+	add_filter( 'render_block_core/group', __NAMESPACE__ . '\\make_skip_link_target_focusable', 10, 2 );
+
+	// The header part ships its own skip link; core's would be a second identical one.
+	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' );
+	remove_action( 'wp_footer', 'the_block_template_skip_link' );
+}
+
+/**
+ * Add tabindex="-1" to `<main id="ik-main">` so the header skip link moves focus there.
+ *
+ * @param string       $block_content Rendered group HTML.
+ * @param array<mixed> $block         Parsed block data.
+ */
+function make_skip_link_target_focusable( string $block_content, array $block ): string {
+	// Set at render time: baking the attribute into the template markup would
+	// fail core/group block validation in the Site Editor.
+	if ( ( $block['attrs']['anchor'] ?? '' ) !== 'ik-main' ) {
+		return $block_content;
+	}
+
+	$tags = new \WP_HTML_Tag_Processor( $block_content );
+
+	if ( $tags->next_tag( [ 'tag_name' => 'main' ] ) && $tags->get_attribute( 'tabindex' ) === null ) {
+		$tags->set_attribute( 'tabindex', '-1' );
+	}
+
+	return $tags->get_updated_html();
 }
 
 /**

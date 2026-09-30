@@ -85,7 +85,9 @@
   inset: 12% 18%;
   border: 0.12em solid currentcolor;
   border-radius: 50%;
-  animation: ik-404-blink 1.4s steps(2, start) infinite;
+
+  /* Three blinks (4.2s) keeps it inside WCAG 2.2.2's 5s limit. */
+  animation: ik-404-blink 1.4s steps(2, start) 3;
   pointer-events: none;
 }
 
@@ -147,7 +149,7 @@
 }
 
 .ik-term {
-  overflow: hidden;
+  overflow: clip;
   background: var(--wp--preset--color--code-paper);
   border: 1px solid var(--wp--preset--color--line);
   border-radius: 0.375rem;
@@ -234,7 +236,9 @@
 }
 
 .ik-term__line a {
-  color: var(--wp--preset--color--signal);
+
+  /* Signal is 4.45:1 on code paper; Signal Deep is 6.3:1. */
+  color: var(--wp--preset--color--signal-deep);
 }
 
 .ik-term__history {

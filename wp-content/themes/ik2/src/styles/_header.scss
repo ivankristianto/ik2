@@ -121,6 +121,9 @@
 
 	.ik-header__right {
 		gap: $space-2;
+
+		// Keep Tab order matching the reordered Resume CTA below (ignored where unsupported).
+		reading-flow: flex-visual;
 	}
 
 	// Resume sits before the hamburger on mobile so the menu trigger reaches the
@@ -356,5 +359,13 @@
 
 	.ik-header .wp-block-navigation__responsive-dialog {
 		transition: none;
+	}
+}
+
+// The drawer's current item is marked by a fill that forced colors remove.
+@media (forced-colors: active) {
+
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content[aria-current='page'] {
+		text-decoration: underline;
 	}
 }

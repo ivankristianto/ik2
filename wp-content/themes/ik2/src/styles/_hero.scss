@@ -134,7 +134,7 @@
 	background: $color-surface;
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
-	overflow: hidden;
+	overflow: clip;
 	max-width: 340px;
 	justify-self: end;
 

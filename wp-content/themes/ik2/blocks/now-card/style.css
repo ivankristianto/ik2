@@ -22,7 +22,16 @@
   height: 8px;
   background: var(--wp--preset--color--build-green);
   border-radius: 50%;
-  animation: ik-now-pulse 2s ease-in-out infinite;
+
+  /* Two pulses (4s), inside WCAG 2.2.2's 5s limit for motion nobody can pause. */
+  animation: ik-now-pulse 2s ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ik-now__dot {
+    animation: none;
+  }
 }
 
 @keyframes ik-now-pulse {

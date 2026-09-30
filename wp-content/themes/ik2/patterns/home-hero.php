@@ -37,13 +37,13 @@
 				<!-- wp:buttons -->
 				<div class="wp-block-buttons">
 					<!-- wp:button {"className":"is-style-hero-cta"} -->
-					<div class="wp-block-button is-style-hero-cta"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles' ) ); ?>">Browse the guides</a></div>
+					<div class="wp-block-button is-style-hero-cta"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Browse the guides</a></div>
 					<!-- /wp:button -->
 				</div>
 				<!-- /wp:buttons -->
 
 				<!-- wp:paragraph {"className":"ik-hero__secondary"} -->
-				<p class="ik-hero__secondary"><a href="<?php echo esc_url( home_url( '/resume' ) ); ?>">Read resume</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/articles' ) ); ?>">Latest articles</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Get in touch</a></p>
+				<p class="ik-hero__secondary"><a href="<?php echo esc_url( home_url( '/resume/' ) ); ?>">Read resume</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Latest articles</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Get in touch</a></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->

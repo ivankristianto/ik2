@@ -48,7 +48,7 @@
 	margin: 0 0 $space-7;
 	font-family: $font-mono;
 	font-size: $size-sm;
-	color: $color-dust;
+	color: $color-rule;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 }
@@ -137,7 +137,7 @@
 		margin-top: $space-2;
 		font-size: $size-md;
 		font-weight: 500;
-		color: $color-dust;
+		color: $color-rule;
 		letter-spacing: 0;
 	}
 }
@@ -146,7 +146,7 @@
 	margin: $space-4 0 0;
 	font-family: $font-mono;
 	font-size: $size-sm;
-	color: $color-dust;
+	color: $color-rule;
 	letter-spacing: 0.02em;
 }
 
@@ -222,6 +222,21 @@
 
 .ik-resume .ik-resume__section {
 	margin-top: $space-9;
+}
+
+// Experience can sit in the first viewport on tall screens; everything after it
+// is always below the fold, so skip its layout and paint until it's near.
+.ik-resume .ik-resume__section ~ .ik-resume__section {
+	content-visibility: auto;
+	contain-intrinsic-block-size: auto 700px;
+
+	&.ik-resume__section--skills {
+		contain-intrinsic-block-size: auto 820px;
+	}
+
+	&.ik-resume__section--contact {
+		contain-intrinsic-block-size: auto 540px;
+	}
 }
 
 .ik-resume .ik-resume__section-title {
