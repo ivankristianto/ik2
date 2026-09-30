@@ -9,6 +9,7 @@
   flex-direction: column;
   gap: var(--wp--preset--spacing--3);
   transition: border-color 200ms ease, box-shadow 200ms ease;
+  container-type: inline-size;
 }
 
 .ik-project:hover {
@@ -123,10 +124,15 @@
   font-weight: 500;
 }
 
+/* The card sits in 1- and 2-column grids, so its insides respond to the card's
+   own width. The card's padding can't query itself and stays on the viewport. */
 @media (max-width: 600px) {
   .ik-project {
     padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5);
   }
+}
+
+@container (inline-size <= 22rem) {
   .ik-project__head {
     flex-direction: column;
     align-items: flex-start;

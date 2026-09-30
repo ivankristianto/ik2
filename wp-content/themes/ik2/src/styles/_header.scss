@@ -121,6 +121,9 @@
 
 	.ik-header__right {
 		gap: $space-2;
+
+		// Keep Tab order matching the reordered Resume CTA below (ignored where unsupported).
+		reading-flow: flex-visual;
 	}
 
 	// Resume sits before the hamburger on mobile so the menu trigger reaches the

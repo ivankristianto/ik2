@@ -72,7 +72,7 @@
 	background: $color-soft-paper;
 	margin: 0 0 $space-3;
 	padding: $space-4;
-	overflow: hidden;
+	overflow: clip;
 }
 
 .ik-article-card__cover-label {

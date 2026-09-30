@@ -147,7 +147,7 @@
 }
 
 .ik-term {
-  overflow: hidden;
+  overflow: clip;
   background: var(--wp--preset--color--code-paper);
   border: 1px solid var(--wp--preset--color--line);
   border-radius: 0.375rem;

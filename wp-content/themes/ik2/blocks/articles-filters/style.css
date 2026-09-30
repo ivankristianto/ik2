@@ -56,7 +56,7 @@
 }
 
 .ik-articles-filters__count {
-	margin-left: auto;
+	margin-inline-start: auto;
 	font-family: var(--wp--preset--font-family--mono);
 	font-size: var(--wp--preset--font-size--sm);
 	color: var(--wp--preset--color--dust);
@@ -73,8 +73,8 @@
 	}
 
 	.ik-articles-filters__count {
-		margin-left: 0;
-		width: 100%;
-		text-align: right;
+		margin-inline-start: 0;
+		inline-size: 100%;
+		text-align: end;
 	}
 }
