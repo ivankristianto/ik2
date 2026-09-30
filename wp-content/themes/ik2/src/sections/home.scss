@@ -8,3 +8,11 @@
 @use '../styles/guides';
 @use '../styles/notes';
 @use '../styles/speaking-layout';
+
+// Skip layout and paint for sections two or more past the hero until they near
+// the viewport. The one right after the hero can peek above the fold, so it
+// renders normally. `auto` keeps the real height once a section has rendered.
+.ik-hero ~ .ik-section ~ .ik-section {
+	content-visibility: auto;
+	contain-intrinsic-block-size: auto 900px;
+}
