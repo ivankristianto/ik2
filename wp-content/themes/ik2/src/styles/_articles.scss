@@ -78,7 +78,8 @@
 .ik-article-card__cover-label {
 	font-family: $font-mono;
 	font-size: $size-sm;
-	color: $color-graphite;
+	// Graphite drops to 4.2:1 on the paler category covers; Ink clears 12:1 on all of them.
+	color: $color-ink;
 	text-align: center;
 	line-height: 1.3;
 

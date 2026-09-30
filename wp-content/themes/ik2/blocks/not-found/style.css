@@ -236,7 +236,9 @@
 }
 
 .ik-term__line a {
-  color: var(--wp--preset--color--signal);
+
+  /* Signal is 4.45:1 on code paper; Signal Deep is 6.3:1. */
+  color: var(--wp--preset--color--signal-deep);
 }
 
 .ik-term__history {
