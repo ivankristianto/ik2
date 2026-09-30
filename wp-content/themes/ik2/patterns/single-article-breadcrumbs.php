@@ -4,11 +4,14 @@
  * Slug: ik2/single-article-breadcrumbs
  * Categories: ik2-page
  * Inserter: no
- * Description: Home / Articles / current-title breadcrumb trail for the single post template. Depends on the current post — hidden from the manual inserter.
+ * Description: Home / Articles (or Speaking for talk posts) / current-title breadcrumb trail for the single post template. Depends on the current post — hidden from the manual inserter.
  *
  * @package IK2
  */
 
+$ik2_is_talk     = has_category( 'talk', get_queried_object_id() );
+$ik2_parent_url  = $ik2_is_talk ? home_url( '/speaking/' ) : home_url( '/articles/' );
+$ik2_parent_name = $ik2_is_talk ? __( 'Speaking', 'ik2' ) : __( 'Articles', 'ik2' );
 ?>
 <!-- wp:group {"tagName":"nav","className":"ik-crumbs","layout":{"type":"flex","flexWrap":"wrap"},"metadata":{"name":"Breadcrumbs"}} -->
 <nav class="wp-block-group ik-crumbs" aria-label="<?php esc_attr_e( 'Breadcrumb', 'ik2' ); ?>">
@@ -21,7 +24,7 @@
 
 	<!-- wp:paragraph {"className":"ik-crumbs__item"} -->
 	<p class="ik-crumbs__item">
-		<a class="ik-crumbs__link" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>"><?php esc_html_e( 'Articles', 'ik2' ); ?></a>
+		<a class="ik-crumbs__link" href="<?php echo esc_url( $ik2_parent_url ); ?>"><?php echo esc_html( $ik2_parent_name ); ?></a>
 		<span class="ik-crumbs__sep" aria-hidden="true">/</span>
 	</p>
 	<!-- /wp:paragraph -->
