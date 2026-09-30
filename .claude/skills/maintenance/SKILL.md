@@ -127,8 +127,10 @@ Run all of it, even if an earlier step looked fine.
    curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8080/wp-login.php
    docker compose exec -T app sh -c 'tail -n 100 /var/www/app/wp-content/debug.log 2>/dev/null'
    ```
+   If `docker volume ls` shows no `ik2org_db-data`, there is no local site to test against. Install a throwaway one into fresh volumes (`WP core install --url=http://localhost:8080 --title='IK2 dev' --admin_user=admin --admin_email=admin@example.test --admin_password=<random> --skip-email`, then `WP theme activate ik2` and `WP plugin activate --all`), create a post, a `project`, and pages with slugs `projects` and `about`, and say in the PR that no real content was exercised.
+
    A plugin that was active before and is now inactive or missing is a failure. Any new fatal, warning, or deprecation in `debug.log` that points at our code (`themes/ik2`, `plugins/ik2`, `mu-plugins`) is a failure. Deprecations from third-party plugins are reported, not fixed.
-5. Load the front page, one article, the projects archive, and the block editor in the browser (use the `agent-browser` skill) and check the console for new errors. The editor canvas is a blob iframe that screenshots blank; check it through `wp.data` selects on the main window instead.
+5. Load the front page, one article, the projects archive (a page with slug `projects`, rendered by `page-projects.html`), and the block editor in the browser and check the console for new errors. Use `agent-browser` if it's installed (`which agent-browser`); otherwise use the Chrome DevTools MCP tools (`new_page` with an `isolatedContext`, `list_console_messages`, `evaluate_script`). Don't install a global tool without asking. For the editor, set a random admin password with `WP user update admin --user_pass=...` and log in through the form. The editor canvas is a blob iframe that screenshots blank; check it through `wp.data` selects on the main window instead.
 
 ## 6. Fix loop
 
