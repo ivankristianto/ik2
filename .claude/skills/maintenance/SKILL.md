@@ -8,13 +8,18 @@ user-invocable: true
 
 Four update tracks, one verify-and-fix loop, then a pull request. Work through them in order. Each track ends in its own atomic commit so a bad bump can be reverted alone.
 
-Everything runs through Docker (OrbStack, start it with `open -a OrbStack` if the daemon is down). Shorthand used below:
+Everything runs through Docker (OrbStack). If `docker info` fails, start it with `open -a OrbStack` and poll `docker info` until it answers.
+
+The commands below use three shell functions. Write them to `<scratchpad>/env.sh` once and start every Bash call with `source <scratchpad>/env.sh`, since shell state doesn't persist between calls:
 
 ```bash
-C="docker compose --profile tools run --rm composer"   # composer in a container
-P="docker compose --profile tools run --rm pnpm"       # pnpm in a container
-WP="docker compose exec -T wp-cli wp"                  # wp-cli against the dev stack
+C()  { docker compose --profile tools run --rm -T composer "$@"; }   # composer in a container
+P()  { docker compose --profile tools run --rm -T pnpm "$@"; }       # pnpm in a container
+WP() { docker compose exec -T wp-cli wp "$@"; }                      # wp-cli against the dev stack
+cd /Users/ivan/Works/Personal/ivankristianto.com/ik2
 ```
+
+Use functions, not `C="docker compose ..."` variables. The user's shell is zsh, which doesn't word-split `$C`, so a variable shorthand fails with exit 127. `-T` is needed because tool calls have no TTY. Run pnpm only through `P`. A `node_modules` installed by host pnpm points at a different store, and the container then refuses with "pnpm now wants to use the store at /app/.pnpm-store"; delete `node_modules` (gitignored) and reinstall with `P install`. Long steps (installs, builds, image builds) can take minutes; send their output to a log file in the scratchpad and read the tail, instead of streaming it.
 
 ## 0. Preflight
 
@@ -22,11 +27,11 @@ WP="docker compose exec -T wp-cli wp"                  # wp-cli against the dev 
 2. Branch off `main` in place (no worktrees; the containers bind-mount the main checkout): `git switch -c chore-deps-YYYY-MM-DD`. No `/` in branch names.
 3. Record a baseline **before touching anything**, so pre-existing failures don't get blamed on an update:
    ```bash
-   $C install && $P install --frozen-lockfile
-   $C quality; $P lint; $P build; node --test tests/
+   C install && P install --frozen-lockfile
+   C quality; P run lint:js; P run lint:css; P build; node --test 'tests/*.test.mjs'
    ```
-   Save the pass/fail of each to the scratchpad. A gate that already failed on `main` is reported, not fixed as part of this task, unless the user says otherwise.
-4. Snapshot current versions for the final report: the `FROM wordpress:` line in `Dockerfile`, `$C show --direct`, and `$P list --depth 0`.
+   Save the pass/fail of each to the scratchpad. If `main`'s latest commit has a green Quality run on GitHub (`gh run list --commit <sha> --workflow Quality`), that stands in for the local `C quality` / `P lint` baseline, which saves downloading the old tool versions only to replace them. On a slow connection to GitHub, run the Composer tracks with `--no-install` (lockfile only) and do one real `C install` before step 5. A gate that already failed on `main` is reported, not fixed as part of this task, unless the user says otherwise.
+4. Snapshot current versions for the final report: the `FROM wordpress:` line in `Dockerfile`, `C show --direct`, and `P list --depth 0`.
 
 ## 1. WordPress core
 
@@ -42,7 +47,7 @@ FROM wordpress:cli-php8.5 AS cli
 3. Keep the PHP variant (`php8.5`) unless the user asks to change it. If a newer PHP variant exists, mention it in the report. `composer.json` pins `config.platform.php` to `8.4` and CI runs 8.4, so a PHP bump touches three places and is its own decision.
 4. For a **major or minor** core bump (e.g. 7.0 → 7.1), read the release's Field Guide on make.wordpress.org/core and scan for: block API changes (`block.json` schema, `apiVersion`), theme.json schema version, Interactivity API changes, removed or deprecated functions used in `wp-content/themes/ik2`, `wp-content/plugins/ik2`, or `wp-content/mu-plugins`. Grep for any function named in a deprecation note.
 5. Edit the `FROM wordpress:` tag. `wordpress:cli-php8.5` floats, leave it.
-6. Bump the PHPStan stubs to the same core line so static analysis sees the new API: `$C update php-stubs/wordpress-stubs -W`. If `szepeviktor/phpstan-wordpress` caps the stubs below the new core line, note it and move on.
+6. Bump the PHPStan stubs to the same core line so static analysis sees the new API: `C update php-stubs/wordpress-stubs -W`. If `szepeviktor/phpstan-wordpress` caps the stubs below the new core line, note it and move on.
 
 Commit: `chore(docker): bump wordpress core to <ver>` (include `composer.lock` if the stubs moved).
 
@@ -50,7 +55,7 @@ Commit: `chore(docker): bump wordpress core to <ver>` (include `composer.lock` i
 
 All third-party plugins are `wpackagist-plugin/*` entries in `composer.json`, plus `wordpress/mcp-adapter` from Packagist. Never download a zip into `wp-content/plugins/`.
 
-1. List what's behind: `$C outdated --direct 'wpackagist-plugin/*' wordpress/mcp-adapter`.
+1. List what's behind: `C outdated --direct 'wpackagist-plugin/*' wordpress/mcp-adapter`.
 2. For each plugin whose **major** version changes (or any `0.x` minor change, which is breaking under semver), pull its metadata:
    ```bash
    curl -s "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&slug=<slug>&fields[sections]=1" \
@@ -62,7 +67,7 @@ All third-party plugins are `wpackagist-plugin/*` entries in `composer.json`, pl
    - `wp-super-cache/advanced-cache.php` and `wp-super-cache/wp-cache-config-sample.php` (copied as drop-ins)
    - `mcp-adapter/composer.json` (nested `composer install` in the build stage, which fails loudly if `vendor/autoload.php` is missing)
 4. `wordpress/mcp-adapter` is pre-1.0 with its own composer deps. Read its GitHub releases (github.com/WordPress/mcp-adapter) before crossing a minor version.
-5. Widen constraints for majors with `$C require wpackagist-plugin/<slug>:^<new-major>` (one per plugin, or several in one call). Then `$C update 'wpackagist-plugin/*' wordpress/mcp-adapter -W` to pick up everything within range.
+5. Widen constraints for majors with `C require wpackagist-plugin/<slug>:^<new-major>` (one per plugin, or several in one call). Then `C update 'wpackagist-plugin/*' wordpress/mcp-adapter -W` to pick up everything within range.
 
 Commit: `chore(deps): update wordpress plugins`. Put each plugin's old → new version in the commit body.
 
@@ -70,23 +75,23 @@ Commit: `chore(deps): update wordpress plugins`. Put each plugin's old → new v
 
 Remaining packages: `composer/installers` plus the dev tooling (PHPCS, WPCS, PHPCSExtra, PHPStan, phpstan-wordpress, the phpcs installer).
 
-1. `$C outdated --direct --major-only` and `$C outdated --direct --minor-only`.
+1. `C outdated --direct --major-only` and `C outdated --direct --minor-only`.
 2. For each major bump, before changing anything:
    - Read the package's `CHANGELOG.md` / `UPGRADE.md` / GitHub release notes for the versions in between.
-   - Check peer compatibility with `$C why-not <package> <version>`. The PHPCS stack moves as a unit: `squizlabs/php_codesniffer`, `wp-coding-standards/wpcs`, `phpcsstandards/phpcsextra`, and `phpcsstandards/phpcsutils` must all support the same PHPCS major. If WPCS doesn't support the new PHPCS major yet, hold PHPCS back and say why.
+   - Check peer compatibility with `C why-not <package> <version>`. The PHPCS stack moves as a unit: `squizlabs/php_codesniffer`, `wp-coding-standards/wpcs`, `phpcsstandards/phpcsextra`, and `phpcsstandards/phpcsutils` must all support the same PHPCS major. If WPCS doesn't support the new PHPCS major yet, hold PHPCS back and say why.
    - For PHPStan, check whether `phpstan.neon.dist` uses options that were renamed or removed.
-3. Widen constraints with `$C require --dev <pkg>:^<new-major>` (drop `--dev` for `composer/installers`), then `$C update -W`.
-4. Run `$C quality` right away. New PHPCS sniffs or a stricter PHPStan release often flag existing code. Fix the code, don't loosen the ruleset. Check `phpcs.xml.dist` before adding any `// phpcs:ignore`, and never add a PHPStan baseline to hide new errors without asking.
+3. Widen constraints with `C require --dev <pkg>:^<new-major>` (drop `--dev` for `composer/installers`), then `C update -W`.
+4. Run `C quality` right away. New PHPCS sniffs or a stricter PHPStan release often flag existing code. Fix the code, don't loosen the ruleset. Check `phpcs.xml.dist` before adding any `// phpcs:ignore`, and never add a PHPStan baseline to hide new errors without asking.
 
 Commit: `chore(deps): update composer packages`, with the fixes folded in if the bump doesn't pass `quality` without them.
 
 ## 4. Node packages (pnpm)
 
-1. `$P outdated` to see current / wanted / latest.
-2. `@wordpress/*` packages are released together from the Gutenberg monorepo and must stay on the same release line. Update them as a set with the repo's script: `$P packages-update`. Then check `@wordpress/scripts` major changes in its CHANGELOG (github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md). Things that have broken this repo's setup before or are likely to: webpack config shape (`wp-content/themes/ik2/webpack.config.js` extends the default config), the ESLint flat config in `eslint.config.js`, and Stylelint rule renames in `@wordpress/stylelint-config`.
-3. Everything else (`sass`, `postcss-scss`, `webpack-remove-empty-scripts`, `block-runner`): `$P up --latest <pkg>`. For a major bump read the changelog first. For `sass` in particular, look for newly removed deprecations (`@import`, global built-in functions, slash division) and grep `wp-content/themes/ik2/src` for them.
+1. `P outdated` to see current / wanted / latest.
+2. `@wordpress/*` packages are released together from the Gutenberg monorepo and must stay on the same release line. Update them as a set with `P up --latest '@wordpress/*'`. Don't use the repo's `packages-update` script: `wp-scripts packages-update` shells out to `npm install`, which writes a `package-lock.json` next to pnpm's lockfile. Then check `@wordpress/scripts` major changes in its CHANGELOG (github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md). Things that have broken this repo's setup before or are likely to: webpack config shape (`wp-content/themes/ik2/webpack.config.js` extends the default config), the ESLint flat config in `eslint.config.js`, and Stylelint rule renames in `@wordpress/stylelint-config`.
+3. Everything else (`sass`, `postcss-scss`, `webpack-remove-empty-scripts`, and anything added since): `P up --latest <pkg>`. For a major bump read the changelog first. For `sass` in particular, look for newly removed deprecations (`@import`, global built-in functions, slash division) and grep `wp-content/themes/ik2/src` for them.
 4. pnpm 10+ blocks dependency build scripts. If install warns about an ignored build for a new package, decide whether it needs its script and add it to `allowBuilds` in `pnpm-workspace.yaml` with a one-line reason comment, matching the existing entries.
-5. pnpm itself: check `npm view pnpm version`. The version lives in **two** places that must match: `packageManager` in `package.json` and `corepack prepare pnpm@<ver>` in the `node-build` stage of `Dockerfile`. Update both (the `packageManager` hash can be regenerated with `$P self-update <ver>` or `corepack use pnpm@<ver>`).
+5. pnpm itself: check `npm view pnpm version`. The version lives in **two** places that must match: `packageManager` in `package.json` and `corepack prepare pnpm@<ver>` in the `node-build` stage of `Dockerfile`. Update both (the `packageManager` hash can be regenerated with `P self-update <ver>` or `corepack use pnpm@<ver>`).
 6. Node itself (`node:24-alpine`, `engines.node`, CI `node-version`) is out of scope. Report a newer LTS if there is one, but don't bump it.
 
 Commit: `chore(deps): update node packages`, with required fixes folded in.
@@ -97,33 +102,35 @@ Run all of it, even if an earlier step looked fine.
 
 1. **Front-end build**, with the same output checks the Dockerfile enforces:
    ```bash
-   $P build \
+   P build \
      && test -s wp-content/themes/ik2/build/critical.css \
      && test -s wp-content/themes/ik2/build/section-home.css \
      && test -s wp-content/themes/ik2/build/index.js \
      && test -f wp-content/themes/ik2/build/editor.css
    ```
-2. **Gates and tests**: `$C quality`, `$P lint`, `node --test tests/`.
+2. **Gates and tests**: `C quality`, `P run lint:js`, `P run lint:css`, `node --test 'tests/*.test.mjs'`. Call the two lint scripts by name, the way CI does. `P lint` runs the pattern `/^lint:.*/`, which also matches `lint:js:fix` and `lint:css:fix` and rewrites files, so a gate run can change the tree underneath you.
 3. **Every image target**, the way CI builds them: `docker build --target production -t ik2-app:maint .` and `docker build --target cli -t ik2-cli:maint .`. This exercises the composer no-dev install, the mcp-adapter nested install, the pnpm frozen-lockfile install, and the drop-in steps.
 4. **Running dev stack**. The `wp-html` named volume holds WordPress core, and Docker only seeds a named volume when it is empty, so a rebuilt image alone keeps serving the **old** core. Refresh it without touching the database or uploads:
    ```bash
    docker compose down                       # never `down -v`: that wipes db-data and uploads
    docker volume rm ik2org_wp-html           # core + wp-config only, regenerated from the image
-   $C install                                # host wp-content/plugins is bind-mounted into the stack
+   C install                                # host wp-content/plugins is bind-mounted into the stack
    docker compose up -d --build
    ```
    Then:
    ```bash
-   $WP core version                          # matches track 1
-   $WP core update-db
-   $WP plugin list --fields=name,status,version,update
-   $WP eval 'echo PHP_VERSION;'
+   WP core version                          # matches track 1
+   WP core update-db
+   WP plugin list --fields=name,status,version,update
+   WP eval 'echo PHP_VERSION;'
    curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8080/          # 200
    curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8080/wp-login.php
    docker compose exec -T app sh -c 'tail -n 100 /var/www/app/wp-content/debug.log 2>/dev/null'
    ```
+   If `docker volume ls` shows no `ik2org_db-data`, there is no local site to test against. Install a throwaway one into fresh volumes (`WP core install --url=http://localhost:8080 --title='IK2 dev' --admin_user=admin --admin_email=admin@example.test --admin_password=<random> --skip-email`, then `WP theme activate ik2` and `WP plugin activate --all`), create a post, a `project`, and pages with slugs `projects` and `about`, and say in the PR that no real content was exercised.
+
    A plugin that was active before and is now inactive or missing is a failure. Any new fatal, warning, or deprecation in `debug.log` that points at our code (`themes/ik2`, `plugins/ik2`, `mu-plugins`) is a failure. Deprecations from third-party plugins are reported, not fixed.
-5. Load the front page, one article, the projects archive, and the block editor in the browser (use the `agent-browser` skill) and check the console for new errors. The editor canvas is a blob iframe that screenshots blank; check it through `wp.data` selects on the main window instead.
+5. Load the front page, one article, the projects archive (a page with slug `projects`, rendered by `page-projects.html`), and the block editor in the browser and check the console for new errors. Use `agent-browser` if it's installed (`which agent-browser`); otherwise use the Chrome DevTools MCP tools (`new_page` with an `isolatedContext`, `list_console_messages`, `evaluate_script`). Don't install a global tool without asking. For the editor, set a random admin password with `WP user update admin --user_pass=...` and log in through the form. The editor canvas is a blob iframe that screenshots blank; check it through `wp.data` selects on the main window instead.
 
 ## 6. Fix loop
 
@@ -189,8 +196,8 @@ Tables for the Changes section:
 |---|---|
 | `pnpm build` + output checks | |
 | `composer quality` | |
-| `pnpm lint` | |
-| `node --test tests/` | |
+| `pnpm lint:js` + `pnpm lint:css` | |
+| `node --test 'tests/*.test.mjs'` | |
 | `docker build --target production` | |
 | `docker build --target cli` | |
 | Dev stack: core version, `update-db`, plugin list | |
@@ -205,7 +212,7 @@ Tables for the Changes section:
 ### Table rules
 
 - One row per package that changed. Packages already on latest are left out; add a one-line "Already current: a, b, c" under the table instead.
-- Versions come from the lock files and `Dockerfile`, not from constraints: compare the step 0 snapshot against `$C show --direct` and `$P list --depth 0` after the update.
+- Versions come from the lock files and `Dockerfile`, not from constraints: compare the step 0 snapshot against `C show --direct` and `P list --depth 0` after the update.
 - "Major" is `yes` for a major bump, or a minor bump on a `0.x` package. Link the changelog in Notes for every `yes` row.
 - The `@wordpress/*` set can go in one row (`@wordpress/* (8 packages)`) when they all moved to the same release line; list them individually if they didn't.
 - Drop the Breaking changes and Held back tables if they would be empty, and say "None" under the heading instead.

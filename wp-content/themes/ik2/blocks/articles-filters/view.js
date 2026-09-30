@@ -34,9 +34,8 @@ store( 'ik2/articles-filters', {
 				return;
 			}
 			event.preventDefault();
-			const { actions } = yield import(
-				'@wordpress/interactivity-router'
-			);
+			const { actions } =
+				yield import( '@wordpress/interactivity-router' );
 			yield actions.navigate( ref.href );
 
 			// The router has swapped the region in place; keyboard and

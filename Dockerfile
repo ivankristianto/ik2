@@ -23,8 +23,10 @@ RUN --mount=type=cache,target=/tmp/cache \
 RUN mkdir -p wp-content/plugins wp-content/mu-plugins
 
 # The mcp-adapter plugin carries its OWN composer.json (runtime dependency:
-# wordpress/php-mcp-schema) and bootstraps from its own vendor/autoload.php via
-# includes/Autoloader.php — without it the plugin bails out with an admin notice
+# wordpress/php-mcp-schema) and bootstraps from its own vendor/autoload_packages.php
+# (the Jetpack Autoloader entry point, since 0.6) via includes/Autoloader.php.
+# Composer still writes vendor/autoload.php, so only autoload_packages.php proves
+# the install worked. Without it the plugin bails out with an admin notice
 # and registers nothing. The top-level install above places the plugin but does
 # not resolve a wordpress-plugin package's nested dependencies, so install them
 # explicitly and fail loudly if the autoloader never materialises.
@@ -36,7 +38,7 @@ RUN --mount=type=cache,target=/tmp/cache \
         --ignore-platform-req=ext-* \
         --optimize-autoloader \
         --working-dir=wp-content/plugins/mcp-adapter \
-    && test -f wp-content/plugins/mcp-adapter/vendor/autoload.php
+    && test -f wp-content/plugins/mcp-adapter/vendor/autoload_packages.php
 
 
 # ---------------------------------------------------------------------------
@@ -44,7 +46,7 @@ RUN --mount=type=cache,target=/tmp/cache \
 # ---------------------------------------------------------------------------
 FROM node:24-alpine AS node-build
 
-RUN corepack enable && corepack prepare pnpm@11.14.0 --activate
+RUN corepack enable && corepack prepare pnpm@12.8.1 --activate
 
 WORKDIR /app
 
@@ -70,7 +72,7 @@ RUN pnpm build \
 # ---------------------------------------------------------------------------
 # Stage 3 — base runtime (shared between dev + prod)
 # ---------------------------------------------------------------------------
-FROM wordpress:7.0.2-php8.5-fpm-alpine AS base
+FROM wordpress:7.1.2-php8.5-fpm-alpine AS base
 
 # OS deps for image handling, healthcheck
 RUN apk add --no-cache \

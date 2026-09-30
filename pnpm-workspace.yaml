@@ -7,4 +7,3 @@ allowBuilds:
   unrs-resolver: true
   core-js: false
   core-js-pure: false
-  block-runner: true
