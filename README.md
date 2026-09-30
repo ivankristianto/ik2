@@ -168,7 +168,7 @@ docker compose --profile tools run --rm pnpm lint:css:fix
 
 `.github/workflows/quality.yml` runs the four gates on every push to `main` and every pull request (two parallel jobs: `php` and `js`). To make these blocking, set GitHub **branch protection** on `main` to require both `Quality / PHP (PHPCS + PHPStan)` and `Quality / JS + CSS (ESLint + Stylelint)` to pass before merge.
 
-The `Build & push images` workflow runs in parallel — it only **pushes** to GHCR on push to `main` (never on PR), so a failing quality gate blocks the merge before any image is tagged `latest`.
+The `Build & push images` workflow runs in parallel. It pushes images to GHCR on push to `main` (never on PR) but only tags `latest` and deploys on a release tag, so a failing quality gate blocks the merge long before anything reaches production.
 
 ### Running tools on the host instead
 
@@ -207,7 +207,7 @@ They land in `wp-content/plugins/{name}/` (routed by `composer/installers`) and 
 
 ## Deployment
 
-This project deploys to [Dokploy](https://dokploy.com/) as **two Docker images**, both built and pushed by GitHub Actions on every push to `main`:
+This project deploys to [Dokploy](https://dokploy.com/) as **two Docker images**, built by GitHub Actions and deployed when a release is cut (`pnpm release`, see CLAUDE.md → Releasing):
 
 | Image                                 | Contents                                                  | Base                          |
 | :------------------------------------ | :-------------------------------------------------------- | :---------------------------- |
@@ -226,7 +226,7 @@ The `Dockerfile` has two final targets: `development` (with Xdebug, used by `doc
 
 ### GitHub Actions
 
-`.github/workflows/build.yml` builds and pushes both images on push to `main` / version tag / manual dispatch. Set repo secret **`DOKPLOY_WEBHOOK_URL`** to auto-trigger a redeploy after each successful build.
+`.github/workflows/build.yml` builds and pushes the images on push to `main` (tagged `main` and `sha-*`), on a `v*` release tag (tagged `X.Y.Z`, `X.Y`, and `latest`), and on manual dispatch. Only a release tag triggers the Dokploy redeploy, via repo secret **`DOKPLOY_WEBHOOK_URL`**.
 
 ### Dokploy
 
@@ -235,6 +235,7 @@ The `Dockerfile` has two final targets: `development` (with Xdebug, used by `doc
 -   `WP_HOME`, `WP_SITEURL`
 -   `WORDPRESS_DB_HOST`, `WORDPRESS_DB_USER`, `WORDPRESS_DB_PASSWORD`, `WORDPRESS_DB_NAME`
 -   8 × WordPress salts (generate via `curl https://api.wordpress.org/secret-key/1.1/salt/`)
+-   `IMAGE_TAG` (optional): pin or roll back to a release version such as `1.4.0`. Defaults to `latest`, which moves on each release.
 
 `wp-content/uploads` is a Dokploy-managed persistent volume — everything else in the image is immutable and replaced on each deploy.
 

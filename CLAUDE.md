@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-The **WordPress project + design system** behind [ivankristianto.com](https://www.ivankristianto.com/) — Ivan Kristianto's personal engineering blog. PHP 8.4 / pnpm / Composer / Docker. Two-image deployment to Dokploy via GitHub Actions: an `app` image (PHP-FPM) and an `nginx` image with the same public files baked in — **no shared volume in prod**.
+The **WordPress project + design system** behind [ivankristianto.com](https://www.ivankristianto.com/) — Ivan Kristianto's personal engineering blog. PHP 8.4 / pnpm / Composer / Docker. Two-image deployment to Dokploy via GitHub Actions: an `app` image (PHP-FPM) and an `nginx` image with the same public files baked in — **no shared volume in prod**. Production deploys only when a release is cut (see **Releasing**); merging to `main` does not deploy.
 
 The design system was historically the _only_ thing in the repo. It's now one part of a real WordPress site. `samples/` is gitignored.
 
@@ -119,6 +119,23 @@ First-person, working-engineer, conversational. "I use Cloudflare CDN…", not "
 - Commit messages follow Conventional Commits: `type(scope): summary`. Types in use here: `feat`, `fix`, `chore`, `refactor`, `docs`, `style`, `test`, `ci`. Scope is the affected area (`theme`, `single`, `articles`, `compose`, `ci`, etc.). Subject is imperative, lowercase, no trailing period, under ~72 chars.
 - One commit should ideally pass lint/build on its own. If a commit needs a follow-up to compile, the split is wrong — fold them, or restructure the changes.
 - Untracked debug artifacts (screenshots, dumps, `artifacts/`) are never committed without an explicit ask.
+
+## Releasing
+
+Merging to `main` builds and pushes `main` + `sha-*` images to GHCR but does **not** deploy. Production moves only when a `v*` tag is pushed: `build.yml` then builds the semver images, moves `latest`, and calls the Dokploy webhook. `docker-compose.prod.yml` pulls `${IMAGE_TAG:-latest}`.
+
+Cut a release from the host (it needs your git and `gh` credentials, so not from the tools container):
+
+```bash
+pnpm release patch --dry-run   # check the guards and the computed version first
+pnpm release patch             # or minor / major / an explicit X.Y.Z
+```
+
+`scripts/release.mjs` refuses to run unless you're on a clean `main` that matches `origin/main`, the tag is new, and the Quality workflow passed for `HEAD`. It then bumps `version` in `package.json`, commits `chore(release): vX.Y.Z`, tags, pushes both atomically, and creates the GitHub release with generated notes (built from the Conventional Commit subjects, so write them well). `node scripts/release.mjs <bump>` does the same without pnpm.
+
+Semver for a website: **patch** for fixes and dependency bumps, **minor** for new features, templates, or blocks, **major** for breaking changes to infrastructure or content structure (PHP major, URL scheme, data migrations).
+
+Only cut a release when the user asks. After the tag is pushed, watch the run with `gh run watch` and confirm the Dokploy deploy. To roll back, set `IMAGE_TAG` to the previous version in the Dokploy UI and redeploy; don't delete or move tags.
 
 ## Memory
 
