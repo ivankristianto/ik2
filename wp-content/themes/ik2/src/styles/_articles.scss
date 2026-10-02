@@ -90,41 +90,42 @@
 	}
 }
 
-/* Category-flavoured cover backgrounds via :has() — falls back gracefully
-   to the default Soft Paper on older browsers. */
-.ik-article-card__cover:has(a[href*="/category/wordpress"]) {
+/* Keyed on the post's category class, not the term link, because production
+   strips the /category/ base from term URLs. Scoped to .wp-block-post since
+   category archives put the same class on <body>. */
+.wp-block-post.category-wordpress .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--wordpress);
 }
 
-.ik-article-card__cover:has(a[href*="/category/ai"]) {
+.wp-block-post.category-ai .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--ai);
 }
 
-.ik-article-card__cover:has(a[href*="/category/performance"]) {
+.wp-block-post.category-performance .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--performance);
 }
 
-.ik-article-card__cover:has(a[href*="/category/security"]) {
+.wp-block-post.category-security .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--security);
 }
 
-.ik-article-card__cover:has(a[href*="/category/web-apis"]) {
+.wp-block-post.category-web-apis .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--web-apis);
 }
 
-.ik-article-card__cover:has(a[href*="/category/tooling"]) {
+.wp-block-post.category-tooling .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--tooling);
 }
 
-.ik-article-card__cover:has(a[href*="/category/guide"]) {
+.wp-block-post.category-guide .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--guide);
 }
 
-.ik-article-card__cover:has(a[href*="/category/note"]) {
+.wp-block-post.category-note .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--note);
 }
 
-.ik-article-card__cover:has(a[href*="/category/experiment"]) {
+.wp-block-post.category-experiment .ik-article-card__cover {
 	background: var(--wp--custom--color--category-tint--experiment);
 }
 
