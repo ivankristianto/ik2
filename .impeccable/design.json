@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 2,
-	"generatedAt": "2026-05-23T00:00:00.000Z",
-	"title": "Design System: Ivan Kristianto — Ink, Paper, and Signal",
+	"generatedAt": "2026-10-02T10:29:35.000Z",
+	"title": "Design System: Ink, Paper, and Signal",
 	"extensions": {
 		"colorMeta": {
 			"paper": {
@@ -248,54 +248,78 @@
 		"typographyMeta": {
 			"display": {
 				"displayName": "Display",
-				"purpose": "Home hero only. The single largest statement on the site."
+				"purpose": "Home hero title on desktop only."
 			},
 			"headline": {
 				"displayName": "Headline",
-				"purpose": "Page titles: archive headers and single-article H1."
+				"purpose": "Page titles: archives, single-article H1, phone section titles."
 			},
-			"title": {
-				"displayName": "Title",
-				"purpose": "Section headings inside articles and landing pages (H2)."
+			"title-lg": {
+				"displayName": "Title LG",
+				"purpose": "H2 inside articles."
+			},
+			"subtitle": {
+				"displayName": "Subtitle",
+				"purpose": "H3 inside articles."
+			},
+			"card-title": {
+				"displayName": "Card Title",
+				"purpose": "Article card titles."
 			},
 			"body": {
 				"displayName": "Body",
-				"purpose": "Article prose and UI copy. Capped at 720px / ~70ch."
+				"purpose": "Page default and article prose, 720px measure."
 			},
 			"label": {
 				"displayName": "Label",
-				"purpose": "Mono metadata: dates, tags, reading time, eyebrows, file paths."
+				"purpose": "Mono card meta, filter pills, cover labels, header controls."
+			},
+			"micro": {
+				"displayName": "Micro",
+				"purpose": "Mono tags, status badges, keyboard hints, palette group titles."
+			},
+			"eyebrow": {
+				"displayName": "Eyebrow",
+				"purpose": "Uppercase mono line above section titles."
 			}
 		},
 		"shadows": [
 			{
-				"name": "shadow-sm",
+				"name": "sm",
 				"value": "0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)",
-				"purpose": "Card hover lift. The smaller half of the gesture; pairs with border darkening Line → Rule."
+				"purpose": "Card hover lift, paired with the Line to Rule border change."
 			},
 			{
-				"name": "shadow-md",
+				"name": "md",
 				"value": "0 6px 24px rgba(0, 0, 0, 0.08)",
-				"purpose": "Command palette and modal surfaces. The only place the system permits a real shadow."
+				"purpose": "Command palette panel. The only resting shadow."
 			}
 		],
 		"motion": [
 			{
-				"name": "transition-base",
-				"value": "160ms ease",
-				"purpose": "Default transition for color, background-color, border-color, box-shadow."
+				"name": "base",
+				"value": "200ms ease",
+				"purpose": "Color, background, border, and box-shadow transitions everywhere."
 			},
 			{
-				"name": "transition-slow",
-				"value": "220ms ease",
-				"purpose": "Slower hover gestures — the hero underline-grow, page-link hover."
+				"name": "drawer",
+				"value": "280ms cubic-bezier(0.22, 1, 0.36, 1)",
+				"purpose": "Mobile nav drawer slide. The only transform transition."
 			}
 		],
 		"breakpoints": [
-			{ "name": "sm", "value": "640px" },
-			{ "name": "md", "value": "900px" },
-			{ "name": "lg", "value": "1024px" },
-			{ "name": "xl", "value": "1280px" }
+			{
+				"name": "phone",
+				"value": "640px"
+			},
+			{
+				"name": "nav-drawer",
+				"value": "768px"
+			},
+			{
+				"name": "hero-stack",
+				"value": "900px"
+			}
 		]
 	},
 	"components": [
@@ -303,168 +327,172 @@
 			"name": "Primary Button",
 			"kind": "button",
 			"refersTo": "button-primary",
-			"description": "Ink-on-paper primary CTA. Hover shifts background to Deep Terracotta. No transform.",
-			"html": "<button class=\"ds-btn-primary\">Read more</button>",
-			"css": ".ds-btn-primary { background: #171717; color: #F8F7F3; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; font-size: 1rem; font-weight: 500; padding: 12px 16px; border: 0; border-radius: 6px; cursor: pointer; transition: background-color 160ms ease, color 160ms ease; } .ds-btn-primary:hover { background: #9A3412; } .ds-btn-primary:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }"
+			"description": "Header Resume CTA. Ink fill, Deep Terracotta on hover, Terracotta when current.",
+			"html": "<a class=\"ds-btn-primary\" href=\"#\">Resume</a>",
+			"css": ".ds-btn-primary { display: inline-flex; align-items: center; min-height: 44px; padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4); font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--sm); color: var(--wp--preset--color--paper); background: var(--wp--preset--color--ink); border-radius: var(--wp--preset--border-radius--md); text-decoration: none; transition: background-color var(--wp--custom--transition--base); } .ds-btn-primary:hover { background: var(--wp--preset--color--signal-deep); } .ds-btn-primary:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
 		},
 		{
 			"name": "Secondary Button",
 			"kind": "button",
 			"refersTo": "button-secondary",
-			"description": "Outlined secondary action. Soft Paper fill on hover; border darkens Line → Rule.",
-			"html": "<button class=\"ds-btn-secondary\">Browse Articles</button>",
-			"css": ".ds-btn-secondary { background: #FFFFFF; color: #171717; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; font-size: 1rem; font-weight: 500; padding: 12px 16px; border: 1px solid #D8D5CC; border-radius: 6px; cursor: pointer; transition: background-color 160ms ease, border-color 160ms ease; } .ds-btn-secondary:hover { background: #F1EFE8; border-color: #B9B5AA; } .ds-btn-secondary:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }"
+			"description": "Header search trigger. Bordered Surface, border and text darken on hover.",
+			"html": "<button class=\"ds-btn-secondary\" type=\"button\">Search <kbd>⌘K</kbd></button>",
+			"css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: var(--wp--preset--spacing--2); min-height: 44px; padding: var(--wp--preset--spacing--3); font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--sm); color: var(--wp--preset--color--graphite); background: var(--wp--preset--color--surface); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--md); cursor: pointer; transition: border-color var(--wp--custom--transition--base), color var(--wp--custom--transition--base); } .ds-btn-secondary kbd { font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--xs); } .ds-btn-secondary:hover { border-color: var(--wp--preset--color--rule); color: var(--wp--preset--color--ink); } .ds-btn-secondary:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
 		},
 		{
-			"name": "Hero Underline Link",
+			"name": "Hero CTA",
 			"kind": "custom",
-			"description": "Signature home-hero CTA. Title-scale Ink text with a 2px Terracotta underline drawn as a sized background; underline thickens to 4px on hover, the mono arrow translates right.",
-			"html": "<a href=\"#\" class=\"ds-hero-link\">Browse the Writing<span class=\"ds-hero-link__arrow\">-&gt;</span></a>",
-			"css": ".ds-hero-link { display: inline-flex; align-items: baseline; gap: 14px; padding-bottom: 6px; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; color: #171717; text-decoration: none; background-image: linear-gradient(#C2410C, #C2410C); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 2px; transition: background-size 200ms ease, color 200ms ease; } .ds-hero-link:hover { color: #9A3412; background-size: 100% 4px; } .ds-hero-link__arrow { color: #C2410C; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; transition: transform 200ms ease; } .ds-hero-link:hover .ds-hero-link__arrow { transform: translateX(4px); } .ds-hero-link:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }"
+			"refersTo": "button-primary",
+			"description": "Oversized text link with a Terracotta underline bar that thickens on hover.",
+			"html": "<a class=\"ds-hero-cta\" href=\"#\">Read the articles</a>",
+			"css": ".ds-hero-cta { display: inline-flex; align-items: baseline; gap: var(--wp--preset--spacing--4); padding: 0 0 var(--wp--preset--spacing--2); font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--title); font-weight: var(--wp--custom--font-weight--bold); line-height: var(--wp--custom--line-height--tight); letter-spacing: var(--wp--custom--letter-spacing--tighter); color: var(--wp--preset--color--ink); text-decoration: none; background-image: linear-gradient(var(--wp--preset--color--signal), var(--wp--preset--color--signal)); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 2px; transition: background-size var(--wp--custom--transition--base), color var(--wp--custom--transition--base); } .ds-hero-cta::after { content: '\\2192'; font-family: var(--wp--preset--font-family--mono); font-weight: var(--wp--custom--font-weight--regular); color: var(--wp--preset--color--signal); } .ds-hero-cta:hover { color: var(--wp--preset--color--signal-deep); background-size: 100% 4px; } .ds-hero-cta:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
+		},
+		{
+			"name": "Project Card",
+			"kind": "card",
+			"refersTo": "card",
+			"description": "Bordered Surface card. Hover darkens the border and adds the small shadow.",
+			"html": "<article class=\"ds-card\"><h3 class=\"ds-card__name\">wp-perf-kit</h3><p class=\"ds-card__blurb\">Profiling helpers for slow WordPress admin screens.</p></article>",
+			"css": ".ds-card { display: flex; flex-direction: column; gap: var(--wp--preset--spacing--3); padding: var(--wp--preset--spacing--5) var(--wp--preset--spacing--6); background: var(--wp--preset--color--surface); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--md); transition: border-color var(--wp--custom--transition--base), box-shadow var(--wp--custom--transition--base); } .ds-card:hover { border-color: var(--wp--preset--color--rule); box-shadow: var(--wp--preset--shadow--sm); } .ds-card__name { margin: 0; font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--2-xl); font-weight: var(--wp--custom--font-weight--bold); letter-spacing: var(--wp--custom--letter-spacing--tight); color: var(--wp--preset--color--ink); } .ds-card__blurb { margin: 0; color: var(--wp--preset--color--graphite); font-size: var(--wp--preset--font-size--md); line-height: var(--wp--custom--line-height--comfortable); }"
 		},
 		{
 			"name": "Article Card",
 			"kind": "card",
-			"refersTo": "card",
-			"description": "Cover label, mono meta row, sentence-case title, excerpt, and mono tag pills. Border-only at rest; hovers lift 1px with a shadow plus border darkening.",
-			"html": "<article class=\"ds-article-card\"><div class=\"ds-article-card__cover\"><span class=\"ds-article-card__cover-label\">wordpress</span></div><div class=\"ds-article-card__meta\"><time>July 8, 2020</time><span class=\"ds-article-card__sep\">&middot;</span><span>4 min read</span></div><h3 class=\"ds-article-card__title\"><a href=\"#\">Cloudflare API CLI Tool</a></h3><p class=\"ds-article-card__excerpt\">I built a small node CLI so I can change Cloudflare zone settings without logging in through the dashboard every time.</p><div class=\"ds-article-card__tags\"><a href=\"#\">cloudflare</a><a href=\"#\">cli</a><a href=\"#\">node</a></div></article>",
-			"css": ".ds-article-card { background: #FFFFFF; border: 1px solid #D8D5CC; border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: border-color 160ms ease, box-shadow 160ms ease; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; } .ds-article-card:hover { border-color: #B9B5AA; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.03); } .ds-article-card__cover { aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #E0E7FF; padding: 16px; margin: 0 0 12px; } .ds-article-card__cover-label { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.875rem; color: #5F6368; } .ds-article-card__meta { display: flex; gap: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.875rem; color: #8A8F98; } .ds-article-card__title { font-size: 1.25rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; margin: 0; } .ds-article-card__title a { color: #171717; text-decoration: none; } .ds-article-card__title a:hover { color: #C2410C; } .ds-article-card__excerpt { color: #5F6368; font-size: 1rem; line-height: 1.6; margin: 0; flex: 1 0 auto; } .ds-article-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.75rem; } .ds-article-card__tags a { color: #5F6368; text-decoration: none; padding: 2px 8px; border-radius: 999px; background: #F1EFE8; border: 1px solid #D8D5CC; line-height: 1.4; transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease; } .ds-article-card__tags a:hover { color: #9A3412; background: #FFEDD5; border-color: #C2410C; }"
+			"refersTo": "article-card-cover",
+			"description": "Frameless card: tinted 16:9 cover, mono meta, title, excerpt.",
+			"html": "<article class=\"ds-article\"><div class=\"ds-article__cover\">wordpress</div><p class=\"ds-article__meta\">July 8, 2020 · 6 min read</p><h3 class=\"ds-article__title\"><a href=\"#\">Secure your WordPress site</a></h3><p class=\"ds-article__excerpt\">The handful of settings I change on every new install.</p></article>",
+			"css": ".ds-article { display: flex; flex-direction: column; gap: var(--wp--preset--spacing--3); } .ds-article__cover { aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; padding: var(--wp--preset--spacing--4); border-radius: var(--wp--preset--border-radius--md); background: var(--wp--custom--color--category-tint--wordpress); font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--sm); color: var(--wp--preset--color--ink); } .ds-article__meta { margin: 0; font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--sm); color: var(--wp--preset--color--dust); } .ds-article__title { margin: 0; font-size: var(--wp--preset--font-size--xl); line-height: var(--wp--custom--line-height--snug); letter-spacing: var(--wp--custom--letter-spacing--tight); } .ds-article__title a { color: var(--wp--preset--color--ink); text-decoration: none; transition: color var(--wp--custom--transition--base); } .ds-article__title a:hover { color: var(--wp--preset--color--signal); } .ds-article__title a:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); } .ds-article__excerpt { margin: 0; color: var(--wp--preset--color--graphite); font-size: var(--wp--preset--font-size--md); line-height: var(--wp--custom--line-height--comfortable); }"
 		},
 		{
-			"name": "Tag Pill",
+			"name": "Tag",
 			"kind": "chip",
 			"refersTo": "tag",
-			"description": "Lowercase mono pill. Default Soft Paper on Line border; hover/active flips to Terracotta Wash on Terracotta border.",
-			"html": "<a href=\"#\" class=\"ds-tag\">wordpress</a>",
-			"css": ".ds-tag { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #F1EFE8; border: 1px solid #D8D5CC; color: #5F6368; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.75rem; line-height: 1.4; text-decoration: none; transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease; } .ds-tag:hover { color: #9A3412; background: #FFEDD5; border-color: #C2410C; } .ds-tag:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }"
+			"description": "Lowercase mono pill. Terracotta Wash on hover.",
+			"html": "<a class=\"ds-tag\" href=\"#\">security</a>",
+			"css": ".ds-tag { display: inline-block; padding: 2px var(--wp--preset--spacing--2); font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--xs); line-height: var(--wp--custom--line-height--normal); color: var(--wp--preset--color--graphite); background: var(--wp--preset--color--soft-paper); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--pill); text-decoration: none; transition: color var(--wp--custom--transition--base), border-color var(--wp--custom--transition--base), background-color var(--wp--custom--transition--base); } .ds-tag:hover { color: var(--wp--preset--color--signal-deep); border-color: var(--wp--preset--color--signal); background: var(--wp--preset--color--signal-soft); } .ds-tag:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
 		},
 		{
-			"name": "Search Input",
-			"kind": "input",
-			"refersTo": "input",
-			"description": "Surface background, Line border, body sans. Focus ring is the global :focus-visible Terracotta outline.",
-			"html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Search articles\" />",
-			"css": ".ds-input { width: 100%; max-width: 360px; padding: 10px 12px; background: #FFFFFF; color: #171717; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; font-size: 1.0625rem; line-height: 1.5; border: 1px solid #D8D5CC; border-radius: 6px; outline: none; transition: border-color 160ms ease; } .ds-input::placeholder { color: #8A8F98; } .ds-input:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }"
+			"name": "Filter Pill",
+			"kind": "chip",
+			"refersTo": "filter-pill",
+			"description": "Archive filter. Surface at rest, Terracotta Wash when active.",
+			"html": "<a class=\"ds-pill\" href=\"#\">all</a> <a class=\"ds-pill is-active\" href=\"#\">wordpress</a>",
+			"css": ".ds-pill { display: inline-block; padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3); font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--sm); line-height: var(--wp--custom--line-height--flat); color: var(--wp--preset--color--graphite); background: var(--wp--preset--color--surface); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--pill); text-decoration: none; transition: border-color var(--wp--custom--transition--base), color var(--wp--custom--transition--base), background-color var(--wp--custom--transition--base); } .ds-pill:hover { border-color: var(--wp--preset--color--rule); color: var(--wp--preset--color--ink); } .ds-pill.is-active { border-color: var(--wp--preset--color--signal); background: var(--wp--preset--color--signal-soft); color: var(--wp--preset--color--signal-deep); } .ds-pill:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
 		},
 		{
 			"name": "Nav Link",
 			"kind": "nav",
 			"refersTo": "nav-link",
-			"description": "Plain Ink text at rest; Terracotta color on hover and Terracotta underline when active.",
-			"html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav__link is-active\">Writing</a><a href=\"#\" class=\"ds-nav__link\">Guides</a><a href=\"#\" class=\"ds-nav__link\">Notes</a><a href=\"#\" class=\"ds-nav__link\">Resume</a></nav>",
-			"css": ".ds-nav { display: flex; gap: 24px; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; font-size: 1.0625rem; } .ds-nav__link { color: #171717; text-decoration: none; padding: 8px 0; transition: color 160ms ease; } .ds-nav__link:hover { color: #C2410C; } .ds-nav__link.is-active { color: #171717; text-decoration: underline; text-decoration-color: #C2410C; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; } .ds-nav__link:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; border-radius: 4px; }"
+			"description": "Graphite at rest, Terracotta on hover, Ink with a Terracotta underline when current.",
+			"html": "<nav class=\"ds-nav\"><a href=\"#\">Articles</a><a href=\"#\" aria-current=\"page\">Projects</a><a href=\"#\">About</a></nav>",
+			"css": ".ds-nav { display: flex; font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--sm); } .ds-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3); color: var(--wp--preset--color--graphite); text-decoration: none; transition: color var(--wp--custom--transition--base), text-decoration-color var(--wp--custom--transition--base); } .ds-nav a:hover { color: var(--wp--preset--color--signal); } .ds-nav a[aria-current='page'] { color: var(--wp--preset--color--ink); text-decoration: underline; text-decoration-color: var(--wp--preset--color--signal); text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; } .ds-nav a:focus-visible { outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal); outline-offset: var(--wp--custom--focus--offset); }"
 		},
 		{
 			"name": "Code Block",
 			"kind": "custom",
-			"description": "Mono pre block with Code Paper background, Line border, 8px radius, horizontal scroll on overflow.",
-			"html": "<pre class=\"ds-pre\"><code>$ wp plugin list --status=active --format=table\n+----------+----------+--------+---------+\n| name     | status   | update | version |\n+----------+----------+--------+---------+\n| akismet  | active   | none   | 5.3     |\n| ik2-core | active   | none   | 1.0.0   |\n+----------+----------+--------+---------+</code></pre>",
-			"css": ".ds-pre { background: #EFEEE8; color: #111827; border: 1px solid #D8D5CC; border-radius: 8px; padding: 24px; margin: 0; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.9375rem; line-height: 1.65; } .ds-pre code { padding: 0; border: 0; background: transparent; font: inherit; color: inherit; }"
+			"refersTo": "code-block",
+			"description": "Code Paper block with a Line border; long lines wrap.",
+			"html": "<pre class=\"ds-pre\"><code>wp option update blog_public 0</code></pre>",
+			"css": ".ds-pre { margin: 0; padding: var(--wp--preset--spacing--5); background: var(--wp--preset--color--code-paper); color: var(--wp--preset--color--code-ink); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--md); font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--sm-plus); line-height: var(--wp--custom--line-height--relaxed); white-space: pre-wrap; overflow-wrap: break-word; }"
 		},
 		{
-			"name": "Inline Code",
+			"name": "Command Palette",
 			"kind": "custom",
-			"description": "Inline mono token for command names, paths, and identifiers in body prose.",
-			"html": "<p>I run <code class=\"ds-code\">composer dev</code> to start the local stack.</p>",
-			"css": ".ds-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.9375em; background: #EFEEE8; color: #111827; border: 1px solid #D8D5CC; border-radius: 4px; padding: 0.125rem 0.35rem; }"
-		},
-		{
-			"name": "Command Palette Active Row",
-			"kind": "custom",
-			"description": "The signature interactive surface. Terracotta Wash row with mono group title and sans item label, framed by Surface panel + shadow-md.",
-			"html": "<div class=\"ds-cmdk\"><div class=\"ds-cmdk__group\">Pages</div><div class=\"ds-cmdk__item is-active\"><span class=\"ds-cmdk__glyph\">&gt;</span><span class=\"ds-cmdk__label\">Browse the Writing</span><span class=\"ds-cmdk__kbd\">return</span></div><div class=\"ds-cmdk__item\"><span class=\"ds-cmdk__glyph\">&gt;</span><span class=\"ds-cmdk__label\">Open Resume</span></div></div>",
-			"css": ".ds-cmdk { width: min(640px, 100%); background: #FFFFFF; border: 1px solid #D8D5CC; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); padding: 12px 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; } .ds-cmdk__group { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.75rem; color: #8A8F98; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 24px 8px; } .ds-cmdk__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 0.9375rem; color: #171717; cursor: pointer; } .ds-cmdk__item.is-active { background: #FFEDD5; color: #9A3412; } .ds-cmdk__glyph { width: 16px; color: #8A8F98; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 12px; } .ds-cmdk__item.is-active .ds-cmdk__glyph { color: #C2410C; } .ds-cmdk__label { flex: 1; } .ds-cmdk__kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", monospace; font-size: 0.75rem; color: #8A8F98; border: 1px solid #D8D5CC; border-radius: 3px; padding: 1px 5px; background: #F8F7F3; }"
+			"refersTo": "palette-row-active",
+			"description": "The one modal: Surface panel, large radius, medium shadow, Terracotta Wash active row.",
+			"html": "<div class=\"ds-cmdk\"><div class=\"ds-cmdk__row\"><span class=\"ds-cmdk__caret\">&gt;</span><input class=\"ds-cmdk__input\" placeholder=\"Search articles\"></div><div class=\"ds-cmdk__group\">Pages</div><a class=\"ds-cmdk__item is-active\" href=\"#\">Resume</a><a class=\"ds-cmdk__item\" href=\"#\">Projects</a></div>",
+			"css": ".ds-cmdk { width: min(640px, 100%); background: var(--wp--preset--color--surface); border: 1px solid var(--wp--preset--color--line); border-radius: var(--wp--preset--border-radius--lg); box-shadow: var(--wp--preset--shadow--md); overflow: clip; } .ds-cmdk__row { display: flex; align-items: center; gap: var(--wp--preset--spacing--3); padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5); border-bottom: 1px solid var(--wp--preset--color--line); } .ds-cmdk__row:focus-within { border-bottom-color: var(--wp--preset--color--signal); } .ds-cmdk__caret { color: var(--wp--preset--color--signal); font-family: var(--wp--preset--font-family--mono); } .ds-cmdk__input { flex: 1; border: 0; outline: 0; background: transparent; font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--md-plus); color: var(--wp--preset--color--ink); } .ds-cmdk__group { padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--5) var(--wp--preset--spacing--2); font-family: var(--wp--preset--font-family--mono); font-size: var(--wp--preset--font-size--xs); letter-spacing: var(--wp--custom--letter-spacing--wider); text-transform: uppercase; color: var(--wp--preset--color--dust); } .ds-cmdk__item { display: block; padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--5); font-family: var(--wp--preset--font-family--sans); font-size: var(--wp--preset--font-size--sm-plus); color: var(--wp--preset--color--ink); text-decoration: none; } .ds-cmdk__item.is-active { background: var(--wp--preset--color--signal-soft); color: var(--wp--preset--color--signal-deep); }"
 		}
 	],
 	"narrative": {
 		"northStar": "The Engineering Notebook on Warm Paper",
-		"overview": "This is the design of a well-kept lab notebook. Open it and the page is warm paper, the ink is near-black, and the only color you see is the occasional terracotta mark in the margin — a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata: the page is for reading, the metadata is for scanning, and the two never get confused.\n\nThe system rejects the marketing register entirely. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say — not someone trying to convert you. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.",
+		"overview": "This is the design of a well-kept lab notebook. Open it and the page is warm paper, the ink is near-black, and the only color you see is the occasional terracotta mark in the margin: a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata. The page is for reading, the metadata is for scanning, and the two never get confused.\n\nThe system rejects the marketing register. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.",
 		"keyCharacteristics": [
-			"Warm paper background #F8F7F3 — never pure white.",
-			"One accent: Terracotta #C2410C, used on ≤10% of any screen.",
+			"Warm paper page background. Pure white is for cards only.",
+			"One accent, Terracotta, used on 10% of a screen or less.",
 			"System fonts only; no webfont download.",
-			"Borders + whitespace + type contrast carry hierarchy. No gradients, no glassmorphism, no decorative shadows.",
+			"Borders, whitespace, and type contrast carry hierarchy. No gradients, no glassmorphism, no decorative shadows.",
 			"Mono is the signal: dates, tags, metadata, eyebrows, code.",
-			"Light first; dark mode mirrors GitHub's palette for engineers who live there."
+			"Light only. A future dark mode will arrive through `theme.json` (a style variation or settings), not hand-written CSS."
 		],
 		"rules": [
 			{
 				"name": "The One Voice Rule",
-				"body": "Terracotta is used on no more than 10% of any given screen. If it starts to look like a color theme rather than a signal, it has lost its meaning. Replace decorative uses with weight, scale, or whitespace.",
-				"section": "colors"
+				"section": "colors",
+				"body": "Terracotta covers 10% of a screen at most. If it reads as a theme instead of a signal, replace decorative uses with weight, scale, or whitespace."
 			},
 			{
 				"name": "The No Pure White Rule",
-				"body": "The page background is Paper #F8F7F3, never #FFFFFF. Pure white is reserved for cards and code wrappers, where it reads as elevation against the warm page.",
-				"section": "colors"
+				"section": "colors",
+				"body": "The page is Paper, never #FFFFFF. White is reserved for cards and panels."
 			},
 			{
 				"name": "The Status-Only Rule",
-				"body": "Build Green, Amber, and Red are reserved for status. They never appear as decoration, category colors, or accent fills.",
-				"section": "colors"
+				"section": "colors",
+				"body": "Build Green, Amber, and Red mark status and nothing else. Categories get a pale categoryTint."
 			},
 			{
 				"name": "The Mono-as-Signal Rule",
-				"body": "Mono is not the body face. It is reserved for things that are not prose: dates, tags, reading-time, file paths, code, command-palette UI, eyebrow labels on cards.",
-				"section": "typography"
-			},
-			{
-				"name": "The 720 Rule",
-				"body": "Article content caps at 720px wide. Wider feels like documentation; narrower feels precious. Chrome widens to 1080px and full-bleed to 1280px, but reading column stays 720.",
-				"section": "typography"
+				"section": "typography",
+				"body": "Mono is for things that are not prose: dates, tags, reading time, file paths, code, palette chrome, eyebrows."
 			},
 			{
 				"name": "The Tight Headline Rule",
-				"body": "Headings carry font-weight 700, line-height 1.1, and letter-spacing -0.04em. They are confident and tight; they never feel like marketing.",
-				"section": "typography"
+				"section": "typography",
+				"body": "Headings are bold with tight leading and negative tracking. Confident, never marketing."
+			},
+			{
+				"name": "The 720 Rule",
+				"section": "layout",
+				"body": "Article content caps at 720px. Chrome can widen to 1080px and 1280px; the reading column never does."
 			},
 			{
 				"name": "The Flat-By-Default Rule",
-				"body": "Surfaces are flat at rest. The first instinct when something looks missing is not to add a shadow. Try widening margins, increasing type contrast, or adding a 1px border first.",
-				"section": "elevation"
+				"section": "elevation",
+				"body": "Surfaces are flat at rest. Try wider margins, type contrast, or a 1px border before any shadow."
 			},
 			{
 				"name": "The Border-as-Elevation Rule",
-				"body": "A 1px solid #D8D5CC border conveys card-ness more honestly than a box-shadow. The shadow is the lift on interaction; the border is the object.",
-				"section": "elevation"
+				"section": "elevation",
+				"body": "The 1px Line border is the object; the small shadow is the lift on interaction."
 			},
 			{
-				"name": "The 2014-App Test",
-				"body": "If a card looks like a 2014 iOS app — large soft shadow, big blur radius, low offset — the shadow is wrong for this system. Cut it.",
-				"section": "elevation"
+				"name": "The Pill-Means-Label Rule",
+				"section": "shapes",
+				"body": "Buttons are never pills. A pill marks a tag, a filter, or a status."
 			}
 		],
 		"dos": [
-			"Do use Terracotta #C2410C for links, primary CTA, focus rings, and active states — and nowhere else.",
-			"Do keep Terracotta on ≤10% of any given screen. If it spreads, it stops meaning anything.",
-			"Do use the warm paper #F8F7F3 as the page background. Reserve pure white #FFFFFF for cards and code wrappers.",
-			"Do use mono (system mono stack) for dates, tags, reading-time, eyebrows, file paths, and code — not for body prose.",
-			"Do cap article content at 720px wide; chrome at 1080px; full-bleed sections at 1280px.",
-			"Do apply :focus-visible as 2px solid Terracotta, outline-offset: 3px on every interactive element. Always.",
-			"Do lift cards on hover with a border-color change (Line → Rule) plus --shadow-sm. No transform, no scale.",
-			"Do transition color, background-color, border-color, and box-shadow at 160ms ease (or 220ms ease for slower gestures). Nothing else.",
-			"Do widen margins or tighten type when a layout feels empty. Reach for whitespace before reaching for a shadow or an icon.",
-			"Do keep CTAs verb-first with no period: Browse Articles, Read more, Subscribe via RSS.",
-			"Do show dates in monospace, full format: July 8, 2020."
+			"Do use Terracotta for links, focus rings, current-page marks, and active states, and keep it under 10% of the screen.",
+			"Do set the page on Paper and reserve Surface white for cards and panels.",
+			"Do use mono for dates, tags, reading time, eyebrows, file paths, and code. Never for prose.",
+			"Do cap article content at 720px, chrome at 1080px, full-bleed sections at 1280px.",
+			"Do give every interactive element a `:focus-visible` ring: `2px solid` Terracotta, 3px offset.",
+			"Do lift cards on hover with a Line-to-Rule border change plus the small shadow. No transform, no scale.",
+			"Do transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.",
+			"Do keep touch targets at 44px or taller.",
+			"Do write CTAs verb-first with no period: Browse Articles, Read more, Subscribe via RSS.",
+			"Do show dates in monospace, full format: `July 8, 2020`.",
+			"Do add a token to `theme.json` before using a new value anywhere."
 		],
 		"donts": [
-			"Don't reintroduce the legacy Signal Blue #2563EB accent. The active accent is Terracotta #C2410C. The token slug is signal for stability; the value moved.",
-			"Don't add a webfont, @font-face, or Google Fonts link. System fonts only.",
-			"Don't add shadows beyond --shadow-sm on card hover and --shadow-md on the command palette and modals.",
-			"Don't use gradients anywhere except the hero underline-grow CTA treatment.",
-			"Don't use glassmorphism, frosted blur, grain textures, or noise overlays. The one permitted backdrop-filter is the command-palette overlay.",
-			"Don't apply border-left greater than 1px as a colored side-stripe on cards, callouts, list items, or alerts.",
-			"Don't use gradient text (background-clip: text with a gradient). Use a single solid color. Emphasis via weight or scale.",
-			"Don't copy the SaaS hero-metric template (big number, small label, gradient accent, supporting stats).",
-			"Don't lay out identical card grids with icon + heading + text repeated endlessly. Vary the rhythm.",
-			"Don't reach for a modal as the first thought. Inline disclosure, expanded section, or a new page first.",
-			"Don't animate layout properties. No bounces, no scales, no entrance animations, no scroll-driven parallax.",
-			"Don't add emoji to chrome (nav, footer, buttons, headings, eyebrows). Body content is the writer's call.",
-			"Don't use em dashes in copy. Commas, colons, semicolons, periods, parentheses do the work.",
-			"Don't add an icon next to a heading to make it feel designed. Tighten the type or widen the margin instead.",
-			"Don't use stock photography or marketing-style hero imagery in chrome.",
-			"Don't make the header sticky by default. The brief says non-sticky.",
-			"Don't use Build Green, Amber, or Red as decoration. They are status colors only."
+			"Don't bring back the retired blue accent (`#2563EB`).",
+			"Don't add a webfont, `@font-face`, or Google Fonts link.",
+			"Don't use shadows beyond the small preset on card hover and the medium preset on the palette.",
+			"Don't use gradients, except the hero CTA's solid Terracotta bar painted as a sized background.",
+			"Don't use glassmorphism, frosted panels, grain, or noise. The palette overlay blur is the only `backdrop-filter`.",
+			"Don't put a colored side stripe (a `border-left` thicker than 1px) on cards, callouts, list items, or alerts. Use a full 1px border, a background tint, or a mono label.",
+			"Don't use gradient text.",
+			"Don't build the SaaS hero-metric block (big number, small label, supporting stats).",
+			"Don't repeat identical icon-heading-text card grids. Article cards have covers, guides have numbers, notes lead with the date.",
+			"Don't reach for a modal first. Inline disclosure, an expanded section, or a new page come before it.",
+			"Don't animate layout properties, bounce, scale, or add entrance and scroll animations.",
+			"Don't put emoji in chrome (nav, footer, buttons, headings, eyebrows).",
+			"Don't use em dashes in copy.",
+			"Don't add an icon next to a heading to make it feel designed.",
+			"Don't use stock photography or marketing hero imagery. Post images are screenshots, talk photos, or event photos Ivan took.",
+			"Don't make the header sticky.",
+			"Don't add dark-mode CSS or `prefers-color-scheme` blocks."
 		]
 	}
 }
