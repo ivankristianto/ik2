@@ -13,9 +13,9 @@
 }
 
 .ik-articles-archive__title {
-	font-size: clamp(2rem, 5vw, 2.75rem);
-	letter-spacing: -0.04em;
-	line-height: 1.08;
+	font-size: $size-headline;
+	letter-spacing: $tracking-tightest;
+	line-height: $leading-tight;
 	margin: $space-3 0 $space-4;
 }
 
@@ -23,7 +23,7 @@
 	max-width: 60ch;
 	color: $color-graphite;
 	font-size: $size-lg;
-	line-height: 1.7;
+	line-height: $leading-relaxed;
 	margin: 0;
 }
 
@@ -81,7 +81,7 @@
 	// Graphite drops to 4.2:1 on the paler category covers; Ink clears 12:1 on all of them.
 	color: $color-ink;
 	text-align: center;
-	line-height: 1.3;
+	line-height: $leading-snug;
 
 	a {
 		color: inherit;
@@ -93,39 +93,39 @@
 /* Category-flavoured cover backgrounds via :has() — falls back gracefully
    to the default Soft Paper on older browsers. */
 .ik-article-card__cover:has(a[href*="/category/wordpress"]) {
-	background: #E0E7FF;
+	background: var(--wp--custom--color--category-tint--wordpress);
 }
 
 .ik-article-card__cover:has(a[href*="/category/ai"]) {
-	background: #FDE68A;
+	background: var(--wp--custom--color--category-tint--ai);
 }
 
 .ik-article-card__cover:has(a[href*="/category/performance"]) {
-	background: #D1FAE5;
+	background: var(--wp--custom--color--category-tint--performance);
 }
 
 .ik-article-card__cover:has(a[href*="/category/security"]) {
-	background: #FECACA;
+	background: var(--wp--custom--color--category-tint--security);
 }
 
 .ik-article-card__cover:has(a[href*="/category/web-apis"]) {
-	background: #DDD6FE;
+	background: var(--wp--custom--color--category-tint--web-apis);
 }
 
 .ik-article-card__cover:has(a[href*="/category/tooling"]) {
-	background: #FED7AA;
+	background: var(--wp--custom--color--category-tint--tooling);
 }
 
 .ik-article-card__cover:has(a[href*="/category/guide"]) {
-	background: #BAE6FD;
+	background: var(--wp--custom--color--category-tint--guide);
 }
 
 .ik-article-card__cover:has(a[href*="/category/note"]) {
-	background: #FBCFE8;
+	background: var(--wp--custom--color--category-tint--note);
 }
 
 .ik-article-card__cover:has(a[href*="/category/experiment"]) {
-	background: #FDE2E4;
+	background: var(--wp--custom--color--category-tint--experiment);
 }
 
 .wp-block-group.ik-article-card__meta {
@@ -152,8 +152,8 @@
 
 .ik-article-card__title {
 	font-size: $size-xl;
-	line-height: 1.25;
-	letter-spacing: -0.02em;
+	line-height: $leading-snug;
+	letter-spacing: $tracking-tight;
 	margin: 0;
 
 	a {
@@ -165,7 +165,7 @@
 .ik-article-card__excerpt {
 	color: $color-graphite;
 	font-size: $size-md;
-	line-height: 1.6;
+	line-height: $leading-comfortable;
 	margin: 0;
 	flex: 1 0 auto;
 }
@@ -182,11 +182,11 @@
 	a {
 		color: $color-graphite;
 		text-decoration: none;
-		padding: 2px 8px;
-		border-radius: 999px;
+		padding: 2px $space-2;
+		border-radius: $radius-pill;
 		background: $color-soft-paper;
 		border: 1px solid $color-line;
-		line-height: 1.4;
+		line-height: $leading-normal;
 	}
 }
 

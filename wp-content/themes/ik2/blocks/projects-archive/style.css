@@ -25,16 +25,16 @@
 }
 
 .ik-projects-archive__title {
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  letter-spacing: -0.04em;
+  font-size: var(--wp--preset--font-size--headline);
+  letter-spacing: var(--wp--custom--letter-spacing--tightest);
   margin: 0;
 }
 
 .ik-projects-archive__lede {
-  max-width: var(--wp--style--global--content-size, 720px);
+  max-width: var(--wp--style--global--content-size);
   color: var(--wp--preset--color--graphite);
   font-size: var(--wp--preset--font-size--md);
-  line-height: 1.7;
+  line-height: var(--wp--custom--line-height--relaxed);
   margin: 0;
 }
 

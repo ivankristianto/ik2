@@ -13,6 +13,8 @@ Loaded when working under `design-system/` (and relevant to the gitignored `samp
 
 Neither is the production theme. The production theme is `wp-content/themes/ik2/`.
 
+Both kits read tokens from mirrors of `wp-content/themes/ik2/theme.json` (`design-system/colors_and_type.css`, plus its copy with extensions at `samples/assets/tokens.css`). Change `theme.json` first, then copy the value into the mirror. The kits are light only; don't add dark-mode CSS.
+
 ## No build step
 
 The `design-system/ui_kits/blog/` and `samples/` HTML prototypes run standalone via React + Babel UMD (`open design-system/ui_kits/blog/index.html`). They have no build step; JSX `<script type="text/babel">` order matters because components attach to globals — so when you add a new JSX file, register it in `index.html` in the right order.

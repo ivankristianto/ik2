@@ -49,9 +49,9 @@
 }
 
 .ik-article__title {
-	font-size: clamp(2rem, 5vw, 3rem);
-	line-height: 1.08;
-	letter-spacing: -0.04em;
+	font-size: $size-headline;
+	line-height: $leading-tight;
+	letter-spacing: $tracking-tightest;
 	margin: 0 0 $space-4;
 	color: $color-ink;
 	text-wrap: balance;
@@ -75,11 +75,11 @@
 	a {
 		color: $color-graphite;
 		text-decoration: none;
-		padding: 2px 8px;
-		border-radius: 999px;
+		padding: 2px $space-2;
+		border-radius: $radius-pill;
 		background: $color-soft-paper;
 		border: 1px solid $color-line;
-		line-height: 1.4;
+		line-height: $leading-normal;
 	}
 }
 
@@ -103,7 +103,7 @@
 		color: $color-graphite;
 		text-align: left;
 		margin-top: $space-3;
-		line-height: 1.5;
+		line-height: $leading-comfortable;
 	}
 }
 
@@ -111,7 +111,7 @@
 
 .ik-article__body {
 	font-size: $size-lg;
-	line-height: 1.75;
+	line-height: $leading-relaxed;
 	color: $color-ink;
 
 	/* Reset margins so we can manage rhythm ourselves. */
@@ -130,38 +130,38 @@
 	/* Headings inside the article body. */
 	h2.wp-block-heading,
 	h2 {
-		font-size: clamp(1.75rem, 4vw, 2.25rem);
-		line-height: 1.15;
-		letter-spacing: -0.035em;
+		font-size: $size-title-lg;
+		line-height: $leading-tight;
+		letter-spacing: $tracking-tighter;
 		margin-top: 2.4em;
 		margin-bottom: 0;
 	}
 
 	h3.wp-block-heading,
 	h3 {
-		font-size: clamp(1.25rem, 3vw, 1.5rem);
-		line-height: 1.25;
-		letter-spacing: -0.025em;
+		font-size: $size-subtitle;
+		line-height: $leading-snug;
+		letter-spacing: $tracking-tight;
 		margin-top: 2em;
 		margin-bottom: 0;
 	}
 
 	h4.wp-block-heading,
 	h4 {
-		font-size: 1.2rem;
-		line-height: 1.3;
-		letter-spacing: -0.02em;
+		font-size: $size-xl;
+		line-height: $leading-snug;
+		letter-spacing: $tracking-tight;
 		margin-top: 1.8em;
 		margin-bottom: 0;
 	}
 
 	h5.wp-block-heading,
 	h5 {
-		font-size: 1.05rem;
-		line-height: 1.35;
+		font-size: $size-md-plus;
+		line-height: $leading-normal;
 		margin-top: 1.6em;
 		margin-bottom: 0;
-		font-weight: 700;
+		font-weight: $weight-bold;
 	}
 
 	h6.wp-block-heading,
@@ -169,17 +169,17 @@
 		font-family: $font-mono;
 		font-size: $size-xs;
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
+		letter-spacing: $tracking-wider;
 		color: $color-graphite;
 		margin-top: 1.6em;
 		margin-bottom: 0;
-		font-weight: 500;
+		font-weight: $weight-medium;
 	}
 
 	/* Inline text elements. */
 	strong,
 	b {
-		font-weight: 700;
+		font-weight: $weight-bold;
 	}
 
 	em,
@@ -253,7 +253,7 @@
 	address {
 		font-style: italic;
 		color: $color-graphite;
-		line-height: 1.6;
+		line-height: $leading-comfortable;
 	}
 
 	/* Inline code (anywhere except inside <pre>). */
@@ -264,7 +264,7 @@
 		color: $color-code-ink;
 		border: 1px solid $color-line;
 		border-radius: $radius-sm;
-		padding: 0.125rem 0.35rem;
+		padding: 0.125rem $space-1;
 		font-family: $font-mono;
 		font-size: 0.9375em;
 	}
@@ -272,7 +272,7 @@
 	/* kbd reads as a key — slightly tighter padding, no border-color shift. */
 	:not(pre) > kbd {
 		font-size: 0.85em;
-		padding: 0.1rem 0.4rem;
+		padding: 0.1rem $space-2;
 	}
 
 	/* Native <pre> (legacy posts that don't use wp-block-code). */
@@ -283,8 +283,8 @@
 		border-radius: $radius-md;
 		padding: $space-5;
 		font-family: $font-mono;
-		font-size: 0.9375rem;
-		line-height: 1.65;
+		font-size: $size-sm-plus;
+		line-height: $leading-relaxed;
 		overflow-x: auto;
 		white-space: pre-wrap;
 		overflow-wrap: break-word;
@@ -307,7 +307,7 @@
 		padding-left: $space-5;
 		margin-inline: 0;
 		font-size: $size-xl;
-		line-height: 1.5;
+		line-height: $leading-comfortable;
 		color: $color-graphite;
 		font-style: italic;
 	}
@@ -327,7 +327,7 @@
 		font-size: $size-sm;
 		font-style: normal;
 		color: $color-dust;
-		letter-spacing: 0.01em;
+		letter-spacing: $tracking-wide;
 	}
 
 	/* Lists. */
@@ -351,7 +351,7 @@
 	}
 
 	dt {
-		font-weight: 700;
+		font-weight: $weight-bold;
 		margin-top: $space-3;
 	}
 
@@ -369,7 +369,7 @@
 		width: 100%;
 		border-collapse: collapse;
 		font-size: $size-md;
-		line-height: 1.55;
+		line-height: $leading-comfortable;
 		text-align: left;
 	}
 
@@ -385,9 +385,9 @@
 	thead th {
 		font-family: $font-mono;
 		font-size: $size-xs;
-		font-weight: 500;
+		font-weight: $weight-medium;
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
+		letter-spacing: $tracking-wider;
 		color: $color-graphite;
 		border-bottom: 1px solid $color-rule;
 		padding: $space-3 $space-4;
@@ -439,7 +439,7 @@
 		font-family: $font-mono;
 		font-size: $size-xs;
 		color: $color-graphite;
-		line-height: 1.55;
+		line-height: $leading-comfortable;
 		margin-top: $space-3;
 	}
 
@@ -449,8 +449,8 @@
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.2em;
-		text-decoration-color: rgba(194, 65, 12, 0.45);
-		transition: color 160ms ease, text-decoration-color 160ms ease;
+		text-decoration-color: color-mix(in srgb, #{$color-signal} 45%, transparent);
+		transition: color $transition-base, text-decoration-color $transition-base;
 	}
 }
 
@@ -458,7 +458,7 @@
 
 .ik-article__body .ik-article__lead {
 	font-size: $size-xl;
-	line-height: 1.6;
+	line-height: $leading-comfortable;
 	color: $color-ink;
 	text-wrap: pretty;
 }
@@ -518,7 +518,7 @@
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-graphite;
-	line-height: 1.55;
+	line-height: $leading-comfortable;
 	margin-top: $space-2;
 	text-align: left;
 }
@@ -589,7 +589,7 @@
 	padding-left: $space-5;
 	margin-inline: 0;
 	font-size: $size-xl;
-	line-height: 1.5;
+	line-height: $leading-comfortable;
 	color: $color-graphite;
 	font-style: italic;
 }
@@ -612,10 +612,10 @@
 }
 
 .ik-article__body .wp-block-pullquote p {
-	font-size: clamp(1.5rem, 3.5vw, 2rem);
-	line-height: 1.25;
-	letter-spacing: -0.025em;
-	font-weight: 700;
+	font-size: $size-title;
+	line-height: $leading-snug;
+	letter-spacing: $tracking-tight;
+	font-weight: $weight-bold;
 	color: $color-ink;
 	font-style: normal;
 	margin: 0;
@@ -628,7 +628,7 @@
 	font-size: $size-sm;
 	font-style: normal;
 	color: $color-dust;
-	letter-spacing: 0.01em;
+	letter-spacing: $tracking-wide;
 }
 
 /* ---- Table block (wp-block-table) -------------------------------------- */
@@ -661,13 +661,13 @@
 	color: $color-paper;
 	border: 1px solid $color-ink;
 	border-radius: $radius-sm;
-	padding: 10px 18px;
+	padding: $space-3 $space-4;
 	font-size: $size-md;
-	font-weight: 500;
-	line-height: 1.3;
+	font-weight: $weight-medium;
+	line-height: $leading-snug;
 	text-decoration: none;
 	display: inline-block;
-	transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+	transition: background-color $transition-base, border-color $transition-base, color $transition-base;
 }
 
 .ik-article__body .wp-block-button__link:hover,
@@ -740,7 +740,7 @@
 	background: $color-ink;
 	color: $color-paper;
 	border-radius: $radius-sm;
-	padding: 6px 12px;
+	padding: $space-2 $space-3;
 	font-family: $font-mono;
 	font-size: $size-xs;
 	text-decoration: none;
@@ -755,8 +755,8 @@
 	border-radius: $radius-md;
 	padding: $space-5;
 	font-family: $font-mono;
-	font-size: 0.9375rem;
-	line-height: 1.65;
+	font-size: $size-sm-plus;
+	line-height: $leading-relaxed;
 	overflow-x: auto;
 }
 
@@ -789,7 +789,7 @@
 	font-family: $font-mono;
 	letter-spacing: 1em;
 	text-align: center;
-	line-height: 1;
+	line-height: $leading-flat;
 	height: auto;
 }
 
@@ -878,7 +878,7 @@
 .ik-callout__title {
 	font-family: $font-mono;
 	font-size: $size-xs;
-	letter-spacing: 0.05em;
+	letter-spacing: $tracking-wider;
 	text-transform: uppercase;
 	margin: 0;
 }
@@ -889,7 +889,7 @@
 	border-radius: $radius-md;
 	padding: $space-4 $space-5;
 	font-size: $size-md;
-	line-height: 1.6;
+	line-height: $leading-comfortable;
 	display: block;
 
 	> * {
@@ -962,7 +962,7 @@
 
 	.ik-article__body {
 		font-size: $size-md;
-		line-height: 1.7;
+		line-height: $leading-relaxed;
 	}
 
 	.ik-article__body .ik-article__lead {
@@ -997,7 +997,7 @@
 	.ik-article__body .wp-block-code,
 	.ik-article__body pre {
 		padding: $space-4;
-		font-size: 0.875rem;
+		font-size: $size-sm;
 	}
 
 	.ik-article__body table {

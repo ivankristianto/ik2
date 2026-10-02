@@ -17,7 +17,7 @@
 	max-width: 34ch;
 	color: $color-graphite;
 	font-size: $size-lg;
-	line-height: 1.55;
+	line-height: $leading-comfortable;
 	margin: 0;
 }
 
@@ -88,7 +88,7 @@
 
 .ik-guide__title {
 	font-size: $size-xl;
-	line-height: 1.2;
+	line-height: $leading-snug;
 	margin: 0 0 $space-2;
 
 	a {
@@ -100,7 +100,7 @@
 .ik-guide__excerpt {
 	color: $color-graphite;
 	font-size: $size-md;
-	line-height: 1.6;
+	line-height: $leading-comfortable;
 	margin: 0;
 }
 
@@ -128,7 +128,7 @@
 
 	.ik-guides-layout__deck {
 		font-size: $size-md;
-		line-height: 1.6;
+		line-height: $leading-comfortable;
 	}
 
 	.ik-guide {
@@ -147,7 +147,7 @@
 
 	.ik-guide__excerpt {
 		font-size: $size-sm;
-		line-height: 1.55;
+		line-height: $leading-comfortable;
 	}
 }
 

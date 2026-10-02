@@ -1,124 +1,127 @@
-/* =============================================================================
-   Ivan Kristianto Design System — Tokens
-   "Ink, Paper, and Signal"
-   Light theme by default, dark theme via prefers-color-scheme.
-   ========================================================================== */
+/* Ivan Kristianto design system tokens, "Ink, Paper, and Signal".
+   Mirrors wp-content/themes/ik2/theme.json (presets + settings.custom) for the
+   prototype kits and previews. theme.json is the source of truth: change it
+   there first, then copy the value here. Light only for now. */
 
 :root {
   color-scheme: light;
 
-  /* ---------- COLOR: light theme ---------------------------------------- */
-  --color-bg:             #F8F7F3;   /* Paper        — main background */
-  --color-surface:        #FFFFFF;   /* Card         — cards, code wrappers, panels */
-  --color-surface-muted:  #F1EFE8;   /* Soft Paper   — subtle sections, footer */
-  --color-text:           #171717;   /* Ink          — main text */
-  --color-text-muted:     #5F6368;   /* Graphite     — metadata, descriptions */
-  --color-text-subtle:    #676D79;   /* Dust         — dates, tags, secondary labels (AA: 4.85:1 on paper) */
-  --color-border:         #D8D5CC;   /* Line         — default borders */
-  --color-border-strong:  #B9B5AA;   /* Rule         — dividers, active states */
-  --color-accent:         #C2410C;   /* Terracotta      — links, primary CTA, focus */
-  --color-accent-hover:   #9A3412;   /* Deep Terracotta — hover state */
-  --color-accent-soft:    #FFEDD5;   /* Terracotta Wash — tags, callouts */
-  --color-code-bg:        #EFEEE8;   /* Code Paper   — inline + block code bg */
-  --color-code-text:      #111827;   /* Code Ink     — code text */
-  --color-success:        #15803D;   /* Build Green  — success / active status */
-  --color-warning:        #B45309;   /* Amber        — warnings, outdated notes */
-  --color-danger:         #B91C1C;   /* Red          — errors only */
+  /* Kit names predate theme.json; the comment gives the palette slug. */
+  --color-bg:             #F8F7F3;   /* paper */
+  --color-surface:        #FFFFFF;   /* surface */
+  --color-surface-muted:  #F1EFE8;   /* soft-paper */
+  --color-text:           #171717;   /* ink */
+  --color-text-muted:     #5F6368;   /* graphite */
+  --color-text-subtle:    #676D79;   /* dust (AA: 4.85:1 on paper) */
+  --color-border:         #D8D5CC;   /* line */
+  --color-border-strong:  #B9B5AA;   /* rule */
+  --color-accent:         #C2410C;   /* signal (Terracotta) */
+  --color-accent-hover:   #9A3412;   /* signal-deep */
+  --color-accent-soft:    #FFEDD5;   /* signal-soft */
+  --color-code-bg:        #EFEEE8;   /* code-paper */
+  --color-code-text:      #111827;   /* code-ink */
+  --color-success:        #15803D;   /* build-green */
+  --color-warning:        #B45309;   /* amber */
+  --color-danger:         #B91C1C;   /* red */
 
-  /* ---------- TYPOGRAPHY ------------------------------------------------ */
+  --color-scrim: color-mix(in srgb, var(--color-text) 30%, transparent);
+
+  --color-category-wordpress:   #E0E7FF;
+  --color-category-ai:          #FDE68A;
+  --color-category-performance: #D1FAE5;
+  --color-category-security:    #FECACA;
+  --color-category-web-apis:    #DDD6FE;
+  --color-category-tooling:     #FED7AA;
+  --color-category-guide:       #BAE6FD;
+  --color-category-note:        #FBCFE8;
+  --color-category-experiment:  #FDE2E4;
+
+  --color-window-dot-close:    #FF5F57;
+  --color-window-dot-minimize: #FEBC2E;
+  --color-window-dot-zoom:     #28C840;
+
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
-  --font-size-xs:   0.75rem;        /* 12 — tiny metadata */
-  --font-size-sm:   0.875rem;       /* 14 — tags, dates, captions */
-  --font-size-md:   1rem;           /* 16 — UI text */
-  --font-size-lg:   1.125rem;       /* 18 — body */
-  --font-size-xl:   1.25rem;        /* 20 — lead */
-  --font-size-2xl:  1.5rem;         /* 24 — small headings */
-  --font-size-3xl:  2rem;           /* 32 — section headings */
-  --font-size-4xl:  2.75rem;        /* 44 — page titles */
-  --font-size-hero: clamp(3rem, 8vw, 5.5rem);
+  --font-size-xs:      0.75rem;
+  --font-size-sm:      0.875rem;
+  --font-size-sm-plus: 0.9375rem;
+  --font-size-md:      1rem;
+  --font-size-md-plus: 1.0625rem;
+  --font-size-lg:      1.125rem;
+  --font-size-xl:      1.25rem;
+  --font-size-2xl:     1.5rem;   /* slug 2-xl */
+  --font-size-3xl:     2rem;     /* slug 3-xl */
+  --font-size-4xl:     2.75rem;  /* slug 4-xl */
 
-  --font-weight-regular: 400;
-  --font-weight-medium:  500;
+  --font-size-lead:     clamp(1.125rem, 1.6vw, 1.375rem);
+  --font-size-subtitle: clamp(1.375rem, 2.4vw, 1.625rem);
+  --font-size-title:    clamp(1.5rem, 3vw, 2rem);
+  --font-size-title-lg: clamp(1.75rem, 4vw, 2.5rem);
+  --font-size-headline: clamp(2rem, 5vw, 3rem);
+  --font-size-display:  clamp(2.5rem, 6vw, 4.5rem);
+  --font-size-hero:     clamp(3rem, 8vw, 5.5rem);
+  --font-size-jumbo:    clamp(3.75rem, 12vw, 7.5rem);
+  --font-size-numeral:  clamp(7rem, 18vw, 14rem);
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
   --font-weight-semibold: 600;
-  --font-weight-bold:    700;
+  --font-weight-bold:     700;
+  --font-weight-heavy:    800;
 
-  --line-height-tight:  1.1;
-  --line-height-snug:   1.25;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.7;
-  --line-height-loose:   1.75;
+  --line-height-compact:     0.9;
+  --line-height-flat:        1;
+  --line-height-tight:       1.1;
+  --line-height-snug:        1.25;
+  --line-height-normal:      1.4;
+  --line-height-comfortable: 1.55;
+  --line-height-relaxed:     1.7;
 
   --letter-spacing-tightest: -0.04em;
-  --letter-spacing-tighter:  -0.035em;
-  --letter-spacing-tight:    -0.025em;
-  --letter-spacing-snug:     -0.005em;
+  --letter-spacing-tighter:  -0.03em;
+  --letter-spacing-tight:    -0.02em;
+  --letter-spacing-snug:     -0.01em;
+  --letter-spacing-normal:   0;
+  --letter-spacing-wide:     0.02em;
+  --letter-spacing-wider:    0.05em;
+  --letter-spacing-widest:   0.08em;
 
-  /* ---------- SPACING (8px scale) -------------------------------------- */
-  --space-1:  0.25rem;  /* 4   tiny gaps */
-  --space-2:  0.5rem;   /* 8   inline spacing */
-  --space-3:  0.75rem;  /* 12  small padding */
-  --space-4:  1rem;     /* 16  default gap */
-  --space-5:  1.5rem;   /* 24  card padding */
-  --space-6:  2rem;     /* 32  section inner */
-  --space-7:  3rem;     /* 48  large blocks */
-  --space-8:  4rem;     /* 64  section spacing */
-  --space-9:  6rem;     /* 96  hero / major */
-  --space-10: 8rem;     /* 128 large desktop */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-7:  3rem;
+  --space-8:  4rem;
+  --space-9:  6rem;
+  --space-10: 8rem;
 
-  /* ---------- BORDERS & RADII ------------------------------------------ */
   --border-width:         1px;
   --border-width-strong:  2px;
 
-  --radius-xs:   0.25rem;  /* 4   inline code */
-  --radius-sm:   0.375rem; /* 6   tags, buttons */
-  --radius-md:   0.5rem;   /* 8   cards */
-  --radius-lg:   0.75rem;  /* 12  large panels */
-  --radius-pill: 999px;
+  --radius-sm:    0.25rem;  /* 4px: inline code, kbd, small controls */
+  --radius-md:    0.375rem; /* 6px: cards, buttons, inputs, code blocks */
+  --radius-lg:    0.5rem;   /* 8px: command palette panel */
+  --radius-pill:  999px;
+  --radius-round: 50%;
 
-  /* ---------- SHADOWS -------------------------------------------------- */
   --shadow-none: none;
-  --shadow-sm:   0 1px 2px rgba(23, 23, 23, 0.06);
-  --shadow-md:   0 8px 24px rgba(23, 23, 23, 0.08);
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
+  --shadow-md:   0 6px 24px rgba(0, 0, 0, 0.08);
 
-  /* ---------- LAYOUT WIDTHS -------------------------------------------- */
   --width-narrow:  600px;
   --width-content: 720px;
   --width-wide:    1080px;
   --width-full:    1280px;
 
-  /* ---------- TRANSITION ----------------------------------------------- */
-  --transition-base: 160ms ease;
-  --transition-slow: 220ms ease;
+  --transition-base:   200ms ease;
+  --transition-drawer: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  --focus-width:  2px;
+  --focus-offset: 3px;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --color-bg:             #0D1117;
-    --color-surface:        #161B22;
-    --color-surface-muted:  #21262D;
-    --color-text:           #E6EDF3;
-    --color-text-muted:     #9BA3AF;
-    --color-text-subtle:    #878E9C;
-    --color-border:         #30363D;
-    --color-border-strong:  #484F58;
-    --color-accent:         #FB923C;
-    --color-accent-hover:   #FDBA74;
-    --color-accent-soft:    #3D2515;
-    --color-code-bg:        #161B22;
-    --color-code-text:      #E6EDF3;
-
-    --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.35);
-    --shadow-md:   0 8px 24px rgba(0, 0, 0, 0.45);
-  }
-}
-
-/* =============================================================================
-   SEMANTIC ELEMENT STYLES
-   ========================================================================== */
 
 html { box-sizing: border-box; }
 *, *::before, *::after { box-sizing: inherit; }
@@ -128,14 +131,13 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;          /* 17 */
+  font-size: var(--font-size-md-plus);
   line-height: var(--line-height-relaxed);
   letter-spacing: var(--letter-spacing-snug);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* ---- Headings ---- */
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
@@ -149,11 +151,10 @@ h2 { font-size: var(--font-size-3xl); letter-spacing: var(--letter-spacing-tight
 h3 { font-size: var(--font-size-2xl); letter-spacing: var(--letter-spacing-tight); }
 h4 { font-size: var(--font-size-xl);  letter-spacing: var(--letter-spacing-tight); }
 h5 { font-size: var(--font-size-lg);  font-weight: var(--font-weight-semibold); }
-h6 { font-size: var(--font-size-md);  font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }
+h6 { font-size: var(--font-size-md);  font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); font-family: var(--font-mono); }
 
 p { margin: 0; }
 
-/* ---- Links ---- */
 a {
   color: var(--color-accent);
   text-decoration: underline;
@@ -163,14 +164,13 @@ a {
 }
 a:hover { color: var(--color-accent-hover); }
 
-/* ---- Code ---- */
 code, kbd, samp {
   font-family: var(--font-mono);
   font-size: 0.9375em;
   background: var(--color-code-bg);
   color: var(--color-code-text);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
   padding: 0.125rem 0.35rem;
 }
 
@@ -182,8 +182,8 @@ pre {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
-  font-size: 0.9375rem;
-  line-height: 1.65;
+  font-size: var(--font-size-sm-plus);
+  line-height: var(--line-height-relaxed);
 }
 pre code {
   padding: 0;
@@ -192,7 +192,6 @@ pre code {
   font-size: inherit;
 }
 
-/* ---- Metadata helper class ---- */
 .meta,
 .post-date,
 .reading-time {
@@ -201,14 +200,12 @@ pre code {
   color: var(--color-text-muted);
 }
 
-/* ---- Focus ring ---- */
 :focus-visible {
-  outline: var(--border-width-strong) solid var(--color-accent);
-  outline-offset: 3px;
-  border-radius: var(--radius-xs);
+  outline: var(--focus-width) solid var(--color-accent);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-sm);
 }
 
-/* ---- Containers ---- */
 .container        { width: min(100% - 2rem, var(--width-wide));    margin-inline: auto; }
 .container-narrow { width: min(100% - 2rem, var(--width-content)); margin-inline: auto; }
 .container-full   { width: min(100% - 2rem, var(--width-full));    margin-inline: auto; }

@@ -3,7 +3,7 @@
 .ik-cmdk__overlay {
 	position: fixed;
 	inset: 0;
-	background: rgba(23, 23, 23, 0.28);
+	background: $color-scrim;
 	backdrop-filter: blur(2px);
 	-webkit-backdrop-filter: blur(2px);
 	display: flex;
@@ -12,7 +12,7 @@
 	padding-top: 12dvh;
 	z-index: 200;
 	opacity: 0;
-	transition: opacity 140ms ease;
+	transition: opacity $transition-base;
 
 	&.is-open { opacity: 1; }
 
@@ -55,7 +55,7 @@
 	outline: 0;
 	background: transparent;
 	font-family: $font-sans;
-	font-size: 1.0625rem;
+	font-size: $size-md-plus;
 	color: $color-ink;
 
 	&::-webkit-search-cancel-button { display: none; }
@@ -65,9 +65,9 @@
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-dust;
-	padding: 2px 6px;
+	padding: 2px $space-2;
 	border: 1px solid $color-line;
-	border-radius: 4px;
+	border-radius: $radius-sm;
 }
 
 .ik-cmdk__list {
@@ -81,7 +81,7 @@
 	font-family: $font-mono;
 	font-size: $size-xs;
 	color: $color-dust;
-	letter-spacing: 0.06em;
+	letter-spacing: $tracking-wider;
 	padding: $space-3 $space-5 $space-2;
 	text-transform: uppercase;
 }
@@ -92,7 +92,7 @@
 	gap: $space-3;
 	padding: $space-3 $space-5;
 	cursor: pointer;
-	font-size: 0.9375rem;
+	font-size: $size-sm-plus;
 	color: $color-ink;
 	text-decoration: none;
 
@@ -117,7 +117,7 @@
 	padding: $space-5;
 	color: $color-graphite;
 	font-style: italic;
-	font-size: 0.9375rem;
+	font-size: $size-sm-plus;
 }
 
 .ik-cmdk__footer {
@@ -134,11 +134,11 @@
 	kbd {
 		background: $color-surface;
 		border: 1px solid $color-line;
-		border-radius: 3px;
-		padding: 1px 5px;
+		border-radius: $radius-sm;
+		padding: 1px $space-1;
 		color: $color-graphite;
 		font-family: $font-mono;
-		font-size: 0.6875rem;
+		font-size: $size-xs;
 	}
 
 	.ik-cmdk__footer-meta { margin-inline-start: auto; }

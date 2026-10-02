@@ -78,7 +78,7 @@ What this site explicitly is not, and what we will not build it toward:
 4. **System fonts only.** No webfont download. The site loads instantly. The brand identity comes from type contrast (sans vs mono) and spacing, not from a $200 license.
 5. **Mono is the engineering signal.** Dates, tags, metadata, eyebrows, code: all mono. The mono/sans contrast is the visual personality of the site.
 6. **Article max-width 720px.** Wider feels like documentation. Narrower feels precious.
-7. **Light first, dark mirrors GitHub.** Warm paper `#F8F7F3` is the page; pure white is reserved for cards. Dark mode uses GitHub's Terminal `#0D1117` for engineers who live in dark mode.
+7. **Light only, on warm paper.** Warm paper `#F8F7F3` is the page; pure white is reserved for cards. There is no dark mode for now; if one comes, it will be added through `theme.json`.
 8. **Focus-visible is non-negotiable.** `2px solid` accent ring, `outline-offset: 3px`. Keyboard users come first; the sharp focus ring also reads as engineering rigor.
 9. **No emoji in chrome.** Body content is the writer's call.
 
@@ -86,7 +86,7 @@ What this site explicitly is not, and what we will not build it toward:
 
 When generating new pages, components, or copy for this project:
 
-- The active token slug is `signal` but the color it carries is **Terracotta** `#C2410C`, not the older Signal Blue `#2563EB` found in some legacy references (`design-system/README.md`, `design-system/colors_and_type.css`). The WordPress theme at `wp-content/themes/ik2/theme.json` is the source of truth. Match it; don't reintroduce the old blue.
+- The active token slug is `signal` and the color it carries is **Terracotta** `#C2410C`. The old blue accent is retired. The WordPress theme at `wp-content/themes/ik2/theme.json` is the source of truth for every token. Match it; don't reintroduce the old blue.
 - Block templates live at `wp-content/themes/ik2/templates/*.html` and `parts/*.html`. Prefer block templates over PHP templates. PHP infrastructure lives under `inc/` in the `IK2\Theme` namespace.
-- If you add a token, add it to all three locations: `design-system/colors_and_type.css`, `design-system/theme.json`, and `wp-content/themes/ik2/theme.json`. There is no sync script yet.
+- If you add a token, add it to `wp-content/themes/ik2/theme.json` first, then mirror it into `design-system/theme.json` and `design-system/colors_and_type.css`. There is no sync script yet.
 - The `design-system/ui_kits/blog/` prototype and the production WP theme are **diverged**. Decide which you're editing and propagate intentionally; do not assume a change in one carries to the other.

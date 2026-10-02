@@ -1,3 +1,5 @@
+@use 'tokens' as *;
+
 // Both the page being left and the page being entered must opt in, so this ships in the critical CSS.
 @media (prefers-reduced-motion: no-preference) {
 
@@ -30,7 +32,7 @@
 // Fade through paper instead of cross-fading. Two unrelated layouts
 // double-exposed mid cross-fade read as a flicker and as content jumping.
 ::view-transition {
-	background: var(--wp--preset--color--paper);
+	background: $color-paper;
 }
 
 ::view-transition-old(root) {

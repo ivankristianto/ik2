@@ -23,7 +23,7 @@
 	font-family: $font-mono;
 	font-size: $size-xs;
 	text-transform: uppercase;
-	letter-spacing: 0.08em;
+	letter-spacing: $tracking-widest;
 	color: $color-graphite;
 }
 
@@ -42,8 +42,8 @@
 
 .ik-section__title {
 	font-size: $size-3xl;
-	line-height: 1.1;
-	letter-spacing: -0.04em;
+	line-height: $leading-tight;
+	letter-spacing: $tracking-tightest;
 	margin: 0;
 }
 
@@ -80,7 +80,7 @@
 	}
 
 	.ik-section__title {
-		font-size: clamp(1.85rem, 9vw, 2.35rem);
+		font-size: $size-headline;
 	}
 }
 

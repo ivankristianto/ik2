@@ -3,19 +3,19 @@
 .ik-wordmark {
 	font-family: $font-mono;
 	font-size: $size-lg;
-	font-weight: 600;
+	font-weight: $weight-semibold;
 	color: $color-ink;
 	display: inline-flex;
 	align-items: baseline;
 	gap: 0.4ch;
 	text-decoration: none;
-	letter-spacing: -0.01em;
+	letter-spacing: $tracking-snug;
 }
 
 .ik-wordmark::before {
 	content: '~ $';
 	color: $color-graphite;
-	font-weight: 500;
+	font-weight: $weight-medium;
 }
 
 .ik-wordmark::after {

@@ -1,5 +1,5 @@
 ---
-name: Ivan Kristianto — Ink, Paper, and Signal
+name: "Ivan Kristianto: Ink, Paper, and Signal"
 description: Calm, technical, reading-first design system for a personal engineering blog. Borders and whitespace do the hierarchy work.
 colors:
   paper: "#F8F7F3"
@@ -7,7 +7,7 @@ colors:
   soft-paper: "#F1EFE8"
   ink: "#171717"
   graphite: "#5F6368"
-  dust: "#8A8F98"
+  dust: "#676D79"
   line: "#D8D5CC"
   rule: "#B9B5AA"
   signal: "#C2410C"
@@ -21,40 +21,60 @@ colors:
 typography:
   display:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(3rem, 8vw, 5.5rem)"
-    fontWeight: 700
-    lineHeight: 1.1
-    letterSpacing: "-0.04em"
+    fontSize: "clamp(2.5rem, 6vw, 4.5rem)" # preset display
+    fontWeight: 700 # custom.fontWeight.bold
+    lineHeight: 1.1 # custom.lineHeight.tight
+    letterSpacing: "-0.04em" # custom.letterSpacing.tightest
   headline:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "2.75rem"
+    fontSize: "clamp(2rem, 5vw, 3rem)" # preset headline
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "-0.04em"
-  title:
+  title-lg:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "2rem"
+    fontSize: "clamp(1.75rem, 4vw, 2.5rem)" # preset title-lg
     fontWeight: 700
     lineHeight: 1.1
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.03em" # custom.letterSpacing.tighter
+  subtitle:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.375rem, 2.4vw, 1.625rem)" # preset subtitle
+    fontWeight: 700
+    lineHeight: 1.25 # custom.lineHeight.snug
+    letterSpacing: "-0.02em" # custom.letterSpacing.tight
+  card-title:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "1.25rem" # preset xl
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: "-0.02em"
   body:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.7
-    letterSpacing: "-0.005em"
+    fontSize: "1.125rem" # preset lg
+    fontWeight: 400 # custom.fontWeight.regular
+    lineHeight: 1.7 # custom.lineHeight.relaxed
+    letterSpacing: "0"
   label:
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.875rem"
-    fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: "0.02em"
+    fontSize: "0.875rem" # preset sm
+    fontWeight: 400
+  micro:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
+    fontSize: "0.75rem" # preset xs
+    fontWeight: 400
+    lineHeight: 1.4 # custom.lineHeight.normal
+  eyebrow:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
+    fontSize: "0.75rem" # preset xs
+    fontWeight: 400
+    letterSpacing: "0.08em" # custom.letterSpacing.widest
 rounded:
-  xs: "4px"
-  sm: "6px"
-  md: "8px"
-  lg: "12px"
+  sm: "4px"
+  md: "6px"
+  lg: "8px"
   pill: "999px"
+  round: "50%"
 spacing:
   "1": "4px"
   "2": "8px"
@@ -70,239 +90,336 @@ components:
   button-primary:
     backgroundColor: "{colors.ink}"
     textColor: "{colors.paper}"
-    rounded: "{rounded.sm}"
-    padding: "12px 16px"
+    rounded: "{rounded.md}"
+    padding: "8px 16px"
+    height: "44px"
   button-primary-hover:
     backgroundColor: "{colors.signal-deep}"
     textColor: "{colors.paper}"
-    rounded: "{rounded.sm}"
-    padding: "12px 16px"
+  button-primary-current:
+    backgroundColor: "{colors.signal}"
+    textColor: "{colors.paper}"
   button-secondary:
     backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.sm}"
-    padding: "12px 16px"
+    textColor: "{colors.graphite}"
+    rounded: "{rounded.md}"
+    padding: "12px"
+    height: "44px"
   button-secondary-hover:
-    backgroundColor: "{colors.soft-paper}"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.sm}"
-    padding: "12px 16px"
   card:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
-    padding: "24px"
-  card-hover:
-    backgroundColor: "{colors.surface}"
+    padding: "24px 32px"
+  article-card-cover:
+    backgroundColor: "{colors.soft-paper}"
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
-    padding: "24px"
-  input:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.sm}"
-    padding: "10px 12px"
+    padding: "16px"
+    typography: "{typography.label}"
   tag:
     backgroundColor: "{colors.soft-paper}"
     textColor: "{colors.graphite}"
     rounded: "{rounded.pill}"
     padding: "2px 8px"
-    typography: "{typography.label}"
+    typography: "{typography.micro}"
   tag-hover:
     backgroundColor: "{colors.signal-soft}"
     textColor: "{colors.signal-deep}"
+  filter-pill:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.graphite}"
     rounded: "{rounded.pill}"
-    padding: "2px 8px"
+    padding: "8px 12px"
     typography: "{typography.label}"
+  filter-pill-active:
+    backgroundColor: "{colors.signal-soft}"
+    textColor: "{colors.signal-deep}"
   nav-link:
     backgroundColor: "transparent"
+    textColor: "{colors.graphite}"
+    padding: "8px 12px"
+    height: "44px"
+  nav-link-current:
+    backgroundColor: "transparent"
     textColor: "{colors.ink}"
-    padding: "8px 0"
-    typography: "{typography.body}"
+  palette-input:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    padding: "16px 24px"
+  palette-row-active:
+    backgroundColor: "{colors.signal-soft}"
+    textColor: "{colors.signal-deep}"
+    padding: "12px 24px"
+  code-block:
+    backgroundColor: "{colors.code-paper}"
+    textColor: "{colors.code-ink}"
+    rounded: "{rounded.md}"
+    padding: "24px"
 ---
 
-# Design System: Ivan Kristianto — Ink, Paper, and Signal
+# Design System: Ink, Paper, and Signal
 
-## 1. Overview
+## Overview
 
 **Creative North Star: "The Engineering Notebook on Warm Paper"**
 
-This is the design of a well-kept lab notebook. Open it and the page is warm paper, the ink is near-black, and the only color you see is the occasional terracotta mark in the margin — a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata: the page is for reading, the metadata is for scanning, and the two never get confused.
+This is the design of a well-kept lab notebook. Open it and the page is warm paper, the ink is near-black, and the only color you see is the occasional terracotta mark in the margin: a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata. The page is for reading, the metadata is for scanning, and the two never get confused.
 
-The system rejects the marketing register entirely. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say — not someone trying to convert you. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.
+The system rejects the marketing register. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.
 
 **Key Characteristics:**
 
-- Warm paper background `#F8F7F3` — never pure white.
-- One accent: Terracotta `#C2410C`, used on ≤10% of any screen.
+- Warm paper page background. Pure white is for cards only.
+- One accent, Terracotta, used on 10% of a screen or less.
 - System fonts only; no webfont download.
-- Borders + whitespace + type contrast carry hierarchy. No gradients, no glassmorphism, no decorative shadows.
+- Borders, whitespace, and type contrast carry hierarchy. No gradients, no glassmorphism, no decorative shadows.
 - Mono is the signal: dates, tags, metadata, eyebrows, code.
-- Light first; dark mode mirrors GitHub's palette for engineers who live there.
+- Light only. A future dark mode will arrive through `theme.json` (a style variation or settings), not hand-written CSS.
 
-## 2. Colors
+## Colors
 
-A restrained palette of warm neutrals plus one terracotta accent. Status colors exist but only for status, never for decoration.
+A restrained palette of warm neutrals plus one terracotta accent. Status colors exist, but only for status.
 
 ### Primary
 
-- **Terracotta** (`#C2410C`): the single accent. Links, primary CTA hover, focus rings, active filter pills, tag-on-hover. The "one voice" of the system. Used sparingly — its rarity is what makes it read as signal.
-- **Deep Terracotta** (`#9A3412`): hover state for the accent. Also used as text color on active filter pills against Terracotta Wash backgrounds.
-- **Terracotta Wash** (`#FFEDD5`): pale accent background for active states (selected tags, active pagination, command palette active row). Never used as a decorative fill.
+- **Terracotta** (`signal`): the single accent. Links, focus rings, nav hover, the current-page underline, the hero CTA underline, and the Resume button when you are on `/resume`. Its rarity is what makes it read as signal. The slug stays `signal` from the retired blue era; only the value moved.
+- **Deep Terracotta** (`signal-deep`): hover state for anything filled with ink or terracotta, and the text color on every active state that sits on Terracotta Wash.
+- **Terracotta Wash** (`signal-soft`): the background for active states. Selected filter pills, tag hover, the palette's active row, the current item in the mobile nav drawer. Never a decorative fill.
 
 ### Neutral
 
-- **Paper** (`#F8F7F3`): the page background. Warm off-white. Never `#FFFFFF` for the page.
-- **Surface** (`#FFFFFF`): card and code-wrapper background. Reads as "elevated surface" against Paper.
-- **Soft Paper** (`#F1EFE8`): footer, alternating section backgrounds, secondary button hover, default tag background. Creates rhythm without drawing a line.
-- **Ink** (`#171717`): main body and heading text. Near-black, not pure black, so the page never feels harsh.
-- **Graphite** (`#5F6368`): metadata, descriptions, secondary copy.
-- **Dust** (`#8A8F98`): dates, tag labels at rest, tertiary labels.
-- **Line** (`#D8D5CC`): default borders on cards, inputs, code blocks, dividers.
-- **Rule** (`#B9B5AA`): stronger dividers and the hover-state border on cards.
-- **Code Paper** (`#EFEEE8`): background for inline code and `<pre>` blocks.
-- **Code Ink** (`#111827`): code text color.
+- **Paper** (`paper`): the page background and the command palette footer.
+- **Surface** (`surface`): project cards, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
+- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, article-card covers without a category tint, drawer row hover.
+- **Ink** (`ink`): body and heading text, the primary button fill. Near-black so the page never feels harsh.
+- **Graphite** (`graphite`): secondary copy, excerpts, nav links at rest, tag text, eyebrows.
+- **Dust** (`dust`): dates, reading time, separators, keyboard hints. Clears WCAG AA (4.85:1) on Paper.
+- **Line** (`line`): every resting border: cards, pills, tags, code, dividers, the palette rules.
+- **Rule** (`rule`): the hover border on cards and pills, and the blockquote rule.
+- **Code Paper** and **Code Ink** (`code-paper`, `code-ink`): inline code, `<pre>` blocks, and the 404 terminal.
 
-### Status (use only for status)
+### Status
 
-- **Build Green** (`#15803D`): success, active build, "shipped" badges.
-- **Amber** (`#B45309`): warnings, outdated notes.
-- **Red** (`#B91C1C`): errors only.
+- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout.
+- **Amber** (`amber`): warnings, "Experiment" project status, the "outdated" callout.
+- **Red** (`red`): errors only.
+
+### Supporting custom colors
+
+These live in `settings.custom.color`, outside the palette, so they never appear in the editor's color picker.
+
+- **Category tints** (`categoryTint.*`): pale washes for article-card covers, one per category (WordPress, AI, performance, security, web APIs, tooling, guide, note, experiment). Cover labels sit in Ink because Graphite drops to 4.2:1 on the paler tints.
+- **Window dots** (`windowDot.*`): the close, minimize, and zoom dots on the hero portrait and 404 terminal frames.
+- **Scrim** (`scrim`): Ink at 30%, behind the command palette and the mobile nav drawer.
 
 ### Named Rules
 
-**The One Voice Rule.** Terracotta is used on no more than 10% of any given screen. If it starts to look like a color theme rather than a signal, it has lost its meaning. Replace decorative uses with weight, scale, or whitespace.
+**The One Voice Rule.** Terracotta covers 10% of a screen at most. If it starts to read as a color theme instead of a signal, replace the decorative uses with weight, scale, or whitespace.
 
-**The No Pure White Rule.** The page background is Paper `#F8F7F3`, never `#FFFFFF`. Pure white is reserved for cards and code wrappers, where it reads as elevation against the warm page.
+**The No Pure White Rule.** The page is Paper, never `#FFFFFF`. White is reserved for cards and panels, where it reads as a raised sheet.
 
-**The Status-Only Rule.** Build Green, Amber, and Red are reserved for status. They never appear as decoration, category colors, or accent fills. If a category needs visual differentiation, use a tint of Paper, not a status color.
+**The Status-Only Rule.** Build Green, Amber, and Red mark status and nothing else. Categories get a pale `categoryTint`, never a status color.
 
-## 3. Typography
+## Typography
 
-**Display Font:** `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
-**Body Font:** same system sans stack
-**Label / Mono Font:** `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace`
+**Display Font:** System Sans, `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
+**Body Font:** the same System Sans stack
+**Label/Mono Font:** System Mono, `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace`
 
-**Character:** the page voice is the operating system's own voice — whatever the reader's OS thinks "default sans" looks like. The mono stack carries the engineering signal: dates, tags, metadata, eyebrows, code. The contrast between sans body and mono metadata is the entire visual personality of the system. No webfonts ship.
+**Character:** the page speaks in the operating system's own voice. The mono stack carries the engineering signal. The contrast between sans prose and mono metadata is most of the visual personality. No webfonts ship.
 
 ### Hierarchy
 
-- **Display** (700, `clamp(3rem, 8vw, 5.5rem)`, 1.1, -0.04em): the hero on the home page and only there. Reserved for the one statement at the top of the site.
-- **Headline** (700, `2.75rem` / `clamp(2rem, 5vw, 2.75rem)`, 1.1, -0.04em): page titles (archive headers, single-article H1).
-- **Title** (700, `2rem`, 1.1, -0.035em): section headings (H2) inside articles and on landing pages.
-- **Subtitle** (700, `1.5rem`, 1.1, -0.025em): H3 inside articles; card titles.
-- **Body** (400, `1.0625rem` UI / `1.125rem` article, 1.7, -0.005em): article prose, paragraph copy. Article max line length is 720px / ~70ch.
-- **Label** (500, `0.875rem`, mono, 1.4, 0.02em): tags, dates, reading time, eyebrows on cards, the small "WEB ENGINEER · WORDPRESS · AI · PERFORMANCE" hero label. Lowercase or sentence case; uppercase only for true labels.
+Sizes are `theme.json` font-size presets. Weights, line heights, and tracking come from `settings.custom`. All headings share bold weight, tight leading, and tightest tracking from `styles.elements.heading`; the roles below loosen that where the size drops.
+
+- **Display** (bold, `display`, tight leading, tightest tracking): the home hero title on desktop and nowhere else. Phones switch to the larger `hero` tier with a 10ch measure, so the title still fills the screen.
+- **Headline** (bold, `headline`, tight, tightest): page titles. Archive headers, the single-article H1, section titles on phones.
+- **Title LG** (bold, `title-lg`, tight, tighter): H2 inside articles.
+- **Subtitle** (bold, `subtitle`, snug, tight): H3 inside articles.
+- **Card title** (bold, `xl`, snug, tight): article card titles.
+- **Body** (regular, `lg`, relaxed): the page default and article prose, capped at the 720px content width. Card excerpts drop to `md` with comfortable leading; the hero sub copy uses `md-plus`.
+- **Label** (mono, `sm`): article-card meta, filter pills, cover labels, header controls.
+- **Micro** (mono, `xs`, normal leading): tags, project status badges, keyboard hints, palette group titles.
+- **Eyebrow** (mono, `xs`, uppercase, widest tracking, Graphite): the line above section titles.
 
 ### Named Rules
 
-**The Mono-as-Signal Rule.** Mono is not the body face. It is reserved for things that are *not* prose: dates, tags, reading-time, file paths, code, command-palette UI, eyebrow labels on cards. If a paragraph is in mono, it has lost its meaning.
+**The Mono-as-Signal Rule.** Mono is reserved for things that are not prose: dates, tags, reading time, file paths, code, palette chrome, eyebrows. A paragraph set in mono has lost its meaning.
 
-**The 720 Rule.** Article content caps at `720px` wide. Wider feels like documentation; narrower feels precious. The container around chrome (header, footer, archive grid) widens to `1080px`, and full-bleed sections to `1280px`, but reading column stays 720.
+**The Tight Headline Rule.** Headings are bold with tight leading and negative tracking. They read as confident, never as marketing.
 
-**The Tight Headline Rule.** Headings carry `font-weight: 700`, `line-height: 1.1`, and `letter-spacing: -0.04em` (loosening slightly at smaller sizes). They are confident and tight; they never feel like marketing.
+**The em Exception.** Inline code, `kbd`, and `sup` size themselves in `em` so they track the paragraph around them. That is the one place a font size is not a preset.
 
-## 4. Elevation
+## Layout
 
-The system is **flat by default**. Depth is conveyed through borders (`1px solid var(--color-line)`), warm-paper-to-white surface change (Paper → Surface), and alternating section backgrounds (Paper ↔ Soft Paper). Shadows appear only as a quiet response to state — never as ambient decoration.
+The page is a single centered column driven by WordPress layout. Content width is 720px (`settings.layout.contentSize`), wide alignment is 1080px (`wideSize`), and full-bleed chrome caps at 1280px (`custom.width.full`). Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
+
+Spacing is a ten-step scale from 4px to 128px (`spacing.spacingSizes` 1 to 10). Sections breathe at 96px of block padding on desktop and 48px on phones. Section heads sit 48px above their content (24px on phones). Cards and grids use 24px to 32px gaps. Custom spacing values are disabled in the editor, so every gap, margin, and padding resolves to a step.
+
+Responsive behavior keys off a few breakpoints:
+
+- **640px**: phone layout. Section padding, hero spacing, and title tiers step down.
+- **768px**: the header switches to the hamburger drawer (six links and the Resume CTA no longer fit inline).
+- **900px**: the hero drops its two-column grid and the portrait moves under the copy.
+
+Several partials still use one-off breakpoints (600, 700, 720, 760, 800, 960, 1000, 1024px). Treat 640, 768, and 900 as the canonical set when adding new rules.
+
+**The 720 Rule.** Article content caps at 720px. Wider reads like documentation; narrower feels precious. Chrome can widen to 1080px and 1280px, the reading column never does.
+
+**The Whitespace First Rule.** When a layout feels empty, widen the margins before adding a border, a shadow, or an icon.
+
+## Elevation & Depth
+
+The system is flat by default. Depth comes from the Paper-to-Surface step, a 1px Line border, and alternating Paper and Soft Paper sections. Shadows appear only as a response to state, or on the one true overlay.
 
 ### Shadow Vocabulary
 
-- **`--shadow-sm`** (`0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`): card hover. A 1px lift, nothing more. The hover state also shifts the border from Line to Rule; the shadow is the smaller half of the gesture.
-- **`--shadow-md`** (`0 6px 24px rgba(0, 0, 0, 0.08)`): reserved for the command palette and (future) modal surfaces. The only place the system permits a real shadow.
+- **Small** (`shadow.presets.sm`, `0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`): card hover on project cards and the 404 page's cards. A 1px lift, paired with the border darkening from Line to Rule. The border change is the larger half of the gesture.
+- **Medium** (`shadow.presets.md`, `0 6px 24px rgba(0, 0, 0, 0.08)`): the command palette panel. The only resting shadow in the system.
+
+Core's default shadow presets are disabled, so these two are the only shadows the editor offers.
 
 ### Named Rules
 
-**The Flat-By-Default Rule.** Surfaces are flat at rest. The first instinct when something looks "missing" is *not* to add a shadow. Try widening margins, increasing type contrast, or adding a `1px` border first. If those don't work, the layout is wrong, not the elevation.
+**The Flat-By-Default Rule.** Surfaces are flat at rest. When something looks missing, try wider margins, stronger type contrast, or a 1px border first. If none of those work, the layout is wrong, not the elevation.
 
-**The Border-as-Elevation Rule.** A `1px solid #D8D5CC` border conveys card-ness more honestly than a `box-shadow`. The shadow is the lift on interaction; the border is the object.
+**The Border-as-Elevation Rule.** A 1px Line border says "card" more honestly than a shadow. The border is the object; the shadow is the lift on interaction.
 
-**The 2014-App Test.** If a card looks like a 2014 iOS app — large soft shadow, big blur radius, low offset — the shadow is wrong for this system. Cut it.
+**The 2014-App Test.** If a card looks like a 2014 iOS app (big soft shadow, large blur, low offset), cut the shadow.
 
-## 5. Components
+## Shapes
 
-Each component leads with the feel, then the spec. All values reference tokens. No hardcoded hex or px elsewhere in the codebase.
+Corners are gently rounded and small. Radius presets live in `border.radiusSizes`:
+
+- **Small** (`sm`): inline code, keyboard hints, mobile drawer rows.
+- **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
+- **Large** (`lg`): the command palette panel only.
+- **Pill** (`pill`): tags, filter pills, project status badges. Pills always mean "this is a label".
+- **Round** (`round`): window dots and other circular glyphs.
+
+Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
+
+**The Pill-Means-Label Rule.** Buttons are never pills. A pill shape tells the reader they are looking at a tag, a filter, or a status.
+
+## Components
+
+Every component reads tokens. No hardcoded hex, px, or ms appears in component CSS.
 
 ### Buttons
 
-- **Shape:** small radius (`6px`, `--radius-sm`). Pills are reserved for tags.
-- **Primary:** Ink background `#171717`, Paper text `#F8F7F3`, `12px 16px` padding. Hover: background swaps to Deep Terracotta `#9A3412`. No transform, no scale, no added shadow. Transition: `160ms ease` on `color` and `background-color`.
-- **Secondary:** Surface background `#FFFFFF`, Ink text, `1px solid #D8D5CC` border. Hover: background to Soft Paper `#F1EFE8`, border to Rule `#B9B5AA`. Same transition; no shadow added.
-- **Hero / Inline:** the home hero uses a "underline-grow" treatment instead of a button: text in Ink at title scale with a `linear-gradient(Terracotta, Terracotta)` painted as a 2px-thick `background-size: 100% 2px` underline that grows to 4px on hover. The link feels like a CTA without looking like one.
-- **Focus:** `2px solid #C2410C`, `outline-offset: 3px`. Always visible, always Terracotta. Non-negotiable.
+- **Shape:** medium radius, 44px minimum height so every button is a full touch target.
+- **Primary:** the header Resume CTA. Ink fill, Paper text, `sm` size, 8px by 16px padding. Hover swaps the fill to Deep Terracotta. On `/resume` it fills with Terracotta to confirm where you are.
+- **Secondary:** the header search trigger. Surface fill, 1px Line border, Graphite text, 12px padding, with a Micro-size `kbd` hint. Hover darkens the border to Rule and the text to Ink. The fill does not change.
+- **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `title` size (`title-lg` on phones) with a mono arrow, underlined by a 2px Terracotta bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Terracotta.
+- **Focus:** `2px solid` Terracotta with a 3px offset (`custom.focus`). Always visible.
+- **Transitions:** `custom.transition.base` (200ms ease) on color, background, border, and box-shadow only. No transform, no scale.
 
-### Chips / Tags
+### Chips
 
-- **Style:** Soft Paper background `#F1EFE8`, Graphite text, `1px solid #D8D5CC` border, pill radius (`999px`), `2px 8px` padding, mono `0.75rem`.
-- **Hover / Active:** background to Terracotta Wash `#FFEDD5`, border to Terracotta, text to Deep Terracotta. The same treatment marks the current page in pagination.
-- **Casing:** always lowercase (`wordpress`, `security`, `cli`).
+- **Tags:** Soft Paper fill, 1px Line border, Graphite text, pill radius, 2px by 8px padding, Micro type. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus move to Terracotta Wash with a Terracotta border and Deep Terracotta text.
+- **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses the same Terracotta Wash treatment as tag hover.
+- **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
 
 ### Cards
 
-- **Corner Style:** `8px` radius (`--radius-md`).
-- **Background:** Surface `#FFFFFF`. Article-card covers use Soft Paper as a fallback, with optional category-tinted backgrounds (`#E0E7FF` WordPress, `#FDE68A` AI, `#D1FAE5` performance, `#FECACA` security, etc.) applied via `:has()` selectors — tints, never saturated colors.
-- **Border:** `1px solid #D8D5CC` at rest.
-- **Shadow Strategy:** none at rest. On hover: border darkens to Rule `#B9B5AA` and `--shadow-sm` adds a 1px lift. That is the entire interaction. No transform, no scale.
-- **Internal Padding:** `24px` (`--space-5`). Article-card content uses `12–16px` rhythm between meta, title, excerpt, tags.
+- **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
+- **Article card:** no frame. A 16:9 cover (Soft Paper or a category tint, medium radius, a mono label centered in Ink), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
 
 ### Inputs / Fields
 
-- **Style:** Surface background, Ink text, `1px solid #D8D5CC` border, `6px` radius, `10px 12px` padding, body sans `1.0625rem`.
-- **Focus:** the global `:focus-visible` rule applies — `2px solid Terracotta`, `outline-offset: 3px`. Border itself does not change color on focus; the outline ring carries the affordance.
-- **Disabled:** Dust text on Soft Paper background; border stays Line.
+The site has no boxed form fields. The two inputs sit flush inside a row:
+
+- **Command palette input:** transparent, borderless, Ink text at `md-plus`, behind a Terracotta mono caret. The row's bottom rule turns Terracotta on `:focus-within`, which stands in for the outline the input drops.
+- **404 terminal input:** mono `sm-plus` on the terminal surface, transparent and borderless, with a Terracotta caret.
 
 ### Navigation
 
-- **Style:** plain text links in Ink, body sans, no underline at rest. Active page: underline in Terracotta (text-decoration-thickness `0.08em`, offset `0.18em`). Hover: color to Terracotta.
-- **Mono separator:** middle dot `·` in Dust between nav items where the layout calls for it.
-- **No sticky:** the header does not stick. The brief is explicit: ships non-sticky.
-- **Mobile:** the same horizontal layout collapses; no hamburger menu unless the count exceeds five items.
+- **Desktop:** plain links in Graphite at `sm`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Terracotta. The current page goes Ink with a Terracotta underline (0.08em thick, 0.18em offset).
+- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `lg` size with small radius; hover fills Soft Paper, and the current item fills Terracotta Wash with Deep Terracotta semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
+- **Not sticky.** The header scrolls away with the page.
 
 ### Code Blocks
 
-- **Inline code:** Code Paper background `#EFEEE8`, Code Ink text, `1px solid #D8D5CC`, `4px` radius, `0.125rem 0.35rem` padding, mono `0.9375em`.
-- **`<pre>` blocks:** same colors and border, `8px` radius, `24px` padding, mono `0.9375rem`, line-height 1.65. Horizontal scroll allowed; vertical never (let the code be tall).
-- **Copy button:** the only "performance" the site does. Pressing it briefly swaps the label to "Copied". No icon required; the label is enough.
+- **Inline code:** Code Paper fill, Code Ink text, 1px Line border, small radius, mono at 0.9375em.
+- **`<pre>`:** the same colors and border, medium radius, 24px padding, mono `sm-plus` with relaxed leading. Long lines wrap instead of scrolling.
 
 ### Command Palette (signature component)
 
-- **Overlay:** `rgba(23, 23, 23, 0.28)` with a `2px` backdrop-blur — the one permitted use of `backdrop-filter` in the entire system, justified because the palette must read as a modal.
-- **Panel:** Surface background, `1px solid Line`, `12px` radius, `--shadow-md`, max-width 640px.
-- **Active row:** Terracotta Wash background, Deep Terracotta text — same treatment as active tag/pagination.
-- **Type:** mono throughout for the palette's own UI (group titles, escape hint, footer keybinds); sans for the labels of the items themselves.
+- **Overlay:** the scrim with a 2px backdrop blur, the one permitted `backdrop-filter`, justified because the palette is a true modal.
+- **Panel:** Surface fill, 1px Line border, large radius, medium shadow, 640px wide at most.
+- **Rows:** `sm-plus` sans labels with a mono glyph in Dust. The active row fills Terracotta Wash with Deep Terracotta text and a Terracotta glyph.
+- **Chrome:** mono throughout for group titles (uppercase, wider tracking), the Esc hint, and the Paper footer with `kbd` keys.
 
-## 6. Do's and Don'ts
+## Do's and Don'ts
 
 ### Do:
 
-- **Do** use Terracotta `#C2410C` for links, primary CTA, focus rings, and active states — and nowhere else.
-- **Do** keep Terracotta on ≤10% of any given screen. If it spreads, it stops meaning anything.
-- **Do** use the warm paper `#F8F7F3` as the page background. Reserve pure white `#FFFFFF` for cards and code wrappers.
-- **Do** use mono (system mono stack) for dates, tags, reading-time, eyebrows, file paths, and code — *not* for body prose.
-- **Do** cap article content at `720px` wide; chrome at `1080px`; full-bleed sections at `1280px`.
-- **Do** apply `:focus-visible` as `2px solid Terracotta, outline-offset: 3px` on every interactive element. Always.
-- **Do** lift cards on hover with a border-color change (Line → Rule) plus `--shadow-sm`. No transform, no scale.
-- **Do** transition `color`, `background-color`, `border-color`, and `box-shadow` at `160ms ease` (or `220ms ease` for slower gestures). Nothing else.
-- **Do** widen margins or tighten type when a layout feels empty. Reach for whitespace before reaching for a shadow or an icon.
-- **Do** keep CTAs verb-first with no period: **Browse Articles**, **Read more**, **Subscribe via RSS**.
+- **Do** use Terracotta for links, focus rings, current-page marks, and active states, and keep it under 10% of the screen.
+- **Do** set the page on Paper and reserve Surface white for cards and panels.
+- **Do** use mono for dates, tags, reading time, eyebrows, file paths, and code. Never for prose.
+- **Do** cap article content at 720px, chrome at 1080px, full-bleed sections at 1280px.
+- **Do** give every interactive element a `:focus-visible` ring: `2px solid` Terracotta, 3px offset.
+- **Do** lift cards on hover with a Line-to-Rule border change plus the small shadow. No transform, no scale.
+- **Do** transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.
+- **Do** keep touch targets at 44px or taller.
+- **Do** write CTAs verb-first with no period: **Browse Articles**, **Read more**, **Subscribe via RSS**.
 - **Do** show dates in monospace, full format: `July 8, 2020`.
+- **Do** add a token to `theme.json` before using a new value anywhere.
 
 ### Don't:
 
-- **Don't** reintroduce the legacy Signal Blue `#2563EB` accent. The active accent is Terracotta `#C2410C`. The token slug is `signal` for stability; the value moved.
-- **Don't** add a webfont, `@font-face`, or Google Fonts link. System fonts only.
-- **Don't** add shadows beyond `--shadow-sm` on card hover and `--shadow-md` on the command palette and modals. No ambient `box-shadow: 0 4px 20px rgba(0,0,0,0.1)` on cards at rest.
-- **Don't** use gradients anywhere except the hero "underline-grow" CTA treatment (a solid-color `linear-gradient(Terracotta, Terracotta)` used as a sized background, not as decoration).
-- **Don't** use glassmorphism, frosted blur, grain textures, or noise overlays. The one permitted `backdrop-filter` is the command-palette overlay.
-- **Don't** apply `border-left: 4px solid` (or any > 1px colored side-stripe) on cards, callouts, list items, or alerts. Use a full `1px` border, a background tint, or a leading mono label instead.
-- **Don't** use gradient text (`background-clip: text` with a gradient). Use a single solid color. Emphasis via weight or scale.
-- **Don't** copy the SaaS hero-metric template (big number, small label, gradient accent, supporting stats). The site has no metrics page.
-- **Don't** lay out identical card grids with icon + heading + text repeated endlessly. Vary the rhythm — article cards have covers, guide cards have leading numbers, notes have date-led layout.
-- **Don't** reach for a modal as the first thought. Inline disclosure, expanded section, or a new page first.
-- **Don't** animate layout properties (`width`, `height`, `top`, `left`, `margin`). No bounces, no scales, no entrance animations, no scroll-driven parallax.
-- **Don't** add emoji to chrome (nav, footer, buttons, headings, eyebrows). Body content is the writer's call.
-- **Don't** use em dashes in copy. Commas, colons, semicolons, periods, parentheses do the work.
-- **Don't** add an icon next to a heading "to make it feel designed." Tighten the type or widen the margin instead.
-- **Don't** use stock photography or marketing-style hero imagery in chrome. Post images are screenshots, talk photos, or event photos Ivan took.
-- **Don't** make the header sticky by default. The brief says non-sticky.
-- **Don't** use Build Green, Amber, or Red as decoration. They are status colors only.
+- **Don't** bring back the retired blue accent (`#2563EB`).
+- **Don't** add a webfont, `@font-face`, or Google Fonts link.
+- **Don't** use shadows beyond the small preset on card hover and the medium preset on the palette.
+- **Don't** use gradients, except the hero CTA's solid Terracotta bar painted as a sized background.
+- **Don't** use glassmorphism, frosted panels, grain, or noise. The palette overlay blur is the only `backdrop-filter`.
+- **Don't** put a colored side stripe (a `border-left` thicker than 1px) on cards, callouts, list items, or alerts. Use a full 1px border, a background tint, or a mono label.
+- **Don't** use gradient text.
+- **Don't** build the SaaS hero-metric block (big number, small label, supporting stats).
+- **Don't** repeat identical icon-heading-text card grids. Article cards have covers, guides have numbers, notes lead with the date.
+- **Don't** reach for a modal first. Inline disclosure, an expanded section, or a new page come before it.
+- **Don't** animate layout properties, bounce, scale, or add entrance and scroll animations.
+- **Don't** put emoji in chrome (nav, footer, buttons, headings, eyebrows).
+- **Don't** use em dashes in copy.
+- **Don't** add an icon next to a heading to make it feel designed.
+- **Don't** use stock photography or marketing hero imagery. Post images are screenshots, talk photos, or event photos Ivan took.
+- **Don't** make the header sticky.
+- **Don't** add dark-mode CSS or `prefers-color-scheme` blocks.
+
+## Tokens
+
+`wp-content/themes/ik2/theme.json` is the single source of truth. Every value in this document is a preset or a `settings.custom` entry in that file. `design-system/theme.json` and `design-system/colors_and_type.css` are copies kept for the prototype kits and previews.
+
+WordPress turns both into CSS custom properties:
+
+- **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--sm-plus`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`. Slugs with a digit before letters gain a hyphen: `3xl` becomes `--wp--preset--font-size--3-xl`.
+- **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.categoryTint.webApis` is `--wp--custom--color--category-tint--web-apis`.
+- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (720px) and `--wp--style--global--wide-size` (1080px).
+
+Font sizes: static `xs`, `sm`, `sm-plus`, `md`, `md-plus`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, and fluid `lead`, `subtitle`, `title`, `title-lg`, `headline`, `display`, `hero`, `jumbo`. The fluid tiers are hand-written `clamp()` values with WordPress's own fluid typography turned off, so they render exactly as written.
+
+The `settings.custom` groups:
+
+| Group                | CSS variable prefix                     | Values                                                                                     |
+| :------------------- | :-------------------------------------- | :----------------------------------------------------------------------------------------- |
+| `fontWeight`         | `--wp--custom--font-weight--`           | regular 400, medium 500, semibold 600, bold 700, heavy 800                                 |
+| `lineHeight`         | `--wp--custom--line-height--`           | compact 0.9, flat 1, tight 1.1, snug 1.25, normal 1.4, comfortable 1.55, relaxed 1.7       |
+| `letterSpacing`      | `--wp--custom--letter-spacing--`        | tightest -0.04em, tighter -0.03em, tight -0.02em, snug -0.01em, normal 0, wide 0.02em, wider 0.05em, widest 0.08em |
+| `transition`         | `--wp--custom--transition--`            | base `200ms ease`, drawer `280ms cubic-bezier(0.22, 1, 0.36, 1)`                           |
+| `focus`              | `--wp--custom--focus--`                 | width 2px, offset 3px                                                                      |
+| `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
+| `color.categoryTint` | `--wp--custom--color--category-tint--`  | article-card cover tints per category                                                      |
+| `color.windowDot`    | `--wp--custom--color--window-dot--`     | close, minimize, zoom dots on terminal frames                                              |
+| `width`              | `--wp--custom--width--`                 | full 1280px                                                                                |
+| `fontSize`           | `--wp--custom--font-size--`             | numeral, the 404 page number only                                                          |
+
+How code references them:
+
+- **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-sm-plus`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
+- **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--sm)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
+- **Prototype kits** load `design-system/colors_and_type.css`, which repeats the same values under the older `--color-*`, `--font-size-*`, `--radius-*` names.
+
+To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, then copy it into `design-system/theme.json` and `design-system/colors_and_type.css`. Never write a literal value in a stylesheet when a token exists.

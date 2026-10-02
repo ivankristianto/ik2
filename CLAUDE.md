@@ -36,7 +36,7 @@ CI: `.github/workflows/quality.yml` runs all four on push/PR. **Always run the r
 
 ## Design system status
 
-`design-system/` is **both** a reference and a self-contained Claude skill (`SKILL.md`, `name: ivankristianto-design`) that can be loaded as a skill. The token files (`colors_and_type.css`, `theme.json`) are the source of truth. The active block theme has its own **copy** of `theme.json` at `wp-content/themes/ik2/theme.json` — keep them in sync manually until we add a sync script.
+`design-system/` is **both** a reference and a self-contained Claude skill (`SKILL.md`, `name: ivankristianto-design`) that can be loaded as a skill. Its token files (`colors_and_type.css`, `theme.json`) are **mirrors** of `wp-content/themes/ik2/theme.json`, which is the source of truth. Keep them in sync manually until we add a sync script.
 
 ## Architecture
 
@@ -48,7 +48,7 @@ CI: `.github/workflows/quality.yml` runs all four on push/PR. **Always run the r
 
 ### Token flow
 
-`design-system/colors_and_type.css` is the source of truth for color / type / spacing / radii / shadow tokens. `samples/assets/tokens.css` is a copy + extensions. `wp-content/themes/ik2/theme.json` is a copy of `design-system/theme.json`. Do **not** introduce new color or spacing values inline — add a token, then reference it.
+`wp-content/themes/ik2/theme.json` is the single source of truth for every design token. Its presets (`color.palette`, `typography.fontSizes`, `spacing.spacingSizes`, `border.radiusSizes` sm 4px / md 6px / lg 8px / pill / round, `shadow.presets` sm / md) become `--wp--preset--<type>--<slug>`. Its `settings.custom` groups (`fontWeight`, `lineHeight`, `letterSpacing`, `transition`, `focus`, `color.scrim`, `color.categoryTint`, `color.windowDot`, `width.full`, `fontSize.numeral`) become `--wp--custom--<group>--<key>` in kebab-case. SCSS partials reach them through the `$` aliases in `src/styles/_tokens.scss`, which holds aliases only, no values. Plain block `style.css` files use `var(--wp--preset--*)` / `var(--wp--custom--*)` directly. `design-system/theme.json` is a straight copy, `design-system/colors_and_type.css` mirrors the values under the prototype kits' `--color-*` names, and `samples/assets/tokens.css` is a copy + extensions of that. Do **not** introduce new values inline: add the token to `theme.json`, alias it in `_tokens.scss` if SCSS needs it, then reference it. The Tokens section of `DESIGN.md` has the full map.
 
 ### Iconography
 
@@ -71,16 +71,17 @@ The theme's front-end CSS is split for load performance — there is **no monoli
 
 These are enforced by the design brief (see `design-system/README.md` and `SKILL.md`). They affect what you may add, not just what you write:
 
-- **One accent color**: Signal Blue `#2563EB`. Anything that looks "accent-y" must be `var(--color-accent)`. Status colors (green/amber/red) are for status only.
+- **One accent color**: Terracotta `#C2410C` (palette slug `signal`). Anything that looks "accent-y" must be `var(--wp--preset--color--signal)` in CSS or `$color-signal` in SCSS (`var(--color-accent)` in the prototype kits). The old blue accent is retired. Status colors (green/amber/red) are for status only.
+- **Light only.** No dark-mode CSS and no `prefers-color-scheme` blocks. If a dark mode comes later, it will be added through `theme.json` (a style variation or settings).
 - **Warm paper `#F8F7F3`** is the page background; pure white is reserved for cards.
 - **System fonts only.** Do not add a `@font-face` or load a webfont unless the user asks.
 - **No shadows** beyond `--shadow-sm` (card hover) and `--shadow-md` (modal/palette). No gradients, no glassmorphism, no grain, no marketing-style hero imagery.
 - **No emoji in chrome.** Body content is the writer's call.
 - **No `!important`.** Fix specificity, source order, or the markup instead of forcing overrides.
-- **Focus-visible is non-negotiable**: `2px solid var(--color-accent)`, `outline-offset: 3px`.
+- **Focus-visible is non-negotiable**: `2px solid` accent, `outline-offset: 3px` (`outline: $focus; outline-offset: $focus-offset;` in SCSS).
 - **Sentence case** for body and most UI; tags in lowercase; dates in monospace (e.g. `July 8, 2020`).
 - **Article max-width 720px**; container 1080px; full-bleed chrome 1280px.
-- **No transforms / scales / bounces** on hover. Transitions are `200ms ease` on `color`/`background`/`border`/`box-shadow` only.
+- **No transforms / scales / bounces** on hover. Transitions are `200ms ease` (`$transition-base`, `var(--wp--custom--transition--base)`) on `color`/`background`/`border`/`box-shadow` only.
 
 When in doubt, widen margins instead of adding a shadow; tighten type instead of adding an icon.
 
@@ -91,7 +92,7 @@ When in doubt, widen margins instead of adding a shadow; tighten type instead of
 3. Mirror the patterns in `design-system/preview/` and the existing JSX/block templates.
 4. For prototype kits: register the new JSX file in `index.html` (order matters — components attach to globals).
 5. For the WP theme: prefer block templates (`templates/*.html`, `parts/*.html`) over PHP templates. PHP goes in `inc/` under the `IK2\Theme` namespace.
-6. If you add a token, add it to **all** of `design-system/colors_and_type.css`, `design-system/theme.json`, **and** `wp-content/themes/ik2/theme.json`.
+6. If you add a token, add it to `wp-content/themes/ik2/theme.json` first, alias it in `src/styles/_tokens.scss` if SCSS uses it, then mirror it into `design-system/theme.json` **and** `design-system/colors_and_type.css`.
 
 ## PHP conventions
 
