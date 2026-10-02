@@ -255,7 +255,7 @@ WP Super Cache ships in Simple mode (no nginx rewrite rules needed) with caching
 The **IK2** block theme at `wp-content/themes/ik2/` consumes the design system:
 
 -   Slug / text-domain / asset handle: `ik2`. PHP namespace: `IK2\Theme`. Display name: "IK2".
--   `theme.json` is **a copy** of `design-system/theme.json`. When you change tokens in the design system, copy the file across (or wire up a sync script — TBD).
+-   `theme.json` is the **single source of truth** for design tokens: presets (palette, font sizes, spacing, radii, shadows) plus `settings.custom` (font weight, line height, letter spacing, transitions, focus, scrim, category tints). SCSS reads them through the aliases in `src/styles/_tokens.scss`; block CSS uses `var(--wp--preset--*)` / `var(--wp--custom--*)`. Change tokens here, then copy the file to `design-system/theme.json` and mirror the values into `design-system/colors_and_type.css` (no sync script yet).
 -   `style.css` is the theme header; visual styles come from `theme.json` plus any block CSS you add.
 -   PHP uses `declare(strict_types=1)` and modern namespacing. PHPCS rules are relaxed where they fight modern PHP (short arrays, namespaces).
 
@@ -263,15 +263,16 @@ The theme expects WordPress 6.6+.
 
 ## Design system
 
-`design-system/` is a self-contained Claude skill (`SKILL.md`) and human-readable design reference (`README.md`). It owns the visual rules — colors, type, spacing, voice, iconography. Read it before writing UI code. The token file (`colors_and_type.css`) and `theme.json` are the canonical sources; nothing else may hardcode colors or spacing.
+`design-system/` is a self-contained Claude skill (`SKILL.md`) and human-readable design reference (`README.md`). It owns the visual rules: colors, type, spacing, voice, iconography. Read it before writing UI code. Its token files (`colors_and_type.css`, `theme.json`) mirror `wp-content/themes/ik2/theme.json`, which is the canonical source; nothing else may hardcode colors or spacing.
 
 See [`design-system/README.md`](./design-system/README.md) and [`CLAUDE.md`](./CLAUDE.md).
 
 ## Conventions
 
--   One accent color: **Signal Blue `#2563EB`**. Status colors (green/amber/red) are for status only.
+-   One accent color: **Terracotta `#C2410C`** (palette slug `signal`). Status colors (green/amber/red) are for status only.
+-   Light only for now. A dark mode, if it comes, will be added through `theme.json`.
 -   System fonts only — no webfonts.
--   Borders + whitespace do the hierarchy work. No drop shadows beyond card hover.
+-   Borders + whitespace do the hierarchy work. No drop shadows beyond card hover and the command palette.
 -   First-person, working-engineer voice in any prose.
 
 Full design rules live in `design-system/README.md`. Code-level guidance for AI assistants lives in `CLAUDE.md`.
