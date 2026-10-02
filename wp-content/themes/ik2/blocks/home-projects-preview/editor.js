@@ -33,13 +33,13 @@
 				className: 'ik-project__status',
 				'data-status': status,
 				style: {
-					fontFamily: 'monospace',
-					fontSize: '11px',
-					padding: '2px 8px',
-					borderRadius: '999px',
-					border: '1px solid #ddd',
-					marginLeft: '8px',
-					color: '#666',
+					fontFamily: 'var(--wp--preset--font-family--mono)',
+					fontSize: 'var(--wp--preset--font-size--xs)',
+					padding: '2px var(--wp--preset--spacing--2)',
+					borderRadius: 'var(--wp--preset--border-radius--pill)',
+					border: '1px solid var(--wp--preset--color--line)',
+					marginLeft: 'var(--wp--preset--spacing--2)',
+					color: 'var(--wp--preset--color--dust)',
 				},
 			},
 			status.toLowerCase()
@@ -62,7 +62,7 @@
 				{
 					style: {
 						display: 'flex',
-						gap: '8px',
+						gap: 'var(--wp--preset--spacing--2)',
 						alignItems: 'center',
 					},
 				},
@@ -128,7 +128,7 @@
 					variant: 'link',
 					isDestructive: true,
 					onClick: () => onChange( [] ),
-					style: { marginTop: '8px' },
+					style: { marginTop: 'var(--wp--preset--spacing--2)' },
 				},
 				__( 'Clear all', 'ik2' )
 			)
@@ -138,9 +138,9 @@
 	function Edit( { attributes, setAttributes } ) {
 		const blockProps = useBlockProps( {
 			style: {
-				padding: '16px',
-				border: '1px dashed #c3c4c7',
-				borderRadius: '8px',
+				padding: 'var(--wp--preset--spacing--4)',
+				border: '1px dashed var(--wp--preset--color--rule)',
+				borderRadius: 'var(--wp--preset--border-radius--lg)',
 			},
 		} );
 
@@ -200,7 +200,7 @@
 								margin: 0,
 								padding: 0,
 								display: 'grid',
-								gap: '8px',
+								gap: 'var(--wp--preset--spacing--2)',
 							},
 						},
 						previewProjects.map( ( p, idx ) =>
@@ -209,14 +209,17 @@
 								{
 									key: idx,
 									style: {
-										padding: '8px 12px',
-										background: '#fff',
-										border: '1px solid #eee',
-										borderRadius: '6px',
+										padding:
+											'var(--wp--preset--spacing--2) var(--wp--preset--spacing--3)',
+										background:
+											'var(--wp--preset--color--surface)',
+										border: '1px solid var(--wp--preset--color--soft-paper)',
+										borderRadius:
+											'var(--wp--preset--border-radius--md)',
 										display: 'flex',
 										alignItems: 'center',
 										justifyContent: 'space-between',
-										gap: '8px',
+										gap: 'var(--wp--preset--spacing--2)',
 									},
 								},
 								el(

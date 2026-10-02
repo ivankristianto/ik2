@@ -32,7 +32,7 @@
 
 .ik-talk__title {
   font-size: var(--wp--preset--font-size--xl);
-  line-height: 1.2;
+  line-height: var(--wp--custom--line-height--snug);
   margin: 0;
 }
 
@@ -44,7 +44,7 @@
 .ik-talk__venue {
   color: var(--wp--preset--color--graphite);
   font-size: var(--wp--preset--font-size--md);
-  line-height: 1.6;
+  line-height: var(--wp--custom--line-height--comfortable);
   margin-top: var(--wp--preset--spacing--2);
 }
 
@@ -52,7 +52,7 @@
   font-family: var(--wp--preset--font-family--mono);
   font-size: var(--wp--preset--font-size--xs);
   color: var(--wp--preset--color--signal);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--wp--custom--letter-spacing--wider);
   text-transform: uppercase;
 }
 
@@ -68,7 +68,7 @@
 
   .ik-talk__venue {
     font-size: var(--wp--preset--font-size--md);
-    line-height: 1.5;
+    line-height: var(--wp--custom--line-height--comfortable);
     margin-top: var(--wp--preset--spacing--1);
   }
 

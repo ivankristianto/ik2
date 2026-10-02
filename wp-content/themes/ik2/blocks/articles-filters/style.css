@@ -32,14 +32,14 @@
 .ik-articles-filters__pill {
 	font-family: var(--wp--preset--font-family--mono);
 	font-size: var(--wp--preset--font-size--sm);
-	line-height: 1;
-	padding: 6px 12px;
-	border-radius: 999px;
+	line-height: var(--wp--custom--line-height--flat);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--preset--border-radius--pill);
 	border: 1px solid var(--wp--preset--color--line);
 	background: var(--wp--preset--color--surface);
 	color: var(--wp--preset--color--graphite);
 	text-decoration: none;
-	transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+	transition: border-color var(--wp--custom--transition--base), color var(--wp--custom--transition--base), background-color var(--wp--custom--transition--base);
 	white-space: nowrap;
 }
 
