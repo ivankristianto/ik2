@@ -20,7 +20,7 @@
 	max-width: 34ch;
 	color: $color-graphite;
 	font-size: $size-lg;
-	line-height: 1.55;
+	line-height: $leading-comfortable;
 	margin: 0;
 }
 
@@ -62,7 +62,7 @@
 
 	.ik-speaking-layout__deck {
 		font-size: $size-md;
-		line-height: 1.6;
+		line-height: $leading-comfortable;
 	}
 }
 

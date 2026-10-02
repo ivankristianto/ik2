@@ -32,7 +32,7 @@
 }
 
 .ik-footer__copy {
-	letter-spacing: 0.01em;
+	letter-spacing: $tracking-wide;
 	// Keep the year range together so "2010–2026" never wraps mid-range.
 	white-space: nowrap;
 }
@@ -53,7 +53,7 @@
 		color: $color-graphite;
 		padding: $space-2 0;
 		text-decoration: none;
-		transition: color 200ms ease;
+		transition: color $transition-base;
 	}
 
 	.wp-block-navigation-item__content:hover {

@@ -3,7 +3,7 @@
 .ik-notes-layout {
 	display: grid;
 	grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 22rem);
-	gap: clamp(2rem, 5vw, 4rem);
+	gap: clamp(#{$space-6}, 5vw, #{$space-8});
 	align-items: flex-start;
 	margin: 0;
 }
@@ -73,7 +73,7 @@
 
 .ik-note__title {
 	font-size: $size-xl;
-	line-height: 1.2;
+	line-height: $leading-snug;
 	margin: 0 0 $space-2;
 
 	a {
@@ -85,7 +85,7 @@
 .ik-note__excerpt {
 	color: $color-graphite;
 	font-size: $size-md;
-	line-height: 1.55;
+	line-height: $leading-comfortable;
 	margin: 0;
 }
 
@@ -134,7 +134,7 @@
 
 	.ik-note__excerpt {
 		font-size: $size-sm;
-		line-height: 1.5;
+		line-height: $leading-comfortable;
 	}
 }
 

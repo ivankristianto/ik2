@@ -5,16 +5,16 @@
 body {
 	font-family: $font-sans;
 	font-size: $size-lg;
-	line-height: 1.7;
+	line-height: $leading-relaxed;
 	color: $color-ink;
 	background: $color-paper;
 	-webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-weight: 700;
-	letter-spacing: -0.04em;
-	line-height: 1.1;
+	font-weight: $weight-bold;
+	letter-spacing: $tracking-tightest;
+	line-height: $leading-tight;
 	text-wrap: balance;
 }
 

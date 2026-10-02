@@ -31,7 +31,7 @@
 		color: $color-graphite;
 		text-decoration: none;
 		padding: $space-2 $space-3;
-		transition: color 200ms ease, text-decoration-color 200ms ease;
+		transition: color $transition-base, text-decoration-color $transition-base;
 
 		&:hover {
 			color: $color-signal;
@@ -61,7 +61,7 @@
 	padding: $space-3;
 	color: $color-graphite;
 	font-size: $size-sm;
-	transition: border-color 200ms ease, color 200ms ease;
+	transition: border-color $transition-base, color $transition-base;
 
 	&:hover {
 		border-color: $color-rule;
@@ -149,7 +149,7 @@
 		background: $color-surface;
 		color: $color-ink;
 		padding-inline: $space-3;
-		transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+		transition: border-color $transition-base, background-color $transition-base, color $transition-base;
 		touch-action: manipulation;
 	}
 
@@ -169,7 +169,7 @@
 	.ik-header .wp-block-navigation__responsive-container-close::after {
 		font-family: $font-mono;
 		font-size: $size-xs;
-		line-height: 1;
+		line-height: $leading-flat;
 		color: currentcolor;
 	}
 
@@ -192,7 +192,7 @@
 
 	.ik-header .wp-block-navigation__responsive-container {
 		padding: 0;
-		background: rgba(23, 23, 23, 0.35);
+		background: $color-scrim;
 	}
 
 	.ik-header .wp-block-navigation__responsive-close {
@@ -221,7 +221,7 @@
 		grid-template-columns: 1fr auto;
 		column-gap: $space-3;
 		transform: translateX(100%);
-		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+		transition: transform $transition-drawer;
 		will-change: transform;
 		overflow: auto;
 	}
@@ -239,9 +239,9 @@
 		align-self: center;
 		font-family: $font-mono;
 		font-size: $size-lg;
-		font-weight: 600;
+		font-weight: $weight-semibold;
 		color: $color-ink;
-		letter-spacing: -0.01em;
+		letter-spacing: $tracking-snug;
 	}
 
 	.ik-header .wp-block-navigation__responsive-dialog .wp-block-navigation__responsive-container-close {
@@ -254,7 +254,7 @@
 		border-color: transparent;
 		color: $color-graphite;
 		padding-inline: $space-2;
-		transition: color 200ms ease;
+		transition: color $transition-base;
 	}
 
 	.ik-header .wp-block-navigation__responsive-dialog .wp-block-navigation__responsive-container-close:hover {
@@ -300,7 +300,7 @@
 		color: $color-dust;
 		font-family: $font-mono;
 		font-size: $size-xs;
-		line-height: 1.4;
+		line-height: $leading-normal;
 	}
 
 	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:first-child::before {
@@ -324,11 +324,11 @@
 		min-height: 56px;
 		padding: $space-3 $space-4;
 		font-size: $size-lg;
-		line-height: 1.2;
-		letter-spacing: -0.01em;
-		font-weight: 500;
+		line-height: $leading-snug;
+		letter-spacing: $tracking-snug;
+		font-weight: $weight-medium;
 		border-radius: $radius-sm;
-		transition: background-color 200ms ease, color 200ms ease;
+		transition: background-color $transition-base, color $transition-base;
 	}
 
 	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content:hover {
@@ -339,7 +339,7 @@
 	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item__content.wp-block-navigation-item__content.current-menu-item {
 		color: $color-signal-deep;
 		background: $color-signal-soft;
-		font-weight: 600;
+		font-weight: $weight-semibold;
 		text-decoration: none;
 	}
 
