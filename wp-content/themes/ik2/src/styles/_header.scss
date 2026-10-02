@@ -195,6 +195,12 @@
 		background: $color-scrim;
 	}
 
+	// Core paints and pads the open overlay at (0,5,0); match it so the scrim shows and the drawer sits flush.
+	.ik-header .wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open {
+		padding: 0;
+		background: $color-scrim;
+	}
+
 	.ik-header .wp-block-navigation__responsive-close {
 		display: flex;
 		justify-content: flex-end;
