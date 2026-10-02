@@ -1,5 +1,5 @@
-// Token bridge. WordPress emits CSS custom properties from theme.json;
-// these SCSS variables alias them so component partials read naturally.
+// Token bridge. Every value lives in theme.json (presets + settings.custom);
+// these SCSS variables only alias the custom properties WordPress emits.
 
 $color-paper:        var(--wp--preset--color--paper);
 $color-surface:      var(--wp--preset--color--surface);
@@ -23,13 +23,46 @@ $font-mono: var(--wp--preset--font-family--mono);
 
 $size-xs:   var(--wp--preset--font-size--xs);
 $size-sm:   var(--wp--preset--font-size--sm);
+$size-sm-plus: var(--wp--preset--font-size--sm-plus);
 $size-md:   var(--wp--preset--font-size--md);
+$size-md-plus: var(--wp--preset--font-size--md-plus);
 $size-lg:   var(--wp--preset--font-size--lg);
 $size-xl:   var(--wp--preset--font-size--xl);
 $size-2xl:  var(--wp--preset--font-size--2-xl);
 $size-3xl:  var(--wp--preset--font-size--3-xl);
 $size-4xl:  var(--wp--preset--font-size--4-xl);
-$size-hero: var(--wp--preset--font-size--hero);
+$size-lead:     var(--wp--preset--font-size--lead);
+$size-subtitle: var(--wp--preset--font-size--subtitle);
+$size-title:    var(--wp--preset--font-size--title);
+$size-title-lg: var(--wp--preset--font-size--title-lg);
+$size-headline: var(--wp--preset--font-size--headline);
+$size-display:  var(--wp--preset--font-size--display);
+$size-hero:     var(--wp--preset--font-size--hero);
+$size-jumbo:    var(--wp--preset--font-size--jumbo);
+$size-numeral:  var(--wp--custom--font-size--numeral);
+
+$weight-regular:  var(--wp--custom--font-weight--regular);
+$weight-medium:   var(--wp--custom--font-weight--medium);
+$weight-semibold: var(--wp--custom--font-weight--semibold);
+$weight-bold:     var(--wp--custom--font-weight--bold);
+$weight-heavy:    var(--wp--custom--font-weight--heavy);
+
+$leading-compact:     var(--wp--custom--line-height--compact);
+$leading-flat:        var(--wp--custom--line-height--flat);
+$leading-tight:       var(--wp--custom--line-height--tight);
+$leading-snug:        var(--wp--custom--line-height--snug);
+$leading-normal:      var(--wp--custom--line-height--normal);
+$leading-comfortable: var(--wp--custom--line-height--comfortable);
+$leading-relaxed:     var(--wp--custom--line-height--relaxed);
+
+$tracking-tightest: var(--wp--custom--letter-spacing--tightest);
+$tracking-tighter:  var(--wp--custom--letter-spacing--tighter);
+$tracking-tight:    var(--wp--custom--letter-spacing--tight);
+$tracking-snug:     var(--wp--custom--letter-spacing--snug);
+$tracking-normal:   var(--wp--custom--letter-spacing--normal);
+$tracking-wide:     var(--wp--custom--letter-spacing--wide);
+$tracking-wider:    var(--wp--custom--letter-spacing--wider);
+$tracking-widest:   var(--wp--custom--letter-spacing--widest);
 
 $space-1:  var(--wp--preset--spacing--1);
 $space-2:  var(--wp--preset--spacing--2);
@@ -42,13 +75,24 @@ $space-8:  var(--wp--preset--spacing--8);
 $space-9:  var(--wp--preset--spacing--9);
 $space-10: var(--wp--preset--spacing--10);
 
-$width-content: var(--wp--style--global--content-size, 720px);
+$width-content: var(--wp--style--global--content-size);
+$width-wide:    var(--wp--style--global--wide-size);
+$width-full:    var(--wp--custom--width--full);
 
-$radius-sm: 0.25rem;
-$radius-md: 0.375rem;
-$radius-lg: 0.5rem;
+$radius-sm:    var(--wp--preset--border-radius--sm);
+$radius-md:    var(--wp--preset--border-radius--md);
+$radius-lg:    var(--wp--preset--border-radius--lg);
+$radius-pill:  var(--wp--preset--border-radius--pill);
+$radius-round: var(--wp--preset--border-radius--round);
 
-$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
-$shadow-md: 0 6px 24px rgba(0, 0, 0, 0.08);
+$shadow-sm: var(--wp--preset--shadow--sm);
+$shadow-md: var(--wp--preset--shadow--md);
 
-$focus: 2px solid #{$color-signal};
+$color-scrim: var(--wp--custom--color--scrim);
+
+$transition-base:   var(--wp--custom--transition--base);
+$transition-drawer: var(--wp--custom--transition--drawer);
+
+$focus-width:  var(--wp--custom--focus--width);
+$focus-offset: var(--wp--custom--focus--offset);
+$focus: #{$focus-width} solid #{$color-signal};
