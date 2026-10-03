@@ -74,6 +74,9 @@
 	font-weight: $weight-bold;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tighter;
+	// Firefox sizes the anonymous text flex item a few px narrower than the
+	// negatively-tracked text it lays out, so the label wraps to two lines.
+	white-space: nowrap;
 	color: $color-ink;
 	text-decoration: none;
 	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
