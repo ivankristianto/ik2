@@ -159,19 +159,28 @@
 /* ---- Receipts ledger (ik2/resume-facts) ------------------------------- */
 
 .ik-resume .ik-resume__facts {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-auto-columns: minmax(0, 1fr);
+	grid-auto-flow: column;
 	margin: $space-7 0 0;
 	padding: 0;
 	border-block: 2px solid $color-ink;
+
+	// Two even columns on narrow screens, hairlines between rows.
+	@media (max-width: 700px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-auto-flow: row;
+	}
 }
 
+// Equal tracks put every hairline at an even interval; each value starts the
+// same distance past its rule, and the first sits flush with the text column.
 .ik-resume__fact {
 	display: flex;
 	flex-direction: column;
 	gap: $space-1;
 	min-width: 0;
-	padding: $space-5 $space-6;
+	padding: $space-5;
 	border-right: 1px solid $color-line;
 
 	&:first-child {
@@ -182,14 +191,22 @@
 		border-right: 0;
 	}
 
-	// Two tidy columns on narrow screens — no fixed basis, so labels never clip.
 	@media (max-width: 700px) {
-		flex: 1 1 calc(50% - 1px);
 		padding-inline: 0 $space-4;
 
 		&:nth-child(2n) {
-			border-right: 0;
+			padding-left: $space-4;
 			padding-right: 0;
+			border-right: 0;
+		}
+
+		&:nth-child(n + 3) {
+			border-top: 1px solid $color-line;
+		}
+
+		// An odd count leaves the last fact alone on its row; let it take the row.
+		&:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
 		}
 	}
 }
@@ -209,8 +226,10 @@
 	font-family: $font-mono;
 	font-size: $size-sm;
 	font-weight: $weight-medium;
+	line-height: $leading-snug;
 	color: $color-graphite;
 	letter-spacing: $tracking-wide;
+	text-wrap: balance;
 }
 
 /* ---- Section frame ----------------------------------------------------- */
