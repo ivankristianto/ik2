@@ -18,16 +18,16 @@ $ik2_facts = [
 		'label' => __( 'WordPress core releases', 'ik2' ),
 	],
 	[
+		'value' => '5',
+		'label' => __( 'WordCamps organised', 'ik2' ),
+	],
+	[
 		'value' => '2018',
 		'label' => __( 'Google Developer Expert', 'ik2' ),
 	],
 	[
-		'value' => '5',
-		'label' => __( 'plugins published', 'ik2' ),
-	],
-	[
-		'value' => 'id_ID',
-		'label' => __( 'locale manager', 'ik2' ),
+		'value' => '2026',
+		'label' => __( 'Advanced WordPress Developer Certified', 'ik2' ),
 	],
 ];
 
