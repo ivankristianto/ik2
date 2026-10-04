@@ -16,8 +16,9 @@
  *    optimise_core_block_style_delivery()).
  *  - Per-template section styles (`build/section-*.css`) are enqueued only on
  *    the templates that use them (see section_slugs_for_request()).
- *  - The command palette stylesheet loads asynchronously — it's chrome that is
- *    never needed for first paint.
+ *  - The command palette (JS and CSS) is not enqueued at all: `build/index.js`
+ *    is a tiny loader that `import()`s the palette chunk, stylesheet included,
+ *    on first use.
  *
  * @package IK2
  */
@@ -56,7 +57,6 @@ function bootstrap(): void {
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_styles' );
 	add_action( 'wp_head', __NAMESPACE__ . '\\preload_hero_portrait', 1 );
-	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\make_palette_style_async', 10, 4 );
 	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 3 );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
@@ -94,8 +94,7 @@ function enqueue_frontend_scripts(): void {
 }
 
 /**
- * Inline the critical CSS, enqueue the per-template section styles, and load
- * the command palette stylesheet asynchronously.
+ * Inline the critical CSS and enqueue the per-template section styles.
  */
 function enqueue_frontend_styles(): void {
 	$build_dir = __DIR__ . '/../build';
@@ -140,19 +139,6 @@ function enqueue_frontend_styles(): void {
 				(string) filemtime( $path )
 			);
 		}
-	}
-
-	// Command palette styles — loaded asynchronously (see
-	// make_palette_style_async): the palette is a hidden modal, never part of
-	// first paint.
-	$palette = $build_dir . '/palette.css';
-	if ( file_exists( $palette ) ) {
-		wp_enqueue_style(
-			'ik2-palette',
-			$build_uri . '/palette.css',
-			[ 'ik2-critical' ],
-			(string) filemtime( $palette )
-		);
 	}
 }
 
@@ -238,28 +224,6 @@ function preload_hero_portrait(): void {
 }
 
 /**
- * Load the command palette stylesheet without blocking render.
- *
- * The `media="print"` + `onload` swap lets the browser fetch the sheet at low
- * priority off the critical path, then apply it once loaded. A <noscript>
- * fallback keeps it working with JavaScript disabled (though the palette
- * itself needs JS to open).
- *
- * @param string $html   The <link> tag HTML.
- * @param string $handle Stylesheet handle.
- * @param string $href   Stylesheet URL.
- * @param string $media  Media attribute.
- * @return string
- */
-function make_palette_style_async( string $html, string $handle, string $href, string $media ): string {
-	if ( 'ik2-palette' !== $handle ) {
-		return $html;
-	}
-
-	return async_style_tag( $html, $media );
-}
-
-/**
  * Keep render-blocking WordPress core block stylesheets off the critical path:
  *
  *  - `wp-block-navigation` is header chrome, above the fold on every page, so
@@ -297,27 +261,6 @@ function optimise_core_block_style_delivery( string $html, string $handle, strin
 	}
 
 	return $html;
-}
-
-/**
- * Rewrite a stylesheet <link> so the browser fetches it off the critical path.
- *
- * The `media="print"` + `onload` swap lets the sheet download at low priority
- * without blocking render, then applies it once loaded. A <noscript> copy of
- * the original tag keeps it working with JavaScript disabled.
- *
- * @param string $html  The <link> tag HTML.
- * @param string $media Media attribute the tag currently carries.
- * @return string
- */
-function async_style_tag( string $html, string $media ): string {
-	$async = str_replace(
-		" media='" . $media . "'",
-		" media='print' onload=\"this.media='all'\"",
-		$html
-	);
-
-	return $async . '<noscript>' . $html . '</noscript>';
 }
 
 /**
