@@ -9,10 +9,10 @@
  *    always needs. Inlining removes a render-blocking request from the
  *    critical path, which is the dominant LCP cost on the home page.
  *  - Block styles ship with their blocks (`block.json` `style`) and load only
- *    when the block is on the page. Two render-blocking WordPress *core* block
+ *    when the block is on the page. Render-blocking WordPress *core* block
  *    sheets get the same critical-path treatment as the theme's own CSS: the
- *    header `wp-block-navigation` sheet is inlined, and the footer-only
- *    `wp-block-social-links` sheet loads asynchronously (see
+ *    header `wp-block-navigation` sheet is inlined everywhere, and the
+ *    `wp-block-image` sheet is inlined on the front page (see
  *    optimise_core_block_style_delivery()).
  *  - Per-template section styles (`build/section-*.css`) are enqueued only on
  *    the templates that use them (see section_slugs_for_request()).
@@ -57,7 +57,7 @@ function bootstrap(): void {
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_styles' );
 	add_action( 'wp_head', __NAMESPACE__ . '\\preload_hero_portrait', 1 );
 	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\make_palette_style_async', 10, 4 );
-	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 4 );
+	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 3 );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
 	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
@@ -268,8 +268,6 @@ function make_palette_style_async( string $html, string $handle, string $href, s
  *  - `wp-block-image` is inlined on the front page only, where the hero
  *    portrait is the LCP element and the sheet would otherwise be the last
  *    render-blocking request on that page.
- *  - `wp-block-social-links` only appears in the footer, below the fold, so it
- *    loads asynchronously (see async_style_tag) and never blocks first paint.
  *
  * Both fall back to the original <link> tag if anything is missing, so a core
  * change to how these handles register can only cost the optimisation, never
@@ -278,14 +276,9 @@ function make_palette_style_async( string $html, string $handle, string $href, s
  * @param string $html   The <link> tag HTML.
  * @param string $handle Stylesheet handle.
  * @param string $href   Stylesheet URL.
- * @param string $media  Media attribute.
  * @return string
  */
-function optimise_core_block_style_delivery( string $html, string $handle, string $href, string $media ): string {
-	if ( 'wp-block-social-links' === $handle ) {
-		return async_style_tag( $html, $media );
-	}
-
+function optimise_core_block_style_delivery( string $html, string $handle, string $href ): string {
 	// `wp-block-image` is only on the front page (the hero portrait frame),
 	// where it is the one remaining render-blocking sheet. Inline it there so
 	// the LCP page ships no blocking stylesheet at all; elsewhere the external

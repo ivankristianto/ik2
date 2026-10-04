@@ -37,8 +37,8 @@
 	white-space: nowrap;
 }
 
-// The footer navigation is pulled from a wp_navigation post and renders as
-// the standard navigation block. Restyle its items to read as quiet meta
+// The footer navigation (Privacy) is inline in parts/footer.html and renders
+// as the standard navigation block. Restyle its items to read as quiet meta
 // links — mono, graphite, with the single Terracotta accent on hover.
 .ik-footer__meta.wp-block-navigation {
 	font-size: $size-xs;
@@ -59,34 +59,51 @@
 	.wp-block-navigation-item__content:hover {
 		color: $color-signal;
 	}
+}
 
-	// The wp_navigation post sets the social-link color to Terracotta via an
-	// inline `style` on each <li>. That paints five saturated icons across
-	// this single row — well past the "≤10% accent per screen" rule. Pin
-	// the icons to Graphite by setting color on the descendant <a>, which
-	// wins over the inherited inline color without !important.
-	.wp-block-social-links {
-		gap: $space-3;
-	}
+// Privacy link and the social icons sit together on the right. Scoped under
+// `.ik-footer` for the same reason as `.ik-footer__bottom` above: the layout
+// class WP injects on the flex group sets its own gap at equal specificity.
+.ik-footer .ik-footer__links {
+	gap: $space-2 $space-5;
+}
 
-	// WP core's social-links block puts `transition: transform` on each <li>
-	// and a `transform: scale(1.1)` hover. That's a hover scale the design
-	// brief forbids, and the transform animation registers as a non-composited
-	// animation. Drop it — the hover affordance is the colour shift below.
-	.wp-block-social-link,
-	.wp-block-social-link:hover {
-		transition: none;
-		transform: none;
-	}
+// Brand icons are inline SVG in the template part (no core social-links block,
+// so none of its 12 KB stylesheet). Icons read as quiet Graphite glyphs and
+// take the single Terracotta accent on hover, like the Privacy link.
+.ik-footer__social ul {
+	display: flex;
+	align-items: center;
+	gap: $space-3;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ik-footer__social a {
+	display: flex;
+	// Grow the hit area past the 24px glyph without changing the visual
+	// rhythm: the padding is pulled back with a matching negative margin.
+	padding: $space-1;
+	margin: calc(-1 * #{$space-1});
+	color: $color-graphite;
+	border-radius: $radius-sm;
 
 	// The icon colour swaps to Signal on hover instantly — `color` can't be
 	// GPU-composited, so transitioning it registers as a non-composited
 	// animation ("Unsupported CSS Property: color"). Skip the transition here.
-	.wp-block-social-link .wp-block-social-link-anchor {
-		color: $color-graphite;
-	}
-
-	.wp-block-social-link .wp-block-social-link-anchor:hover {
+	&:hover {
 		color: $color-signal;
 	}
+
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: $focus-offset;
+	}
+}
+
+.ik-footer__social svg {
+	display: block;
+	width: 24px;
+	height: 24px;
 }
