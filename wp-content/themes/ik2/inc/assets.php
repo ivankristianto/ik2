@@ -260,12 +260,14 @@ function make_palette_style_async( string $html, string $handle, string $href, s
 }
 
 /**
- * Keep two render-blocking WordPress core block stylesheets off the critical
- * path:
+ * Keep render-blocking WordPress core block stylesheets off the critical path:
  *
  *  - `wp-block-navigation` is header chrome, above the fold on every page, so
  *    its sheet is inlined into <head> — the browser applies it during first
  *    paint without a separate blocking request.
+ *  - `wp-block-image` is inlined on the front page only, where the hero
+ *    portrait is the LCP element and the sheet would otherwise be the last
+ *    render-blocking request on that page.
  *  - `wp-block-social-links` only appears in the footer, below the fold, so it
  *    loads asynchronously (see async_style_tag) and never blocks first paint.
  *
@@ -284,7 +286,14 @@ function optimise_core_block_style_delivery( string $html, string $handle, strin
 		return async_style_tag( $html, $media );
 	}
 
-	if ( 'wp-block-navigation' === $handle ) {
+	// `wp-block-image` is only on the front page (the hero portrait frame),
+	// where it is the one remaining render-blocking sheet. Inline it there so
+	// the LCP page ships no blocking stylesheet at all; elsewhere the external
+	// file stays cacheable.
+	$inline = 'wp-block-navigation' === $handle
+		|| ( 'wp-block-image' === $handle && is_front_page() );
+
+	if ( $inline ) {
 		$css = read_registered_style_css( $handle, $href );
 
 		if ( $css !== '' ) {
