@@ -4,8 +4,8 @@
 	color: $color-graphite;
 	font-size: $size-sm;
 	border-top: 1px solid $color-line;
-	padding-top: $space-8;
-	padding-bottom: $space-6;
+	padding-top: $space-4;
+	padding-bottom: $space-4;
 }
 
 // Scoped under `.ik-footer` so this beats the per-block layout class WP
@@ -39,7 +39,8 @@
 
 // The footer navigation (Privacy) is inline in parts/footer.html and renders
 // as the standard navigation block. Restyle its items to read as quiet meta
-// links — mono, graphite, with the single Terracotta accent on hover.
+// links — mono, graphite, with Deep Terracotta on hover. Plain Signal on the
+// Soft Paper footer is 4.50:1, right on the AA line for 12px text.
 .ik-footer__meta.wp-block-navigation {
 	font-size: $size-xs;
 
@@ -57,7 +58,7 @@
 	}
 
 	.wp-block-navigation-item__content:hover {
-		color: $color-signal;
+		color: $color-signal-deep;
 	}
 }
 
@@ -70,7 +71,7 @@
 
 // Brand icons are inline SVG in the template part (no core social-links block,
 // so none of its 12 KB stylesheet). Icons read as quiet Graphite glyphs and
-// take the single Terracotta accent on hover, like the Privacy link.
+// take Deep Terracotta on hover, like the Privacy link.
 .ik-footer__social ul {
 	display: flex;
 	align-items: center;
@@ -89,11 +90,11 @@
 	color: $color-graphite;
 	border-radius: $radius-sm;
 
-	// The icon colour swaps to Signal on hover instantly — `color` can't be
-	// GPU-composited, so transitioning it registers as a non-composited
+	// The icon colour swaps to Deep Terracotta on hover instantly — `color`
+	// can't be GPU-composited, so transitioning it registers as a non-composited
 	// animation ("Unsupported CSS Property: color"). Skip the transition here.
 	&:hover {
-		color: $color-signal;
+		color: $color-signal-deep;
 	}
 
 	&:focus-visible {
