@@ -1,34 +1,77 @@
 @use 'tokens' as *;
 
-.ik-cmdk__overlay {
-	position: fixed;
-	inset: 0;
-	background: $color-scrim;
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	padding-top: 12dvh;
-	z-index: 200;
-	opacity: 0;
-	transition: opacity $transition-base;
-
-	&.is-open { opacity: 1; }
-
-	&[hidden] { display: none; }
-}
-
+// Native modal <dialog>: the browser owns the top layer, inertness of the
+// page behind, focus containment and Escape. Only the look is ours.
 .ik-cmdk {
-	// Percentages resolve against the fixed overlay, so no scrollbar-width overflow like vw.
+	// Top-aligned rather than centred so the list grows downward as results
+	// arrive. `inset: 0` + auto side margins is the UA centring; the block
+	// margins pin it 12dvh from the top.
+	inset: 0;
+	margin: 12dvh auto auto;
+	// Percentages resolve against the viewport, so no scrollbar-width overflow like vw.
 	width: min(640px, 100% - 2 * #{$space-4});
+	max-width: none;
+	max-height: calc(88dvh - #{$space-4});
+	padding: 0;
 	background: $color-surface;
+	color: $color-ink;
 	border: 1px solid $color-line;
 	border-radius: $radius-lg;
 	box-shadow: $shadow-md;
-	display: flex;
-	flex-direction: column;
 	overflow: clip;
+
+	&[open] {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&::backdrop {
+		background: $color-scrim;
+	}
+}
+
+// Keep the page from scrolling under the open palette.
+html:has(.ik-cmdk[open]) {
+	overflow: hidden;
+}
+
+// Fade in and out. Opacity only (no transforms), and `display` / `overlay`
+// are transitioned discretely so the dialog stays in the top layer for the
+// exit fade instead of vanishing on `close()`. Browsers without
+// @starting-style simply snap.
+@media (prefers-reduced-motion: no-preference) {
+
+	.ik-cmdk {
+		opacity: 0;
+		transition:
+			opacity $transition-base,
+			display $transition-base allow-discrete,
+			overlay $transition-base allow-discrete;
+
+		&[open] {
+			opacity: 1;
+
+			@starting-style {
+				opacity: 0;
+			}
+		}
+
+		&::backdrop {
+			opacity: 0;
+			transition:
+				opacity $transition-base,
+				display $transition-base allow-discrete,
+				overlay $transition-base allow-discrete;
+		}
+
+		&[open]::backdrop {
+			opacity: 1;
+
+			@starting-style {
+				opacity: 0;
+			}
+		}
+	}
 }
 
 .ik-cmdk__input-row {

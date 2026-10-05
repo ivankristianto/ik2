@@ -1,10 +1,14 @@
 /**
  * IK2 — Command palette.
  *
- * Front-end-only, no build dependency on the Interactivity API yet.
- * Opens on ⌘K / Ctrl+K, and from the header search button.
+ * Loaded on demand by src/index.js the first time ⌘K / Ctrl+K is pressed or
+ * the header button is clicked; the stylesheet chunk comes along with it.
+ * Rendered as a native modal <dialog>, so the browser owns the top layer,
+ * focus containment, Escape and (via `closedby="any"`) light dismiss.
  * Searches posts via the WordPress REST API, with static nav fallbacks.
  */
+
+import './styles/_palette.scss';
 
 const NAV_ITEMS = [
 	{ group: 'Navigate', glyph: '→', label: 'Home', href: '/' },
@@ -41,7 +45,6 @@ if (
 }
 
 const state = {
-	open: false,
 	query: '',
 	active: 0,
 	results: [],
@@ -55,15 +58,9 @@ let input;
 let listEl;
 let emptyEl;
 // Element focus is returned to when the palette closes (the trigger that
-// opened it, or whatever held focus when ⌘K fired).
+// opened it, or whatever held focus when ⌘K fired). The dialog restores
+// focus itself; this is the explicit fallback for engines that don't.
 let lastFocused = null;
-
-const FOCUSABLE = [
-	'a[href]',
-	'button:not([disabled])',
-	'input:not([disabled])',
-	'[tabindex]:not([tabindex="-1"])',
-].join( ',' );
 
 /**
  * Reflect the open/closed state on every trigger button so assistive tech
@@ -204,8 +201,14 @@ function runActive() {
 	}
 }
 
-function open( trigger ) {
-	if ( state.open ) {
+/**
+ * Open the palette as a modal dialog.
+ *
+ * @param {HTMLElement} [trigger] The button that opened it, if any.
+ */
+export function open( trigger ) {
+	build();
+	if ( palette.open ) {
 		return;
 	}
 	const activeEl = palette.ownerDocument.activeElement;
@@ -216,27 +219,45 @@ function open( trigger ) {
 	} else {
 		lastFocused = null;
 	}
-	state.open = true;
-	palette.hidden = false;
-	setTriggersExpanded( true );
-	window.requestAnimationFrame( () => palette.classList.add( 'is-open' ) );
-	document.body.style.overflow = 'hidden';
 	state.query = '';
 	state.results = [];
 	state.active = 0;
 	input.value = '';
 	render();
-	setTimeout( () => input && input.focus(), 30 );
+	palette.showModal();
+	setTriggersExpanded( true );
+	input.focus();
 }
 
-function close() {
-	if ( ! state.open ) {
-		return;
+/**
+ * Close the palette. The dialog's `close` event does the bookkeeping, so this
+ * is the same path whether we close it or the browser does (Esc, backdrop).
+ */
+export function close() {
+	if ( palette && palette.open ) {
+		palette.close();
 	}
-	state.open = false;
-	palette.classList.remove( 'is-open' );
-	palette.hidden = true;
-	document.body.style.overflow = '';
+}
+
+/**
+ * Toggle the palette — what ⌘K does.
+ */
+export function toggle() {
+	if ( palette && palette.open ) {
+		close();
+	} else {
+		open();
+	}
+}
+
+function onClose() {
+	if ( abortController ) {
+		abortController.abort();
+	}
+	if ( searchTimer ) {
+		clearTimeout( searchTimer );
+	}
+	state.searching = false;
 	setTriggersExpanded( false );
 	// Return focus to the trigger so keyboard users aren't dropped at the
 	// top of the document.
@@ -247,51 +268,12 @@ function close() {
 }
 
 /**
- * Keep Tab focus inside the open dialog (basic focus trap).
+ * List navigation. ⌘K lives in the loader; Escape and focus containment are
+ * the dialog's own.
  *
- * @param {KeyboardEvent} e The keydown event.
+ * @param {KeyboardEvent} e The keydown event, scoped to the dialog.
  */
-function trapFocus( e ) {
-	const focusable = Array.from(
-		palette.querySelectorAll( FOCUSABLE )
-	).filter( ( el ) => el.offsetParent !== null );
-	if ( focusable.length === 0 ) {
-		return;
-	}
-	const first = focusable[ 0 ];
-	const last = focusable[ focusable.length - 1 ];
-	const activeEl = palette.ownerDocument.activeElement;
-	if ( e.shiftKey && activeEl === first ) {
-		e.preventDefault();
-		last.focus();
-	} else if ( ! e.shiftKey && activeEl === last ) {
-		e.preventDefault();
-		first.focus();
-	}
-}
-
 function onKeydown( e ) {
-	if ( ( e.metaKey || e.ctrlKey ) && ( e.key === 'k' || e.key === 'K' ) ) {
-		e.preventDefault();
-		if ( state.open ) {
-			close();
-		} else {
-			open();
-		}
-		return;
-	}
-	if ( ! state.open ) {
-		return;
-	}
-	if ( e.key === 'Escape' ) {
-		e.preventDefault();
-		close();
-		return;
-	}
-	if ( e.key === 'Tab' ) {
-		trapFocus( e );
-		return;
-	}
 	if ( e.key === 'ArrowDown' ) {
 		e.preventDefault();
 		const items = combine();
@@ -335,16 +317,12 @@ function onInput( e ) {
 }
 
 function buildSkeleton() {
-	const overlay = document.createElement( 'div' );
-	overlay.className = 'ik-cmdk__overlay';
-	overlay.id = 'ik-command-palette';
-	overlay.hidden = true;
-	overlay.setAttribute( 'role', 'dialog' );
-	overlay.setAttribute( 'aria-modal', 'true' );
-	overlay.setAttribute( 'aria-label', 'Command palette' );
-
-	const card = document.createElement( 'div' );
-	card.className = 'ik-cmdk';
+	const dialog = document.createElement( 'dialog' );
+	dialog.className = 'ik-cmdk';
+	dialog.id = 'ik-command-palette';
+	dialog.setAttribute( 'aria-label', 'Command palette' );
+	// Light dismiss (backdrop click) and close requests (Esc), declaratively.
+	dialog.setAttribute( 'closedby', 'any' );
 
 	const inputRow = document.createElement( 'div' );
 	inputRow.className = 'ik-cmdk__input-row';
@@ -358,6 +336,7 @@ function buildSkeleton() {
 	inp.placeholder = 'Search articles, topics, projects, or jump to a page…';
 	inp.autocomplete = 'off';
 	inp.spellcheck = false;
+	inp.autofocus = true;
 	const esc = document.createElement( 'span' );
 	esc.className = 'ik-cmdk__esc';
 	esc.textContent = 'esc';
@@ -388,10 +367,31 @@ function buildSkeleton() {
 	meta.textContent = '⌘K from anywhere';
 	footer.append( meta );
 
-	card.append( inputRow, list, empty, footer );
-	overlay.appendChild( card );
+	dialog.append( inputRow, list, empty, footer );
 
-	return { overlay, card, input: inp, list, empty };
+	return { dialog, input: inp, list, empty };
+}
+
+/**
+ * Light-dismiss fallback for engines without `closedby` (Safari): a click
+ * whose target is the dialog itself but lands outside its box is a backdrop
+ * click.
+ *
+ * @param {MouseEvent} e The click event.
+ */
+function onBackdropClick( e ) {
+	if ( e.target !== palette ) {
+		return;
+	}
+	const rect = palette.getBoundingClientRect();
+	const inside =
+		rect.top <= e.clientY &&
+		e.clientY <= rect.top + rect.height &&
+		rect.left <= e.clientX &&
+		e.clientX <= rect.left + rect.width;
+	if ( ! inside ) {
+		close();
+	}
 }
 
 function build() {
@@ -399,17 +399,17 @@ function build() {
 		return;
 	}
 	const parts = buildSkeleton();
-	palette = parts.overlay;
+	palette = parts.dialog;
 	input = parts.input;
 	listEl = parts.list;
 	emptyEl = parts.empty;
 	document.body.appendChild( palette );
 
-	palette.addEventListener( 'click', ( e ) => {
-		if ( e.target === palette ) {
-			close();
-		}
-	} );
+	palette.addEventListener( 'close', onClose );
+	palette.addEventListener( 'keydown', onKeydown );
+	if ( ! ( 'closedBy' in window.HTMLDialogElement.prototype ) ) {
+		palette.addEventListener( 'click', onBackdropClick );
+	}
 	listEl.addEventListener( 'mouseover', ( e ) => {
 		const target = e.target.closest( '.ik-cmdk__item' );
 		if ( target ) {
@@ -417,25 +417,4 @@ function build() {
 		}
 	} );
 	input.addEventListener( 'input', onInput );
-}
-
-function wireTriggers() {
-	document.querySelectorAll( '.ik-header__cmd' ).forEach( ( btn ) => {
-		btn.addEventListener( 'click', ( e ) => {
-			e.preventDefault();
-			open( btn );
-		} );
-	} );
-}
-
-function init() {
-	build();
-	wireTriggers();
-	document.addEventListener( 'keydown', onKeydown );
-}
-
-if ( document.readyState === 'loading' ) {
-	document.addEventListener( 'DOMContentLoaded', init );
-} else {
-	init();
 }

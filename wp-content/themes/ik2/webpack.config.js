@@ -10,12 +10,14 @@
  *
  * Entries:
  *
- *  - `index`  — front-end JS (command palette).
+ *  - `index`  — front-end JS: the command palette's lazy loader. The palette
+ *    itself is a dynamic `import()` chunk (`palette.js` + `palette.css`,
+ *    which it imports) that webpack emits alongside and loads on first use.
  *  - `editor` — `editor.css`, loaded via `add_editor_style()` in inc/setup.php.
  *  - one entry per split stylesheet. The theme's front-end CSS is delivered in
  *    pieces (see inc/assets.php): `critical.css` is inlined in <head> on every
- *    page, `section-*.css` load only on the templates that use them, and
- *    `palette.css` loads async. Each SCSS file is its own entry so the
+ *    page and `section-*.css` load only on the templates that use them. Each
+ *    SCSS file is its own entry so the
  *    wp-scripts pipeline (sass → autoprefixer → cssnano) emits a standalone
  *    `[name].css`. webpack-remove-empty-scripts drops the empty `[name].js`
  *    runtime a CSS-only entry would otherwise leave behind.
@@ -43,7 +45,6 @@ module.exports = {
 		'section-contact': src( 'styles/_contact.scss' ),
 		'section-resume': src( 'styles/_resume.scss' ),
 		'section-speaking': src( 'styles/_speaking-page.scss' ),
-		palette: src( 'styles/_palette.scss' ),
 	},
 	output: {
 		...defaultConfig.output,
