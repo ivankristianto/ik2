@@ -4,8 +4,8 @@
 	color: $color-graphite;
 	font-size: $size-sm;
 	border-top: 1px solid $color-line;
-	padding-top: $space-8;
-	padding-bottom: $space-6;
+	padding-top: $space-4;
+	padding-bottom: $space-4;
 }
 
 // Scoped under `.ik-footer` so this beats the per-block layout class WP
