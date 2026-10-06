@@ -46,9 +46,12 @@ function bootstrap(): void {
 	require_once __DIR__ . '/migrate/class-post-importer.php';
 	require_once __DIR__ . '/class-migrate-articles-command.php';
 	require_once __DIR__ . '/class-fix-image-ids-command.php';
+	require_once __DIR__ . '/class-code-language-detector.php';
+	require_once __DIR__ . '/class-code-languages-command.php';
 
 	\WP_CLI::add_command( 'ik2 stats', Stats_Command::class );
 	\WP_CLI::add_command( 'ik2 setup', Setup_Command::class );
 	\WP_CLI::add_command( 'ik2 migrate-articles', Migrate_Articles_Command::class );
 	\WP_CLI::add_command( 'ik2 fix-image-ids', Fix_Image_Ids_Command::class );
+	\WP_CLI::add_command( 'ik2 code-languages', Code_Languages_Command::class );
 }

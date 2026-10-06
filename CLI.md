@@ -116,6 +116,27 @@ Success: Done.
 
 On production, run it in the `wp-cli` container: `wp db export` first, then the dry run, then the real run. The object cache is Redis, shared with the app, so it updates on its own. The WP Super Cache pages live on the app container, where the wp-cli container can't reach them: delete them from Settings → WP Super Cache (or restart the app container), then purge the CDN. Yoast's internal link index still holds the old IDs until `wp yoast index --reindex`; that's optional, since Yoast finds social images by URL.
 
+## `wp ik2 code-languages`
+
+Sets the `language` attribute on code blocks that don't have one, so the syntax highlighter in the ik2 plugin can color them. It's a one-time backfill for posts written before the language picker existed. New blocks get their language from the picker in the block sidebar.
+
+```bash
+wp ik2 code-languages --dry-run              # counts per detected language
+wp ik2 code-languages --dry-run --show=none  # first line of every block it left plain
+wp ik2 code-languages --dry-run --show=php   # spot-check one language
+wp ik2 code-languages                        # write
+```
+
+| Flag                  | Effect                                                            |
+| :-------------------- | :---------------------------------------------------------------- |
+| `--dry-run`           | Report what would change; write nothing.                          |
+| `--post_type=<types>` | Post types to scan, comma-separated. Default `post,page,project`. |
+| `--show=<language>`   | Print the post ID and first line of each block detected as this language, or `none`. |
+
+Detection is a list of strong signals checked in order (`<?php`, valid JSON, Apache and nginx directives, a known shell command on the first line, a leading HTML tag, SQL statements, and so on). A block that matches none stays plain text, which is the right call for log output, hosts files, and error messages. Only blocks with no attributes at all are touched.
+
+Like `fix-image-ids`, it writes `post_content` directly: only the `<!-- wp:code -->` delimiter changes, `post_modified` stays, and no revision is created. Re-running is safe, since a tagged block has attributes and is skipped. On production, `wp db export` first, then the dry run, then the real run, then clear the page cache and the CDN.
+
 ## Where the code lives
 
 ```
@@ -124,6 +145,8 @@ wp-content/plugins/ik2/inc/cli/
 ├── class-stats-command.php            # wp ik2 stats
 ├── class-setup-command.php            # wp ik2 setup — step registry + runner
 ├── class-fix-image-ids-command.php    # wp ik2 fix-image-ids
+├── class-code-languages-command.php   # wp ik2 code-languages
+├── class-code-language-detector.php   # its language heuristics
 └── setup/
     ├── interface-setup-step.php       # Setup_Step contract
     ├── class-check-result.php         # Check_Result value object
