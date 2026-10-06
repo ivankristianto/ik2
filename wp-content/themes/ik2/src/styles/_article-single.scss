@@ -748,7 +748,9 @@
 
 /* ---- Code block (wp-block-code) — higher specificity later -------------- */
 
-.ik-article__body .wp-block-code {
+/* The editor canvas has no .ik-article__body; its iframe body carries .editor-styles-wrapper. */
+.ik-article__body .wp-block-code,
+.editor-styles-wrapper .wp-block-code {
 	background: $color-code-paper;
 	color: $color-code-ink;
 	border: 1px solid $color-line;
@@ -760,7 +762,8 @@
 	overflow-x: auto;
 }
 
-.ik-article__body .wp-block-code code {
+.ik-article__body .wp-block-code code,
+.editor-styles-wrapper .wp-block-code code {
 	background: transparent;
 	border: 0;
 	padding: 0;
@@ -995,6 +998,7 @@
 	}
 
 	.ik-article__body .wp-block-code,
+	.editor-styles-wrapper .wp-block-code,
 	.ik-article__body pre {
 		padding: $space-4;
 		font-size: $size-sm;
