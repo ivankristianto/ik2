@@ -62,7 +62,7 @@ The theme's front-end CSS is split for load performance — there is **no monoli
 - **Block styles** — each theme block owns a plain (hand-authored, no build step) `blocks/<name>/style.css` referenced from its `block.json` `style` field, so WordPress loads it only when the block is on the page. The plugin's `project-card` block works the same way. This is the pattern to follow for any new block.
 - **Section styles** — page/template compositions that aren't blocks live in `src/styles/_*.scss`, are bundled by `src/sections/*.scss` (or compiled per-partial) to `build/section-*.css`, and are enqueued per template by `section_slugs_for_request()` in `inc/assets.php`.
 - **Command palette** — `build/palette.css` loads asynchronously (never render-blocking).
-- **Image lightbox**: single posts only. `build/lightbox-loader.js` marks the article images worth enlarging (rules in `src/lightbox-rules.js`, tested in `tests/lightbox-rules.test.mjs`) and imports the `lightbox.js` + `lightbox.css` chunk on first open. Core's `core/image` lightbox stays off; see `docs/adr/0001-own-image-lightbox-over-core.md`.
+- **Image lightbox**: single posts only. `build/lightbox-loader.js` marks the article images worth enlarging (rules in `src/lightbox-rules.js`, run `node --test tests/lightbox-rules.test.mjs`) and imports the `lightbox.js` + `lightbox.css` chunk on first open. Core's `core/image` lightbox stays off; see `docs/adr/0001-own-image-lightbox-over-core.md`.
 
 `src/styles/_tokens.scss` aliases the `theme.json` custom properties to SCSS vars so partials read naturally; block `style.css` files reference the `var(--wp--preset--*)` custom properties directly.
 
