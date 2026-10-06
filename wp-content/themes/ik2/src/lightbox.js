@@ -1,11 +1,6 @@
 /**
- * IK2: image lightbox.
- *
- * Loaded on demand by src/lightbox-loader.js the first time a reader opens an
- * article image. A native modal <dialog>, so the browser owns the top layer,
- * focus containment and close requests (Esc, Android back). Slides sit in a
- * scroll-snap track: swiping is the browser's own scrolling, and the buttons
- * and arrow keys jump the track one slide at a time.
+ * Image lightbox: a native modal <dialog> over a scroll-snap track, so swiping
+ * is the browser's own scrolling. Imported by lightbox-loader.js on first use.
  */
 
 import './styles/_lightbox.scss';
@@ -102,7 +97,10 @@ function buildSlide( slide, index, total ) {
 	img.loading = 'lazy';
 	if ( slide.srcset ) {
 		img.srcset = slide.srcset;
-		img.sizes = '100vw';
+		// Capped at the widest file so the slot never stretches the image past its pixels.
+		img.sizes = slide.fileWidth
+			? `(max-width: ${ slide.fileWidth }px) 100vw, ${ slide.fileWidth }px`
+			: '100vw';
 	}
 	img.src = slide.src;
 	figure.append( img );
@@ -124,7 +122,7 @@ function setCurrent( index ) {
 	current = index;
 	const total = slides.length;
 	counter.textContent = `${ index + 1 } / ${ total }`;
-	status.textContent = `Image ${ index + 1 } of ${ total }`;
+	announce();
 	// aria-disabled rather than disabled, so a focused button keeps focus at the ends.
 	prevButton.setAttribute( 'aria-disabled', String( index === 0 ) );
 	nextButton.setAttribute( 'aria-disabled', String( index === total - 1 ) );
@@ -134,17 +132,19 @@ function setCurrent( index ) {
 	} );
 }
 
-function go( index ) {
+function announce() {
+	status.textContent =
+		slides.length > 1 ? `Image ${ current + 1 } of ${ slides.length }` : '';
+}
+
+function showSlide( index ) {
 	const target = Math.max( 0, Math.min( slides.length - 1, index ) );
 	track.scrollTo( { left: target * track.clientWidth, behavior: 'instant' } );
 	setCurrent( target );
 }
 
 function step( delta ) {
-	const button = delta < 0 ? prevButton : nextButton;
-	if ( button.getAttribute( 'aria-disabled' ) !== 'true' ) {
-		go( current + delta );
-	}
+	showSlide( current + delta );
 }
 
 function onScroll() {
@@ -189,13 +189,7 @@ function onClose() {
 	lastFocused = null;
 }
 
-/**
- * Open the lightbox on one slide of an Article's enlargeable images.
- *
- * @param {Array}       items   Slides in document order: src, srcset, alt, caption.
- * @param {number}      index   The slide to open on.
- * @param {HTMLElement} trigger The button that opened it; focus returns here.
- */
+// `items` are the Article's enlargeable images in document order; focus returns to `trigger` on close.
 export function open( items, index, trigger ) {
 	build();
 	if ( dialog.open ) {
@@ -207,5 +201,8 @@ export function open( items, index, trigger ) {
 	navRow.hidden = slides.length < 2;
 	counter.hidden = slides.length < 2;
 	dialog.showModal();
-	go( index );
+	showSlide( index );
+	// A live region filled in the same task as showModal() is often not announced.
+	status.textContent = '';
+	window.setTimeout( announce, 250 );
 }

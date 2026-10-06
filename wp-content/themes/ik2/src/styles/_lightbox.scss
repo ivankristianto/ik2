@@ -1,9 +1,12 @@
 @use 'tokens' as *;
 
-// Room left around the image. stageFor() in lightbox-rules.js mirrors these
-// (CHROME_X, CHROME_Y), so keep the two in step.
+// Room left around the image on wide screens. stageFor() in lightbox-rules.js
+// mirrors these (CHROME_X, CHROME_Y, SMALL_*), so keep the two in step.
 $lightbox-gutter: $space-9;
 $lightbox-chrome-y: calc(#{$space-10} + #{$space-6});
+// Phones add the bottom step bar: button plus its padding.
+$lightbox-chrome-y-small: calc(#{$lightbox-chrome-y} + #{$space-7} + #{$space-3} + #{$space-4});
+$lightbox-wide: "(min-width: 640px) and (min-height: 480px)";
 
 // Fills the viewport on warm paper, so the article behind never competes with
 // the image. Native modal <dialog>: only the look is ours.
@@ -117,6 +120,7 @@ html:has(.ik-lightbox[open]) {
 .ik-lightbox__track {
 	display: flex;
 	overflow-x: auto;
+	overflow-y: hidden;
 	overscroll-behavior-x: contain;
 	scroll-snap-type: x mandatory;
 	scrollbar-width: none;
@@ -127,11 +131,13 @@ html:has(.ik-lightbox[open]) {
 	flex: 0 0 100%;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	// `safe` keeps the top of an over-tall slide (long caption) reachable by scrolling.
+	justify-content: safe center;
 	gap: $space-3;
 	min-width: 0;
 	margin: 0;
 	padding: 0 $space-4 $space-6;
+	overflow-y: auto;
 	scroll-snap-align: center;
 	scroll-snap-stop: always;
 }
@@ -140,7 +146,7 @@ html:has(.ik-lightbox[open]) {
 .ik-lightbox__image {
 	display: block;
 	max-width: 100%;
-	max-height: calc(100dvh - #{$lightbox-chrome-y});
+	max-height: calc(100dvh - #{$lightbox-chrome-y-small});
 	width: auto;
 	height: auto;
 	border-radius: $radius-sm;
@@ -175,7 +181,7 @@ html:has(.ik-lightbox[open]) {
 }
 
 // Wide screens: steps sit in the side gutters, level with the image.
-@media (min-width: 600px) and (min-height: 600px) {
+@media #{$lightbox-wide} {
 
 	.ik-lightbox[open]:has(.ik-lightbox__nav:not([hidden])) {
 		grid-template-rows: auto minmax(0, 1fr);
@@ -183,6 +189,10 @@ html:has(.ik-lightbox[open]) {
 
 	.ik-lightbox__slide {
 		padding-inline: $lightbox-gutter;
+	}
+
+	.ik-lightbox__image {
+		max-height: calc(100dvh - #{$lightbox-chrome-y});
 	}
 
 	.ik-lightbox__nav {
