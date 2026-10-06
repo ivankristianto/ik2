@@ -8,8 +8,8 @@
 		"node": ">=24"
 	},
 	"scripts": {
-		"start": "wp-scripts start --config wp-content/themes/ik2/webpack.config.js",
-		"build": "wp-scripts build --config wp-content/themes/ik2/webpack.config.js",
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
 		"format": "wp-scripts format",
 		"lint": "pnpm run \"/^lint:.*/\"",
 		"lint:js": "wp-scripts lint-js --no-error-on-unmatched-pattern \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{js,jsx}\"",
@@ -26,6 +26,7 @@
 		"@wordpress/scripts": "^36.0.0",
 		"@wordpress/stylelint-config": "^26.0.0",
 		"postcss-scss": "^4.0.9",
+		"prismjs": "^1.30.0",
 		"sass": "^1.105.0",
 		"stylelint-scss": "^7.3.0",
 		"webpack-remove-empty-scripts": "^1.0.4"

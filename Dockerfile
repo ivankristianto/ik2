@@ -57,12 +57,17 @@ COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile
 
+# The root config composes the theme and plugin webpack configs.
+COPY webpack.config.js ./
 COPY wp-content ./wp-content
 
-# Build the theme assets and fail loudly if the expected output is missing —
-# a silently empty build would ship an unstyled site (assets.php inlines the
-# critical CSS and enqueues section styles, both guarded by file_exists).
+# Build the theme and ik2 plugin assets and fail loudly if the expected output
+# is missing — a silently empty build would ship an unstyled site (assets.php
+# inlines the critical CSS and enqueues section styles, both guarded by
+# file_exists) or drop syntax highlighting without an error.
 RUN pnpm build \
+    && test -s wp-content/plugins/ik2/build/code-highlight.js \
+    && test -s wp-content/plugins/ik2/build/code-highlight-editor.js \
     && test -s wp-content/themes/ik2/build/critical.css \
     && test -s wp-content/themes/ik2/build/section-home.css \
     && test -s wp-content/themes/ik2/build/index.js \
