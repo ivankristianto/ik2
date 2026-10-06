@@ -31,7 +31,7 @@
 }
 
 .ik-projects-archive__lede {
-  max-width: var(--wp--style--global--content-size);
+  max-width: 60ch;
   color: var(--wp--preset--color--graphite);
   font-size: var(--wp--preset--font-size--md);
   line-height: var(--wp--custom--line-height--relaxed);

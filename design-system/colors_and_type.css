@@ -116,8 +116,8 @@
   --shadow-md:   0 6px 24px rgba(0, 0, 0, 0.08);
 
   --width-narrow:  600px;
-  --width-content: 720px;
-  --width-wide:    1080px;
+  --width-content: 960px;
+  --width-wide:    1200px;
   --width-full:    1280px;
 
   --transition-base:   200ms ease;
