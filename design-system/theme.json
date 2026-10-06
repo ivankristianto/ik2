@@ -142,6 +142,11 @@
 					"close": "#FF5F57",
 					"minimize": "#FEBC2E",
 					"zoom": "#28C840"
+				},
+				"syntax": {
+					"comment": "var(--wp--preset--color--graphite)",
+					"keyword": "var(--wp--preset--color--signal-deep)",
+					"string": "#5C6331"
 				}
 			},
 			"focus": {

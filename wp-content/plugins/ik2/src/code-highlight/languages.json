@@ -1,0 +1,20 @@
+[
+	{ "value": "bash", "label": "Bash / shell" },
+	{ "value": "php", "label": "PHP" },
+	{ "value": "html", "label": "HTML" },
+	{ "value": "xml", "label": "XML" },
+	{ "value": "css", "label": "CSS" },
+	{ "value": "scss", "label": "SCSS" },
+	{ "value": "javascript", "label": "JavaScript" },
+	{ "value": "typescript", "label": "TypeScript" },
+	{ "value": "json", "label": "JSON" },
+	{ "value": "yaml", "label": "YAML" },
+	{ "value": "sql", "label": "SQL" },
+	{ "value": "nginx", "label": "Nginx" },
+	{ "value": "apacheconf", "label": "Apache config" },
+	{ "value": "ini", "label": "INI" },
+	{ "value": "docker", "label": "Dockerfile" },
+	{ "value": "diff", "label": "Diff" },
+	{ "value": "python", "label": "Python" },
+	{ "value": "csharp", "label": "C#" }
+]

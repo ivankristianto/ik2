@@ -65,7 +65,7 @@ The theme's front-end CSS is split for load performance — there is **no monoli
 
 `src/styles/_tokens.scss` aliases the `theme.json` custom properties to SCSS vars so partials read naturally; block `style.css` files reference the `var(--wp--preset--*)` custom properties directly.
 
-**Build:** `pnpm build` (`pnpm start` to watch) runs one webpack pass with an entry per output — see `wp-content/themes/ik2/webpack.config.js`. Block `style.css` files are plain CSS and need no build (bind-mounted).
+**Build:** `pnpm build` (`pnpm start` to watch) runs the root `webpack.config.js`, which composes the theme config (`wp-content/themes/ik2/webpack.config.js`, an entry per output) and the ik2 plugin config (`wp-content/plugins/ik2/webpack.config.js`, the syntax highlighter). Block `style.css` files are plain CSS and need no build (bind-mounted).
 
 ## Design rules that constrain code changes
 

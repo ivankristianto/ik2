@@ -24,7 +24,8 @@
  *
  * Block styles are hand-authored plain CSS in each block dir and need no build.
  *
- * Run via the root scripts: `pnpm build` / `pnpm start`.
+ * Run via the root scripts: `pnpm build` / `pnpm start`, which build this
+ * config alongside the plugin's (see the root webpack.config.js).
  */
 const path = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );

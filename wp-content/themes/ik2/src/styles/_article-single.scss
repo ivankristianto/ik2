@@ -748,7 +748,9 @@
 
 /* ---- Code block (wp-block-code) — higher specificity later -------------- */
 
-.ik-article__body .wp-block-code {
+/* The editor canvas has no .ik-article__body; its iframe body carries .editor-styles-wrapper. */
+.ik-article__body .wp-block-code,
+.editor-styles-wrapper .wp-block-code {
 	background: $color-code-paper;
 	color: $color-code-ink;
 	border: 1px solid $color-line;
@@ -760,12 +762,26 @@
 	overflow-x: auto;
 }
 
-.ik-article__body .wp-block-code code {
+.ik-article__body .wp-block-code code,
+.editor-styles-wrapper .wp-block-code code {
 	background: transparent;
 	border: 0;
 	padding: 0;
 	font: inherit;
 	color: inherit;
+}
+
+/* Painted by the ik2 plugin's code-highlight script. Only color properties apply here. */
+::highlight(ik2-code-comment) {
+	color: $color-syntax-comment;
+}
+
+::highlight(ik2-code-keyword) {
+	color: $color-syntax-keyword;
+}
+
+::highlight(ik2-code-string) {
+	color: $color-syntax-string;
 }
 
 /* ---- Separator (wp-block-separator) ------------------------------------ */
@@ -995,6 +1011,7 @@
 	}
 
 	.ik-article__body .wp-block-code,
+	.editor-styles-wrapper .wp-block-code,
 	.ik-article__body pre {
 		padding: $space-4;
 		font-size: $size-sm;

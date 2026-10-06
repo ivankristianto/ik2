@@ -19,6 +19,7 @@ function bootstrap(): void {
 	Setup\bootstrap();
 	Assets\bootstrap();
 	Blocks\bootstrap();
+	CodeHighlight\bootstrap();
 	CLI\bootstrap();
 	PostTypes\Project\bootstrap();
 	PostTypes\TalkMeta\bootstrap();

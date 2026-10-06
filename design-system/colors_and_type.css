@@ -40,6 +40,10 @@
   --color-window-dot-minimize: #FEBC2E;
   --color-window-dot-zoom:     #28C840;
 
+  --color-syntax-comment: #5F6368; /* graphite */
+  --color-syntax-keyword: #9A3412; /* signal-deep */
+  --color-syntax-string:  #5C6331;
+
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
