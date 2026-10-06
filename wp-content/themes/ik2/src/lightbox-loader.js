@@ -1,21 +1,23 @@
 /**
- * Front-end entry for single Articles: puts an "Enlarge image" button over
- * every article image the lightbox can show better (see lightbox-rules.js),
- * and imports the lightbox itself, stylesheet included, on first use.
- * Enqueued only on single posts by inc/assets.php.
+ * Single Articles only: lays an "Enlarge image" button over each article image
+ * the lightbox can show better, and imports the lightbox chunk on first use.
  */
 
-import { isEnlargeable, stageFor } from './lightbox-rules.js';
+import {
+	isEnlargeable,
+	largestSrcsetWidth,
+	stageFor,
+} from './lightbox-rules.js';
 
 const HOSTS = 'figure.wp-block-image, .blocks-gallery-item, .wp-caption';
 const TRIGGER = 'ik-lightbox-trigger';
 
-const body = document.querySelector( '.ik-article__body' );
-const images = body ? [ ...body.querySelectorAll( 'img' ) ] : [];
+const articleBody = document.querySelector( '.ik-article__body' );
+const images = articleBody ? [ ...articleBody.querySelectorAll( 'img' ) ] : [];
 const triggers = new Map();
 
 let modulePromise = null;
-let frame = 0;
+let refreshFrame = 0;
 
 function loadLightbox() {
 	if ( ! modulePromise ) {
@@ -26,20 +28,22 @@ function loadLightbox() {
 	return modulePromise;
 }
 
-function measure( img ) {
+function measure( img, host ) {
 	const link = img.closest( 'a[href]' );
+	const fileWidth = largestSrcsetWidth( img.getAttribute( 'srcset' ) );
+	const ratio = img.naturalWidth ? img.naturalHeight / img.naturalWidth : 0;
+	const naturalWidth = fileWidth || img.naturalWidth;
 	return {
-		inFigure: img.closest( HOSTS ) !== null,
-		naturalWidth: img.naturalWidth,
-		naturalHeight: img.naturalHeight,
+		inFigure: host !== null,
+		naturalWidth,
+		naturalHeight: naturalWidth * ratio,
 		renderedWidth: img.getBoundingClientRect().width,
 		href: link ? link.href : null,
 		src: img.currentSrc || img.src,
 	};
 }
 
-function createTrigger( img ) {
-	const host = img.closest( HOSTS );
+function createTrigger( img, host ) {
 	const button = document.createElement( 'button' );
 	button.type = 'button';
 	button.className = TRIGGER;
@@ -52,6 +56,21 @@ function createTrigger( img ) {
 	return button;
 }
 
+// A media-file link under the button would be a second tab stop that leaves the page.
+function setLinkShadowed( img, shadowed ) {
+	const link = img.closest( 'a[href]' );
+	if ( ! link ) {
+		return;
+	}
+	if ( shadowed ) {
+		link.tabIndex = -1;
+		link.setAttribute( 'aria-hidden', 'true' );
+	} else {
+		link.removeAttribute( 'tabindex' );
+		link.removeAttribute( 'aria-hidden' );
+	}
+}
+
 // The button is the image's keyboard-reachable stand-in, so it covers exactly the image box.
 function place( button, img ) {
 	button.style.top = `${ img.offsetTop }px`;
@@ -61,7 +80,11 @@ function place( button, img ) {
 }
 
 function refresh() {
-	frame = 0;
+	refreshFrame = 0;
+	// Removing the open lightbox's trigger would leave focus nowhere to return on close.
+	if ( document.querySelector( '.ik-lightbox[open]' ) ) {
+		return;
+	}
 	const root = document.documentElement;
 	const stage = stageFor( {
 		width: root.clientWidth,
@@ -69,33 +92,45 @@ function refresh() {
 	} );
 
 	for ( const img of images ) {
+		const host = img.closest( HOSTS );
 		let button = triggers.get( img );
-		if ( ! isEnlargeable( measure( img ), stage ) ) {
-			button?.remove();
-			triggers.delete( img );
+		if ( ! isEnlargeable( measure( img, host ), stage ) ) {
+			// Focus lands back here when the lightbox closes; pulling it then would drop focus to <body>.
+			if ( button && button === button.ownerDocument.activeElement ) {
+				button.addEventListener( 'blur', scheduleRefresh, {
+					once: true,
+				} );
+			} else if ( button ) {
+				button.remove();
+				triggers.delete( img );
+				setLinkShadowed( img, false );
+			}
 			continue;
 		}
 		if ( ! button ) {
-			button = createTrigger( img );
+			button = createTrigger( img, host );
 			triggers.set( img, button );
+			setLinkShadowed( img, true );
 		}
 		place( button, img );
 	}
 }
 
 function scheduleRefresh() {
-	if ( ! frame ) {
-		frame = window.requestAnimationFrame( refresh );
+	if ( ! refreshFrame ) {
+		refreshFrame = window.requestAnimationFrame( refresh );
 	}
 }
 
 function slideFor( img ) {
-	const host = img.closest( HOSTS );
 	return {
 		src: img.src,
 		srcset: img.getAttribute( 'srcset' ),
+		fileWidth: largestSrcsetWidth( img.getAttribute( 'srcset' ) ),
 		alt: img.alt,
-		caption: host.querySelector( 'figcaption, .wp-caption-text' ),
+		caption: img
+			.closest( HOSTS )
+			.querySelector( 'figcaption, .wp-caption-text' ),
 	};
 }
 
@@ -119,15 +154,17 @@ function onIntent( e ) {
 	}
 }
 
-if ( body ) {
+if ( articleBody ) {
 	images
 		.filter( ( img ) => ! img.complete )
 		.forEach( ( img ) =>
 			img.addEventListener( 'load', scheduleRefresh, { once: true } )
 		);
 	window.addEventListener( 'resize', scheduleRefresh, { passive: true } );
-	body.addEventListener( 'click', onClick );
-	body.addEventListener( 'pointerover', onIntent, { passive: true } );
-	body.addEventListener( 'focusin', onIntent, { passive: true } );
+	// `close` doesn't bubble; capture catches the lightbox closing to catch up on missed resizes.
+	document.addEventListener( 'close', scheduleRefresh, true );
+	articleBody.addEventListener( 'click', onClick );
+	articleBody.addEventListener( 'pointerover', onIntent, { passive: true } );
+	articleBody.addEventListener( 'focusin', onIntent, { passive: true } );
 	refresh();
 }
