@@ -11,7 +11,7 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 ## Start here
 
 1. Read `README.md` end to end. It has the brand context, content/voice rules, visual foundations, and iconography rules.
-2. Tokens live in `wp-content/themes/ik2/theme.json` (presets + `settings.custom`). `colors_and_type.css` mirrors them as plain CSS custom properties for prototypes; `DESIGN.md` at the repo root maps every group to its CSS variable.
+2. Tokens live in `wp-content/themes/ik2/theme.json` (presets + `settings.custom`). `tokens.css` is generated from it with the same `--wp--*` custom properties WordPress prints, and `colors_and_type.css` aliases those under short names (`--color-*`, `--space-*`) for prototypes; `DESIGN.md` at the repo root maps every group to its CSS variable.
 3. Skim `preview/` for visual specimens of every token + component.
 4. Open `ui_kits/blog/index.html` for the live click-thru prototype (Home, Writing, Guides, Notes, Article, Resume).
 
@@ -26,12 +26,12 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 - **One transition:** `200ms ease` on color, background, border, and box-shadow. No transforms on hover.
 - **First-person, working-engineer voice.** "I use…", "Here's what I did…". No marketing speak. Sentence case. Dates in monospace.
 - **Almost no iconography.** Brand/social SVGs live in `assets/icons/`; UI affordance icons use Lucide.
-- `wp-content/themes/ik2/theme.json` is the single source of truth. The token files in this folder are mirrored copies for previews, prototypes, and agent use.
+- `wp-content/themes/ik2/theme.json` is the single source of truth. `theme.json` and `tokens.css` in this folder are generated from it by `pnpm tokens`; don't edit them by hand.
 - The prototype kit in `ui_kits/blog/` and the production theme are diverged. Propagate intentionally.
 
 ## What to do when invoked
 
-- If the user asks you to build a **prototype, mock, or slide**: copy the assets you need out of this skill folder, write static HTML files that load `colors_and_type.css`, and use the patterns from `preview/` and `ui_kits/blog/`. Don't reinvent.
+- If the user asks you to build a **prototype, mock, or slide**: copy the assets you need out of this skill folder, write static HTML files that load `colors_and_type.css` (keep `tokens.css` next to it; it is imported), and use the patterns from `preview/` and `ui_kits/blog/`. Don't reinvent.
 - If the user is working on **production code**: reference the `theme.json` tokens, never literal values. SCSS uses the `$` aliases in `wp-content/themes/ik2/src/styles/_tokens.scss` (`$color-signal`, `$radius-md`, `$transition-base`); plain block CSS uses `var(--wp--preset--*)` and `var(--wp--custom--*)`. New tokens go into the production `theme.json` first.
 - If the user invokes the skill with no other guidance: ask them what they want to build, ask 2–4 questions (audience, single page vs flow, content available?), and act as an expert designer producing either HTML artifacts or production code.
 
@@ -49,7 +49,8 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 | Path                       | Purpose                                                 |
 | :------------------------- | :------------------------------------------------------ |
 | `README.md`                | Full brand + voice + visual + iconography reference     |
-| `colors_and_type.css`      | Token mirror of `theme.json` + semantic element styles  |
+| `tokens.css`               | Generated `--wp--*` tokens from `theme.json`            |
+| `colors_and_type.css`      | Short-name aliases of `tokens.css` + element styles     |
 | `theme.json`               | Copy of `wp-content/themes/ik2/theme.json`              |
 | `preview/`                 | Per-token / per-component preview cards                 |
 | `ui_kits/blog/`            | Working click-thru prototype + JSX components           |

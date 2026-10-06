@@ -13,7 +13,7 @@ Loaded when working under `design-system/` (and relevant to the gitignored `samp
 
 Neither is the production theme. The production theme is `wp-content/themes/ik2/`.
 
-Both kits read tokens from mirrors of `wp-content/themes/ik2/theme.json` (`design-system/colors_and_type.css`, plus its copy with extensions at `samples/assets/tokens.css`). Change `theme.json` first, then copy the value into the mirror. The kits are light only; don't add dark-mode CSS.
+`design-system/ui_kits/blog/` reads tokens through `colors_and_type.css`, which aliases `tokens.css`. `pnpm tokens` generates `tokens.css` from `wp-content/themes/ik2/theme.json`, so change `theme.json` and regenerate; never edit `tokens.css` or `design-system/theme.json` by hand. `samples/assets/tokens.css` is an older hand-made copy and is not synced. The kits are light only; don't add dark-mode CSS.
 
 ## No build step
 

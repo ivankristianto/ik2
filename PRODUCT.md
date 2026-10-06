@@ -77,7 +77,7 @@ What this site explicitly is not, and what we will not build it toward:
 3. **One accent color, used rarely.** Terracotta `#C2410C` is the single accent — links, primary CTA, focus rings, active states, tag-on-hover. It appears on ≤10% of any given screen. Its rarity is the point.
 4. **System fonts only.** No webfont download. The site loads instantly. The brand identity comes from type contrast (sans vs mono) and spacing, not from a $200 license.
 5. **Mono is the engineering signal.** Dates, tags, metadata, eyebrows, code: all mono. The mono/sans contrast is the visual personality of the site.
-6. **Article max-width 720px.** Wider feels like documentation. Narrower feels precious.
+6. **Article column 960px.** On desktop the article body runs at 20px so a line holds about 90 characters. Long paragraphs stop reading like a wall, and the measure still keeps the eye on track.
 7. **Light only, on warm paper.** Warm paper `#F8F7F3` is the page; pure white is reserved for cards. There is no dark mode for now; if one comes, it will be added through `theme.json`.
 8. **Focus-visible is non-negotiable.** `2px solid` accent ring, `outline-offset: 3px`. Keyboard users come first; the sharp focus ring also reads as engineering rigor.
 9. **No emoji in chrome.** Body content is the writer's call.

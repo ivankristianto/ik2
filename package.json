@@ -17,7 +17,9 @@
 		"lint:css": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\"",
 		"lint:css:fix": "wp-scripts lint-style \"wp-content/{themes/ik2,mu-plugins,plugins/ik2}/**/*.{css,scss}\" --fix",
 		"packages-update": "wp-scripts packages-update",
-		"release": "node scripts/release.mjs"
+		"release": "node scripts/release.mjs",
+		"tokens": "node scripts/sync-tokens.mjs",
+		"tokens:check": "node scripts/sync-tokens.mjs --check"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^27.0.0",

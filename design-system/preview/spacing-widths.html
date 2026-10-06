@@ -1,25 +1,31 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css"></head>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  /* Drawn at real token widths, zoomed to fit the 652px card. */
+  .mock { zoom: calc(652 / 1280); }
+  .mock__full { width: var(--width-full); height: 248px; padding: 16px 0; box-sizing: border-box; background: var(--color-surface-muted); border: 2px dashed var(--color-border-strong); border-radius: 8px; }
+  .mock__wide { width: var(--width-wide); height: 100%; margin-inline: auto; padding: 12px 0; box-sizing: border-box; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 8px; }
+  .mock__content { width: var(--width-content); height: 100%; margin-inline: auto; background: var(--color-accent-soft); border-radius: 8px; }
+  .legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; font-family: var(--font-mono); font-size: 11px; }
+  .legend b { color: var(--color-text); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 6px; border: 1px solid var(--color-border); }
+</style>
+</head>
 <body>
 <div class="card">
-  <div style="position:relative">
-    <!-- Full 1280 mock at scale -->
-    <div style="position:relative;background:#F1EFE8;border:1px solid #D8D5CC;border-radius:6px;height:140px;width:652px">
-      <!-- 1280 wraps everything (full width of mock) -->
-      <div style="position:absolute;inset:8px;border:1px dashed #B9B5AA;border-radius:4px"></div>
-      <!-- wide 1080 -> 1080/1280 * 100% = 84.4% -->
-      <div style="position:absolute;top:14px;bottom:14px;left:7.8%;right:7.8%;background:#FFFFFF;border:1px solid #D8D5CC;border-radius:4px"></div>
-      <!-- content 720 -> 56.25% -->
-      <div style="position:absolute;top:20px;bottom:20px;left:21.875%;right:21.875%;background:#FFEDD5;border-radius:4px"></div>
-      <!-- narrow 600 -> 46.875% -->
-      <div style="position:absolute;top:26px;bottom:26px;left:26.5625%;right:26.5625%;background:#C2410C;border-radius:4px"></div>
-    </div>
+  <div class="mock">
+    <div class="mock__full"><div class="mock__wide"><div class="mock__content"></div></div></div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;font-family:var(--font-mono);font-size:11px">
-    <div><div style="display:inline-block;width:10px;height:10px;background:#C2410C;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">narrow</b> · 600px</div>
-    <div><div style="display:inline-block;width:10px;height:10px;background:#FFEDD5;border-radius:2px;vertical-align:middle;margin-right:6px;border:1px solid #C2410C"></div><b style="color:#171717">content</b> · 720px</div>
-    <div><div style="display:inline-block;width:10px;height:10px;background:#fff;border:1px solid #D8D5CC;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">wide</b> · 1080px</div>
-    <div><div style="display:inline-block;width:10px;height:10px;background:#F1EFE8;border:1px solid #D8D5CC;border-radius:2px;vertical-align:middle;margin-right:6px"></div><b style="color:#171717">full</b> · 1280px</div>
+  <div class="legend">
+    <div><i style="background:var(--color-accent-soft);border-color:var(--color-accent)"></i><b>content</b> · <span data-token="--width-content"></span></div>
+    <div><i style="background:var(--color-surface)"></i><b>wide</b> · <span data-token="--width-wide"></span></div>
+    <div><i style="background:var(--color-surface-muted)"></i><b>full</b> · <span data-token="--width-full"></span></div>
   </div>
 </div>
+<script>
+  const root = getComputedStyle( document.documentElement );
+  for ( const el of document.querySelectorAll( '[data-token]' ) ) {
+    el.textContent = root.getPropertyValue( el.dataset.token ).trim();
+  }
+</script>
 </body></html>

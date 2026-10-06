@@ -239,9 +239,9 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 - **Display** (bold, `display`, tight leading, tightest tracking): the home hero title on desktop and nowhere else. Phones switch to the larger `hero` tier with a 10ch measure, so the title still fills the screen.
 - **Headline** (bold, `headline`, tight, tightest): page titles. Archive headers, the single-article H1, section titles on phones.
 - **Title LG** (bold, `title-lg`, tight, tighter): H2 inside articles.
-- **Subtitle** (bold, `subtitle`, snug, tight): H3 inside articles.
+- **Subtitle** (bold, `subtitle`, snug, tight): H3 inside articles. From 900px up, article H3 moves to `title` and H4 to `2xl`.
 - **Card title** (bold, `xl`, snug, tight): article card titles.
-- **Body** (regular, `lg`, relaxed): the page default and article prose, capped at the 720px content width. Card excerpts drop to `md` with comfortable leading; the hero sub copy uses `md-plus`.
+- **Body** (regular, `lg`, relaxed): the page default and article prose, capped at the 960px content width. Article prose steps up to `xl` from 900px up, and the lead to `2xl`. Card excerpts drop to `md` with comfortable leading; the hero sub copy uses `md-plus`.
 - **Label** (mono, `sm`): article-card meta, filter pills, cover labels, header controls.
 - **Micro** (mono, `xs`, normal leading): tags, project status badges, keyboard hints, palette group titles.
 - **Eyebrow** (mono, `xs`, uppercase, widest tracking, Graphite): the line above section titles.
@@ -256,7 +256,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 
 ## Layout
 
-The page is a single centered column driven by WordPress layout. Content width is 720px (`settings.layout.contentSize`), wide alignment is 1080px (`wideSize`), and full-bleed chrome caps at 1280px (`custom.width.full`). Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
+The page is a single centered column driven by WordPress layout. Content width is 960px (`settings.layout.contentSize`), wide alignment is 1200px (`wideSize`), and full-bleed chrome caps at 1280px (`custom.width.full`). Single articles use the content width as is. Page templates set `custom.width.full` on their post-content, so they don't use it. Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
 
 Spacing is a ten-step scale from 4px to 128px (`spacing.spacingSizes` 1 to 10). Sections breathe at 96px of block padding on desktop and 48px on phones. Section heads sit 48px above their content (24px on phones). Cards and grids use 24px to 32px gaps. Custom spacing values are disabled in the editor, so every gap, margin, and padding resolves to a step.
 
@@ -268,7 +268,7 @@ Responsive behavior keys off a few breakpoints:
 
 Several partials still use one-off breakpoints (600, 700, 720, 760, 800, 960, 1000, 1024px). Treat 640, 768, and 900 as the canonical set when adding new rules.
 
-**The 720 Rule.** Article content caps at 720px. Wider reads like documentation; narrower feels precious. Chrome can widen to 1080px and 1280px, the reading column never does.
+**The 960 Rule.** Article content caps at 960px with a 20px body on desktop, about 90 characters a line. At 720px and 18px, long paragraphs stacked into a wall. Don't widen the column further without raising the body size to match, and cap short prose outside articles with `custom.width.measure` (60ch) instead of the content width.
 
 **The Whitespace First Rule.** When a layout feels empty, widen the margins before adding a border, a shadow, or an icon.
 
@@ -361,7 +361,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Do** use Terracotta for links, focus rings, current-page marks, and active states, and keep it under 10% of the screen.
 - **Do** set the page on Paper and reserve Surface white for cards and panels.
 - **Do** use mono for dates, tags, reading time, eyebrows, file paths, and code. Never for prose.
-- **Do** cap article content at 720px, chrome at 1080px, full-bleed sections at 1280px.
+- **Do** cap article content at 960px, wide images at 1200px, full-bleed sections at 1280px.
 - **Do** give every interactive element a `:focus-visible` ring: `2px solid` Terracotta, 3px offset.
 - **Do** lift cards on hover with a Line-to-Rule border change plus the small shadow. No transform, no scale.
 - **Do** transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.
@@ -392,13 +392,13 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 
 ## Tokens
 
-`wp-content/themes/ik2/theme.json` is the single source of truth. Every value in this document is a preset or a `settings.custom` entry in that file. `design-system/theme.json` and `design-system/colors_and_type.css` are copies kept for the prototype kits and previews.
+`wp-content/themes/ik2/theme.json` is the single source of truth. Every value in this document is a preset or a `settings.custom` entry in that file. `design-system/theme.json` and `design-system/tokens.css` are generated from it by `pnpm tokens` for the prototype kits and previews.
 
 WordPress turns both into CSS custom properties:
 
 - **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--sm-plus`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`. Slugs with a digit before letters gain a hyphen: `3xl` becomes `--wp--preset--font-size--3-xl`.
 - **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.categoryTint.webApis` is `--wp--custom--color--category-tint--web-apis`.
-- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (720px) and `--wp--style--global--wide-size` (1080px).
+- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (960px) and `--wp--style--global--wide-size` (1200px).
 
 Font sizes: static `xs`, `sm`, `sm-plus`, `md`, `md-plus`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, and fluid `lead`, `subtitle`, `title`, `title-lg`, `headline`, `display`, `hero`, `jumbo`. The fluid tiers are hand-written `clamp()` values with WordPress's own fluid typography turned off, so they render exactly as written.
 
@@ -422,6 +422,6 @@ How code references them:
 
 - **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-sm-plus`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
 - **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--sm)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
-- **Prototype kits** load `design-system/colors_and_type.css`, which repeats the same values under the older `--color-*`, `--font-size-*`, `--radius-*` names.
+- **Prototype kits** load `design-system/colors_and_type.css`, which aliases the generated `tokens.css` under the older `--color-*`, `--font-size-*`, `--radius-*` names. It holds no values of its own.
 
-To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, then copy it into `design-system/theme.json` and `design-system/colors_and_type.css`. Never write a literal value in a stylesheet when a token exists.
+To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, run `pnpm tokens`, and alias it in `design-system/colors_and_type.css` if the kits need it. Never write a literal value in a stylesheet when a token exists.

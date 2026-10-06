@@ -114,6 +114,11 @@
 	line-height: $leading-relaxed;
 	color: $color-ink;
 
+	// The 960px article column needs the larger body to hold ~90 characters a line.
+	@media (min-width: 900px) {
+		font-size: $size-xl;
+	}
+
 	/* Reset margins so we can manage rhythm ourselves. */
 	> * {
 		margin-block: 0;
@@ -144,6 +149,11 @@
 		letter-spacing: $tracking-tight;
 		margin-top: 2em;
 		margin-bottom: 0;
+
+		// subtitle bottoms out at 22px near 900px, under the desktop h4.
+		@media (min-width: 900px) {
+			font-size: $size-title;
+		}
 	}
 
 	h4.wp-block-heading,
@@ -153,6 +163,10 @@
 		letter-spacing: $tracking-tight;
 		margin-top: 1.8em;
 		margin-bottom: 0;
+
+		@media (min-width: 900px) {
+			font-size: $size-2xl;
+		}
 	}
 
 	h5.wp-block-heading,
@@ -162,6 +176,10 @@
 		margin-top: 1.6em;
 		margin-bottom: 0;
 		font-weight: $weight-bold;
+
+		@media (min-width: 900px) {
+			font-size: $size-xl;
+		}
 	}
 
 	h6.wp-block-heading,
@@ -461,6 +479,10 @@
 	line-height: $leading-comfortable;
 	color: $color-ink;
 	text-wrap: pretty;
+
+	@media (min-width: 900px) {
+		font-size: $size-2xl;
+	}
 }
 
 /* ---- Image alignment — legacy (img.alignleft / alignright / etc.) ------- */

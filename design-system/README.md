@@ -14,7 +14,8 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 | :-------------------- | :------------------------------------------------------------------------ |
 | `README.md`           | This file: context, content rules, visual foundations, iconography        |
 | `SKILL.md`            | Agent Skills front-matter so this folder can be loaded as a Claude skill  |
-| `colors_and_type.css` | CSS custom properties mirrored from the production `theme.json`           |
+| `tokens.css`          | Generated from the production `theme.json` by `pnpm tokens`               |
+| `colors_and_type.css` | Short-name aliases of `tokens.css`, plus base element styles              |
 | `theme.json`          | Copy of `wp-content/themes/ik2/theme.json`                                |
 | `preview/`            | Small cards for the Design System tab — colors, type, spacing, components |
 | `ui_kits/blog/`       | High-fidelity recreation of the blog (homepage, article, guides, resume)  |
@@ -24,7 +25,7 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 ### Sources of truth
 
 - **Tokens:** `wp-content/themes/ik2/theme.json` is the single source of truth. Its presets (palette, font sizes, spacing, radii, shadows) and `settings.custom` groups (font weight, line height, letter spacing, transition, focus, scrim, category tints, window dots, full width, numeral size) hold every value.
-- **Shared design-system copy:** `design-system/theme.json` is a straight copy, and `design-system/colors_and_type.css` mirrors the same values as `--color-*`, `--font-size-*`, `--radius-*` and friends for previews, prototypes, and agent use. Change `theme.json` first, then copy.
+- **Shared design-system copy:** `pnpm tokens` copies the production `theme.json` here and generates `tokens.css` from it. `colors_and_type.css` aliases those as `--color-*`, `--font-size-*`, `--radius-*` and friends for previews, prototypes, and agent use. Change the production `theme.json`, then run `pnpm tokens`.
 - **Project context:** `PRODUCT.md` and `DESIGN.md` at the repo root. `DESIGN.md` has the full token map and the CSS variable names WordPress generates.
 - **Live site:** https://ivankristianto.com (content, topics, tone, post structure).
 
@@ -109,7 +110,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 - **Body text is unusually large** (`1.125rem`, the `lg` preset; UI copy drops to `md-plus` `1.0625rem`) with a generous `1.7` line-height (`relaxed`). This is a _reading_ site first.
 - **Headings are tight and confident**: `font-weight: 700`, `line-height: 1.1`, `letter-spacing: -0.04em`. They never feel like marketing.
 - **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small "WEB ENGINEER / WORDPRESS / AI / PERFORMANCE" hero label.
-- Article max-width is **720px**. Wider feels like documentation; narrower feels precious.
+- Article column is **960px**, with the body at `xl` (20px) from 900px up, about 90 characters a line.
 
 ### Spacing
 
@@ -162,7 +163,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Layout rules
 
-- One canonical container width (`1080px` wide / `720px` content / `1280px` full-bleed chrome).
+- One canonical container width (`1200px` wide / `960px` content / `1280px` full-bleed chrome).
 - Header is part of the layout but **not sticky**. The production theme and prototype kit both ship it that way.
 - Article pages are single-column. No sidebars. No related-posts overlay.
 - Footer is full-width Soft Paper, simple link columns, RSS visible.
@@ -193,8 +194,8 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 
 ## How to use this system
 
-1. **CSS-only projects and prototypes:** import `colors_and_type.css` at the top of your stylesheet. Every token is a CSS custom property, mirrored from the production `theme.json`.
-2. **WordPress (Gutenberg):** the production theme already owns `wp-content/themes/ik2/theme.json`. Edit tokens there and copy the file here, never the other way. In block markup tokens are `var:preset|color|paper`, `var:preset|font-size|lg`; in CSS they are `var(--wp--preset--color--paper)` and `var(--wp--custom--transition--base)`.
+1. **CSS-only projects and prototypes:** import `colors_and_type.css` at the top of your stylesheet, with `tokens.css` beside it. Every token is a CSS custom property generated from the production `theme.json`.
+2. **WordPress (Gutenberg):** the production theme already owns `wp-content/themes/ik2/theme.json`. Edit tokens there and run `pnpm tokens`, never the other way. In block markup tokens are `var:preset|color|paper`, `var:preset|font-size|lg`; in CSS they are `var(--wp--preset--color--paper)` and `var(--wp--custom--transition--base)`.
 3. **Design / mocks:** open `ui_kits/blog/index.html` for an interactive recreation. Pull JSX components from `ui_kits/blog/components/`.
 4. **Agent / Claude Code:** see `SKILL.md`. The folder is a self-contained skill.
 
@@ -204,5 +205,5 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 
 - The production theme and the prototype kit are **both real and diverged**. A change in `design-system/ui_kits/blog/` does not automatically carry into `wp-content/themes/ik2/`, and vice versa.
 - The accent token slug is still `signal`, but its value is **Terracotta** `#C2410C`. Any blue accent you find in old files is stale; sync it to the production theme.
-- `wp-content/themes/ik2/theme.json` is the single source of truth. The copies in `design-system/` are maintained for previews, prototypes, and agent workflows, and need intentional syncing (there is no sync script yet).
+- `wp-content/themes/ik2/theme.json` is the single source of truth. The copies in `design-system/` are generated by `pnpm tokens` for previews, prototypes, and agent workflows, and CI fails if they fall behind.
 - The site is light only. A dark mode, if it comes, will be added through `theme.json` (a style variation or settings).
