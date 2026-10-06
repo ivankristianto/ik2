@@ -69,3 +69,6 @@ jobs:
 
             - name: Stylelint
               run: pnpm lint:css
+
+            - name: Design tokens in sync with theme.json
+              run: pnpm tokens:check
