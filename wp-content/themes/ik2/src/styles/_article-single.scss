@@ -585,6 +585,27 @@
 	margin-inline: auto;
 }
 
+/* ---- Lightbox trigger --------------------------------------------------- */
+
+/* src/lightbox-loader.js lays the button exactly over an enlargeable image. */
+.ik-article__body .ik-lightbox-host {
+	position: relative;
+}
+
+.ik-article__body .ik-lightbox-trigger {
+	position: absolute;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: $radius-sm;
+	cursor: zoom-in;
+
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: $focus-offset;
+	}
+}
+
 /* ---- Gallery (wp-block-gallery) ---------------------------------------- */
 
 .ik-article__body .wp-block-gallery {
