@@ -111,7 +111,7 @@ function WritingPage( { onOpenPost } ) {
 				</h1>
 				<p
 					style={ {
-						maxWidth: '60ch',
+						maxWidth: 'var(--width-measure)',
 						color: 'var(--color-text-muted)',
 						fontSize: '1.125rem',
 						lineHeight: 1.7,
@@ -165,7 +165,7 @@ function GuidesPage() {
 				</h1>
 				<p
 					style={ {
-						maxWidth: '60ch',
+						maxWidth: 'var(--width-measure)',
 						color: 'var(--color-text-muted)',
 						fontSize: '1.125rem',
 						lineHeight: 1.7,
@@ -206,7 +206,7 @@ function NotesPage() {
 				</h1>
 				<p
 					style={ {
-						maxWidth: '60ch',
+						maxWidth: 'var(--width-measure)',
 						color: 'var(--color-text-muted)',
 						fontSize: '1.125rem',
 						lineHeight: 1.7,

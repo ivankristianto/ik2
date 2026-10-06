@@ -96,6 +96,7 @@
   --wp--custom--transition--base: 200ms ease;
   --wp--custom--transition--drawer: 280ms cubic-bezier(0.22, 1, 0.36, 1);
   --wp--custom--width--full: 1280px;
+  --wp--custom--width--measure: 60ch;
   --wp--style--global--content-size: 960px;
   --wp--style--global--wide-size: 1200px;
 }

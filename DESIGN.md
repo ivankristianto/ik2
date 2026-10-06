@@ -268,7 +268,7 @@ Responsive behavior keys off a few breakpoints:
 
 Several partials still use one-off breakpoints (600, 700, 720, 760, 800, 960, 1000, 1024px). Treat 640, 768, and 900 as the canonical set when adding new rules.
 
-**The 960 Rule.** Article content caps at 960px with a 20px body on desktop, about 90 characters a line. At 720px and 18px, long paragraphs stacked into a wall. Don't widen the column further without raising the body size to match, and give short prose outside articles its own measure in `ch` instead of the content width.
+**The 960 Rule.** Article content caps at 960px with a 20px body on desktop, about 90 characters a line. At 720px and 18px, long paragraphs stacked into a wall. Don't widen the column further without raising the body size to match, and cap short prose outside articles with `custom.width.measure` (60ch) instead of the content width.
 
 **The Whitespace First Rule.** When a layout feels empty, widen the margins before adding a border, a shadow, or an icon.
 
