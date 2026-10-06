@@ -11,3 +11,4 @@
 - [native layout refactor](project-native-layout-refactor.md) — container-full is gone (alignfull + constrained 1280 + root-padding gutters); gotchas: useRootPaddingAwareAlignments is top-level, wp_slash serialize_blocks before wp_update_post, constrained child rules override direct-child CSS caps
 - [verify the literal request](feedback-verify-literal-request.md) — check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
 - [prod page content via REST](project-prod-page-content-via-rest.md) — releases never touch pattern-backed page content; splice it in over REST with the .mcp.json app password, never run regen on prod
+- [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures

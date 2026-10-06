@@ -1,0 +1,215 @@
+@use 'tokens' as *;
+
+// Room left around the image on wide screens. stageFor() in lightbox-rules.js
+// mirrors these (CHROME_X, CHROME_Y, SMALL_*), so keep the two in step.
+$lightbox-gutter: $space-9;
+$lightbox-chrome-y: calc(#{$space-10} + #{$space-6});
+// Phones add the bottom step bar: button plus its padding.
+$lightbox-chrome-y-small: calc(#{$lightbox-chrome-y} + #{$space-7} + #{$space-3} + #{$space-4});
+$lightbox-wide: "(min-width: 640px) and (min-height: 480px)";
+
+// Fills the viewport on warm paper, so the article behind never competes with
+// the image. Native modal <dialog>: only the look is ours.
+.ik-lightbox {
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: $color-paper;
+	color: $color-ink;
+	overflow: clip;
+
+	&[open] {
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	&::backdrop {
+		background: transparent;
+	}
+}
+
+html:has(.ik-lightbox[open]) {
+	overflow: hidden;
+}
+
+// Same fade as the command palette: opacity only, with `display` / `overlay`
+// transitioned discretely so the exit fade stays in the top layer.
+@media (prefers-reduced-motion: no-preference) {
+
+	.ik-lightbox {
+		opacity: 0;
+		transition:
+			opacity $transition-base,
+			display $transition-base allow-discrete,
+			overlay $transition-base allow-discrete;
+
+		&[open] {
+			opacity: 1;
+
+			@starting-style {
+				opacity: 0;
+			}
+		}
+	}
+}
+
+.ik-lightbox__bar {
+	display: flex;
+	align-items: center;
+	gap: $space-4;
+	min-height: $space-8;
+	padding: $space-3 $space-4;
+}
+
+.ik-lightbox__counter {
+	font-family: $font-mono;
+	font-size: $size-xs;
+	color: $color-graphite;
+}
+
+// Announced to screen readers, never shown.
+.ik-lightbox__status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.ik-lightbox__close {
+	margin-inline-start: auto;
+}
+
+.ik-lightbox__close,
+.ik-lightbox__step {
+	display: inline-grid;
+	place-items: center;
+	width: $space-7;
+	height: $space-7;
+	padding: 0;
+	background: $color-surface;
+	color: $color-ink;
+	border: 1px solid $color-line;
+	border-radius: $radius-round;
+	cursor: pointer;
+	transition: color $transition-base, border-color $transition-base;
+
+	&:hover {
+		color: $color-signal;
+		border-color: $color-signal;
+	}
+
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: $focus-offset;
+	}
+
+	&[aria-disabled="true"] {
+		color: $color-dust;
+		border-color: $color-line;
+		cursor: default;
+	}
+}
+
+.ik-lightbox__track {
+	display: flex;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+}
+
+.ik-lightbox__slide {
+	display: flex;
+	flex: 0 0 100%;
+	flex-direction: column;
+	align-items: center;
+	// `safe` keeps the top of an over-tall slide (long caption) reachable by scrolling.
+	justify-content: safe center;
+	gap: $space-3;
+	min-width: 0;
+	margin: 0;
+	padding: 0 $space-4 $space-6;
+	overflow-y: auto;
+	scroll-snap-align: center;
+	scroll-snap-stop: always;
+}
+
+// Natural size at most, never upscaled; capped to the room the chrome leaves.
+.ik-lightbox__image {
+	display: block;
+	max-width: 100%;
+	max-height: calc(100dvh - #{$lightbox-chrome-y-small});
+	width: auto;
+	height: auto;
+	border-radius: $radius-sm;
+}
+
+.ik-lightbox__caption {
+	max-width: min(100%, #{$width-measure});
+	font-family: $font-mono;
+	font-size: $size-xs;
+	line-height: $leading-comfortable;
+	color: $color-graphite;
+	text-align: center;
+
+	a {
+		color: $color-signal;
+	}
+}
+
+// Phones: steps sit in a bottom bar, in thumb reach.
+.ik-lightbox[open]:has(.ik-lightbox__nav:not([hidden])) {
+	grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.ik-lightbox__nav {
+	display: flex;
+	justify-content: space-between;
+	padding: $space-3 $space-4 $space-4;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Wide screens: steps sit in the side gutters, level with the image.
+@media #{$lightbox-wide} {
+
+	.ik-lightbox[open]:has(.ik-lightbox__nav:not([hidden])) {
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.ik-lightbox__slide {
+		padding-inline: $lightbox-gutter;
+	}
+
+	.ik-lightbox__image {
+		max-height: calc(100dvh - #{$lightbox-chrome-y});
+	}
+
+	.ik-lightbox__nav {
+		display: contents;
+	}
+
+	.ik-lightbox__step {
+		position: fixed;
+		inset-block: 0;
+		margin-block: auto;
+	}
+
+	.ik-lightbox__step--prev {
+		inset-inline-start: $space-5;
+	}
+
+	.ik-lightbox__step--next {
+		inset-inline-end: $space-5;
+	}
+}

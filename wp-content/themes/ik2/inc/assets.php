@@ -19,6 +19,9 @@
  *  - The command palette (JS and CSS) is not enqueued at all: `build/index.js`
  *    is a tiny loader that `import()`s the palette chunk, stylesheet included,
  *    on first use.
+ *  - The image lightbox follows the same pattern on single posts only:
+ *    `build/lightbox-loader.js` marks enlargeable images and `import()`s the
+ *    lightbox chunk when one is opened.
  *
  * @package IK2
  */
@@ -85,6 +88,19 @@ function enqueue_frontend_scripts(): void {
 			$build_uri . '/index.js',
 			[],
 			(string) filemtime( $build_dir . '/index.js' ),
+			[
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			]
+		);
+	}
+
+	if ( is_singular( 'post' ) && file_exists( $build_dir . '/lightbox-loader.js' ) ) {
+		wp_enqueue_script(
+			'ik2-lightbox',
+			$build_uri . '/lightbox-loader.js',
+			[],
+			(string) filemtime( $build_dir . '/lightbox-loader.js' ),
 			[
 				'in_footer' => true,
 				'strategy'  => 'defer',
