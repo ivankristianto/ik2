@@ -109,7 +109,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 - **Body text is unusually large** (`1.125rem`, the `lg` preset; UI copy drops to `md-plus` `1.0625rem`) with a generous `1.7` line-height (`relaxed`). This is a _reading_ site first.
 - **Headings are tight and confident**: `font-weight: 700`, `line-height: 1.1`, `letter-spacing: -0.04em`. They never feel like marketing.
 - **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small "WEB ENGINEER / WORDPRESS / AI / PERFORMANCE" hero label.
-- Article max-width is **720px**. Wider feels like documentation; narrower feels precious.
+- Article column is **960px**, with the body at `xl` (20px) from 900px up, about 90 characters a line.
 
 ### Spacing
 
@@ -162,7 +162,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Layout rules
 
-- One canonical container width (`1080px` wide / `720px` content / `1280px` full-bleed chrome).
+- One canonical container width (`1200px` wide / `960px` content / `1280px` full-bleed chrome).
 - Header is part of the layout but **not sticky**. The production theme and prototype kit both ship it that way.
 - Article pages are single-column. No sidebars. No related-posts overlay.
 - Footer is full-width Soft Paper, simple link columns, RSS visible.
