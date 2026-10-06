@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-The ik2 theme renders `ik2/project-card` in two places — `templates/single-project.html` (the feature card under the project hero) and `blocks/projects-archive/render.php` (the project grid via `do_blocks()`). That block is **not** part of the theme; it is registered by the companion **ik2 plugin** at `wp-content/plugins/ik2/blocks/project-card/`.
+The ik2 theme renders `ik2/project-card` in `blocks/projects-archive/render.php` (the project grid via `do_blocks()`). `templates/single-project.html` is gone as of 2026-10-06, and the `project` post type is `public: false`, so projects have no single pages. That block is **not** part of the theme; it is registered by the companion **ik2 plugin** at `wp-content/plugins/ik2/blocks/project-card/`.
 
 The shared project meta (`status`, etc.) is centralised in the plugin at `inc/post-types/project-data.php` (`IK2\Plugin\PostTypes\Project`), which the theme also calls from `patterns/single-project-header.php` and `blocks/projects-archive/helpers.php`.
 

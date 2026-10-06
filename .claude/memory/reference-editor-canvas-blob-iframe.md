@@ -1,6 +1,6 @@
 ---
 name: reference-editor-canvas-blob-iframe
-description: Verifying WP block editor canvas state when screenshots/snapshots come back blank
+description: WP editor canvas iframe gotchas: verifying state, body replaced after load, scripts via enqueue_block_assets, RichText <br> line breaks
 metadata: 
   node_type: memory
   type: reference
@@ -17,3 +17,10 @@ To verify canvas/block state, query the editor data store on the **main** window
 - `wp.data.select('core/editor').getEditorSettings().styles` → CSS fed into the canvas (raw, unscoped; WP applies the `.editor-styles-wrapper` prefix at iframe injection time)
 
 To confirm a theme-CSS-into-editor-chrome leak, check `getComputedStyle(document.body).fontFamily` and a `link[rel=stylesheet]` scan on the outer document. Related: [[feedback-opcache-restart]].
+
+Update 2026-10-06 (syntax highlighter work): with the chrome-devtools MCP, `iframe.contentDocument` / `contentWindow` and screenshots of the canvas DO work. Observed in WP 7.1:
+
+- Theme editor styles inside the iframe were not prefixed; selectors match as written. The iframe `<body>` has `.editor-styles-wrapper`, so scope canvas-only rules with that class.
+- Scripts enqueued on `enqueue_block_assets` (when `is_admin()`) load inside the canvas iframe and get its own `window`/`CSS.highlights`. They also load in the outer admin page.
+- The canvas HTML ships `<body><script>document.currentScript.parentElement.remove()</script></body>`, and React builds a new body later. A MutationObserver attached to the initial `document.body` goes dead, so observe `document.documentElement`. Body classes aren't there yet at script time; detect the canvas with `location.protocol === 'blob:'`.
+- core/code RichText renders line breaks as `<br>`, not `\n` text nodes. Text built from text nodes alone collapses to one line.
