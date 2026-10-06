@@ -255,7 +255,7 @@ WP Super Cache ships in Simple mode (no nginx rewrite rules needed) with caching
 The **IK2** block theme at `wp-content/themes/ik2/` consumes the design system:
 
 -   Slug / text-domain / asset handle: `ik2`. PHP namespace: `IK2\Theme`. Display name: "IK2".
--   `theme.json` is the **single source of truth** for design tokens: presets (palette, font sizes, spacing, radii, shadows) plus `settings.custom` (font weight, line height, letter spacing, transitions, focus, scrim, category tints). SCSS reads them through the aliases in `src/styles/_tokens.scss`; block CSS uses `var(--wp--preset--*)` / `var(--wp--custom--*)`. Change tokens here, then copy the file to `design-system/theme.json` and mirror the values into `design-system/colors_and_type.css` (no sync script yet).
+-   `theme.json` is the **single source of truth** for design tokens: presets (palette, font sizes, spacing, radii, shadows) plus `settings.custom` (font weight, line height, letter spacing, transitions, focus, scrim, category tints). SCSS reads them through the aliases in `src/styles/_tokens.scss`; block CSS uses `var(--wp--preset--*)` / `var(--wp--custom--*)`. Change tokens here, then run `pnpm tokens` to regenerate `design-system/theme.json` and `design-system/tokens.css`. CI fails if you forget.
 -   `style.css` is the theme header; visual styles come from `theme.json` plus any block CSS you add.
 -   PHP uses `declare(strict_types=1)` and modern namespacing. PHPCS rules are relaxed where they fight modern PHP (short arrays, namespaces).
 
@@ -263,7 +263,7 @@ The theme expects WordPress 6.6+.
 
 ## Design system
 
-`design-system/` is a self-contained Claude skill (`SKILL.md`) and human-readable design reference (`README.md`). It owns the visual rules: colors, type, spacing, voice, iconography. Read it before writing UI code. Its token files (`colors_and_type.css`, `theme.json`) mirror `wp-content/themes/ik2/theme.json`, which is the canonical source; nothing else may hardcode colors or spacing.
+`design-system/` is a self-contained Claude skill (`SKILL.md`) and human-readable design reference (`README.md`). It owns the visual rules: colors, type, spacing, voice, iconography. Read it before writing UI code. Its token files (`theme.json`, `tokens.css`) are generated from `wp-content/themes/ik2/theme.json`, which is the canonical source, and `colors_and_type.css` only aliases them; nothing else may hardcode colors or spacing.
 
 See [`design-system/README.md`](./design-system/README.md) and [`CLAUDE.md`](./CLAUDE.md).
 

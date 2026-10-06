@@ -392,7 +392,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 
 ## Tokens
 
-`wp-content/themes/ik2/theme.json` is the single source of truth. Every value in this document is a preset or a `settings.custom` entry in that file. `design-system/theme.json` and `design-system/colors_and_type.css` are copies kept for the prototype kits and previews.
+`wp-content/themes/ik2/theme.json` is the single source of truth. Every value in this document is a preset or a `settings.custom` entry in that file. `design-system/theme.json` and `design-system/tokens.css` are generated from it by `pnpm tokens` for the prototype kits and previews.
 
 WordPress turns both into CSS custom properties:
 
@@ -422,6 +422,6 @@ How code references them:
 
 - **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-sm-plus`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
 - **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--sm)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
-- **Prototype kits** load `design-system/colors_and_type.css`, which repeats the same values under the older `--color-*`, `--font-size-*`, `--radius-*` names.
+- **Prototype kits** load `design-system/colors_and_type.css`, which aliases the generated `tokens.css` under the older `--color-*`, `--font-size-*`, `--radius-*` names. It holds no values of its own.
 
-To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, then copy it into `design-system/theme.json` and `design-system/colors_and_type.css`. Never write a literal value in a stylesheet when a token exists.
+To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, run `pnpm tokens`, and alias it in `design-system/colors_and_type.css` if the kits need it. Never write a literal value in a stylesheet when a token exists.
