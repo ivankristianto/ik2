@@ -771,6 +771,19 @@
 	color: inherit;
 }
 
+/* Painted by the ik2 plugin's code-highlight script. Only color properties apply here. */
+::highlight(ik2-code-comment) {
+	color: $color-syntax-comment;
+}
+
+::highlight(ik2-code-keyword) {
+	color: $color-syntax-keyword;
+}
+
+::highlight(ik2-code-string) {
+	color: $color-syntax-string;
+}
+
 /* ---- Separator (wp-block-separator) ------------------------------------ */
 
 .ik-article__body .wp-block-separator {

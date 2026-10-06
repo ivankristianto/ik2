@@ -213,6 +213,7 @@ These live in `settings.custom.color`, outside the palette, so they never appear
 
 - **Category tints** (`categoryTint.*`): pale washes for article-card covers, one per category (WordPress, AI, performance, security, web APIs, tooling, guide, note, experiment). Cover labels sit in Ink because Graphite drops to 4.2:1 on the paler tints.
 - **Window dots** (`windowDot.*`): the close, minimize, and zoom dots on the hero portrait and 404 terminal frames.
+- **Syntax** (`syntax.*`): code block highlighting. Comments in Graphite, keywords and tags in Deep Terracotta, strings and numbers in olive `#5C6331`; everything else stays Code Ink. Plain Dust and Terracotta drop under 4.5:1 on Code Paper, so they are not used here.
 - **Scrim** (`scrim`): Ink at 30%, behind the command palette and the mobile nav drawer.
 
 ### Named Rules
@@ -413,6 +414,7 @@ The `settings.custom` groups:
 | `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
 | `color.categoryTint` | `--wp--custom--color--category-tint--`  | article-card cover tints per category                                                      |
 | `color.windowDot`    | `--wp--custom--color--window-dot--`     | close, minimize, zoom dots on terminal frames                                              |
+| `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |
 | `width`              | `--wp--custom--width--`                 | full 1280px                                                                                |
 | `fontSize`           | `--wp--custom--font-size--`             | numeral, the 404 page number only                                                          |
 
