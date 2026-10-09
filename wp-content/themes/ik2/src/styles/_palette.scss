@@ -143,6 +143,12 @@ html:has(.ik-cmdk[open]) {
 		background: $color-signal-soft;
 		color: $color-signal-deep;
 	}
+
+	// Inset, because the list scrolls and would clip a ring drawn outside the row.
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: calc(-1 * (#{$focus-width} + #{$focus-offset}));
+	}
 }
 
 .ik-cmdk__item-glyph {
@@ -161,6 +167,16 @@ html:has(.ik-cmdk[open]) {
 	color: $color-graphite;
 	font-style: italic;
 	font-size: $size-sm-plus;
+}
+
+// Announced to screen readers, never shown.
+.ik-cmdk__status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
 }
 
 .ik-cmdk__footer {
