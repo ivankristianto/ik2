@@ -140,6 +140,12 @@ html:has(.ik-lightbox[open]) {
 	overflow-y: auto;
 	scroll-snap-align: center;
 	scroll-snap-stop: always;
+
+	// Inset, because the track clips anything drawn outside the slide.
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: calc(-1 * (#{$focus-width} + #{$focus-offset}));
+	}
 }
 
 // Natural size at most, never upscaled; capped to the room the chrome leaves.

@@ -89,6 +89,8 @@ function buildSlide( slide, index, total ) {
 	figure.setAttribute( 'role', 'group' );
 	figure.setAttribute( 'aria-roledescription', 'slide' );
 	figure.setAttribute( 'aria-label', `${ index + 1 } of ${ total }` );
+	// A long caption can overflow a short window; only the current slide is a tab stop to scroll it.
+	figure.tabIndex = -1;
 
 	const img = document.createElement( 'img' );
 	img.className = 'ik-lightbox__image';
@@ -119,7 +121,15 @@ function buildSlide( slide, index, total ) {
 }
 
 function setCurrent( index ) {
+	const slideHadFocus = slides.includes( dialog.ownerDocument.activeElement );
 	current = index;
+	slides.forEach( ( slide, i ) => {
+		slide.tabIndex = i === index ? 0 : -1;
+	} );
+	// Keep keyboard scrolling on the image the user is now looking at.
+	if ( slideHadFocus ) {
+		slides[ index ].focus( { preventScroll: true } );
+	}
 	const total = slides.length;
 	counter.textContent = `${ index + 1 } / ${ total }`;
 	announce();
