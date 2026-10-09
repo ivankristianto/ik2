@@ -89,9 +89,13 @@
 	line-height: $leading-comfortable;
 	color: $color-graphite;
 
+	// Underlined at rest: against graphite text the accent alone is too close to tell apart (1.16:1).
 	a {
 		color: $color-signal;
-		text-decoration: none;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+		transition: color $transition-base;
 	}
 }
 
@@ -122,5 +126,5 @@
 
 // Hover states — kept at the bottom to satisfy stylelint no-descending-specificity.
 .ik-speaking-invite__cta a:hover {
-	text-decoration: underline;
+	color: $color-signal-deep;
 }
