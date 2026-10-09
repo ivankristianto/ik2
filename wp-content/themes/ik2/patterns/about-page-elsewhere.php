@@ -14,7 +14,7 @@
 	<!-- wp:group {"className":"ik-about__elsewhere-copy","layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-about__elsewhere-copy">
 		<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-		<p class="ik-section__eyebrow">// ELSEWHERE</p>
+		<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> ELSEWHERE</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:heading {"level":2,"className":"ik-about__elsewhere-title"} -->

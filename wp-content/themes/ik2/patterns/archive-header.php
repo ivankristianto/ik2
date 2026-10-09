@@ -44,10 +44,11 @@ $ik2_description     = is_string( $ik2_description ) ? trim( $ik2_description ) 
 <header class="wp-block-group ik-articles-archive__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
 	<p class="ik-section__eyebrow">
+		<span aria-hidden="true">//</span>
 		<?php
 		printf(
 			/* translators: 1: taxonomy label (e.g. CATEGORY), 2: number of posts, 3: term name */
-			esc_html__( '// %1$s  ·  %2$d POSTS  ·  %3$s', 'ik2' ),
+			esc_html__( '%1$s  ·  %2$d POSTS  ·  %3$s', 'ik2' ),
 			esc_html( strtoupper( $ik2_taxonomy_label ) ),
 			$ik2_count, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			esc_html( strtoupper( $ik2_term->name ) )

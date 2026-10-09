@@ -12,7 +12,7 @@
 <!-- wp:group {"className":"ik-about__head","layout":{"type":"default"}} -->
 <div class="wp-block-group ik-about__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-	<p class="ik-section__eyebrow">// ABOUT</p>
+	<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> ABOUT</p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-about__title"} -->

@@ -22,7 +22,7 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-			<p class="ik-section__eyebrow">// LATEST NOTES · TIL · EXPERIMENTS · LINKS</p>
+			<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> LATEST NOTES · TIL · EXPERIMENTS · LINKS</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":2,"className":"ik-section__title"} -->
@@ -32,7 +32,7 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 		<!-- /wp:group -->
 
 		<!-- wp:paragraph {"className":"ik-section__more"} -->
-		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All articles →</a></p>
+		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All articles <span aria-hidden="true">→</span></a></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
@@ -68,7 +68,7 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 			<!-- /wp:query -->
 
 			<!-- wp:paragraph {"className":"ik-notes-layout__more"} -->
-			<p class="ik-notes-layout__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Read every note →</a></p>
+			<p class="ik-notes-layout__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Read every note <span aria-hidden="true">→</span></a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:column -->

@@ -14,7 +14,7 @@
 	<!-- wp:group {"className":"ik-speaking-invite__copy","layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-speaking-invite__copy">
 		<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-		<p class="ik-section__eyebrow">// INVITE ME</p>
+		<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> INVITE ME</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:heading {"level":2,"className":"ik-speaking-invite__title"} -->

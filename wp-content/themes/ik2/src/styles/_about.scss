@@ -99,7 +99,7 @@
 		color: $color-ink;
 
 		&::before {
-			content: '→';
+			content: '→' / '';
 			color: $color-signal;
 			font-family: $font-mono;
 			font-size: $size-md;

@@ -12,7 +12,7 @@
 <!-- wp:group {"className":"ik-contact__head","layout":{"type":"default"}} -->
 <div class="wp-block-group ik-contact__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-	<p class="ik-section__eyebrow"><?php esc_html_e( '// CONTACT', 'ik2' ); ?></p>
+	<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> <?php esc_html_e( 'CONTACT', 'ik2' ); ?></p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-contact__title"} -->
