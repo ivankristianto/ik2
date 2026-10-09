@@ -22,9 +22,10 @@ $ik2_now_foot = isset( $attributes['foot'] ) ? trim( (string) $attributes['foot'
 
 $ik2_now_foot_tags = [
 	'a'      => [
-		'href'   => true,
-		'target' => true,
-		'rel'    => true,
+		'href'       => true,
+		'target'     => true,
+		'rel'        => true,
+		'aria-label' => true,
 	],
 	'em'     => [],
 	'strong' => [],
