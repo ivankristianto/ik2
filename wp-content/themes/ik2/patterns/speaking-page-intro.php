@@ -12,7 +12,7 @@
 <!-- wp:group {"className":"ik-speaking-archive__head","layout":{"type":"default"}} -->
 <div class="wp-block-group ik-speaking-archive__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-	<p class="ik-section__eyebrow">// TALKS · WORKSHOPS · COMMUNITY</p>
+	<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> TALKS · WORKSHOPS · COMMUNITY</p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-speaking-archive__title"} -->

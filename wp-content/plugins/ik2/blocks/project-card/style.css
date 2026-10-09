@@ -74,7 +74,7 @@
   white-space: nowrap;
 }
 .ik-project__tech > span + span::before {
-  content: "· ";
+  content: "· " / "";
   color: var(--wp--preset--color--dust);
   margin-right: 2px;
 }
