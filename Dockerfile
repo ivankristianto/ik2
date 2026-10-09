@@ -46,7 +46,7 @@ RUN --mount=type=cache,target=/tmp/cache \
 # ---------------------------------------------------------------------------
 FROM node:24-alpine AS node-build
 
-RUN corepack enable && corepack prepare pnpm@12.8.1 --activate
+RUN corepack enable && corepack prepare pnpm@12.10.1 --activate
 
 WORKDIR /app
 
@@ -77,7 +77,7 @@ RUN pnpm build \
 # ---------------------------------------------------------------------------
 # Stage 3 — base runtime (shared between dev + prod)
 # ---------------------------------------------------------------------------
-FROM wordpress:7.1.2-php8.5-fpm-alpine AS base
+FROM wordpress:7.1.3-php8.5-fpm-alpine AS base
 
 # OS deps for image handling, healthcheck
 RUN apk add --no-cache \

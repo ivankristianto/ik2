@@ -6,7 +6,7 @@
 	"require": {
 		"php": "^8.4",
 		"composer/installers": "^2.3",
-		"wordpress/mcp-adapter": "^0.6",
+		"wordpress/mcp-adapter": "^0.7",
 		"wpackagist-plugin/ai": "^1.0",
 		"wpackagist-plugin/create-block-theme": "^2.9",
 		"wpackagist-plugin/google-site-kit": "^1.183",

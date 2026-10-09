@@ -3,7 +3,7 @@
 	"version": "0.11.0",
 	"description": "ivankristianto.com — WordPress site, design system, and theme assets",
 	"private": true,
-	"packageManager": "pnpm@12.8.1+sha512.f64ba907507f5ceafe06c8d38e6052d0179444580ec1279ddd5bfc11cb48aa8a2644b66598e07e761da84872a9fc57d5f902b87fa49d024198d558612aabbe45",
+	"packageManager": "pnpm@12.10.1+sha512.ba40a37eb1a370d60fea8c4cf1d364c13bcccef518e98ad2bcee954f539d38da37458e58261a3fa55e06523450ea0ffff9f497b135be41f2c15c1642bacace6c",
 	"engines": {
 		"node": ">=24"
 	},
@@ -22,14 +22,14 @@
 		"tokens:check": "node scripts/sync-tokens.mjs --check"
 	},
 	"devDependencies": {
-		"@wordpress/eslint-plugin": "^27.0.0",
-		"@wordpress/interactivity": "^6.56.0",
-		"@wordpress/prettier-config": "^4.56.0",
-		"@wordpress/scripts": "^36.0.0",
-		"@wordpress/stylelint-config": "^26.0.0",
+		"@wordpress/eslint-plugin": "^27.1.0",
+		"@wordpress/interactivity": "^7.0.0",
+		"@wordpress/prettier-config": "^4.57.0",
+		"@wordpress/scripts": "^36.1.0",
+		"@wordpress/stylelint-config": "^26.1.0",
 		"postcss-scss": "^4.0.9",
 		"prismjs": "^1.30.0",
-		"sass": "^1.105.0",
+		"sass": "^1.105.1",
 		"stylelint-scss": "^7.3.0",
 		"webpack-remove-empty-scripts": "^1.0.4"
 	},
