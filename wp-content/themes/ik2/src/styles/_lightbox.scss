@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'visually-hidden' as *;
 
 // Room left around the image on wide screens. stageFor() in lightbox-rules.js
 // mirrors these (CHROME_X, CHROME_Y, SMALL_*), so keep the two in step.
@@ -72,14 +73,9 @@ html:has(.ik-lightbox[open]) {
 	color: $color-graphite;
 }
 
-// Announced to screen readers, never shown.
 .ik-lightbox__status {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	clip-path: inset(50%);
-	white-space: nowrap;
+
+	@include visually-hidden;
 }
 
 .ik-lightbox__close {
@@ -140,6 +136,11 @@ html:has(.ik-lightbox[open]) {
 	overflow-y: auto;
 	scroll-snap-align: center;
 	scroll-snap-stop: always;
+
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: $focus-offset-inset;
+	}
 }
 
 // Natural size at most, never upscaled; capped to the room the chrome leaves.

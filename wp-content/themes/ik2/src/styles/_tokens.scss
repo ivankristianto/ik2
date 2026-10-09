@@ -100,3 +100,5 @@ $transition-drawer: var(--wp--custom--transition--drawer);
 $focus-width:  var(--wp--custom--focus--width);
 $focus-offset: var(--wp--custom--focus--offset);
 $focus: #{$focus-width} solid #{$color-signal};
+// For rows inside a scroller, which would clip a ring drawn outside them.
+$focus-offset-inset: calc(-1 * (#{$focus-width} + #{$focus-offset}));

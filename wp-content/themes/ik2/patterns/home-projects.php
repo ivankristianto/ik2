@@ -17,7 +17,7 @@
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-			<p class="ik-section__eyebrow">// THINGS I'VE BUILT</p>
+			<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> THINGS I'VE BUILT</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":2,"className":"ik-section__title"} -->
@@ -27,7 +27,7 @@
 		<!-- /wp:group -->
 
 		<!-- wp:paragraph {"className":"ik-section__more"} -->
-		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">All projects →</a></p>
+		<p class="ik-section__more"><a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">All projects <span aria-hidden="true">→</span></a></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->

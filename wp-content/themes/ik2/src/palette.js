@@ -44,11 +44,17 @@ if (
 	restRoot = window.wpApiSettings.root;
 }
 
+const LIST_ID = 'ik-cmdk-list';
+const OPTION_ID_PREFIX = 'ik-cmdk-option-';
+// Gives a screen reader a beat to finish echoing the keystroke before the result count.
+const ANNOUNCE_DELAY = 150;
+
 const state = {
 	query: '',
 	active: 0,
 	results: [],
 	searching: false,
+	failed: false,
 };
 
 let abortController = null;
@@ -57,6 +63,8 @@ let palette;
 let input;
 let listEl;
 let emptyEl;
+let statusEl;
+let announceTimer = null;
 // Element focus is returned to when the palette closes (the trigger that
 // opened it, or whatever held focus when ⌘K fired). The dialog restores
 // focus itself; this is the explicit fallback for engines that don't.
@@ -86,10 +94,11 @@ function filteredNav( q ) {
 	);
 }
 
+/**
+ * @param {string} q Trimmed, non-empty query.
+ * @return {Promise<?{items: Array<Object>, failed: boolean}>} Null when a newer search aborted this one.
+ */
 async function searchPosts( q ) {
-	if ( ! q ) {
-		return [];
-	}
 	if ( abortController ) {
 		abortController.abort();
 	}
@@ -101,10 +110,10 @@ async function searchPosts( q ) {
 			encodeURIComponent( q );
 		const res = await fetch( url, { signal: abortController.signal } );
 		if ( ! res.ok ) {
-			return [];
+			return { items: [], failed: true };
 		}
 		const data = await res.json();
-		return data.map( ( item ) => ( {
+		const items = data.map( ( item ) => ( {
 			group: String( item.subtype || 'post' ).replace( /^./, ( c ) =>
 				c.toUpperCase()
 			),
@@ -112,8 +121,12 @@ async function searchPosts( q ) {
 			label: String( item.title || '' ),
 			href: String( item.url || '#' ),
 		} ) );
-	} catch {
-		return [];
+		return { items, failed: false };
+	} catch ( err ) {
+		if ( err && err.name === 'AbortError' ) {
+			return null;
+		}
+		return { items: [], failed: true };
 	}
 }
 
@@ -126,12 +139,15 @@ function combine() {
 function buildItemEl( it, index, isActive ) {
 	const a = document.createElement( 'a' );
 	a.className = 'ik-cmdk__item' + ( isActive ? ' is-active' : '' );
+	a.id = OPTION_ID_PREFIX + index;
 	a.setAttribute( 'role', 'option' );
+	a.setAttribute( 'aria-selected', isActive ? 'true' : 'false' );
 	a.dataset.index = String( index );
 	a.href = it.href;
 
 	const glyph = document.createElement( 'span' );
 	glyph.className = 'ik-cmdk__item-glyph';
+	glyph.setAttribute( 'aria-hidden', 'true' );
 	glyph.textContent = it.glyph;
 	a.appendChild( glyph );
 
@@ -150,47 +166,103 @@ function render() {
 	const items = combine();
 	state.active = Math.max( 0, Math.min( state.active, items.length - 1 ) );
 
-	while ( listEl.firstChild ) {
-		listEl.removeChild( listEl.firstChild );
-	}
+	listEl.replaceChildren();
+	input.setAttribute( 'aria-expanded', items.length > 0 ? 'true' : 'false' );
 
 	if ( items.length === 0 ) {
+		input.removeAttribute( 'aria-activedescendant' );
 		emptyEl.hidden = false;
-		emptyEl.textContent = state.searching
-			? 'Searching…'
-			: 'No matches. Try “wordpress”, “performance”, or “resume”.';
+		if ( state.searching ) {
+			emptyEl.textContent = 'Searching…';
+		} else if ( state.failed ) {
+			emptyEl.textContent =
+				'Search is unavailable right now. Try again in a moment.';
+		} else {
+			emptyEl.textContent =
+				'No matches. Try “wordpress”, “performance”, or “resume”.';
+		}
 		return;
 	}
 	emptyEl.hidden = true;
 
 	let lastGroup = null;
+	let groupEl = null;
 	items.forEach( ( it, i ) => {
 		if ( it.group !== lastGroup ) {
+			groupEl = document.createElement( 'div' );
+			groupEl.className = 'ik-cmdk__group';
+			groupEl.setAttribute( 'role', 'group' );
+			groupEl.setAttribute( 'aria-label', it.group );
+			// The group's aria-label already names it; the visible title would be read twice.
 			const heading = document.createElement( 'div' );
 			heading.className = 'ik-cmdk__group-title';
+			heading.setAttribute( 'aria-hidden', 'true' );
 			heading.textContent = it.group;
-			listEl.appendChild( heading );
+			groupEl.appendChild( heading );
+			listEl.appendChild( groupEl );
 			lastGroup = it.group;
 		}
-		listEl.appendChild( buildItemEl( it, i, i === state.active ) );
+		groupEl.appendChild( buildItemEl( it, i, i === state.active ) );
 	} );
 
+	input.setAttribute(
+		'aria-activedescendant',
+		OPTION_ID_PREFIX + state.active
+	);
 	const activeEl = listEl.querySelector( '.ik-cmdk__item.is-active' );
 	if ( activeEl && typeof activeEl.scrollIntoView === 'function' ) {
 		activeEl.scrollIntoView( { block: 'nearest' } );
 	}
 }
 
+/**
+ * Move the highlight, `aria-selected` and `aria-activedescendant` together.
+ * @param {number} index Option index in combine() order.
+ * @return {?HTMLElement} The option element, if rendered.
+ */
 function activate( index ) {
 	state.active = index;
-	listEl
-		.querySelectorAll( '.ik-cmdk__item.is-active' )
-		.forEach( ( el ) => el.classList.remove( 'is-active' ) );
-	const el = listEl.querySelector( '[data-index="' + index + '"]' );
-	if ( el ) {
-		el.classList.add( 'is-active' );
-		el.scrollIntoView( { block: 'nearest' } );
+	let activeEl = null;
+	listEl.querySelectorAll( '.ik-cmdk__item' ).forEach( ( el ) => {
+		const isActive = el.dataset.index === String( index );
+		el.classList.toggle( 'is-active', isActive );
+		el.setAttribute( 'aria-selected', isActive ? 'true' : 'false' );
+		if ( isActive ) {
+			activeEl = el;
+		}
+	} );
+	if ( activeEl ) {
+		input.setAttribute( 'aria-activedescendant', activeEl.id );
+		activeEl.scrollIntoView( { block: 'nearest' } );
 	}
+	return activeEl;
+}
+
+// Cleared first so the same text twice in a row (two searches, same count) is still announced.
+function announce( message ) {
+	if ( announceTimer ) {
+		clearTimeout( announceTimer );
+	}
+	statusEl.textContent = '';
+	if ( ! message ) {
+		return;
+	}
+	announceTimer = setTimeout( () => {
+		statusEl.textContent = message;
+	}, ANNOUNCE_DELAY );
+}
+
+function searchSummary() {
+	const count = combine().length;
+	if ( count === 0 ) {
+		return state.failed
+			? 'Search is unavailable right now.'
+			: 'No matches.';
+	}
+	const found = count === 1 ? '1 result.' : count + ' results.';
+	return state.failed
+		? found + ' Article search is unavailable right now.'
+		: found;
 }
 
 function runActive() {
@@ -222,7 +294,9 @@ export function open( trigger ) {
 	state.query = '';
 	state.results = [];
 	state.active = 0;
+	state.failed = false;
 	input.value = '';
+	announce( '' );
 	render();
 	palette.showModal();
 	setTriggersExpanded( true );
@@ -257,6 +331,9 @@ function onClose() {
 	if ( searchTimer ) {
 		clearTimeout( searchTimer );
 	}
+	if ( announceTimer ) {
+		clearTimeout( announceTimer );
+	}
 	state.searching = false;
 	setTriggersExpanded( false );
 	// Return focus to the trigger so keyboard users aren't dropped at the
@@ -271,23 +348,40 @@ function onClose() {
  * List navigation. ⌘K lives in the loader; Escape and focus containment are
  * the dialog's own.
  *
+ * Enter is only taken over in the input: a result reached with Tab keeps
+ * its native Enter, so the link the user is on is the one that opens.
+ *
  * @param {KeyboardEvent} e The keydown event, scoped to the dialog.
  */
 function onKeydown( e ) {
-	if ( e.key === 'ArrowDown' ) {
-		e.preventDefault();
-		const items = combine();
-		activate( Math.min( items.length - 1, state.active + 1 ) );
+	const option = e.target.closest( '.ik-cmdk__item' );
+	if ( e.target !== input && ! option ) {
 		return;
 	}
-	if ( e.key === 'ArrowUp' ) {
+	if ( e.key === 'ArrowDown' || e.key === 'ArrowUp' ) {
 		e.preventDefault();
-		activate( Math.max( 0, state.active - 1 ) );
+		const last = combine().length - 1;
+		const next =
+			e.key === 'ArrowDown'
+				? Math.min( last, state.active + 1 )
+				: Math.max( 0, state.active - 1 );
+		const el = activate( next );
+		if ( option && el ) {
+			el.focus();
+		}
 		return;
 	}
-	if ( e.key === 'Enter' ) {
+	if ( e.key === 'Enter' && e.target === input ) {
 		e.preventDefault();
 		runActive();
+	}
+}
+
+// Hovering or tabbing onto a result makes it the active one.
+function activateEventTarget( e ) {
+	const option = e.target.closest( '.ik-cmdk__item' );
+	if ( option ) {
+		activate( Number( option.dataset.index ) );
 	}
 }
 
@@ -295,24 +389,31 @@ function onInput( e ) {
 	state.query = e.target.value;
 	state.active = 0;
 	state.results = [];
-	render();
+	state.failed = false;
 
 	if ( searchTimer ) {
 		clearTimeout( searchTimer );
 	}
 	const q = state.query.trim();
+	state.searching = q !== '';
+	render();
 	if ( ! q ) {
+		if ( abortController ) {
+			abortController.abort();
+		}
+		announce( '' );
 		return;
 	}
-	state.searching = true;
 	searchTimer = setTimeout( async () => {
-		const results = await searchPosts( q );
-		if ( q !== state.query.trim() ) {
+		const outcome = await searchPosts( q );
+		if ( ! outcome || q !== state.query.trim() ) {
 			return;
 		}
-		state.results = results;
+		state.results = outcome.items;
+		state.failed = outcome.failed;
 		state.searching = false;
 		render();
+		announce( searchSummary() );
 	}, 180 );
 }
 
@@ -333,22 +434,37 @@ function buildSkeleton() {
 	const inp = document.createElement( 'input' );
 	inp.className = 'ik-cmdk__input';
 	inp.type = 'search';
+	inp.setAttribute( 'role', 'combobox' );
+	inp.setAttribute( 'aria-label', 'Search the site' );
+	inp.setAttribute( 'aria-controls', LIST_ID );
+	inp.setAttribute( 'aria-autocomplete', 'list' );
+	inp.setAttribute( 'aria-expanded', 'false' );
 	inp.placeholder = 'Search articles, topics, projects, or jump to a page…';
 	inp.autocomplete = 'off';
 	inp.spellcheck = false;
 	inp.autofocus = true;
 	const esc = document.createElement( 'span' );
 	esc.className = 'ik-cmdk__esc';
+	esc.setAttribute( 'aria-hidden', 'true' );
 	esc.textContent = 'esc';
 	inputRow.append( caret, inp, esc );
 
 	const list = document.createElement( 'div' );
 	list.className = 'ik-cmdk__list';
+	list.id = LIST_ID;
 	list.setAttribute( 'role', 'listbox' );
+	list.setAttribute( 'aria-label', 'Results' );
 
+	// The status region announces the outcome, so the visible copy stays silent.
 	const empty = document.createElement( 'div' );
 	empty.className = 'ik-cmdk__empty';
+	empty.setAttribute( 'aria-hidden', 'true' );
 	empty.hidden = true;
+
+	// Present before the first search so screen readers are already watching it.
+	const status = document.createElement( 'div' );
+	status.className = 'ik-cmdk__status';
+	status.setAttribute( 'role', 'status' );
 
 	const footer = document.createElement( 'div' );
 	footer.className = 'ik-cmdk__footer';
@@ -367,9 +483,9 @@ function buildSkeleton() {
 	meta.textContent = '⌘K from anywhere';
 	footer.append( meta );
 
-	dialog.append( inputRow, list, empty, footer );
+	dialog.append( inputRow, list, empty, status, footer );
 
-	return { dialog, input: inp, list, empty };
+	return { dialog, input: inp, list, empty, status };
 }
 
 /**
@@ -403,6 +519,7 @@ function build() {
 	input = parts.input;
 	listEl = parts.list;
 	emptyEl = parts.empty;
+	statusEl = parts.status;
 	document.body.appendChild( palette );
 
 	palette.addEventListener( 'close', onClose );
@@ -410,11 +527,7 @@ function build() {
 	if ( ! ( 'closedBy' in window.HTMLDialogElement.prototype ) ) {
 		palette.addEventListener( 'click', onBackdropClick );
 	}
-	listEl.addEventListener( 'mouseover', ( e ) => {
-		const target = e.target.closest( '.ik-cmdk__item' );
-		if ( target ) {
-			activate( Number( target.dataset.index ) );
-		}
-	} );
+	listEl.addEventListener( 'mouseover', activateEventTarget );
+	listEl.addEventListener( 'focusin', activateEventTarget );
 	input.addEventListener( 'input', onInput );
 }
