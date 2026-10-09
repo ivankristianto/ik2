@@ -315,7 +315,7 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 - **Primary:** the header Resume CTA. Ink fill, Paper text, `sm` size, 8px by 16px padding. Hover swaps the fill to Deep Terracotta. On `/resume` it fills with Terracotta to confirm where you are.
 - **Secondary:** the header search trigger. Surface fill, 1px Line border, Graphite text, 12px padding, with a Micro-size `kbd` hint. Hover darkens the border to Rule and the text to Ink. The fill does not change.
 - **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `title` size (`title-lg` on phones) with a mono arrow, underlined by a 2px Terracotta bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Terracotta.
-- **Focus:** `2px solid` Terracotta with a 3px offset (`custom.focus`). Always visible.
+- **Focus:** `2px solid` Terracotta with a 3px offset (`custom.focus`). Always visible. Rows inside a scrolling list or track (palette results, lightbox slides) draw the same ring inset (`$focus-offset-inset`), because the scroller would clip it outside.
 - **Transitions:** `custom.transition.base` (200ms ease) on color, background, border, and box-shadow only. No transform, no scale.
 
 ### Chips
