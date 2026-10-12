@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit;
 
 $ik2_post_id = (int) ( $attributes['postId'] ?? 0 );
 $ik2_compact = ! empty( $attributes['compact'] );
+// H3 under a section H2 (home preview); the Projects archive passes 2 so cards sit right under its H1.
+$ik2_heading_tag = 'h' . min( 6, max( 2, (int) ( $attributes['headingLevel'] ?? 3 ) ) );
 
 if ( $ik2_post_id <= 0 && isset( $block->context['postId'] ) ) {
 	$ik2_post_id = (int) $block->context['postId'];
@@ -54,7 +56,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 ?>
 <article <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="ik-project__head">
-		<h3 class="ik-project__name"><?php echo esc_html( $ik2_card['title'] ); ?></h3>
+		<<?php echo esc_html( $ik2_heading_tag ); ?> class="ik-project__name"><?php echo esc_html( $ik2_card['title'] ); ?></<?php echo esc_html( $ik2_heading_tag ); ?>>
 		<?php if ( $ik2_card['status'] !== '' ) : ?>
 			<span class="ik-project__status" data-status="<?php echo esc_attr( $ik2_card['status'] ); ?>">
 				<?php echo esc_html( $ik2_card['status'] ); ?>

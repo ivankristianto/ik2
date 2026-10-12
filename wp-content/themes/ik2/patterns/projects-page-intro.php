@@ -12,7 +12,7 @@
 <!-- wp:group {"className":"ik-projects-archive__head","layout":{"type":"default"}} -->
 <header class="wp-block-group ik-projects-archive__head">
 	<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-	<p class="ik-section__eyebrow"><?php esc_html_e( '// PROJECTS  ·  TOOLS  ·  PLUGINS  ·  EXPERIMENTS', 'ik2' ); ?></p>
+	<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> <?php esc_html_e( 'PROJECTS  ·  TOOLS  ·  PLUGINS  ·  EXPERIMENTS', 'ik2' ); ?></p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:heading {"level":1,"className":"ik-projects-archive__title"} -->

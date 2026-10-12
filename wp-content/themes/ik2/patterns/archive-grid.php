@@ -29,10 +29,10 @@
 			<!-- wp:pattern {"slug":"ik2/article-card"} /-->
 		<!-- /wp:post-template -->
 
-		<!-- wp:query-pagination {"className":"ik-articles-pagination","layout":{"type":"flex","justifyContent":"space-between"}} -->
-			<!-- wp:query-pagination-previous {"label":"← Prev"} /-->
+		<!-- wp:query-pagination {"paginationArrow":"arrow","className":"ik-articles-pagination","layout":{"type":"flex","justifyContent":"space-between"}} -->
+			<!-- wp:query-pagination-previous {"label":"Prev"} /-->
 			<!-- wp:query-pagination-numbers /-->
-			<!-- wp:query-pagination-next {"label":"Next →"} /-->
+			<!-- wp:query-pagination-next {"label":"Next"} /-->
 		<!-- /wp:query-pagination -->
 
 		<!-- wp:query-no-results -->

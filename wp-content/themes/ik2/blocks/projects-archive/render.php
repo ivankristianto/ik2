@@ -52,7 +52,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			// every untrusted value internally.
 			echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				sprintf(
-					'<!-- wp:ik2/project-card {"postId":%d} /-->',
+					'<!-- wp:ik2/project-card {"postId":%d,"headingLevel":2} /-->',
 					(int) $ik2_project->ID
 				)
 			);

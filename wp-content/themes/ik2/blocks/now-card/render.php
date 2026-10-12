@@ -22,9 +22,10 @@ $ik2_now_foot = isset( $attributes['foot'] ) ? trim( (string) $attributes['foot'
 
 $ik2_now_foot_tags = [
 	'a'      => [
-		'href'   => true,
-		'target' => true,
-		'rel'    => true,
+		'href'       => true,
+		'target'     => true,
+		'rel'        => true,
+		'aria-label' => true,
 	],
 	'em'     => [],
 	'strong' => [],
@@ -36,7 +37,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 <aside <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<p class="ik-now__head">
 		<span class="ik-now__dot" aria-hidden="true"></span>
-		<span class="ik-now__label">// /now</span>
+		<span class="ik-now__label"><span aria-hidden="true">//</span> /now</span>
 		<?php if ( '' !== $ik2_now_date ) : ?>
 			<span class="ik-now__date"><?php echo esc_html( $ik2_now_date ); ?></span>
 		<?php endif; ?>

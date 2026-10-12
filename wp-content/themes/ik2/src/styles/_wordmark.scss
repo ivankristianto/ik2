@@ -13,7 +13,7 @@
 }
 
 .ik-wordmark::before {
-	content: '~ $';
+	content: '~ $' / '';
 	color: $color-graphite;
 	font-weight: $weight-medium;
 }

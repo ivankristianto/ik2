@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'visually-hidden' as *;
 
 // Native modal <dialog>: the browser owns the top layer, inertness of the
 // page behind, focus containment and Escape. Only the look is ours.
@@ -143,6 +144,11 @@ html:has(.ik-cmdk[open]) {
 		background: $color-signal-soft;
 		color: $color-signal-deep;
 	}
+
+	&:focus-visible {
+		outline: $focus;
+		outline-offset: $focus-offset-inset;
+	}
 }
 
 .ik-cmdk__item-glyph {
@@ -161,6 +167,11 @@ html:has(.ik-cmdk[open]) {
 	color: $color-graphite;
 	font-style: italic;
 	font-size: $size-sm-plus;
+}
+
+.ik-cmdk__status {
+
+	@include visually-hidden;
 }
 
 .ik-cmdk__footer {

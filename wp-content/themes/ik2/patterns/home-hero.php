@@ -17,7 +17,7 @@
 		<!-- wp:group {"className":"ik-hero__main","layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-hero__main">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow ik-hero__eyebrow"} -->
-			<p class="ik-section__eyebrow ik-hero__eyebrow">// Web engineer · WordPress · AI · Performance · Tooling</p>
+			<p class="ik-section__eyebrow ik-hero__eyebrow"><span aria-hidden="true">//</span> Web engineer · WordPress · AI · Performance · Tooling</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":1,"className":"ik-hero__title","fontSize":"hero"} -->
@@ -55,12 +55,12 @@
 			<!-- wp:html -->
 			<div class="ik-hero__portrait-bar">
 				<span class="ik-hero__portrait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-				<span class="ik-hero__portrait-path">~ $ ./ivan.jpg</span>
+				<span class="ik-hero__portrait-path" aria-hidden="true">~ $ ./ivan.jpg</span>
 			</div>
 			<!-- /wp:html -->
 
 			<!-- wp:image {"sizeSlug":"full","className":"ik-hero__portrait-frame"} -->
-			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption">// Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
+			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption"><span aria-hidden="true">//</span> Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
 			<!-- /wp:image -->
 		</aside>
 		<!-- /wp:group -->
@@ -68,7 +68,7 @@
 	<!-- /wp:group -->
 
 	<!-- wp:paragraph {"className":"ik-hero__quicklinks"} -->
-	<p class="ik-hero__quicklinks"><span>// Exploring WordPress, AI, performance, and developer tooling.</span></p>
+	<p class="ik-hero__quicklinks"><span><span aria-hidden="true">//</span> Exploring WordPress, AI, performance, and developer tooling.</span></p>
 	<!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->

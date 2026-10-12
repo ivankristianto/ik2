@@ -86,7 +86,7 @@
 	transition: background-size $transition-base, color $transition-base;
 
 	&::after {
-		content: '\2192';
+		content: '\2192' / '';
 		font-family: $font-mono;
 		font-weight: $weight-regular;
 		color: $color-signal;

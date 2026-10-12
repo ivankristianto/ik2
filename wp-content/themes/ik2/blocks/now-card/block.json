@@ -21,7 +21,7 @@
 		"foot": {
 			"type": "string",
 			"role": "content",
-			"default": "Inspired by <a href=\"https://nownownow.com\" target=\"_blank\" rel=\"noreferrer\">/now</a>. Updated when the world changes — not on a schedule."
+			"default": "Inspired by <a href=\"https://nownownow.com\" target=\"_blank\" rel=\"noreferrer\" aria-label=\"/now (opens in a new tab)\">/now</a>. Updated when the world changes — not on a schedule."
 		}
 	},
 	"editorScript": "file:./editor.js",

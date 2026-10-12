@@ -22,7 +22,7 @@ $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_
 		<!-- wp:group {"className":"ik-guides-layout__intro","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-guides-layout__intro">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-			<p class="ik-section__eyebrow">// START HERE</p>
+			<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> START HERE</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":2,"className":"ik-section__title"} -->
@@ -34,7 +34,7 @@ $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"className":"ik-guides-layout__more"} -->
-			<p class="ik-guides-layout__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All guides →</a></p>
+			<p class="ik-guides-layout__more"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">All guides <span aria-hidden="true">→</span></a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

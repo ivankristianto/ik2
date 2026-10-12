@@ -214,6 +214,11 @@ function section_slugs_for_request(): array {
 		return [ 'articles' ];
 	}
 
+	// page.html reuses the article layout. The resolved template is set before wp_enqueue_scripts runs.
+	if ( is_page() && get_stylesheet() . '//page' === ( $GLOBALS['_wp_current_template_id'] ?? '' ) ) {
+		return [ 'single' ];
+	}
+
 	return [];
 }
 

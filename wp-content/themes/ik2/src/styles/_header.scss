@@ -239,7 +239,7 @@
 	// Drawer wordmark — echoes the main .ik-wordmark terminal prompt without the
 	// blinking cursor, anchoring the panel as Ivan's space.
 	.ik-header .wp-block-navigation__responsive-dialog::before {
-		content: '~ $ ivan';
+		content: '~ $ ivan' / '';
 		grid-column: 1;
 		grid-row: 1;
 		align-self: center;
