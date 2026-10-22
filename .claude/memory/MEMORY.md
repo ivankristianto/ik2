@@ -12,3 +12,4 @@
 - [verify the literal request](feedback-verify-literal-request.md) — check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
 - [prod page content via REST](project-prod-page-content-via-rest.md) — releases never touch pattern-backed page content; splice it in over REST with the `.env` IK2_PROD_* app password (not .mcp.json), set a User-Agent, never run regen on prod
 - [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures
+- [PHP CVE stopgap revert](project-php-8512-mitigation-revert.md) — reverted on branch revert-php-cve-stopgap 2026-10-22 (base images ship 8.5.12); PR + patch release + prod `php -v` check still pending
