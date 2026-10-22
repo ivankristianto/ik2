@@ -1,16 +1,14 @@
 ---
 name: project-php-8512-mitigation-revert
-description: Temporary PHP CVE mitigations (PR #22, 2026-10-21) must be reverted once wordpress:*-php8.5-* images ship PHP 8.5.12
+description: PHP CVE stopgap (PR #22) reverted locally on branch revert-php-cve-stopgap on 2026-10-22; prod still runs v0.12.2 with the stopgap until a release ships it
 metadata:
   type: project
 ---
 
-On 2026-10-21, PR https://github.com/ivankristianto/ik2/pull/22 (commit 73f1ca6) added stopgap hardening for CVE-2026-109618 / CVE-2026-109619, because PHP 8.5.12 was out on php.net but `wordpress:7.1.3-php8.5-fpm-alpine` and `wordpress:cli-php8.5` still shipped 8.5.11.
+On 2026-10-21, PR https://github.com/ivankristianto/ik2/pull/22 (commit 73f1ca6) added stopgap hardening for CVE-2026-109618 / CVE-2026-109619 while `wordpress:7.1.3-php8.5-fpm-alpine` and `wordpress:cli-php8.5` still shipped PHP 8.5.11. It shipped to prod in v0.12.2.
 
-Temporary settings to undo:
-- `docker/php/php.ini`: `session.upload_progress.enabled = 0`, `fatal_error_backtraces = 0`, `post_max_size` 32M (was 64M), `upload_max_filesize` 30M (was 64M), plus their CVE comments
-- `docker/nginx/default.conf`: `client_max_body_size` 32M (was 64M), plus its comment
+On 2026-10-22 both base images reported PHP 8.5.12, so the stopgap was reverted on branch `revert-php-cve-stopgap` (64M upload limits, session upload progress and fatal backtraces back on). Local app and wp-cli rebuilt and confirmed on 8.5.12.
 
-**Why:** Ivan wants these reverted once the patched base image exists. They lower the upload cap and were only meant to cover the gap.
+**Why:** Ivan wanted the lowered upload cap gone once the patched base image existed.
 
-**How to apply:** Check that a fresh `docker pull wordpress:7.1.3-php8.5-fpm-alpine` (and `cli-php8.5`) reports PHP >= 8.5.12 in `php -v`. Then revert 73f1ca6 (`git revert 73f1ca6`, or restore the values by hand if the files changed since), rebuild, confirm `php -v`, and ask Ivan before cutting the patch release. The `build.yml` GHA layer cache can reuse the old base, so check `php -v` in the deployed container too. The stopgap shipped to prod in v0.12.2 (2026-10-21), still on PHP 8.5.11.
+**How to apply:** Remaining steps are a PR to main and a patch release, both only when Ivan asks. After the release deploys, check `php -v` in the prod app container, since the `build.yml` GHA layer cache can reuse the old 8.5.11 base. Once prod reports 8.5.12, delete this memory.
