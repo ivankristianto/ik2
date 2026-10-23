@@ -16,14 +16,14 @@
 .ik-guides-layout__deck {
 	max-width: 34ch;
 	color: $color-graphite;
-	font-size: $size-lg;
+	font-size: $size-base;
 	line-height: $leading-comfortable;
 	margin: 0;
 }
 
 .ik-guides-layout__more {
 	margin: 0;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 
 	a {
 		color: $color-signal;
@@ -72,7 +72,7 @@
 	gap: $space-2;
 	align-content: start;
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-dust;
 	margin: 0;
 
@@ -87,7 +87,7 @@
 }
 
 .ik-guide__title {
-	font-size: $size-xl;
+	font-size: $size-base;
 	line-height: $leading-snug;
 	margin: 0 0 $space-2;
 
@@ -99,7 +99,7 @@
 
 .ik-guide__excerpt {
 	color: $color-graphite;
-	font-size: $size-md;
+	font-size: $size-small;
 	line-height: $leading-comfortable;
 	margin: 0;
 }
@@ -127,7 +127,7 @@
 	}
 
 	.ik-guides-layout__deck {
-		font-size: $size-md;
+		font-size: $size-small;
 		line-height: $leading-comfortable;
 	}
 
@@ -142,11 +142,11 @@
 	}
 
 	.ik-guide__title {
-		font-size: $size-lg;
+		font-size: $size-base;
 	}
 
 	.ik-guide__excerpt {
-		font-size: $size-sm;
+		font-size: $size-x-small;
 		line-height: $leading-comfortable;
 	}
 }

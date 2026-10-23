@@ -13,7 +13,7 @@
 
 .ik-articles-filters__label {
 	font-family: var(--wp--preset--font-family--mono);
-	font-size: var(--wp--preset--font-size--sm);
+	font-size: var(--wp--preset--font-size--x-small);
 	color: var(--wp--preset--color--dust);
 }
 
@@ -31,7 +31,7 @@
 
 .ik-articles-filters__pill {
 	font-family: var(--wp--preset--font-family--mono);
-	font-size: var(--wp--preset--font-size--sm);
+	font-size: var(--wp--preset--font-size--x-small);
 	line-height: var(--wp--custom--line-height--flat);
 	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
 	border-radius: var(--wp--preset--border-radius--pill);
@@ -58,7 +58,7 @@
 .ik-articles-filters__count {
 	margin-inline-start: auto;
 	font-family: var(--wp--preset--font-family--mono);
-	font-size: var(--wp--preset--font-size--sm);
+	font-size: var(--wp--preset--font-size--x-small);
 	color: var(--wp--preset--color--dust);
 }
 

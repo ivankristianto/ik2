@@ -20,7 +20,7 @@
 }
 
 .ik-header__nav {
-	font-size: $size-sm;
+	font-size: $size-x-small;
 
 	// Match the core navigation block's chained-class specificity (0,3,0) so our
 	// color, hover, and active treatments actually take effect.
@@ -60,7 +60,7 @@
 	border-radius: $radius-md;
 	padding: $space-3;
 	color: $color-graphite;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	transition: border-color $transition-base, color $transition-base;
 
 	&:hover {
@@ -69,7 +69,7 @@
 	}
 
 	kbd {
-		font-size: $size-xs;
+		font-size: $size-x-small;
 	}
 }
 
@@ -78,7 +78,7 @@
 	align-items: center;
 	min-height: 44px;
 	padding: $space-2 $space-4;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-paper;
 	white-space: nowrap;
 	background: $color-ink;
@@ -133,7 +133,7 @@
 	}
 
 	.ik-header__nav {
-		font-size: $size-md;
+		font-size: $size-small;
 	}
 
 	.ik-header .wp-block-navigation__responsive-container-open,
@@ -168,7 +168,7 @@
 	.ik-header .wp-block-navigation__responsive-container-open::after,
 	.ik-header .wp-block-navigation__responsive-container-close::after {
 		font-family: $font-mono;
-		font-size: $size-xs;
+		font-size: $size-x-small;
 		line-height: $leading-flat;
 		color: currentcolor;
 	}
@@ -244,7 +244,7 @@
 		grid-row: 1;
 		align-self: center;
 		font-family: $font-mono;
-		font-size: $size-lg;
+		font-size: $size-base;
 		font-weight: $weight-semibold;
 		color: $color-ink;
 		letter-spacing: $tracking-snug;
@@ -305,7 +305,7 @@
 		padding-inline: $space-4;
 		color: $color-dust;
 		font-family: $font-mono;
-		font-size: $size-xs;
+		font-size: $size-x-small;
 		line-height: $leading-normal;
 	}
 
@@ -329,7 +329,7 @@
 		align-items: center;
 		min-height: 56px;
 		padding: $space-3 $space-4;
-		font-size: $size-lg;
+		font-size: $size-base;
 		line-height: $leading-snug;
 		letter-spacing: $tracking-snug;
 		font-weight: $weight-medium;

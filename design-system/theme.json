@@ -133,7 +133,7 @@
 				"offset": "3px"
 			},
 			"fontSize": {
-				"numeral": "clamp(7rem, 18vw, 14rem)"
+				"numeral": "clamp(7rem, 4rem + 13.3333vw, 14rem)"
 			},
 			"fontWeight": {
 				"regular": "400",
@@ -269,94 +269,44 @@
 			],
 			"fontSizes": [
 				{
-					"name": "XS",
-					"size": "0.75rem",
-					"slug": "xs"
+					"name": "X-Small",
+					"size": "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)",
+					"slug": "x-small"
 				},
 				{
-					"name": "SM",
-					"size": "0.875rem",
-					"slug": "sm"
+					"name": "Small",
+					"size": "clamp(1rem, 0.9732rem + 0.119vw, 1.0625rem)",
+					"slug": "small"
 				},
 				{
-					"name": "SM+",
-					"size": "0.9375rem",
-					"slug": "sm-plus"
+					"name": "Base",
+					"size": "clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem)",
+					"slug": "base"
 				},
 				{
-					"name": "MD",
-					"size": "1rem",
-					"slug": "md"
+					"name": "Medium",
+					"size": "clamp(1.25rem, 1.1429rem + 0.4762vw, 1.5rem)",
+					"slug": "medium"
 				},
 				{
-					"name": "MD+",
-					"size": "1.0625rem",
-					"slug": "md-plus"
+					"name": "Large",
+					"size": "clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem)",
+					"slug": "large"
 				},
 				{
-					"name": "LG",
-					"size": "1.125rem",
-					"slug": "lg"
+					"name": "X-Large",
+					"size": "clamp(2rem, 1.6786rem + 1.4286vw, 2.75rem)",
+					"slug": "x-large"
 				},
 				{
-					"name": "XL",
-					"size": "1.25rem",
-					"slug": "xl"
+					"name": "2X-Large",
+					"size": "clamp(2.5rem, 1.9643rem + 2.381vw, 3.75rem)",
+					"slug": "xx-large"
 				},
 				{
-					"name": "2XL",
-					"size": "1.5rem",
-					"slug": "2-xl"
-				},
-				{
-					"name": "3XL",
-					"size": "2rem",
-					"slug": "3-xl"
-				},
-				{
-					"name": "4XL",
-					"size": "2.75rem",
-					"slug": "4-xl"
-				},
-				{
-					"name": "Lead",
-					"size": "clamp(1.125rem, 1.6vw, 1.375rem)",
-					"slug": "lead"
-				},
-				{
-					"name": "Subtitle",
-					"size": "clamp(1.375rem, 2.4vw, 1.625rem)",
-					"slug": "subtitle"
-				},
-				{
-					"name": "Title",
-					"size": "clamp(1.5rem, 3vw, 2rem)",
-					"slug": "title"
-				},
-				{
-					"name": "Title LG",
-					"size": "clamp(1.75rem, 4vw, 2.5rem)",
-					"slug": "title-lg"
-				},
-				{
-					"name": "Headline",
-					"size": "clamp(2rem, 5vw, 3rem)",
-					"slug": "headline"
-				},
-				{
-					"name": "Display",
-					"size": "clamp(2.5rem, 6vw, 4.5rem)",
-					"slug": "display"
-				},
-				{
-					"name": "Hero",
-					"size": "clamp(3rem, 8vw, 5.5rem)",
-					"slug": "hero"
-				},
-				{
-					"name": "Jumbo",
-					"size": "clamp(3.75rem, 12vw, 7.5rem)",
-					"slug": "jumbo"
+					"name": "3X-Large",
+					"size": "clamp(3rem, 2.25rem + 3.3333vw, 4.75rem)",
+					"slug": "xxx-large"
 				}
 			],
 			"defaultFontSizes": false,
@@ -420,7 +370,7 @@
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--sans)",
-			"fontSize": "var(--wp--preset--font-size--lg)",
+			"fontSize": "var(--wp--preset--font-size--base)",
 			"lineHeight": "var(--wp--custom--line-height--relaxed)"
 		}
 	},

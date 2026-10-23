@@ -14,14 +14,14 @@
 }
 
 .ik-contact__title {
-	font-size: $size-headline;
+	font-size: $size-x-large;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tightest;
 	margin: $space-3 0 $space-5;
 }
 
 .ik-contact__lede {
-	font-size: $size-lead;
+	font-size: $size-medium;
 	line-height: $leading-comfortable;
 	color: $color-ink;
 	margin: 0;
@@ -89,7 +89,7 @@
 
 .ik-contact-row__label {
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-dust;
 	letter-spacing: $tracking-wider;
 }
@@ -102,7 +102,7 @@
 
 .ik-contact-row__value {
 	font-family: $font-mono;
-	font-size: $size-md;
+	font-size: $size-small;
 	color: $color-signal;
 	font-weight: $weight-semibold;
 	margin: 0;
@@ -120,7 +120,7 @@
 }
 
 .ik-contact-row__note {
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 	line-height: $leading-normal;
 }
@@ -137,7 +137,7 @@
 	margin: $space-8 0 0;
 	max-width: $width-content;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-dust;
 	line-height: $leading-relaxed;
 

@@ -34,7 +34,7 @@
 				'data-status': status,
 				style: {
 					fontFamily: 'var(--wp--preset--font-family--mono)',
-					fontSize: 'var(--wp--preset--font-size--xs)',
+					fontSize: 'var(--wp--preset--font-size--x-small)',
 					padding: '2px var(--wp--preset--spacing--2)',
 					borderRadius: 'var(--wp--preset--border-radius--pill)',
 					border: '1px solid var(--wp--preset--color--line)',

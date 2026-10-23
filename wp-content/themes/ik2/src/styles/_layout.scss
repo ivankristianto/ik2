@@ -21,7 +21,7 @@
 
 .ik-section__eyebrow {
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	text-transform: lowercase;
 	letter-spacing: $tracking-normal;
 	color: $color-graphite;
@@ -46,14 +46,14 @@
 }
 
 .ik-section__title {
-	font-size: $size-3xl;
+	font-size: $size-large;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tightest;
 	margin: 0;
 }
 
 .ik-section__more {
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	margin: 0;
 
 	a {
@@ -85,7 +85,7 @@
 	}
 
 	.ik-section__title {
-		font-size: $size-headline;
+		font-size: $size-x-large;
 	}
 }
 

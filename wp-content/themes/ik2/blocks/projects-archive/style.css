@@ -25,7 +25,7 @@
 }
 
 .ik-projects-archive__title {
-  font-size: var(--wp--preset--font-size--headline);
+  font-size: var(--wp--preset--font-size--x-large);
   letter-spacing: var(--wp--custom--letter-spacing--tightest);
   margin: 0;
 }
@@ -33,7 +33,7 @@
 .ik-projects-archive__lede {
   max-width: var(--wp--custom--width--measure);
   color: var(--wp--preset--color--graphite);
-  font-size: var(--wp--preset--font-size--md);
+  font-size: var(--wp--preset--font-size--small);
   line-height: var(--wp--custom--line-height--relaxed);
   margin: 0;
 }

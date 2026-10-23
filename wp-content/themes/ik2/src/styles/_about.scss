@@ -23,14 +23,14 @@
 }
 
 .ik-about__title {
-	font-size: $size-headline;
+	font-size: $size-x-large;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tightest;
 	margin: $space-3 0 $space-6;
 }
 
 .ik-about__intro {
-	font-size: $size-lead;
+	font-size: $size-medium;
 	line-height: $leading-comfortable;
 	letter-spacing: $tracking-snug;
 	color: $color-ink;
@@ -42,7 +42,7 @@
 	margin: 0;
 
 	p {
-		font-size: $size-lg;
+		font-size: $size-base;
 		line-height: $leading-relaxed;
 		color: $color-ink;
 		margin: 0 0 $space-4;
@@ -70,7 +70,7 @@
 }
 
 .ik-about__col-title {
-	font-size: $size-2xl;
+	font-size: $size-medium;
 	letter-spacing: $tracking-tight;
 	margin: 0 0 $space-4;
 	padding-bottom: $space-3;
@@ -94,7 +94,7 @@
 		align-items: start;
 		gap: $space-3;
 		padding-block: $space-3;
-		font-size: $size-lg;
+		font-size: $size-base;
 		line-height: $leading-comfortable;
 		color: $color-ink;
 
@@ -102,7 +102,7 @@
 			content: '→' / '';
 			color: $color-signal;
 			font-family: $font-mono;
-			font-size: $size-md;
+			font-size: $size-small;
 			line-height: $leading-comfortable;
 		}
 	}
@@ -133,7 +133,7 @@
 	flex-direction: column;
 	gap: 0.15rem;
 	padding-block: $space-3;
-	font-size: $size-md;
+	font-size: $size-small;
 	line-height: $leading-comfortable;
 
 	// Node sits on the spine, vertically centered on the date label.
@@ -153,7 +153,7 @@
 
 .ik-about__timeline-when {
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-dust;
 	letter-spacing: $tracking-wide;
 	margin: 0;
@@ -191,7 +191,7 @@
 }
 
 .ik-about__elsewhere-title {
-	font-size: $size-subtitle;
+	font-size: $size-medium;
 	line-height: $leading-snug;
 	letter-spacing: $tracking-tight;
 	margin: 0 0 $space-2;
@@ -202,7 +202,7 @@
 
 .ik-about__elsewhere-text {
 	margin: 0;
-	font-size: $size-md;
+	font-size: $size-small;
 	color: $color-graphite;
 	line-height: $leading-comfortable;
 	max-width: 52ch;
@@ -227,7 +227,7 @@
 	border-radius: $radius-md;
 	border: 1px solid transparent;
 	font-family: $font-sans;
-	font-size: $size-md;
+	font-size: $size-small;
 	font-weight: $weight-semibold;
 	line-height: $leading-snug;
 	text-decoration: none;

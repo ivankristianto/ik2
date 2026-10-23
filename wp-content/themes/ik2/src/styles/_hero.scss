@@ -30,16 +30,14 @@
 .ik-hero .ik-hero__title {
 	max-width: 18ch;
 	margin: 0 0 $space-5;
+	font-size: $size-xxx-large;
 	letter-spacing: $tracking-tightest;
-
-	@media (min-width: 901px) {
-		font-size: $size-display;
-	}
 }
 
 .ik-hero .ik-hero__blurb {
 	max-width: 60ch;
 	color: $color-graphite;
+	font-size: $size-base;
 	margin: 0;
 }
 
@@ -47,7 +45,7 @@
 	max-width: $width-content;
 	margin: $space-5 0 0;
 	color: $color-graphite;
-	font-size: $size-md-plus;
+	font-size: $size-small;
 	line-height: $leading-relaxed;
 }
 
@@ -70,7 +68,7 @@
 	border-radius: 0;
 	background-color: transparent;
 	font-family: $font-sans;
-	font-size: $size-title;
+	font-size: $size-large;
 	font-weight: $weight-bold;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tighter;
@@ -104,7 +102,7 @@
 	align-items: center;
 	gap: $space-3;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 
 	a {
@@ -124,7 +122,7 @@
 .ik-hero .ik-hero__quicklinks {
 	margin-top: $space-7;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 
 	> span { color: $color-dust; }
@@ -155,7 +153,7 @@
 	background: $color-soft-paper;
 	border-bottom: 1px solid $color-line;
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-dust;
 }
 
@@ -197,7 +195,7 @@
 	border-top: 1px solid $color-line;
 	background: $color-surface;
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-dust;
 	letter-spacing: $tracking-wide;
 	line-height: $leading-normal;
@@ -220,17 +218,15 @@
 	.ik-hero .ik-hero__title {
 		max-width: 10ch;
 		margin-bottom: $space-4;
-		font-size: $size-hero;
 	}
 
 	.ik-hero .ik-hero__blurb {
-		font-size: $size-md;
 		line-height: $leading-comfortable;
 	}
 
 	.ik-hero .ik-hero__sub {
 		margin-top: $space-4;
-		font-size: $size-sm;
+		font-size: $size-x-small;
 		line-height: $leading-comfortable;
 	}
 
@@ -240,12 +236,12 @@
 	}
 
 	.ik-hero .is-style-hero-cta .wp-block-button__link {
-		font-size: $size-title-lg;
+		font-size: $size-x-large;
 	}
 
 	.ik-hero .ik-hero__secondary,
 	.ik-hero .ik-hero__quicklinks {
-		font-size: $size-xs;
+		font-size: $size-x-small;
 	}
 
 	.ik-hero .ik-hero__quicklinks {

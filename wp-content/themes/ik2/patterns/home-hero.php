@@ -20,12 +20,12 @@
 			<p class="ik-section__eyebrow ik-hero__eyebrow">Web engineer · WordPress · AI · Performance · Tooling</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:heading {"level":1,"className":"ik-hero__title","fontSize":"hero"} -->
-			<h1 class="wp-block-heading ik-hero__title has-hero-font-size">I'm Ivan.</h1>
+			<!-- wp:heading {"level":1,"className":"ik-hero__title"} -->
+			<h1 class="wp-block-heading ik-hero__title">I'm Ivan.</h1>
 			<!-- /wp:heading -->
 
-			<!-- wp:paragraph {"className":"ik-hero__blurb","fontSize":"xl"} -->
-			<p class="ik-hero__blurb has-xl-font-size">I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.</p>
+			<!-- wp:paragraph {"className":"ik-hero__blurb"} -->
+			<p class="ik-hero__blurb">I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"className":"ik-hero__sub"} -->
