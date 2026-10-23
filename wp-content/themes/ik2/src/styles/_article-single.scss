@@ -963,15 +963,21 @@
 .ik-article__body .wp-block-group.is-style-callout-updated {
 	background: $color-surface;
 	color: $color-ink;
-	border: 1px solid $color-line;
-	border-left: 3px solid $color-build-green;
+	border: 1px solid $color-build-green;
+
+	.ik-callout__title {
+		color: $color-build-green;
+	}
 }
 
 .ik-article__body .wp-block-group.is-style-callout-outdated {
 	background: $color-surface;
 	color: $color-ink;
-	border: 1px solid $color-line;
-	border-left: 3px solid $color-amber;
+	border: 1px solid $color-amber;
+
+	.ik-callout__title {
+		color: $color-amber;
+	}
 }
 
 /* ---- Hover / focus (last for stylelint no-descending-specificity) ------- */
