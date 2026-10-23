@@ -121,6 +121,16 @@
 		},
 		"custom": {
 			"color": {
+				"categoryWash": {
+					"wordpress": "oklch(92% 0.03 250)",
+					"ai": "oklch(92% 0.03 85)",
+					"performance": "oklch(92% 0.03 165)",
+					"webApis": "oklch(92% 0.03 295)",
+					"tooling": "oklch(92% 0.03 60)",
+					"guide": "oklch(92% 0.03 215)",
+					"note": "oklch(92% 0.03 345)",
+					"talk": "oklch(92% 0.03 25)"
+				},
 				"scrim": "color-mix(in srgb, var(--wp--preset--color--ink) 30%, transparent)",
 				"syntax": {
 					"comment": "var(--wp--preset--color--graphite)",

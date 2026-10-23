@@ -43,6 +43,14 @@
   --wp--preset--border-radius--round: 50%;
   --wp--preset--shadow--sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
   --wp--preset--shadow--md: 0 6px 24px rgba(0, 0, 0, 0.08);
+  --wp--custom--color--category-wash--wordpress: oklch(92% 0.03 250);
+  --wp--custom--color--category-wash--ai: oklch(92% 0.03 85);
+  --wp--custom--color--category-wash--performance: oklch(92% 0.03 165);
+  --wp--custom--color--category-wash--web-apis: oklch(92% 0.03 295);
+  --wp--custom--color--category-wash--tooling: oklch(92% 0.03 60);
+  --wp--custom--color--category-wash--guide: oklch(92% 0.03 215);
+  --wp--custom--color--category-wash--note: oklch(92% 0.03 345);
+  --wp--custom--color--category-wash--talk: oklch(92% 0.03 25);
   --wp--custom--color--scrim: color-mix(in srgb, var(--wp--preset--color--ink) 30%, transparent);
   --wp--custom--color--syntax--comment: var(--wp--preset--color--graphite);
   --wp--custom--color--syntax--keyword: var(--wp--preset--color--signal-deep);
