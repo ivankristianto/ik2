@@ -38,10 +38,10 @@ $ik2_topics = [
 ];
 
 $ik2_formats = [
-	'all'        => __( 'All', 'ik2' ),
-	'guide'      => __( 'Guides', 'ik2' ),
-	'note'       => __( 'Notes', 'ik2' ),
-	'experiment' => __( 'Experiments', 'ik2' ),
+	'all'        => __( 'all', 'ik2' ),
+	'guide'      => __( 'guides', 'ik2' ),
+	'note'       => __( 'notes', 'ik2' ),
+	'experiment' => __( 'experiments', 'ik2' ),
 ];
 
 $ik2_context = detect_context();
