@@ -193,7 +193,7 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 
 - **Paper** (`paper`): the page background and the command palette footer.
 - **Surface** (`surface`): project cards, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
-- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, article-card covers, drawer row hover.
+- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, covers for misc and uncategorized articles, drawer row hover.
 - **Ink** (`ink`): body and heading text, the primary button fill. Near-black so the page never feels harsh.
 - **Graphite** (`graphite`): secondary copy, excerpts, nav links at rest, tag text, eyebrows.
 - **Dust** (`dust`): dates, reading time, separators, keyboard hints. Clears WCAG AA (6.47:1) on Paper and 5.76:1 on Soft Paper.
@@ -212,6 +212,7 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 These live in `settings.custom.color`, outside the palette, so they never appear in the editor's color picker.
 
 - **Syntax** (`syntax.*`): code block highlighting. Comments in Graphite, keywords and tags in Deep Bookcloth, strings and numbers in walnut `#7A4E1C` (5.8:1 on Code Paper); everything else stays Ink.
+- **Category washes** (`categoryWash.*`): article-card covers, one per category (WordPress, AI, performance, web APIs, tooling, guide, note, talk). Written in OKLCH at 92% lightness and 0.03 chroma with only the hue changing, so every cover carries the same weight and the Graphite label keeps 6.97 to 7.13:1 on all of them. Misc and uncategorized posts stay on Soft Paper. Palette presets stay hex because the block editor cannot parse `oklch()`; these never reach its color picker.
 - **Scrim** (`scrim`): Ink at 30%, behind the command palette and the mobile nav drawer.
 
 ### Named Rules
@@ -220,7 +221,7 @@ These live in `settings.custom.color`, outside the palette, so they never appear
 
 **The No Pure White Page Rule.** The page is Paper, never `#FFFFFF`. White is reserved for cards and panels, where it reads as a raised sheet. Paper is also never cream.
 
-**The Status-Only Rule.** Build Green, Amber, and Red mark status and nothing else. Categories get no color at all: every article cover sits on Soft Paper and the label names the category.
+**The Status-Only Rule.** Build Green, Amber, and Red mark status and nothing else. Categories get a pale `categoryWash`, never a status color, and the label still names the category.
 
 ## Typography
 
@@ -329,7 +330,7 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 ### Cards
 
 - **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
-- **Article card:** no frame. A 16:9 cover (Soft Paper, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
+- **Article card:** no frame. A 16:9 cover (the category wash, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
 
 ### Inputs / Fields
 
