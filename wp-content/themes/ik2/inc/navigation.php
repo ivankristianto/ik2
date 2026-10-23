@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bootstrap(): void {
 	add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\\mark_current_navigation_link', 10, 2 );
+	add_filter( 'render_block_core/button', __NAMESPACE__ . '\\mark_current_header_button', 10, 2 );
 	add_filter( 'render_block_core/group', __NAMESPACE__ . '\\make_skip_link_target_focusable', 10, 2 );
 
 	// The header part ships its own skip link; core's would be a second identical one.
@@ -110,11 +111,29 @@ function mark_current_navigation_link( string $block_content, array $block ): st
 }
 
 /**
- * Whether the Resume page is the current request. The pattern uses this to
- * mark the Resume CTA in the header as current.
+ * Set aria-current="page" on the header Resume CTA when it links to the current request.
+ *
+ * @param string       $block_content Rendered button HTML.
+ * @param array<mixed> $block         Parsed block data.
  */
-function ik2_is_resume_current(): bool {
-	$current_path = ik2_normalize_path( home_url( add_query_arg( [] ) ) );
+function mark_current_header_button( string $block_content, array $block ): string {
+	if ( is_admin() || ! str_contains( (string) ( $block['attrs']['className'] ?? '' ), 'ik-header__resume' ) ) {
+		return $block_content;
+	}
 
-	return $current_path === '/resume';
+	$processor = new \WP_HTML_Tag_Processor( $block_content );
+
+	if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+		return $block_content;
+	}
+
+	$href = (string) $processor->get_attribute( 'href' );
+
+	if ( $href === '' || ik2_normalize_path( $href ) !== ik2_normalize_path( home_url( add_query_arg( [] ) ) ) ) {
+		return $block_content;
+	}
+
+	$processor->set_attribute( 'aria-current', 'page' );
+
+	return $processor->get_updated_html();
 }
