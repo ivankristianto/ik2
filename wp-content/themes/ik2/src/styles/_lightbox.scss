@@ -9,7 +9,7 @@ $lightbox-chrome-y: calc(#{$space-10} + #{$space-6});
 $lightbox-chrome-y-small: calc(#{$lightbox-chrome-y} + #{$space-7} + #{$space-3} + #{$space-4});
 $lightbox-wide: "(min-width: 640px) and (min-height: 480px)";
 
-// Fills the viewport on warm paper, so the article behind never competes with
+// Fills the viewport on paper, so the article behind never competes with
 // the image. Native modal <dialog>: only the look is ours.
 .ik-lightbox {
 	inset: 0;
@@ -69,7 +69,7 @@ html:has(.ik-lightbox[open]) {
 
 .ik-lightbox__counter {
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-graphite;
 }
 
@@ -156,7 +156,7 @@ html:has(.ik-lightbox[open]) {
 .ik-lightbox__caption {
 	max-width: min(100%, #{$width-measure});
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	line-height: $leading-comfortable;
 	color: $color-graphite;
 	text-align: center;

@@ -37,7 +37,7 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#F8F7F3",
+					"color": "#FCFCFA",
 					"name": "Paper",
 					"slug": "paper"
 				},
@@ -47,72 +47,67 @@
 					"slug": "surface"
 				},
 				{
-					"color": "#F1EFE8",
+					"color": "#EFEFEB",
 					"name": "Soft Paper",
 					"slug": "soft-paper"
 				},
 				{
-					"color": "#171717",
+					"color": "#1C1D1B",
 					"name": "Ink",
 					"slug": "ink"
 				},
 				{
-					"color": "#5F6368",
+					"color": "#494A46",
 					"name": "Graphite",
 					"slug": "graphite"
 				},
 				{
-					"color": "#676D79",
+					"color": "#5C5D58",
 					"name": "Dust",
 					"slug": "dust"
 				},
 				{
-					"color": "#D8D5CC",
+					"color": "#DCDCD5",
 					"name": "Line",
 					"slug": "line"
 				},
 				{
-					"color": "#B9B5AA",
+					"color": "#B6B6AE",
 					"name": "Rule",
 					"slug": "rule"
 				},
 				{
-					"color": "#C2410C",
-					"name": "Terracotta",
+					"color": "#2F5D50",
+					"name": "Bookcloth",
 					"slug": "signal"
 				},
 				{
-					"color": "#9A3412",
-					"name": "Deep Terracotta",
+					"color": "#234539",
+					"name": "Deep Bookcloth",
 					"slug": "signal-deep"
 				},
 				{
-					"color": "#FFEDD5",
-					"name": "Terracotta Soft",
+					"color": "#E1EAE5",
+					"name": "Bookcloth Wash",
 					"slug": "signal-soft"
 				},
 				{
-					"color": "#EFEEE8",
+					"color": "#F1F1ED",
 					"name": "Code Paper",
 					"slug": "code-paper"
 				},
 				{
-					"color": "#111827",
-					"name": "Code Ink",
-					"slug": "code-ink"
-				},
-				{
-					"color": "#15803D",
+					"color": "#3D6B1F",
 					"name": "Build Green",
 					"slug": "build-green"
 				},
 				{
-					"color": "#B45309",
+					"color": "#8A5A14",
 					"name": "Amber",
 					"slug": "amber"
 				},
 				{
-					"color": "#B91C1C",
+					"color": "#A33A2A",
 					"name": "Red",
 					"slug": "red"
 				}
@@ -127,26 +122,10 @@
 		"custom": {
 			"color": {
 				"scrim": "color-mix(in srgb, var(--wp--preset--color--ink) 30%, transparent)",
-				"categoryTint": {
-					"wordpress": "#E0E7FF",
-					"ai": "#FDE68A",
-					"performance": "#D1FAE5",
-					"security": "#FECACA",
-					"webApis": "#DDD6FE",
-					"tooling": "#FED7AA",
-					"guide": "#BAE6FD",
-					"note": "#FBCFE8",
-					"experiment": "#FDE2E4"
-				},
-				"windowDot": {
-					"close": "#FF5F57",
-					"minimize": "#FEBC2E",
-					"zoom": "#28C840"
-				},
 				"syntax": {
 					"comment": "var(--wp--preset--color--graphite)",
 					"keyword": "var(--wp--preset--color--signal-deep)",
-					"string": "#5C6331"
+					"string": "#7A4E1C"
 				}
 			},
 			"focus": {
@@ -154,7 +133,7 @@
 				"offset": "3px"
 			},
 			"fontSize": {
-				"numeral": "clamp(7rem, 18vw, 14rem)"
+				"numeral": "clamp(7rem, 4rem + 13.3333vw, 14rem)"
 			},
 			"fontWeight": {
 				"regular": "400",
@@ -187,13 +166,13 @@
 				"drawer": "280ms cubic-bezier(0.22, 1, 0.36, 1)"
 			},
 			"width": {
-				"full": "1280px",
+				"full": "80rem",
 				"measure": "60ch"
 			}
 		},
 		"layout": {
-			"contentSize": "960px",
-			"wideSize": "1200px"
+			"contentSize": "60rem",
+			"wideSize": "75rem"
 		},
 		"shadow": {
 			"defaultPresets": false,
@@ -290,94 +269,44 @@
 			],
 			"fontSizes": [
 				{
-					"name": "XS",
-					"size": "0.75rem",
-					"slug": "xs"
+					"name": "X-Small",
+					"size": "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)",
+					"slug": "x-small"
 				},
 				{
-					"name": "SM",
-					"size": "0.875rem",
-					"slug": "sm"
+					"name": "Small",
+					"size": "clamp(1rem, 0.9732rem + 0.119vw, 1.0625rem)",
+					"slug": "small"
 				},
 				{
-					"name": "SM+",
-					"size": "0.9375rem",
-					"slug": "sm-plus"
+					"name": "Base",
+					"size": "clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem)",
+					"slug": "base"
 				},
 				{
-					"name": "MD",
-					"size": "1rem",
-					"slug": "md"
+					"name": "Medium",
+					"size": "clamp(1.25rem, 1.1429rem + 0.4762vw, 1.5rem)",
+					"slug": "medium"
 				},
 				{
-					"name": "MD+",
-					"size": "1.0625rem",
-					"slug": "md-plus"
+					"name": "Large",
+					"size": "clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem)",
+					"slug": "large"
 				},
 				{
-					"name": "LG",
-					"size": "1.125rem",
-					"slug": "lg"
+					"name": "X-Large",
+					"size": "clamp(2rem, 1.6786rem + 1.4286vw, 2.75rem)",
+					"slug": "x-large"
 				},
 				{
-					"name": "XL",
-					"size": "1.25rem",
-					"slug": "xl"
+					"name": "2X-Large",
+					"size": "clamp(2.5rem, 1.9643rem + 2.381vw, 3.75rem)",
+					"slug": "xx-large"
 				},
 				{
-					"name": "2XL",
-					"size": "1.5rem",
-					"slug": "2-xl"
-				},
-				{
-					"name": "3XL",
-					"size": "2rem",
-					"slug": "3-xl"
-				},
-				{
-					"name": "4XL",
-					"size": "2.75rem",
-					"slug": "4-xl"
-				},
-				{
-					"name": "Lead",
-					"size": "clamp(1.125rem, 1.6vw, 1.375rem)",
-					"slug": "lead"
-				},
-				{
-					"name": "Subtitle",
-					"size": "clamp(1.375rem, 2.4vw, 1.625rem)",
-					"slug": "subtitle"
-				},
-				{
-					"name": "Title",
-					"size": "clamp(1.5rem, 3vw, 2rem)",
-					"slug": "title"
-				},
-				{
-					"name": "Title LG",
-					"size": "clamp(1.75rem, 4vw, 2.5rem)",
-					"slug": "title-lg"
-				},
-				{
-					"name": "Headline",
-					"size": "clamp(2rem, 5vw, 3rem)",
-					"slug": "headline"
-				},
-				{
-					"name": "Display",
-					"size": "clamp(2.5rem, 6vw, 4.5rem)",
-					"slug": "display"
-				},
-				{
-					"name": "Hero",
-					"size": "clamp(3rem, 8vw, 5.5rem)",
-					"slug": "hero"
-				},
-				{
-					"name": "Jumbo",
-					"size": "clamp(3.75rem, 12vw, 7.5rem)",
-					"slug": "jumbo"
+					"name": "3X-Large",
+					"size": "clamp(3rem, 2.25rem + 3.3333vw, 4.75rem)",
+					"slug": "xxx-large"
 				}
 			],
 			"defaultFontSizes": false,
@@ -399,8 +328,17 @@
 		},
 		"elements": {
 			"button": {
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--signal-deep)"
+					}
+				},
 				"border": {
 					"radius": "var(--wp--preset--border-radius--md)"
+				},
+				"color": {
+					"background": "var(--wp--preset--color--ink)",
+					"text": "var(--wp--preset--color--paper)"
 				},
 				"spacing": {
 					"padding": {
@@ -432,7 +370,7 @@
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--sans)",
-			"fontSize": "var(--wp--preset--font-size--lg)",
+			"fontSize": "var(--wp--preset--font-size--base)",
 			"lineHeight": "var(--wp--custom--line-height--relaxed)"
 		}
 	},

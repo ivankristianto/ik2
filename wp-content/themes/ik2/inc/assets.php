@@ -35,6 +35,8 @@ defined( 'ABSPATH' ) || exit;
 const HERO_PORTRAIT       = 'assets/images/ivan-portrait.webp';
 const HERO_PORTRAIT_SMALL = 'assets/images/ivan-portrait-340.webp';
 const HERO_PORTRAIT_SIZES = '(max-width: 640px) 218px, (max-width: 900px) 278px, 338px';
+const ARTICLE_COLUMN_PX   = 960;
+const ARTICLE_WIDE_PX     = 1200;
 
 /**
  * Responsive `srcset` for the home hero portrait: a 340px variant for 1x /
@@ -63,6 +65,9 @@ function bootstrap(): void {
 	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 3 );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
+	add_filter( 'wp_get_loading_optimization_attributes', __NAMESPACE__ . '\\defer_article_content_images', 10, 4 );
+	add_filter( 'wp_calculate_image_sizes', __NAMESPACE__ . '\\cap_article_image_sizes', 10, 2 );
+	add_filter( 'wp_get_attachment_image_attributes', __NAMESPACE__ . '\\size_article_featured_image', 10, 2 );
 	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_previews' );
 }
 
@@ -339,6 +344,61 @@ function prioritize_hero_portrait( string $image ): string {
 	);
 
 	return str_replace( '<img ', '<img ' . $attrs, $image );
+}
+
+/**
+ * Lazy-load images inside single-post content and drop their fetch priority.
+ *
+ * Article pages paint a paragraph as their largest element, so core's eager
+ * first images only compete with it. The featured image keeps core's handling.
+ *
+ * @param array<string, string>|false $loading_attrs Loading optimization attributes.
+ * @param string                      $tag_name      HTML tag name.
+ * @param array<string, mixed>        $attr          Tag attributes.
+ * @param string                      $context       Context the image is rendered in.
+ * @return array<string, string>|false
+ */
+function defer_article_content_images( $loading_attrs, string $tag_name, array $attr, string $context ) {
+	if ( 'img' !== $tag_name || 'the_content' !== $context || ! is_singular( 'post' ) || ! is_array( $loading_attrs ) ) {
+		return $loading_attrs;
+	}
+
+	unset( $loading_attrs['fetchpriority'] );
+	$loading_attrs['loading'] = 'lazy';
+
+	return $loading_attrs;
+}
+
+/**
+ * Cap `sizes` on single posts at the 960px article column for images wider than it.
+ *
+ * @param string|false      $sizes Value core computed for the `sizes` attribute.
+ * @param array<int>|string $size  Requested size: a [width, height] pair or a size name.
+ * @return string|false
+ */
+function cap_article_image_sizes( $sizes, $size ) {
+	if ( ! is_singular( 'post' ) || ! is_array( $size ) || (int) ( $size[0] ?? 0 ) <= ARTICLE_COLUMN_PX ) {
+		return $sizes;
+	}
+
+	return sprintf( '(max-width: %1$dpx) 100vw, %1$dpx', ARTICLE_COLUMN_PX );
+}
+
+/**
+ * Size the single-post featured image for its 1200px wide alignment.
+ *
+ * @param array<string, string> $attr       Attributes for the image markup.
+ * @param \WP_Post              $attachment Image attachment post.
+ * @return array<string, string>
+ */
+function size_article_featured_image( array $attr, \WP_Post $attachment ): array {
+	if ( ! is_singular( 'post' ) || get_post_thumbnail_id() !== $attachment->ID || empty( $attr['sizes'] ) ) {
+		return $attr;
+	}
+
+	$attr['sizes'] = sprintf( '(max-width: %1$dpx) 100vw, %1$dpx', ARTICLE_WIDE_PX );
+
+	return $attr;
 }
 
 /**

@@ -2,7 +2,7 @@
 
 /* ===========================================================================
    Resume page (templates/page-resume.html)
-   "The terminal title card": an ink-drenched masthead on warm paper, then a
+   "The terminal title card": an ink-drenched masthead on paper, then a
    decisive document — a chronological spine, a receipts ledger, a skills grid.
    Bold via scale, weight, and the single accent used decisively. No gradients,
    no shadows, no entrance motion — the hierarchy is type, line, and ink.
@@ -30,12 +30,12 @@
 	padding: $space-7 $space-5 $space-8;
 
 	// Break out of the root-padding gutter so the ink band reaches the chrome
-	// edge (full-bleed on small screens, capped at the 1280px container wide).
+	// edge (full-bleed on small screens, capped at the 80rem (1280px) container wide).
 	margin-inline:
 		calc(-1 * var(--wp--style--root--padding-left, #{$space-5}))
 		calc(-1 * var(--wp--style--root--padding-right, #{$space-5}));
 
-	@media (min-width: 768px) {
+	@media (min-width: 48em) {
 		padding: $space-8 $space-7 $space-9;
 	}
 }
@@ -47,7 +47,7 @@
 	gap: $space-3;
 	margin: 0 0 $space-7;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-rule;
 	letter-spacing: $tracking-wider;
 	text-transform: uppercase;
@@ -62,7 +62,7 @@
 }
 
 .ik-resume__eyebrow-sep {
-	color: $color-graphite;
+	color: $color-rule;
 }
 
 .ik-resume__eyebrow-status {
@@ -78,7 +78,6 @@
 		background: $color-signal;
 		margin-right: $space-2;
 		vertical-align: 1px;
-		box-shadow: 0 0 0 3px color-mix(in srgb, #{$color-signal} 28%, transparent);
 	}
 }
 
@@ -88,7 +87,7 @@
 	gap: $space-8;
 	align-items: end;
 
-	@media (max-width: 900px) {
+	@media (max-width: 56.25em) {
 		grid-template-columns: 1fr;
 		gap: $space-5;
 		align-items: start;
@@ -98,7 +97,7 @@
 .ik-resume__name {
 	font-family: $font-sans;
 	font-weight: $weight-heavy;
-	font-size: $size-jumbo;
+	font-size: $size-xxx-large;
 	line-height: $leading-compact;
 	letter-spacing: $tracking-tightest;
 	color: $color-paper;
@@ -109,7 +108,7 @@
 .ik-resume__meta {
 	min-width: 0;
 
-	@media (min-width: 901px) {
+	@media (min-width: 56.3125em) {
 		padding-left: $space-6;
 		border-left: 1px solid color-mix(in srgb, #{$color-paper} 18%, transparent);
 		align-self: stretch;
@@ -121,7 +120,7 @@
 
 .ik-resume__title {
 	margin: 0;
-	font-size: $size-xl;
+	font-size: $size-base;
 	font-weight: $weight-bold;
 	line-height: $leading-snug;
 	color: $color-paper;
@@ -130,7 +129,7 @@
 	span {
 		display: block;
 		margin-top: $space-2;
-		font-size: $size-md;
+		font-size: $size-small;
 		font-weight: $weight-medium;
 		color: $color-rule;
 		letter-spacing: $tracking-normal;
@@ -140,7 +139,7 @@
 .ik-resume .ik-resume__location {
 	margin: $space-4 0 0;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-rule;
 	letter-spacing: $tracking-wide;
 }
@@ -148,7 +147,7 @@
 .ik-resume .ik-resume__summary {
 	max-width: 62ch;
 	margin: $space-7 0 0;
-	font-size: $size-subtitle;
+	font-size: $size-medium;
 	line-height: $leading-comfortable;
 	color: $color-ink;
 	font-weight: $weight-medium;
@@ -167,7 +166,7 @@
 	border-block: 2px solid $color-ink;
 
 	// Two even columns on narrow screens, hairlines between rows.
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		grid-auto-flow: row;
 	}
@@ -191,7 +190,7 @@
 		border-right: 0;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		padding-inline: 0 $space-4;
 
 		&:nth-child(2n) {
@@ -214,7 +213,7 @@
 .ik-resume__fact-value {
 	margin: 0;
 	font-family: $font-mono;
-	font-size: $size-title-lg;
+	font-size: $size-x-large;
 	font-weight: $weight-bold;
 	line-height: $leading-flat;
 	letter-spacing: $tracking-tight;
@@ -224,7 +223,7 @@
 .ik-resume__fact-label {
 	margin: 0;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	font-weight: $weight-medium;
 	line-height: $leading-snug;
 	color: $color-graphite;
@@ -267,7 +266,7 @@
 	margin: 0 0 $space-7;
 	padding-bottom: $space-4;
 	border-bottom: 2px solid $color-ink;
-	font-size: $size-headline;
+	font-size: $size-x-large;
 	font-weight: $weight-heavy;
 	letter-spacing: $tracking-tightest;
 	line-height: $leading-flat;
@@ -279,10 +278,10 @@
 		counter-increment: ik-resume-section;
 		content: counter(ik-resume-section, decimal-leading-zero);
 		font-family: $font-mono;
-		font-size: $size-lg;
+		font-size: $size-base;
 		font-weight: $weight-semibold;
 		letter-spacing: $tracking-wider;
-		color: $color-signal;
+		color: $color-dust;
 		align-self: baseline;
 	}
 }
@@ -308,7 +307,7 @@
 		border-bottom: 0;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: 1fr;
 		gap: $space-3;
 		padding: $space-5 0;
@@ -327,7 +326,7 @@
 }
 
 .ik-resume__exp-from {
-	font-size: $size-title;
+	font-size: $size-large;
 	font-weight: $weight-bold;
 	letter-spacing: $tracking-tight;
 }
@@ -341,11 +340,11 @@
 .ik-resume__exp-arrow {
 	color: $color-rule;
 	font-weight: $weight-medium;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 }
 
 .ik-resume__exp-to {
-	font-size: $size-md;
+	font-size: $size-small;
 	font-weight: $weight-semibold;
 	color: $color-graphite;
 }
@@ -355,14 +354,13 @@
 	color: $color-signal-deep;
 	padding: 2px $space-2 1px;
 	border-radius: $radius-sm;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	letter-spacing: $tracking-wide;
 	text-transform: uppercase;
 }
 
-// Tie the live role to the accent and give it more weight.
 .ik-resume__exp-row.is-current .ik-resume__exp-from {
-	color: $color-signal;
+	color: $color-ink;
 }
 
 .ik-resume__exp-body {
@@ -371,7 +369,7 @@
 
 .ik-resume__exp-role {
 	margin: 0;
-	font-size: $size-subtitle;
+	font-size: $size-medium;
 	font-weight: $weight-bold;
 	letter-spacing: $tracking-tight;
 	line-height: $leading-snug;
@@ -379,21 +377,21 @@
 }
 
 .ik-resume__exp-row.is-current .ik-resume__exp-role {
-	font-size: $size-title;
+	font-size: $size-large;
 }
 
 .ik-resume .ik-resume__exp-org {
 	margin: $space-1 0 0;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	font-weight: $weight-medium;
-	color: $color-signal;
+	color: $color-graphite;
 	letter-spacing: $tracking-wide;
 }
 
 .ik-resume .ik-resume__exp-note {
 	margin: $space-3 0 0;
-	font-size: $size-md;
+	font-size: $size-small;
 	color: $color-graphite;
 	line-height: $leading-comfortable;
 	max-width: 60ch;
@@ -426,7 +424,7 @@
 		border-bottom: 0;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: 1fr;
 		gap: $space-2;
 		padding: $space-4 0;
@@ -437,7 +435,7 @@
 .ik-resume__cert-when {
 	margin: 0;
 	font-family: $font-mono;
-	font-size: $size-md;
+	font-size: $size-small;
 	font-weight: $weight-semibold;
 	color: $color-ink;
 	letter-spacing: $tracking-normal;
@@ -452,7 +450,7 @@
 .ik-resume__comm-role,
 .ik-resume__cert-name {
 	margin: 0;
-	font-size: $size-lead;
+	font-size: $size-medium;
 	font-weight: $weight-bold;
 	letter-spacing: $tracking-tight;
 	line-height: $leading-snug;
@@ -463,16 +461,16 @@
 .ik-resume .ik-resume__cert-org {
 	margin: $space-1 0 0;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	font-weight: $weight-medium;
-	color: $color-signal;
+	color: $color-graphite;
 	letter-spacing: $tracking-wide;
 }
 
 .ik-resume .ik-resume__comm-note,
 .ik-resume .ik-resume__cert-note {
 	margin: $space-2 0 0;
-	font-size: $size-md;
+	font-size: $size-small;
 	color: $color-graphite;
 	line-height: $leading-comfortable;
 	max-width: 60ch;
@@ -481,7 +479,7 @@
 .ik-resume .ik-resume__cert-meta {
 	margin: $space-3 0 0;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 	letter-spacing: $tracking-wide;
 
@@ -504,7 +502,7 @@
 
 .ik-resume__contact-label {
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	font-weight: $weight-medium;
 	color: $color-dust;
 	letter-spacing: $tracking-wider;
@@ -513,7 +511,7 @@
 
 .ik-resume__contact-value {
 	font-family: $font-sans;
-	font-size: $size-title;
+	font-size: $size-large;
 	font-weight: $weight-bold;
 	letter-spacing: $tracking-tighter;
 	color: $color-ink;
@@ -548,7 +546,7 @@
 	color: $color-ink;
 	transition: color $transition-base;
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: 1fr;
 		gap: $space-1;
 		padding: $space-4 0;
@@ -588,7 +586,7 @@
 		border-top: 1px solid $color-line;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: 1fr;
 		gap: $space-3;
 		padding: $space-4 0;
@@ -599,7 +597,7 @@
 	margin: 0;
 	align-self: start;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	font-weight: $weight-semibold;
 	color: $color-graphite;
 	letter-spacing: $tracking-wider;
@@ -616,7 +614,7 @@
 }
 
 .ik-resume__skills .ik-resume__skill-list li {
-	font-size: $size-lg;
+	font-size: $size-base;
 	line-height: $leading-normal;
 	color: $color-ink;
 	max-width: 56ch;

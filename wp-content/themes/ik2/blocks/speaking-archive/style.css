@@ -12,7 +12,7 @@
   align-items: baseline;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
 
   .ik-talk {
     grid-template-columns: 1fr;
@@ -22,7 +22,7 @@
 
 .ik-talk__date {
   font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--xs);
+  font-size: var(--wp--preset--font-size--x-small);
   color: var(--wp--preset--color--dust);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .ik-talk__title {
-  font-size: var(--wp--preset--font-size--xl);
+  font-size: var(--wp--preset--font-size--base);
   line-height: var(--wp--custom--line-height--snug);
   margin: 0;
 }
@@ -43,31 +43,31 @@
 
 .ik-talk__venue {
   color: var(--wp--preset--color--graphite);
-  font-size: var(--wp--preset--font-size--md);
+  font-size: var(--wp--preset--font-size--small);
   line-height: var(--wp--custom--line-height--comfortable);
   margin-top: var(--wp--preset--spacing--2);
 }
 
 .ik-talk__kind {
   font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--xs);
+  font-size: var(--wp--preset--font-size--x-small);
   color: var(--wp--preset--color--signal);
   letter-spacing: var(--wp--custom--letter-spacing--wider);
   text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
 
   .ik-talk {
     padding: var(--wp--preset--spacing--4) 0;
   }
 
   .ik-talk__title {
-    font-size: var(--wp--preset--font-size--lg);
+    font-size: var(--wp--preset--font-size--base);
   }
 
   .ik-talk__venue {
-    font-size: var(--wp--preset--font-size--md);
+    font-size: var(--wp--preset--font-size--small);
     line-height: var(--wp--custom--line-height--comfortable);
     margin-top: var(--wp--preset--spacing--1);
   }

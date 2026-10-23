@@ -25,7 +25,7 @@ window.MOCK = {
 			excerpt:
 				"I use Cloudflare CDN to add a performance and security layer to my websites for free. Most of the time, when I need to change a setting on a zone, I have to log in to the dashboard, sometimes with 2FA. For a small change, that's too many steps. So I built a small Node CLI to manage my account via the Cloudflare API. And it works.",
 			tags: [ 'cli', 'cloudflare', 'javascript' ],
-			cover: { bg: '#E0E7FF', label: 'cloudflare-api' },
+			cover: { bg: 'var(--color-surface-muted)', label: 'cloudflare-api' },
 		},
 		{
 			slug: 'secure-your-wordpress-site',
@@ -35,7 +35,7 @@ window.MOCK = {
 			excerpt:
 				"WordPress is an open-source project developed by a community from all over the world. A lot of experts spend their time making it as secure as possible — but I'm not in the position to say it has bulletproof security. Here are a couple of best practices I use.",
 			tags: [ 'security', 'wordpress' ],
-			cover: { bg: '#F1EFE8', label: 'wp-hardening' },
+			cover: { bg: 'var(--color-surface-muted)', label: 'wp-hardening' },
 		},
 		{
 			slug: 'why-you-should-always-use-https',
@@ -45,7 +45,7 @@ window.MOCK = {
 			excerpt:
 				"I noticed my Internet provider being a little 'naughty' in their business practices — they were injecting tracking JavaScript into pages that weren't served over HTTPS. Here's what it looked like and why this is a real problem for users.",
 			tags: [ 'security', 'https' ],
-			cover: { bg: '#FEE2E2', label: 'https-everywhere' },
+			cover: { bg: 'var(--color-surface-muted)', label: 'https-everywhere' },
 		},
 		{
 			slug: 'optimize-wordpress-litespeed',
@@ -55,7 +55,7 @@ window.MOCK = {
 			excerpt:
 				'I gave a presentation at WordPress Jakarta Meetup #14 about optimising WordPress with LiteSpeed Cache and LiteSpeed Web Server. The results were worth writing down — both for me and for anyone else running WordPress under pressure.',
 			tags: [ 'wordpress', 'performance', 'litespeed' ],
-			cover: { bg: '#DCFCE7', label: 'litespeed' },
+			cover: { bg: 'var(--color-surface-muted)', label: 'litespeed' },
 		},
 	],
 

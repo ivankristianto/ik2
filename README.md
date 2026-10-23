@@ -255,7 +255,7 @@ WP Super Cache ships in Simple mode (no nginx rewrite rules needed) with caching
 The **IK2** block theme at `wp-content/themes/ik2/` consumes the design system:
 
 -   Slug / text-domain / asset handle: `ik2`. PHP namespace: `IK2\Theme`. Display name: "IK2".
--   `theme.json` is the **single source of truth** for design tokens: presets (palette, font sizes, spacing, radii, shadows) plus `settings.custom` (font weight, line height, letter spacing, transitions, focus, scrim, category tints). SCSS reads them through the aliases in `src/styles/_tokens.scss`; block CSS uses `var(--wp--preset--*)` / `var(--wp--custom--*)`. Change tokens here, then run `pnpm tokens` to regenerate `design-system/theme.json` and `design-system/tokens.css`. CI fails if you forget.
+-   `theme.json` is the **single source of truth** for design tokens: presets (palette, font sizes, spacing, radii, shadows) plus `settings.custom` (font weight, line height, letter spacing, transitions, focus, scrim, syntax colors). SCSS reads them through the aliases in `src/styles/_tokens.scss`; block CSS uses `var(--wp--preset--*)` / `var(--wp--custom--*)`. Change tokens here, then run `pnpm tokens` to regenerate `design-system/theme.json` and `design-system/tokens.css`. CI fails if you forget.
 -   `style.css` is the theme header; visual styles come from `theme.json` plus any block CSS you add.
 -   PHP uses `declare(strict_types=1)` and modern namespacing. PHPCS rules are relaxed where they fight modern PHP (short arrays, namespaces).
 
@@ -269,7 +269,7 @@ See [`design-system/README.md`](./design-system/README.md) and [`CLAUDE.md`](./C
 
 ## Conventions
 
--   One accent color: **Terracotta `#C2410C`** (palette slug `signal`). Status colors (green/amber/red) are for status only.
+-   One accent color: **Bookcloth green `#2F5D50`** (palette slug `signal`). Status colors (green/amber/red) are for status only.
 -   Light only for now. A dark mode, if it comes, will be added through `theme.json`.
 -   System fonts only — no webfonts.
 -   Borders + whitespace do the hierarchy work. No drop shadows beyond card hover and the command palette.

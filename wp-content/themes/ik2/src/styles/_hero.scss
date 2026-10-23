@@ -11,7 +11,7 @@
 	gap: clamp($space-6, 6vw, $space-8);
 	align-items: center;
 
-	@media (max-width: 900px) {
+	@media (max-width: 56.25em) {
 		grid-template-columns: 1fr;
 		gap: $space-7;
 	}
@@ -30,16 +30,14 @@
 .ik-hero .ik-hero__title {
 	max-width: 18ch;
 	margin: 0 0 $space-5;
+	font-size: $size-xxx-large;
 	letter-spacing: $tracking-tightest;
-
-	@media (min-width: 901px) {
-		font-size: $size-display;
-	}
 }
 
 .ik-hero .ik-hero__blurb {
 	max-width: 60ch;
 	color: $color-graphite;
+	font-size: $size-base;
 	margin: 0;
 }
 
@@ -47,7 +45,7 @@
 	max-width: $width-content;
 	margin: $space-5 0 0;
 	color: $color-graphite;
-	font-size: $size-md-plus;
+	font-size: $size-small;
 	line-height: $leading-relaxed;
 }
 
@@ -63,20 +61,17 @@
 // (inc/block-styles.php). Overrides the core button chrome to become the
 // oversized text link with the animated Signal underline.
 .ik-hero .is-style-hero-cta .wp-block-button__link {
-	display: inline-flex;
-	align-items: baseline;
-	gap: $space-4;
+	// Inline-block, not inline-flex: Firefox lays out an anonymous flex text item a
+	// few px narrower than its negatively tracked text and wraps the label.
+	display: inline-block;
 	padding: 0 0 $space-2;
 	border-radius: 0;
 	background-color: transparent;
 	font-family: $font-sans;
-	font-size: $size-title;
+	font-size: $size-large;
 	font-weight: $weight-bold;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tighter;
-	// Firefox sizes the anonymous text flex item a few px narrower than the
-	// negatively-tracked text it lays out, so the label wraps to two lines.
-	white-space: nowrap;
 	color: $color-ink;
 	text-decoration: none;
 	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
@@ -87,6 +82,7 @@
 
 	&::after {
 		content: '\2192' / '';
+		margin-inline-start: $space-4;
 		font-family: $font-mono;
 		font-weight: $weight-regular;
 		color: $color-signal;
@@ -104,7 +100,7 @@
 	align-items: center;
 	gap: $space-3;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 
 	a {
@@ -124,7 +120,7 @@
 .ik-hero .ik-hero__quicklinks {
 	margin-top: $space-7;
 	font-family: $font-mono;
-	font-size: $size-sm;
+	font-size: $size-x-small;
 	color: $color-graphite;
 
 	> span { color: $color-dust; }
@@ -141,7 +137,7 @@
 	max-width: 340px;
 	justify-self: end;
 
-	@media (max-width: 900px) {
+	@media (max-width: 56.25em) {
 		justify-self: start;
 		max-width: 280px;
 	}
@@ -155,7 +151,7 @@
 	background: $color-soft-paper;
 	border-bottom: 1px solid $color-line;
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-dust;
 }
 
@@ -170,12 +166,6 @@
 		background: $color-rule;
 		display: inline-block;
 	}
-
-	i:first-child { background: var(--wp--custom--color--window-dot--close); }
-
-	i:nth-child(2) { background: var(--wp--custom--color--window-dot--minimize); }
-
-	i:nth-child(3) { background: var(--wp--custom--color--window-dot--zoom); }
 }
 
 .ik-hero__portrait-path { color: $color-graphite; }
@@ -203,13 +193,13 @@
 	border-top: 1px solid $color-line;
 	background: $color-surface;
 	font-family: $font-mono;
-	font-size: $size-xs;
+	font-size: $size-x-small;
 	color: $color-dust;
 	letter-spacing: $tracking-wide;
 	line-height: $leading-normal;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
 
 	.ik-hero {
 		padding-block: $space-7 $space-6;
@@ -226,17 +216,15 @@
 	.ik-hero .ik-hero__title {
 		max-width: 10ch;
 		margin-bottom: $space-4;
-		font-size: $size-hero;
 	}
 
 	.ik-hero .ik-hero__blurb {
-		font-size: $size-md;
 		line-height: $leading-comfortable;
 	}
 
 	.ik-hero .ik-hero__sub {
 		margin-top: $space-4;
-		font-size: $size-sm;
+		font-size: $size-x-small;
 		line-height: $leading-comfortable;
 	}
 
@@ -246,12 +234,12 @@
 	}
 
 	.ik-hero .is-style-hero-cta .wp-block-button__link {
-		font-size: $size-title-lg;
+		font-size: $size-x-large;
 	}
 
 	.ik-hero .ik-hero__secondary,
 	.ik-hero .ik-hero__quicklinks {
-		font-size: $size-xs;
+		font-size: $size-x-small;
 	}
 
 	.ik-hero .ik-hero__quicklinks {

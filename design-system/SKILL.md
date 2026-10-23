@@ -6,7 +6,7 @@ user-invocable: true
 
 # Ivan Kristianto Design — "Ink, Paper, and Signal"
 
-This skill packages the design system for **ivankristianto.com**, Ivan Kristianto's personal engineering blog. The system is restrained, technical, and reading-first: a well-kept engineering notebook on warm paper. Light only for now.
+This skill packages the design system for **ivankristianto.com**, Ivan Kristianto's personal engineering blog. The system is restrained, technical, and reading-first: a well-kept engineering notebook on drafting white. Light only for now.
 
 ## Start here
 
@@ -18,8 +18,8 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 ## Mental model
 
 - **Light only.** There is no dark mode. If one is added later, it will come through `theme.json` (a style variation or settings).
-- **Warm paper** (`#F8F7F3`) is the page; pure white is reserved for cards.
-- **One accent**: Terracotta `#C2410C`. Use it for links, primary CTA, focus, and tag text — nowhere else.
+- **Drafting white** (`#FCFCFA`) is the page; pure white Surface (`#FFFFFF`) is reserved for cards. Never cream.
+- **One accent**: Bookcloth green `#2F5D50`. Use it for links, primary CTA, focus, and active states, nowhere else.
 - **System fonts only**: `ui-sans-serif` for text, `ui-monospace` for metadata/code. Don't load webfonts.
 - **Borders + whitespace do the hierarchy work.** No drop shadows except `--shadow-sm` on card hover and `--shadow-md` on the command palette and modals.
 - **Small radii:** `4px` (`sm`) inline code and small controls, `6px` (`md`) cards, buttons, inputs, code blocks, `8px` (`lg`) the command palette panel, `999px` pills for tags.
@@ -40,7 +40,7 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 - Don't add emoji to chrome.
 - Don't add drop shadows beyond `--shadow-sm` on card hover and `--shadow-md` for modal/palette.
 - Don't add gradients, grain, glassmorphism, or marketing-style hero imagery.
-- Don't reach past Terracotta for accent color — semantic green/amber/red are status only.
+- Don't reach past Bookcloth for accent color — semantic green/amber/red are status only.
 - Don't load webfonts unless asked. System fonts ship the brand identity here.
 - Don't recreate iconography by hand — copy from `assets/icons/` or pull from Lucide CDN.
 
@@ -54,6 +54,6 @@ This skill packages the design system for **ivankristianto.com**, Ivan Kristiant
 | `theme.json`               | Copy of `wp-content/themes/ik2/theme.json`              |
 | `preview/`                 | Per-token / per-component preview cards                 |
 | `ui_kits/blog/`            | Working click-thru prototype + JSX components           |
-| `assets/wordmark.svg`      | Wordmark: "Ivan Kristianto." with terracotta period     |
+| `assets/wordmark.svg`      | Wordmark: "Ivan Kristianto." with a bookcloth period   |
 | `assets/monogram.svg`      | Square monogram for favicon / nav corner                |
 | `assets/icons/`            | Inline-SVG social icons (GitHub, LinkedIn, X, RSS, WP)  |

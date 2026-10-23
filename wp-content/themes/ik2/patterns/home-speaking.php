@@ -17,7 +17,7 @@
 		<!-- wp:group {"className":"ik-speaking-layout__intro","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-speaking-layout__intro">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-			<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> SPEAKING &amp; COMMUNITY</p>
+			<p class="ik-section__eyebrow">SPEAKING &amp; COMMUNITY</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":2,"className":"ik-section__title"} -->

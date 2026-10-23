@@ -2,73 +2,73 @@
 name: "Ivan Kristianto: Ink, Paper, and Signal"
 description: Calm, technical, reading-first design system for a personal engineering blog. Borders and whitespace do the hierarchy work.
 colors:
-  paper: "#F8F7F3"
+  paper: "#FCFCFA"
   surface: "#FFFFFF"
-  soft-paper: "#F1EFE8"
-  ink: "#171717"
-  graphite: "#5F6368"
-  dust: "#676D79"
-  line: "#D8D5CC"
-  rule: "#B9B5AA"
-  signal: "#C2410C"
-  signal-deep: "#9A3412"
-  signal-soft: "#FFEDD5"
-  code-paper: "#EFEEE8"
-  code-ink: "#111827"
-  build-green: "#15803D"
-  amber: "#B45309"
-  red: "#B91C1C"
+  soft-paper: "#EFEFEB"
+  ink: "#1C1D1B"
+  graphite: "#494A46"
+  dust: "#5C5D58"
+  line: "#DCDCD5"
+  rule: "#B6B6AE"
+  signal: "#2F5D50"
+  signal-deep: "#234539"
+  signal-soft: "#E1EAE5"
+  code-paper: "#F1F1ED"
+  build-green: "#3D6B1F"
+  amber: "#8A5A14"
+  red: "#A33A2A"
 typography:
-  display:
+  hero:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(2.5rem, 6vw, 4.5rem)" # preset display
+    fontSize: "clamp(3rem, 2.25rem + 3.3333vw, 4.75rem)" # preset xxx-large
     fontWeight: 700 # custom.fontWeight.bold
     lineHeight: 1.1 # custom.lineHeight.tight
     letterSpacing: "-0.04em" # custom.letterSpacing.tightest
-  headline:
+  display:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(2rem, 5vw, 3rem)" # preset headline
+    fontSize: "clamp(2.5rem, 1.9643rem + 2.381vw, 3.75rem)" # preset xx-large
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "-0.04em"
-  title-lg:
+  headline:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.75rem, 4vw, 2.5rem)" # preset title-lg
+    fontSize: "clamp(2rem, 1.6786rem + 1.4286vw, 2.75rem)" # preset x-large
     fontWeight: 700
     lineHeight: 1.1
-    letterSpacing: "-0.03em" # custom.letterSpacing.tighter
+    letterSpacing: "-0.04em"
+  title:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem)" # preset large
+    fontWeight: 700
+    lineHeight: 1.1
+    letterSpacing: "-0.03em"
   subtitle:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.375rem, 2.4vw, 1.625rem)" # preset subtitle
+    fontSize: "clamp(1.25rem, 1.1429rem + 0.4762vw, 1.5rem)" # preset medium
     fontWeight: 700
     lineHeight: 1.25 # custom.lineHeight.snug
-    letterSpacing: "-0.02em" # custom.letterSpacing.tight
-  card-title:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.25rem" # preset xl
-    fontWeight: 700
-    lineHeight: 1.25
     letterSpacing: "-0.02em"
   body:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.125rem" # preset lg
+    fontSize: "clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem)" # preset base
     fontWeight: 400 # custom.fontWeight.regular
     lineHeight: 1.7 # custom.lineHeight.relaxed
     letterSpacing: "0"
+  ui:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1rem, 0.9732rem + 0.119vw, 1.0625rem)" # preset small
+    fontWeight: 400
+    lineHeight: 1.55 # custom.lineHeight.comfortable
   label:
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.875rem" # preset sm
-    fontWeight: 400
-  micro:
-    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.75rem" # preset xs
+    fontSize: "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)" # preset x-small
     fontWeight: 400
     lineHeight: 1.4 # custom.lineHeight.normal
   eyebrow:
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.75rem" # preset xs
+    fontSize: "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)" # preset x-small
     fontWeight: 400
-    letterSpacing: "0.08em" # custom.letterSpacing.widest
+    letterSpacing: "0"
 rounded:
   sm: "4px"
   md: "6px"
@@ -155,7 +155,7 @@ components:
     padding: "12px 24px"
   code-block:
     backgroundColor: "{colors.code-paper}"
-    textColor: "{colors.code-ink}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "24px"
 ---
@@ -164,46 +164,46 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Engineering Notebook on Warm Paper"**
+**Creative North Star: "The Engineering Notebook on Drafting White"**
 
-This is the design of a well-kept lab notebook. Open it and the page is warm paper, the ink is near-black, and the only color you see is the occasional terracotta mark in the margin: a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata. The page is for reading, the metadata is for scanning, and the two never get confused.
+This is the design of a well-kept lab notebook. Open it and the page is drafting white, the ink is near-black, and the only color you see is the occasional mark in bookcloth green, the color of a cloth-bound notebook spine: a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata. The page is for reading, the metadata is for scanning, and the two never get confused.
 
 The system rejects the marketing register. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.
 
 **Key Characteristics:**
 
-- Warm paper page background. Pure white is for cards only.
-- One accent, Terracotta, used on 10% of a screen or less.
+- Drafting white page background, never cream. Pure white Surface is for cards only.
+- One accent, Bookcloth green, used on 10% of a screen or less.
 - System fonts only; no webfont download.
 - Borders, whitespace, and type contrast carry hierarchy. No gradients, no glassmorphism, no decorative shadows.
-- Mono is the signal: dates, tags, metadata, eyebrows, code.
+- Mono is the signal: dates, tags, metadata, eyebrows, code. Eyebrows are lowercase with no `//` prefix.
 - Light only. A future dark mode will arrive through `theme.json` (a style variation or settings), not hand-written CSS.
 
 ## Colors
 
-A restrained palette of warm neutrals plus one terracotta accent. Status colors exist, but only for status.
+A restrained palette of near-neutral greys plus one bookcloth green accent. No neutral leans warm or cool enough to read as a color, including the two text greys. Status colors exist, but only for status.
 
 ### Primary
 
-- **Terracotta** (`signal`): the single accent. Links, focus rings, nav hover, the current-page underline, the hero CTA underline, and the Resume button when you are on `/resume`. Its rarity is what makes it read as signal. The slug stays `signal` from the retired blue era; only the value moved.
-- **Deep Terracotta** (`signal-deep`): hover state for anything filled with ink or terracotta, and the text color on every active state that sits on Terracotta Wash.
-- **Terracotta Wash** (`signal-soft`): the background for active states. Selected filter pills, tag hover, the palette's active row, the current item in the mobile nav drawer. Never a decorative fill.
+- **Bookcloth** (`signal`): the single accent. Links, focus rings, nav hover, the current-page underline, the hero CTA underline, and the Resume button when you are on `/resume`. Its rarity is what makes it read as signal. The slug stays `signal` from the retired blue and terracotta eras; only the value moved.
+- **Deep Bookcloth** (`signal-deep`): hover state for anything filled with ink or the accent, and the text color on every active state that sits on Bookcloth Wash.
+- **Bookcloth Wash** (`signal-soft`): the background for active states. Selected filter pills, tag hover, the palette's active row, the current item in the mobile nav drawer. Never a decorative fill.
 
 ### Neutral
 
 - **Paper** (`paper`): the page background and the command palette footer.
 - **Surface** (`surface`): project cards, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
-- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, article-card covers without a category tint, drawer row hover.
+- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, article-card covers, drawer row hover.
 - **Ink** (`ink`): body and heading text, the primary button fill. Near-black so the page never feels harsh.
 - **Graphite** (`graphite`): secondary copy, excerpts, nav links at rest, tag text, eyebrows.
-- **Dust** (`dust`): dates, reading time, separators, keyboard hints. Clears WCAG AA (4.85:1) on Paper.
+- **Dust** (`dust`): dates, reading time, separators, keyboard hints. Clears WCAG AA (6.47:1) on Paper and 5.76:1 on Soft Paper.
 - **Line** (`line`): every resting border: cards, pills, tags, code, dividers, the palette rules.
 - **Rule** (`rule`): the hover border on cards and pills, and the blockquote rule.
-- **Code Paper** and **Code Ink** (`code-paper`, `code-ink`): inline code, `<pre>` blocks, and the 404 terminal.
+- **Code Paper** (`code-paper`): inline code, `<pre>` blocks, and the 404 terminal. Code text is plain Ink.
 
 ### Status
 
-- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout.
+- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout. A moss green, kept well apart from the accent's blue-green so a status never reads as a link.
 - **Amber** (`amber`): warnings, "Experiment" project status, the "outdated" callout.
 - **Red** (`red`): errors only.
 
@@ -211,18 +211,16 @@ A restrained palette of warm neutrals plus one terracotta accent. Status colors 
 
 These live in `settings.custom.color`, outside the palette, so they never appear in the editor's color picker.
 
-- **Category tints** (`categoryTint.*`): pale washes for article-card covers, one per category (WordPress, AI, performance, security, web APIs, tooling, guide, note, experiment). Cover labels sit in Ink because Graphite drops to 4.2:1 on the paler tints.
-- **Window dots** (`windowDot.*`): the close, minimize, and zoom dots on the hero portrait and 404 terminal frames.
-- **Syntax** (`syntax.*`): code block highlighting. Comments in Graphite, keywords and tags in Deep Terracotta, strings and numbers in olive `#5C6331`; everything else stays Code Ink. Plain Dust and Terracotta drop under 4.5:1 on Code Paper, so they are not used here.
+- **Syntax** (`syntax.*`): code block highlighting. Comments in Graphite, keywords and tags in Deep Bookcloth, strings and numbers in walnut `#7A4E1C` (5.8:1 on Code Paper); everything else stays Ink.
 - **Scrim** (`scrim`): Ink at 30%, behind the command palette and the mobile nav drawer.
 
 ### Named Rules
 
-**The One Voice Rule.** Terracotta covers 10% of a screen at most. If it starts to read as a color theme instead of a signal, replace the decorative uses with weight, scale, or whitespace.
+**The One Voice Rule.** Bookcloth covers 10% of a screen at most. If it starts to read as a color theme instead of a signal, replace the decorative uses with weight, scale, or whitespace.
 
-**The No Pure White Rule.** The page is Paper, never `#FFFFFF`. White is reserved for cards and panels, where it reads as a raised sheet.
+**The No Pure White Page Rule.** The page is Paper, never `#FFFFFF`. White is reserved for cards and panels, where it reads as a raised sheet. Paper is also never cream.
 
-**The Status-Only Rule.** Build Green, Amber, and Red mark status and nothing else. Categories get a pale `categoryTint`, never a status color.
+**The Status-Only Rule.** Build Green, Amber, and Red mark status and nothing else. Categories get no color at all: every article cover sits on Soft Paper and the label names the category.
 
 ## Typography
 
@@ -236,15 +234,19 @@ These live in `settings.custom.color`, outside the palette, so they never appear
 
 Sizes are `theme.json` font-size presets. Weights, line heights, and tracking come from `settings.custom`. All headings share bold weight, tight leading, and tightest tracking from `styles.elements.heading`; the roles below loosen that where the size drops.
 
-- **Display** (bold, `display`, tight leading, tightest tracking): the home hero title on desktop and nowhere else. Phones switch to the larger `hero` tier with a 10ch measure, so the title still fills the screen.
-- **Headline** (bold, `headline`, tight, tightest): page titles. Archive headers, the single-article H1, section titles on phones.
-- **Title LG** (bold, `title-lg`, tight, tighter): H2 inside articles.
-- **Subtitle** (bold, `subtitle`, snug, tight): H3 inside articles. From 900px up, article H3 moves to `title` and H4 to `2xl`.
-- **Card title** (bold, `xl`, snug, tight): article card titles.
-- **Body** (regular, `lg`, relaxed): the page default and article prose, capped at the 960px content width. Article prose steps up to `xl` from 900px up, and the lead to `2xl`. Card excerpts drop to `md` with comfortable leading; the hero sub copy uses `md-plus`.
-- **Label** (mono, `sm`): article-card meta, filter pills, cover labels, header controls.
-- **Micro** (mono, `xs`, normal leading): tags, project status badges, keyboard hints, palette group titles.
-- **Eyebrow** (mono, `xs`, uppercase, widest tracking, Graphite): the line above section titles.
+- **Hero** (bold, `xxx-large`, tight leading, tightest tracking): the home hero title and the resume name. Phones keep a 10ch measure so the title still fills the screen.
+- **Display** (bold, `xx-large`, tight, tightest): the 404 title.
+- **Headline** (bold, `x-large`, tight, tightest): page titles and article H2s. Archive headers, the single-article H1, section titles on phones.
+- **Title** (bold, `large`, tight, tighter): section titles, article H3 from 900px up, the hero CTA.
+- **Subtitle** (bold, `medium`, snug, tight): article H3 on phones, lead paragraphs, project names.
+- **Body** (regular, `base`, relaxed): the page default, article prose and card titles. It runs from 18px on phones to 20px on desktop, capped at the 960px content width.
+- **UI** (regular, `small`): nav-adjacent copy, excerpts, the hero sub copy, buttons, code blocks.
+- **Label** (mono, `x-small`, normal leading): article-card meta, filter pills, cover labels, tags, status badges, keyboard hints, captions, the footer.
+- **Eyebrow** (mono, `x-small`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
+
+**The 14px Floor Rule.** Nothing a reader is meant to read is set below `x-small` (14px, 15px on wide screens). The only smaller text is inline code inside `x-small` copy, at 0.9em.
+
+**The Scales-With-The-Reader Rule.** Every size is in rem, and every fluid size is `clamp(min, rem + vw, max)` with a rem term in the middle, so it follows the reader's browser text size and zoom. Never write a pure-vw middle value. Breakpoints are in em for the same reason.
 
 ### Named Rules
 
@@ -256,7 +258,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 
 ## Layout
 
-The page is a single centered column driven by WordPress layout. Content width is 960px (`settings.layout.contentSize`), wide alignment is 1200px (`wideSize`), and full-bleed chrome caps at 1280px (`custom.width.full`). Single articles use the content width as is. Page templates set `custom.width.full` on their post-content, so they don't use it. Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
+The page is a single centered column driven by WordPress layout. Content width is 60rem (`settings.layout.contentSize`, 960px at the default text size), wide alignment is 75rem (`wideSize`, 1200px), and full-bleed chrome caps at 80rem (`custom.width.full`, 1280px). The widths are in rem so the measure holds when a reader enlarges their text. Single articles use the content width as is. Page templates set `custom.width.full` on their post-content, so they don't use it. Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
 
 Spacing is a ten-step scale from 4px to 128px (`spacing.spacingSizes` 1 to 10). Sections breathe at 96px of block padding on desktop and 48px on phones. Section heads sit 48px above their content (24px on phones). Cards and grids use 24px to 32px gaps. Custom spacing values are disabled in the editor, so every gap, margin, and padding resolves to a step.
 
@@ -299,7 +301,7 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 - **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
 - **Pill** (`pill`): tags, filter pills, project status badges. Pills always mean "this is a label".
-- **Round** (`round`): window dots and other circular glyphs.
+- **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
 
@@ -312,57 +314,57 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 ### Buttons
 
 - **Shape:** medium radius, 44px minimum height so every button is a full touch target.
-- **Primary:** the header Resume CTA. Ink fill, Paper text, `sm` size, 8px by 16px padding. Hover swaps the fill to Deep Terracotta. On `/resume` it fills with Terracotta to confirm where you are.
+- **Primary:** the header Resume CTA. Ink fill, Paper text, `x-small` size, 8px by 16px padding. Hover swaps the fill to Deep Bookcloth. On `/resume` it fills with Bookcloth to confirm where you are.
 - **Secondary:** the header search trigger. Surface fill, 1px Line border, Graphite text, 12px padding, with a Micro-size `kbd` hint. Hover darkens the border to Rule and the text to Ink. The fill does not change.
-- **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `title` size (`title-lg` on phones) with a mono arrow, underlined by a 2px Terracotta bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Terracotta.
-- **Focus:** `2px solid` Terracotta with a 3px offset (`custom.focus`). Always visible. Rows inside a scrolling list or track (palette results, lightbox slides) draw the same ring inset (`$focus-offset-inset`), because the scroller would clip it outside.
+- **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `large` size (`x-large` on phones) with a mono arrow, underlined by a 2px Bookcloth bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Bookcloth.
+- **Focus:** `2px solid` Bookcloth with a 3px offset (`custom.focus`). Always visible. Rows inside a scrolling list or track (palette results, lightbox slides) draw the same ring inset (`$focus-offset-inset`), because the scroller would clip it outside.
 - **Transitions:** `custom.transition.base` (200ms ease) on color, background, border, and box-shadow only. No transform, no scale.
 
 ### Chips
 
-- **Tags:** Soft Paper fill, 1px Line border, Graphite text, pill radius, 2px by 8px padding, Micro type. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus move to Terracotta Wash with a Terracotta border and Deep Terracotta text.
-- **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses the same Terracotta Wash treatment as tag hover.
+- **Tags:** Soft Paper fill, 1px Line border, Graphite text, pill radius, 2px by 8px padding, Micro type. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus move to Bookcloth Wash with a Bookcloth border and Deep Bookcloth text.
+- **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses the same Bookcloth Wash treatment as tag hover.
 - **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
 
 ### Cards
 
 - **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
-- **Article card:** no frame. A 16:9 cover (Soft Paper or a category tint, medium radius, a mono label centered in Ink), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
+- **Article card:** no frame. A 16:9 cover (Soft Paper, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
 
 ### Inputs / Fields
 
 The site has no boxed form fields. The two inputs sit flush inside a row:
 
-- **Command palette input:** transparent, borderless, Ink text at `md-plus`, behind a Terracotta mono caret. The row's bottom rule turns Terracotta on `:focus-within`, which stands in for the outline the input drops.
-- **404 terminal input:** mono `sm-plus` on the terminal surface, transparent and borderless, with a Terracotta caret.
+- **Command palette input:** transparent, borderless, Ink text at `small`, behind a Bookcloth mono caret. The row's bottom rule turns Bookcloth on `:focus-within`, which stands in for the outline the input drops.
+- **404 terminal input:** mono `small` on the terminal surface, transparent and borderless, with a Bookcloth caret.
 
 ### Navigation
 
-- **Desktop:** plain links in Graphite at `sm`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Terracotta. The current page goes Ink with a Terracotta underline (0.08em thick, 0.18em offset).
-- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `lg` size with small radius; hover fills Soft Paper, and the current item fills Terracotta Wash with Deep Terracotta semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
+- **Desktop:** plain links in Graphite at `x-small`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Bookcloth. The current page goes Ink with a Bookcloth underline (0.08em thick, 0.18em offset).
+- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `base` size with small radius; hover fills Soft Paper, and the current item fills Bookcloth Wash with Deep Bookcloth semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
 - **Not sticky.** The header scrolls away with the page.
 
 ### Code Blocks
 
-- **Inline code:** Code Paper fill, Code Ink text, 1px Line border, small radius, mono at 0.9375em.
-- **`<pre>`:** the same colors and border, medium radius, 24px padding, mono `sm-plus` with relaxed leading. Long lines wrap instead of scrolling.
+- **Inline code:** Code Paper fill, Ink text, 1px Line border, small radius, mono at 0.9375em.
+- **`<pre>`:** the same colors and border, medium radius, 24px padding, mono `small` with relaxed leading. Long lines wrap instead of scrolling.
 
 ### Command Palette (signature component)
 
 - **Overlay:** the scrim with a 2px backdrop blur, the one permitted `backdrop-filter`, justified because the palette is a true modal.
 - **Panel:** Surface fill, 1px Line border, large radius, medium shadow, 640px wide at most.
-- **Rows:** `sm-plus` sans labels with a mono glyph in Dust. The active row fills Terracotta Wash with Deep Terracotta text and a Terracotta glyph.
+- **Rows:** `small` sans labels with a mono glyph in Dust. The active row fills Bookcloth Wash with Deep Bookcloth text and a Bookcloth glyph.
 - **Chrome:** mono throughout for group titles (uppercase, wider tracking), the Esc hint, and the Paper footer with `kbd` keys.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** use Terracotta for links, focus rings, current-page marks, and active states, and keep it under 10% of the screen.
-- **Do** set the page on Paper and reserve Surface white for cards and panels.
+- **Do** use Bookcloth for links, focus rings, current-page marks, and active states, and keep it under 10% of the screen.
+- **Do** set the page on Paper and reserve Surface for cards and panels.
 - **Do** use mono for dates, tags, reading time, eyebrows, file paths, and code. Never for prose.
 - **Do** cap article content at 960px, wide images at 1200px, full-bleed sections at 1280px.
-- **Do** give every interactive element a `:focus-visible` ring: `2px solid` Terracotta, 3px offset.
+- **Do** give every interactive element a `:focus-visible` ring: `2px solid` Bookcloth, 3px offset.
 - **Do** lift cards on hover with a Line-to-Rule border change plus the small shadow. No transform, no scale.
 - **Do** transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.
 - **Do** keep touch targets at 44px or taller.
@@ -375,7 +377,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Don't** bring back the retired blue accent (`#2563EB`).
 - **Don't** add a webfont, `@font-face`, or Google Fonts link.
 - **Don't** use shadows beyond the small preset on card hover and the medium preset on the palette.
-- **Don't** use gradients, except the hero CTA's solid Terracotta bar painted as a sized background.
+- **Don't** use gradients, except the hero CTA's solid Bookcloth bar painted as a sized background.
 - **Don't** use glassmorphism, frosted panels, grain, or noise. The palette overlay blur is the only `backdrop-filter`.
 - **Don't** put a colored side stripe (a `border-left` thicker than 1px) on cards, callouts, list items, or alerts. Use a full 1px border, a background tint, or a mono label.
 - **Don't** use gradient text.
@@ -396,11 +398,11 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 
 WordPress turns both into CSS custom properties:
 
-- **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--sm-plus`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`. Slugs with a digit before letters gain a hyphen: `3xl` becomes `--wp--preset--font-size--3-xl`.
-- **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.categoryTint.webApis` is `--wp--custom--color--category-tint--web-apis`.
-- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (960px) and `--wp--style--global--wide-size` (1200px).
+- **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--x-small`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`.
+- **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.syntax.string` is `--wp--custom--color--syntax--string`.
+- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (60rem) and `--wp--style--global--wide-size` (75rem).
 
-Font sizes: static `xs`, `sm`, `sm-plus`, `md`, `md-plus`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, and fluid `lead`, `subtitle`, `title`, `title-lg`, `headline`, `display`, `hero`, `jumbo`. The fluid tiers are hand-written `clamp()` values with WordPress's own fluid typography turned off, so they render exactly as written.
+Font sizes: eight steps, `x-small`, `small`, `base`, `medium`, `large`, `x-large`, `xx-large`, `xxx-large`, shaped after the Human Made scale. Each is `clamp(min, rem + vw, max)`, fluid between 360px and 1200px. WordPress's own fluid typography is off, so they render exactly as written. The slugs are new names on purpose: stored page content still carries old preset classes such as `has-xl-font-size`, and those must not match a different size.
 
 The `settings.custom` groups:
 
@@ -412,16 +414,14 @@ The `settings.custom` groups:
 | `transition`         | `--wp--custom--transition--`            | base `200ms ease`, drawer `280ms cubic-bezier(0.22, 1, 0.36, 1)`                           |
 | `focus`              | `--wp--custom--focus--`                 | width 2px, offset 3px                                                                      |
 | `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
-| `color.categoryTint` | `--wp--custom--color--category-tint--`  | article-card cover tints per category                                                      |
-| `color.windowDot`    | `--wp--custom--color--window-dot--`     | close, minimize, zoom dots on terminal frames                                              |
 | `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |
-| `width`              | `--wp--custom--width--`                 | full 1280px                                                                                |
+| `width`              | `--wp--custom--width--`                 | full 80rem (1280px)                                                                        |
 | `fontSize`           | `--wp--custom--font-size--`             | numeral, the 404 page number only                                                          |
 
 How code references them:
 
-- **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-sm-plus`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
-- **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--sm)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
+- **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-x-small`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
+- **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--x-small)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
 - **Prototype kits** load `design-system/colors_and_type.css`, which aliases the generated `tokens.css` under the older `--color-*`, `--font-size-*`, `--radius-*` names. It holds no values of its own.
 
 To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, run `pnpm tokens`, and alias it in `design-system/colors_and_type.css` if the kits need it. Never write a literal value in a stylesheet when a token exists.

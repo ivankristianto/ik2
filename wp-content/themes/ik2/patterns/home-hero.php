@@ -17,15 +17,15 @@
 		<!-- wp:group {"className":"ik-hero__main","layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-hero__main">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow ik-hero__eyebrow"} -->
-			<p class="ik-section__eyebrow ik-hero__eyebrow"><span aria-hidden="true">//</span> Web engineer · WordPress · AI · Performance · Tooling</p>
+			<p class="ik-section__eyebrow ik-hero__eyebrow">Web engineer · WordPress · AI · Performance · Tooling</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:heading {"level":1,"className":"ik-hero__title","fontSize":"hero"} -->
-			<h1 class="wp-block-heading ik-hero__title has-hero-font-size">I'm Ivan.</h1>
+			<!-- wp:heading {"level":1,"className":"ik-hero__title"} -->
+			<h1 class="wp-block-heading ik-hero__title">I'm Ivan.</h1>
 			<!-- /wp:heading -->
 
-			<!-- wp:paragraph {"className":"ik-hero__blurb","fontSize":"xl"} -->
-			<p class="ik-hero__blurb has-xl-font-size">I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.</p>
+			<!-- wp:paragraph {"className":"ik-hero__blurb"} -->
+			<p class="ik-hero__blurb">I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"className":"ik-hero__sub"} -->
@@ -50,8 +50,8 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:group {"tagName":"aside","className":"ik-hero__portrait","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-		<aside class="wp-block-group ik-hero__portrait">
+		<!-- wp:group {"className":"ik-hero__portrait","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
+		<div class="wp-block-group ik-hero__portrait">
 			<!-- wp:html -->
 			<div class="ik-hero__portrait-bar">
 				<span class="ik-hero__portrait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -60,9 +60,9 @@
 			<!-- /wp:html -->
 
 			<!-- wp:image {"sizeSlug":"full","className":"ik-hero__portrait-frame"} -->
-			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption"><span aria-hidden="true">//</span> Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
+			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan Kristianto"/><figcaption class="wp-element-caption"><span aria-hidden="true">//</span> Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
 			<!-- /wp:image -->
-		</aside>
+		</div>
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->

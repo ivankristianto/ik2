@@ -44,7 +44,7 @@
 					className: 'ik-now__dot',
 					'aria-hidden': 'true',
 				} ),
-				el( 'span', { className: 'ik-now__label' }, '// /now' ),
+				el( 'span', { className: 'ik-now__label' }, '/now' ),
 				el( RichText, {
 					tagName: 'span',
 					className: 'ik-now__date',

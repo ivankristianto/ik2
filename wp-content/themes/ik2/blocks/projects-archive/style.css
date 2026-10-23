@@ -5,7 +5,7 @@
   gap: var(--wp--preset--spacing--5);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 50em) {
 
   .ik-project-grid {
     grid-template-columns: 1fr;
@@ -25,7 +25,7 @@
 }
 
 .ik-projects-archive__title {
-  font-size: var(--wp--preset--font-size--headline);
+  font-size: var(--wp--preset--font-size--x-large);
   letter-spacing: var(--wp--custom--letter-spacing--tightest);
   margin: 0;
 }
@@ -33,12 +33,12 @@
 .ik-projects-archive__lede {
   max-width: var(--wp--custom--width--measure);
   color: var(--wp--preset--color--graphite);
-  font-size: var(--wp--preset--font-size--md);
+  font-size: var(--wp--preset--font-size--small);
   line-height: var(--wp--custom--line-height--relaxed);
   margin: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
 
   .ik-projects-archive {
     padding-block: var(--wp--preset--spacing--5) var(--wp--preset--spacing--7);
