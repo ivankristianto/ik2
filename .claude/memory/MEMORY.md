@@ -14,3 +14,4 @@
 - [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures
 - [recolor 2026-10](project-recolor-2026-10.md) — bookcloth green accent on drafting white (never cream), branch recolor-bookcloth-green uncommitted; keep prompt wordmark + portrait frame; copy items pending
 - [type scale 2026-10](project-type-scale-2026-10.md) — 8 fluid steps (x-small..xxx-large), em breakpoints, new slug names to dodge stored preset classes; branch type-scale-a11y
+- [accessibility page](project-accessibility-page.md) — /accessibility is a dynamic block fed by report.php; update statuses + date there after each test
