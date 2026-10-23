@@ -244,48 +244,6 @@
   gap: 2px;
 }
 
-.ik-term__input-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5ch;
-  padding: 0 var(--wp--preset--spacing--5) var(--wp--preset--spacing--5);
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--small);
-  color: var(--wp--preset--color--ink);
-}
-
-.ik-term__input-row .prompt {
-  color: var(--wp--preset--color--dust);
-}
-
-.ik-term__input-row .cmd {
-  color: var(--wp--preset--color--graphite);
-}
-
-.ik-term__input {
-  flex: 1;
-  min-width: 0;
-  padding: var(--wp--preset--spacing--2) 0;
-  font: inherit;
-  color: var(--wp--preset--color--ink);
-  background: transparent;
-  border: 0;
-  outline: 0;
-  caret-color: var(--wp--preset--color--signal);
-}
-
-.ik-term__caret {
-  width: 0.55ch;
-  height: 1.05em;
-  background: var(--wp--preset--color--ink);
-  transform: translateY(2px);
-  animation: ik-404-blink 1.05s steps(2, start) infinite;
-}
-
-.ik-term__input:focus + .ik-term__caret {
-  display: none;
-}
-
 .ik-404-suggest {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
