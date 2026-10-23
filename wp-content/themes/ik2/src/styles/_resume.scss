@@ -30,7 +30,7 @@
 	padding: $space-7 $space-5 $space-8;
 
 	// Break out of the root-padding gutter so the ink band reaches the chrome
-	// edge (full-bleed on small screens, capped at the 1280px container wide).
+	// edge (full-bleed on small screens, capped at the 80rem (1280px) container wide).
 	margin-inline:
 		calc(-1 * var(--wp--style--root--padding-left, #{$space-5}))
 		calc(-1 * var(--wp--style--root--padding-right, #{$space-5}));

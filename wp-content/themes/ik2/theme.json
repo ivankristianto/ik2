@@ -166,13 +166,13 @@
 				"drawer": "280ms cubic-bezier(0.22, 1, 0.36, 1)"
 			},
 			"width": {
-				"full": "1280px",
+				"full": "80rem",
 				"measure": "60ch"
 			}
 		},
 		"layout": {
-			"contentSize": "960px",
-			"wideSize": "1200px"
+			"contentSize": "60rem",
+			"wideSize": "75rem"
 		},
 		"shadow": {
 			"defaultPresets": false,
