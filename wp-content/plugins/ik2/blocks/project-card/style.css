@@ -126,7 +126,7 @@
 
 /* The card sits in 1- and 2-column grids, so its insides respond to the card's
    own width. The card's padding can't query itself and stays on the viewport. */
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
   .ik-project {
     padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5);
   }

@@ -91,7 +91,7 @@
   color: var(--wp--preset--color--graphite);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
 
   .ik-now {
     padding: var(--wp--preset--spacing--4);

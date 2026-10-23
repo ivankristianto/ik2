@@ -40,7 +40,7 @@
 	background: $color-surface;
 	overflow: clip;
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		grid-template-columns: 1fr;
 	}
 }
@@ -68,7 +68,7 @@
 		border-bottom: 0;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 43.75em) {
 		border-right: 0;
 		grid-template-columns: 6rem 1fr;
 		padding: $space-4;
@@ -81,7 +81,7 @@
 		}
 	}
 
-	@media (max-width: 420px) {
+	@media (max-width: 26.25em) {
 		grid-template-columns: 1fr;
 		gap: $space-1;
 	}

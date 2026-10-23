@@ -24,7 +24,7 @@
 
 	// Mobile: stack with copyright as the last line, left-aligned so the
 	// rhythm matches the reading column above.
-	@media (max-width: 600px) {
+	@media (max-width: 37.5em) {
 		flex-direction: column-reverse;
 		align-items: flex-start;
 		gap: $space-3;

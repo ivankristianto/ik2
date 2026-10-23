@@ -62,7 +62,7 @@
 	color: var(--wp--preset--color--dust);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 45em) {
 
 	.ik-articles-filters {
 		gap: var(--wp--preset--spacing--3);

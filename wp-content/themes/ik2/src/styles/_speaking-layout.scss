@@ -38,7 +38,7 @@
 	min-width: 0;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 60em) {
 
 	.ik-speaking-layout {
 		grid-template-columns: 1fr;
@@ -50,7 +50,7 @@
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
 
 	.ik-speaking-layout {
 		gap: $space-5;

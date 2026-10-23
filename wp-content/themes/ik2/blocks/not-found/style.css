@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 45em) {
 
   .ik-404__hero {
     grid-template-columns: 1fr;
@@ -292,7 +292,7 @@
   gap: var(--wp--preset--spacing--5);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 45em) {
 
   .ik-404-suggest {
     grid-template-columns: 1fr;

@@ -104,7 +104,7 @@
 	margin: 0;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 60em) {
 
 	.ik-guides-layout {
 		grid-template-columns: 1fr;
@@ -116,7 +116,7 @@
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
 
 	.ik-guides-layout {
 		gap: $space-5;

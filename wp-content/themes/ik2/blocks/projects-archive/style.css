@@ -5,7 +5,7 @@
   gap: var(--wp--preset--spacing--5);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 50em) {
 
   .ik-project-grid {
     grid-template-columns: 1fr;
@@ -38,7 +38,7 @@
   margin: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
 
   .ik-projects-archive {
     padding-block: var(--wp--preset--spacing--5) var(--wp--preset--spacing--7);

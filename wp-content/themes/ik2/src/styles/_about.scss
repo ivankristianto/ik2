@@ -59,7 +59,7 @@
 	gap: $space-7;
 	margin-top: $space-8;
 
-	@media (max-width: 800px) {
+	@media (max-width: 50em) {
 		grid-template-columns: 1fr;
 		gap: $space-6;
 	}
@@ -175,7 +175,7 @@
 	gap: $space-6;
 	align-items: center;
 
-	@media (max-width: 760px) {
+	@media (max-width: 47.5em) {
 		grid-template-columns: 1fr;
 		padding: $space-6;
 		gap: $space-5;
