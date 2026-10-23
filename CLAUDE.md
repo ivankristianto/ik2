@@ -81,7 +81,7 @@ These are enforced by the design brief (see `design-system/README.md` and `SKILL
 - **No `!important`.** Fix specificity, source order, or the markup instead of forcing overrides.
 - **Focus-visible is non-negotiable**: `2px solid` accent, `outline-offset: 3px` (`outline: $focus; outline-offset: $focus-offset;` in SCSS).
 - **Sentence case** for body and most UI; tags in lowercase; dates in monospace (e.g. `July 8, 2020`).
-- **Article column 960px** (`contentSize`, body 20px from 900px up); wide images 1200px (`wideSize`); full-bleed chrome 1280px.
+- **Article column 60rem / 960px** (`contentSize`, body 20px on desktop); wide images 75rem / 1200px (`wideSize`); full-bleed chrome 80rem / 1280px. Widths and breakpoints are rem/em so they follow the reader's text size.
 - **No transforms / scales / bounces** on hover. Transitions are `200ms ease` (`$transition-base`, `var(--wp--custom--transition--base)`) on `color`/`background`/`border`/`box-shadow` only.
 
 When in doubt, widen margins instead of adding a shadow; tighten type instead of adding an icon.

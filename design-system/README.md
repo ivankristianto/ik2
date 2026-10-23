@@ -163,7 +163,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Layout rules
 
-- One canonical container width (`1200px` wide / `960px` content / `1280px` full-bleed chrome).
+- One canonical container width (`75rem` wide / `60rem` content / `80rem` full-bleed chrome; 1200, 960 and 1280px at the default text size).
 - Header is part of the layout but **not sticky**. The production theme and prototype kit both ship it that way.
 - Article pages are single-column. No sidebars. No related-posts overlay.
 - Footer is full-width Soft Paper, simple link columns, RSS visible.

@@ -14,7 +14,7 @@ colors:
   signal-deep: "#234539"
   signal-soft: "#E1EAE5"
   code-paper: "#F1F1ED"
-  build-green: "#2F5D50"
+  build-green: "#3D6B1F"
   amber: "#8A5A14"
   red: "#A33A2A"
 typography:
@@ -203,7 +203,7 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 
 ### Status
 
-- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout. It carries the same value as the accent, so status green and the accent never compete.
+- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout. A moss green, kept well apart from the accent's blue-green so a status never reads as a link.
 - **Amber** (`amber`): warnings, "Experiment" project status, the "outdated" callout.
 - **Red** (`red`): errors only.
 
@@ -258,7 +258,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 
 ## Layout
 
-The page is a single centered column driven by WordPress layout. Content width is 960px (`settings.layout.contentSize`), wide alignment is 1200px (`wideSize`), and full-bleed chrome caps at 1280px (`custom.width.full`). Single articles use the content width as is. Page templates set `custom.width.full` on their post-content, so they don't use it. Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
+The page is a single centered column driven by WordPress layout. Content width is 60rem (`settings.layout.contentSize`, 960px at the default text size), wide alignment is 75rem (`wideSize`, 1200px), and full-bleed chrome caps at 80rem (`custom.width.full`, 1280px). The widths are in rem so the measure holds when a reader enlarges their text. Single articles use the content width as is. Page templates set `custom.width.full` on their post-content, so they don't use it. Root padding is fluid between 24px and 32px (`clamp(spacing-5, 5vw, spacing-6)`), and root-padding-aware alignments keep full-width sections flush with the viewport.
 
 Spacing is a ten-step scale from 4px to 128px (`spacing.spacingSizes` 1 to 10). Sections breathe at 96px of block padding on desktop and 48px on phones. Section heads sit 48px above their content (24px on phones). Cards and grids use 24px to 32px gaps. Custom spacing values are disabled in the editor, so every gap, margin, and padding resolves to a step.
 
@@ -400,7 +400,7 @@ WordPress turns both into CSS custom properties:
 
 - **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--x-small`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`.
 - **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.syntax.string` is `--wp--custom--color--syntax--string`.
-- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (960px) and `--wp--style--global--wide-size` (1200px).
+- **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (60rem) and `--wp--style--global--wide-size` (75rem).
 
 Font sizes: eight steps, `x-small`, `small`, `base`, `medium`, `large`, `x-large`, `xx-large`, `xxx-large`, shaped after the Human Made scale. Each is `clamp(min, rem + vw, max)`, fluid between 360px and 1200px. WordPress's own fluid typography is off, so they render exactly as written. The slugs are new names on purpose: stored page content still carries old preset classes such as `has-xl-font-size`, and those must not match a different size.
 
@@ -415,7 +415,7 @@ The `settings.custom` groups:
 | `focus`              | `--wp--custom--focus--`                 | width 2px, offset 3px                                                                      |
 | `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
 | `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |
-| `width`              | `--wp--custom--width--`                 | full 1280px                                                                                |
+| `width`              | `--wp--custom--width--`                 | full 80rem (1280px)                                                                        |
 | `fontSize`           | `--wp--custom--font-size--`             | numeral, the 404 page number only                                                          |
 
 How code references them:
