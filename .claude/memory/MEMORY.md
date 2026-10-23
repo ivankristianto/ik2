@@ -13,3 +13,4 @@
 - [prod page content via REST](project-prod-page-content-via-rest.md) — releases never touch pattern-backed page content; splice it in over REST with the `.env` IK2_PROD_* app password (not .mcp.json), set a User-Agent, never run regen on prod
 - [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures
 - [recolor 2026-10](project-recolor-2026-10.md) — bookcloth green accent on drafting white (never cream), branch recolor-bookcloth-green uncommitted; keep prompt wordmark + portrait frame; copy items pending
+- [type scale 2026-10](project-type-scale-2026-10.md) — 8 fluid steps (x-small..xxx-large), em breakpoints, new slug names to dodge stored preset classes; branch type-scale-a11y
