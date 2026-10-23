@@ -24,7 +24,7 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 
 ### Sources of truth
 
-- **Tokens:** `wp-content/themes/ik2/theme.json` is the single source of truth. Its presets (palette, font sizes, spacing, radii, shadows) and `settings.custom` groups (font weight, line height, letter spacing, transition, focus, scrim, category tints, window dots, full width, numeral size) hold every value.
+- **Tokens:** `wp-content/themes/ik2/theme.json` is the single source of truth. Its presets (palette, font sizes, spacing, radii, shadows) and `settings.custom` groups (font weight, line height, letter spacing, transition, focus, scrim, syntax colors, full width, numeral size) hold every value.
 - **Shared design-system copy:** `pnpm tokens` copies the production `theme.json` here and generates `tokens.css` from it. `colors_and_type.css` aliases those as `--color-*`, `--font-size-*`, `--radius-*` and friends for previews, prototypes, and agent use. Change the production `theme.json`, then run `pnpm tokens`.
 - **Project context:** `PRODUCT.md` and `DESIGN.md` at the repo root. `DESIGN.md` has the full token map and the CSS variable names WordPress generates.
 - **Live site:** https://ivankristianto.com (content, topics, tone, post structure).
@@ -40,8 +40,8 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 | Audience       | Working web engineers, WordPress developers, performance/security nerds |
 | Topics         | WordPress · Performance · Security · AI · Linux · DevTools · JavaScript |
 | Mood           | Minimal, readable, technical, calm, practical                           |
-| Default theme  | Light only (warm paper); a dark mode may come later via `theme.json`    |
-| Primary accent | Terracotta `#C2410C`                                                    |
+| Default theme  | Light only (drafting white); a dark mode may come later via `theme.json`    |
+| Primary accent | Bookcloth green `#2F5D50`                                               |
 
 ---
 
@@ -81,7 +81,7 @@ The voice is **first-person, casual, practical, working-engineer**. Ivan writes 
 ### Emoji and decorative characters
 
 - **Almost none.** The brief explicitly cuts emoji and decorative gradients.
-- Inline code, monospace metadata, and the terracotta signal accent carry all the "personality" the design needs.
+- Inline code, monospace metadata, and the bookcloth signal accent carry all the "personality" the design needs.
 - Acceptable: the occasional `→` arrow or `·` middle-dot as a separator. Nothing else.
 
 ### Microcopy patterns
@@ -98,10 +98,10 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Color
 
-- **Warm paper background** (`#F8F7F3`) — never pure white. Pure white (`#FFFFFF`) is reserved for cards and code wrappers, where it reads as "elevated surface" against the paper.
-- **Ink** (`#171717`) for body text, near-black but not pure black, keeps the page from feeling harsh.
-- **Terracotta** (`#C2410C`) is the single accent. It's used for links, the primary CTA, focus rings, and tag text — and nowhere else.
-- A small set of **muted neutrals** (`Graphite`, `Dust`, `Line`, `Rule`) handle hierarchy without color. The two text neutrals — `Graphite` (`#5F6368`) and `Dust` (`#676D79`) — both clear WCAG AA (4.5:1) for normal text on paper, white cards, and soft paper. Don't lighten either for "subtlety"; they're set at the lightest values that still pass. `Line` and `Rule` are borders only, never text.
+- **Drafting white background** (`#FCFCFA`), a hair off pure white. Pure white Surface (`#FFFFFF`) is reserved for cards and panels, where it reads as a raised sheet against the paper.
+- **Ink** (`#1C1D1B`) for body text, near-black but not pure black, keeps the page from feeling harsh.
+- **Bookcloth green** (`#2F5D50`) is the single accent. It's used for links, the primary CTA, focus rings, and active states, and nowhere else.
+- A small set of **muted neutrals** (`Graphite`, `Dust`, `Line`, `Rule`) handle hierarchy without color. The two text neutrals, `Graphite` (`#494A46`) and `Dust` (`#5C5D58`), are near-neutral like the paper and both clear WCAG AA (4.5:1) for normal text on paper, cards, soft paper, and code paper. Dust is the lighter one at 5.8:1 on soft paper; don't lighten it further. `Line` and `Rule` are borders only, never text.
 - Semantic colors (`Build Green`, `Amber`, `Red`) appear only for status — never as decoration.
 
 ### Typography
@@ -109,7 +109,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 - **System fonts only.** `ui-sans-serif, system-ui` for text; `ui-monospace, SFMono-Regular` for metadata, code, and tags. No webfont download — the site loads instantly.
 - **Body text is unusually large** (`1.125rem`, the `lg` preset; UI copy drops to `md-plus` `1.0625rem`) with a generous `1.7` line-height (`relaxed`). This is a _reading_ site first.
 - **Headings are tight and confident**: `font-weight: 700`, `line-height: 1.1`, `letter-spacing: -0.04em`. They never feel like marketing.
-- **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small "WEB ENGINEER / WORDPRESS / AI / PERFORMANCE" hero label.
+- **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small lowercase `web engineer · wordpress · ai` hero label. Eyebrows carry no `//` prefix.
 - Article column is **960px**, with the body at `xl` (20px) from 900px up, about 90 characters a line.
 
 ### Spacing
@@ -121,14 +121,14 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 ### Backgrounds
 
 - **No imagery in the chrome.** No hero photos, no parallax, no full-bleed marketing shots. The "decoration" is the paper color and the borders.
-- Section backgrounds alternate between Paper (`#F8F7F3`) and Soft Paper (`#F1EFE8`) to create rhythm without a single border line.
-- Card backgrounds: Surface (`#FFFFFF`) — these are the brightest things on the page.
+- Section backgrounds alternate between Paper (`#FCFCFA`) and Soft Paper (`#EFEFEB`) to create rhythm without a single border line.
+- Card backgrounds: Surface (`#FFFFFF`), the brightest thing on the page.
 - No gradients. No repeating patterns. No grain. No textures.
 
 ### Borders
 
-- Every card, panel, callout, code block: `1px solid var(--color-border)` (`#D8D5CC`). One line, no fancy colored-left-edge variants.
-- Hover state on cards: border darkens to `--color-border-strong` (`#B9B5AA`) and `--shadow-sm` (`0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`) lifts it ~1px. That's the whole interaction.
+- Every card, panel, callout, code block: `1px solid var(--color-border)` (`#DCDCD5`). One line, no fancy colored-left-edge variants.
+- Hover state on cards: border darkens to `--color-border-strong` (`#B6B6AE`) and `--shadow-sm` (`0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`) lifts it ~1px. That's the whole interaction.
 - Radii are **small and consistent**: `4px` (`sm`) for inline code, kbd, and small controls; `6px` (`md`) for cards, buttons, inputs, and code blocks; `8px` (`lg`) for the command palette panel. The pill radius (`999px`) is reserved for tags and small status pills.
 
 ### Shadows
@@ -138,12 +138,12 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 ### Hover, press, focus states
 
-- **Links:** color shifts from `--color-accent` to `--color-accent-hover` (deeper terracotta). Underline thickness stays steady.
+- **Links:** color shifts from `--color-accent` to `--color-accent-hover` (Deep Bookcloth). Underline thickness stays steady.
 - **Cards:** border color darkens, tiny shadow appears. No transform, no scale.
-- **Buttons (primary):** background swaps to the deeper terracotta. **No** translate, **no** scale, **no** shadow added on hover.
+- **Buttons (primary):** background swaps to Deep Bookcloth. **No** translate, **no** scale, **no** shadow added on hover.
 - **Buttons (secondary):** background shifts from `Surface` to `Soft Paper`; border darkens to Rule.
 - **Press / active:** no special transform. The hover color persists.
-- **Focus-visible:** `2px solid var(--color-accent)`, `outline-offset: 3px` (`--focus-width`, `--focus-offset`). Always visible, always terracotta. This is non-negotiable: keyboard users come first, and a sharp focus ring is also a credibility signal.
+- **Focus-visible:** `2px solid var(--color-accent)`, `outline-offset: 3px` (`--focus-width`, `--focus-offset`). Always visible, always bookcloth green. This is non-negotiable: keyboard users come first, and a sharp focus ring is also a credibility signal.
 
 ### Animation
 
@@ -204,6 +204,6 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 ## Caveats
 
 - The production theme and the prototype kit are **both real and diverged**. A change in `design-system/ui_kits/blog/` does not automatically carry into `wp-content/themes/ik2/`, and vice versa.
-- The accent token slug is still `signal`, but its value is **Terracotta** `#C2410C`. Any blue accent you find in old files is stale; sync it to the production theme.
+- The accent token slug is still `signal`, but its value is **Bookcloth** `#2F5D50`. Any terracotta or blue accent you find in old files is stale; sync it to the production theme.
 - `wp-content/themes/ik2/theme.json` is the single source of truth. The copies in `design-system/` are generated by `pnpm tokens` for previews, prototypes, and agent workflows, and CI fails if they fall behind.
 - The site is light only. A dark mode, if it comes, will be added through `theme.json` (a style variation or settings).
