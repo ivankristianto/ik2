@@ -50,8 +50,8 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:group {"tagName":"aside","className":"ik-hero__portrait","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-		<aside class="wp-block-group ik-hero__portrait">
+		<!-- wp:group {"className":"ik-hero__portrait","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
+		<div class="wp-block-group ik-hero__portrait">
 			<!-- wp:html -->
 			<div class="ik-hero__portrait-bar">
 				<span class="ik-hero__portrait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -60,9 +60,9 @@
 			<!-- /wp:html -->
 
 			<!-- wp:image {"sizeSlug":"full","className":"ik-hero__portrait-frame"} -->
-			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan"/><figcaption class="wp-element-caption"><span aria-hidden="true">//</span> Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
+			<figure class="wp-block-image size-full ik-hero__portrait-frame"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ivan-portrait.webp' ) ); ?>" alt="Ivan Kristianto"/><figcaption class="wp-element-caption"><span aria-hidden="true">//</span> Ivan · Jakarta · c. <?php echo esc_html( gmdate( 'Y' ) ); ?></figcaption></figure>
 			<!-- /wp:image -->
-		</aside>
+		</div>
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->

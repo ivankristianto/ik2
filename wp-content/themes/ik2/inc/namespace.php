@@ -24,4 +24,5 @@ function bootstrap(): void {
 	Breadcrumbs\bootstrap();
 	PageTransitions\bootstrap();
 	Emoji\bootstrap();
+	ContentFixes\bootstrap();
 }

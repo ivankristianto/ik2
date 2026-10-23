@@ -78,7 +78,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes();
 					and a few places that <em>do</em> exist.
 				</p>
 
-				<div class="ik-404__stats" aria-label="Diagnostic">
+				<div class="ik-404__stats" role="group" aria-label="Diagnostic">
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">status</span><code class="ik-404__stats-v err">404</code></span>
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">path</span><code class="ik-404__stats-v"><?php echo esc_html( $ik2_request_uri ); ?></code></span>
 					<span class="ik-404__stats-item"><span class="ik-404__stats-k">cache</span><code class="ik-404__stats-v">MISS</code></span>

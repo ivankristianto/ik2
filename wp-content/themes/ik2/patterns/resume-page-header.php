@@ -14,7 +14,7 @@
 	<!-- wp:group {"className":"ik-resume__card","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-resume__card">
 		<!-- wp:paragraph {"className":"ik-resume__eyebrow"} -->
-		<p class="ik-resume__eyebrow"><span class="ik-resume__eyebrow-tag">Resume</span> <span class="ik-resume__eyebrow-sep">·</span> <span class="ik-resume__eyebrow-meta">Updated 2026</span> <span class="ik-resume__eyebrow-sep">·</span> <span class="ik-resume__eyebrow-status">Available for select work</span></p>
+		<p class="ik-resume__eyebrow"><span class="ik-resume__eyebrow-tag">Resume</span> <span class="ik-resume__eyebrow-sep" aria-hidden="true">·</span> <span class="ik-resume__eyebrow-meta">Updated 2026</span> <span class="ik-resume__eyebrow-sep" aria-hidden="true">·</span> <span class="ik-resume__eyebrow-status">Available for select work</span></p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:group {"className":"ik-resume__masthead","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
@@ -23,8 +23,8 @@
 			<h1 class="wp-block-heading ik-resume__name">Ivan.</h1>
 			<!-- /wp:heading -->
 
-			<!-- wp:group {"tagName":"aside","className":"ik-resume__meta","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
-			<aside class="wp-block-group ik-resume__meta">
+			<!-- wp:group {"className":"ik-resume__meta","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
+			<div class="wp-block-group ik-resume__meta">
 				<!-- wp:paragraph {"className":"ik-resume__title"} -->
 				<p class="ik-resume__title">Senior Web Engineer <span>Google Developer Expert (Web)</span></p>
 				<!-- /wp:paragraph -->
@@ -32,7 +32,7 @@
 				<!-- wp:paragraph {"className":"ik-resume__location"} -->
 				<p class="ik-resume__location">Jakarta, Indonesia &middot; remote</p>
 				<!-- /wp:paragraph -->
-			</aside>
+			</div>
 			<!-- /wp:group -->
 		</div>
 		<!-- /wp:group -->

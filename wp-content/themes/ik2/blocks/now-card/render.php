@@ -34,7 +34,7 @@ $ik2_now_foot_tags = [
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 ?>
-<aside <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section aria-label="Now" <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<p class="ik-now__head">
 		<span class="ik-now__dot" aria-hidden="true"></span>
 		<span class="ik-now__label">/now</span>
@@ -46,4 +46,4 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 	<?php if ( '' !== $ik2_now_foot ) : ?>
 		<p class="ik-now__foot"><?php echo wp_kses( $ik2_now_foot, $ik2_now_foot_tags ); ?></p>
 	<?php endif; ?>
-</aside>
+</section>
