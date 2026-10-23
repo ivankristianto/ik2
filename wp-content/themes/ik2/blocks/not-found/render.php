@@ -103,12 +103,8 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes();
 
 			<div class="ik-term__body">
 				<div class="ik-term__history">
-					<div class="ik-term__line">
-						<span class="prompt">$</span> <span class="cmd">curl</span> <span class="arg">-I</span> <span class="arg">https://<?php echo esc_html( $ik2_host . $ik2_request_uri ); ?></span>
-					</div>
-					<div class="ik-term__line">
-						<span class="dim">HTTP/2</span> <span class="err">404</span> <span class="dim">not found</span>
-					</div>
+					<div class="ik-term__line"><span class="prompt">$</span> <span class="cmd">curl</span> <span class="arg">-I</span> <span class="arg">https://<?php echo esc_html( $ik2_host . $ik2_request_uri ); ?></span></div>
+					<div class="ik-term__line"><span class="dim">HTTP/2</span> <span class="err">404</span> <span class="dim">not found</span></div>
 					<div class="ik-term__line"><span class="key">server:</span> <span class="val">cloudflare</span></div>
 					<div class="ik-term__line"><span class="key">content-type:</span> <span class="val">text/html; charset=utf-8</span></div>
 					<div class="ik-term__line"><span class="key">x-suggestion:</span> <span class="val"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">/articles</a> <span class="dim">&larr; did you mean this?</span></span></div>
@@ -136,10 +132,10 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes();
 
 		<div class="wp-block-buttons ik-404__cta-row">
 			<div class="wp-block-button">
-				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/' ) ); ?>" style="border-radius:0.375rem">Go home</a>
+				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/' ) ); ?>">Go home</a>
 			</div>
 			<div class="wp-block-button is-style-outline">
-				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>" style="border-radius:0.375rem">Browse articles</a>
+				<a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Browse articles</a>
 			</div>
 		</div>
 	</section>

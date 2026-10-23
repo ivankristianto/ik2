@@ -376,3 +376,25 @@
   gap: var(--wp--preset--spacing--3);
   margin-top: var(--wp--preset--spacing--5);
 }
+
+/* Hand-written button markup never enqueues core/button styles, so the outline variant is styled here. */
+.ik-404__cta-row .wp-block-button__link {
+  border: 1px solid var(--wp--preset--color--ink);
+  text-decoration: none;
+  transition: background-color var(--wp--custom--transition--base), border-color var(--wp--custom--transition--base), color var(--wp--custom--transition--base);
+}
+
+.ik-404__cta-row .wp-block-button__link:hover {
+  border-color: var(--wp--preset--color--signal-deep);
+}
+
+.ik-404__cta-row .is-style-outline .wp-block-button__link {
+  background: transparent;
+  border-color: var(--wp--preset--color--rule);
+  color: var(--wp--preset--color--ink);
+}
+
+.ik-404__cta-row .is-style-outline .wp-block-button__link:hover {
+  background: var(--wp--preset--color--surface);
+  border-color: var(--wp--preset--color--ink);
+}

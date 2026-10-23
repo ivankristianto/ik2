@@ -378,8 +378,17 @@
 		},
 		"elements": {
 			"button": {
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--signal-deep)"
+					}
+				},
 				"border": {
 					"radius": "var(--wp--preset--border-radius--md)"
+				},
+				"color": {
+					"background": "var(--wp--preset--color--ink)",
+					"text": "var(--wp--preset--color--paper)"
 				},
 				"spacing": {
 					"padding": {
