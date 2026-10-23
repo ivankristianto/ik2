@@ -285,6 +285,7 @@
 		padding: 0.125rem $space-1;
 		font-family: $font-mono;
 		font-size: 0.9375em;
+		overflow-wrap: anywhere;
 	}
 
 	/* kbd reads as a key — slightly tighter padding, no border-color shift. */

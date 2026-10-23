@@ -77,9 +77,10 @@
 
 .ik-topic__row {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--wp--preset--spacing--3);
+  gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
 }
 
 .ik-topic__name {

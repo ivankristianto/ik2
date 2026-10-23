@@ -61,9 +61,9 @@
 // (inc/block-styles.php). Overrides the core button chrome to become the
 // oversized text link with the animated Signal underline.
 .ik-hero .is-style-hero-cta .wp-block-button__link {
-	display: inline-flex;
-	align-items: baseline;
-	gap: $space-4;
+	// Inline-block, not inline-flex: Firefox lays out an anonymous flex text item a
+	// few px narrower than its negatively tracked text and wraps the label.
+	display: inline-block;
 	padding: 0 0 $space-2;
 	border-radius: 0;
 	background-color: transparent;
@@ -72,9 +72,6 @@
 	font-weight: $weight-bold;
 	line-height: $leading-tight;
 	letter-spacing: $tracking-tighter;
-	// Firefox sizes the anonymous text flex item a few px narrower than the
-	// negatively-tracked text it lays out, so the label wraps to two lines.
-	white-space: nowrap;
 	color: $color-ink;
 	text-decoration: none;
 	background-image: linear-gradient(#{$color-signal}, #{$color-signal});
@@ -85,6 +82,7 @@
 
 	&::after {
 		content: '\2192' / '';
+		margin-inline-start: $space-4;
 		font-family: $font-mono;
 		font-weight: $weight-regular;
 		color: $color-signal;

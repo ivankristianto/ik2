@@ -34,8 +34,6 @@
 .ik-footer__copy {
 	font-size: $size-x-small;
 	letter-spacing: $tracking-wide;
-	// Keep the year range together so "2010–2026" never wraps mid-range.
-	white-space: nowrap;
 }
 
 // The footer navigation (Privacy) is inline in parts/footer.html and renders
