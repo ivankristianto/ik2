@@ -17,7 +17,7 @@
 		<!-- wp:group {"className":"ik-hero__main","layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-hero__main">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow ik-hero__eyebrow"} -->
-			<p class="ik-section__eyebrow ik-hero__eyebrow"><span aria-hidden="true">//</span> Web engineer · WordPress · AI · Performance · Tooling</p>
+			<p class="ik-section__eyebrow ik-hero__eyebrow">Web engineer · WordPress · AI · Performance · Tooling</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":1,"className":"ik-hero__title","fontSize":"hero"} -->

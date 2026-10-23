@@ -17,7 +17,7 @@
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group">
 			<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-			<p class="ik-section__eyebrow"><span aria-hidden="true">//</span> FEATURED TOPICS</p>
+			<p class="ik-section__eyebrow">FEATURED TOPICS</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:heading {"level":2,"className":"ik-section__title"} -->

@@ -22,9 +22,14 @@
 .ik-section__eyebrow {
 	font-family: $font-mono;
 	font-size: $size-xs;
-	text-transform: uppercase;
-	letter-spacing: $tracking-widest;
+	text-transform: lowercase;
+	letter-spacing: $tracking-normal;
 	color: $color-graphite;
+}
+
+// Page content saved from the older patterns still opens with a "//" span.
+.ik-section__eyebrow > span[aria-hidden="true"]:first-child {
+	display: none;
 }
 
 // Margins live on .ik-section-scoped selectors: WordPress prints layout rules
