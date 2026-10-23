@@ -170,12 +170,6 @@
 		background: $color-rule;
 		display: inline-block;
 	}
-
-	i:first-child { background: var(--wp--custom--color--window-dot--close); }
-
-	i:nth-child(2) { background: var(--wp--custom--color--window-dot--minimize); }
-
-	i:nth-child(3) { background: var(--wp--custom--color--window-dot--zoom); }
 }
 
 .ik-hero__portrait-path { color: $color-graphite; }

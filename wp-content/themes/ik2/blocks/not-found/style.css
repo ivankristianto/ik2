@@ -193,7 +193,7 @@
   font-family: var(--wp--preset--font-family--mono);
   font-size: var(--wp--preset--font-size--sm-plus);
   line-height: var(--wp--custom--line-height--relaxed);
-  color: var(--wp--preset--color--code-ink);
+  color: var(--wp--preset--color--ink);
 }
 
 .ik-term__line {
@@ -236,8 +236,6 @@
 }
 
 .ik-term__line a {
-
-  /* Signal is 4.45:1 on code paper; Signal Deep is 6.3:1. */
   color: var(--wp--preset--color--signal-deep);
 }
 
@@ -253,7 +251,7 @@
   padding: 0 var(--wp--preset--spacing--5) var(--wp--preset--spacing--5);
   font-family: var(--wp--preset--font-family--mono);
   font-size: var(--wp--preset--font-size--sm-plus);
-  color: var(--wp--preset--color--code-ink);
+  color: var(--wp--preset--color--ink);
 }
 
 .ik-term__input-row .prompt {

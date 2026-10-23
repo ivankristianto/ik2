@@ -88,7 +88,7 @@
 		background: $color-signal-deep;
 	}
 
-	// Mirrors the menu's "terracotta = current" semantic. The CTA fills with the
+	// Mirrors the menu's "accent = current" semantic. The CTA fills with the
 	// accent when you're already on /resume, so the chrome confirms where you are.
 	&.is-current,
 	&[aria-current='page'] {

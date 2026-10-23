@@ -279,7 +279,7 @@
 	:not(pre) > kbd,
 	:not(pre) > samp {
 		background: $color-code-paper;
-		color: $color-code-ink;
+		color: $color-ink;
 		border: 1px solid $color-line;
 		border-radius: $radius-sm;
 		padding: 0.125rem $space-1;
@@ -296,7 +296,7 @@
 	/* Native <pre> (legacy posts that don't use wp-block-code). */
 	pre {
 		background: $color-code-paper;
-		color: $color-code-ink;
+		color: $color-ink;
 		border: 1px solid $color-line;
 		border-radius: $radius-md;
 		padding: $space-5;
@@ -793,7 +793,7 @@
 .ik-article__body .wp-block-code,
 .editor-styles-wrapper .wp-block-code {
 	background: $color-code-paper;
-	color: $color-code-ink;
+	color: $color-ink;
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
 	padding: $space-5;

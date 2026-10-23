@@ -21,26 +21,12 @@
   --color-accent-hover:  var(--wp--preset--color--signal-deep);
   --color-accent-soft:   var(--wp--preset--color--signal-soft);
   --color-code-bg:       var(--wp--preset--color--code-paper);
-  --color-code-text:     var(--wp--preset--color--code-ink);
+  --color-code-text:     var(--wp--preset--color--ink);
   --color-success:       var(--wp--preset--color--build-green);
   --color-warning:       var(--wp--preset--color--amber);
   --color-danger:        var(--wp--preset--color--red);
 
   --color-scrim: var(--wp--custom--color--scrim);
-
-  --color-category-wordpress:   var(--wp--custom--color--category-tint--wordpress);
-  --color-category-ai:          var(--wp--custom--color--category-tint--ai);
-  --color-category-performance: var(--wp--custom--color--category-tint--performance);
-  --color-category-security:    var(--wp--custom--color--category-tint--security);
-  --color-category-web-apis:    var(--wp--custom--color--category-tint--web-apis);
-  --color-category-tooling:     var(--wp--custom--color--category-tint--tooling);
-  --color-category-guide:       var(--wp--custom--color--category-tint--guide);
-  --color-category-note:        var(--wp--custom--color--category-tint--note);
-  --color-category-experiment:  var(--wp--custom--color--category-tint--experiment);
-
-  --color-window-dot-close:    var(--wp--custom--color--window-dot--close);
-  --color-window-dot-minimize: var(--wp--custom--color--window-dot--minimize);
-  --color-window-dot-zoom:     var(--wp--custom--color--window-dot--zoom);
 
   --color-syntax-comment: var(--wp--custom--color--syntax--comment);
   --color-syntax-keyword: var(--wp--custom--color--syntax--keyword);

@@ -78,8 +78,7 @@
 .ik-article-card__cover-label {
 	font-family: $font-mono;
 	font-size: $size-sm;
-	// Graphite drops to 4.2:1 on the paler category covers; Ink clears 12:1 on all of them.
-	color: $color-ink;
+	color: $color-graphite;
 	text-align: center;
 	line-height: $leading-snug;
 
@@ -88,45 +87,6 @@
 		text-decoration: none;
 		pointer-events: none;
 	}
-}
-
-/* Keyed on the post's category class, not the term link, because production
-   strips the /category/ base from term URLs. Scoped to .wp-block-post since
-   category archives put the same class on <body>. */
-.wp-block-post.category-wordpress .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--wordpress);
-}
-
-.wp-block-post.category-ai .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--ai);
-}
-
-.wp-block-post.category-performance .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--performance);
-}
-
-.wp-block-post.category-security .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--security);
-}
-
-.wp-block-post.category-web-apis .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--web-apis);
-}
-
-.wp-block-post.category-tooling .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--tooling);
-}
-
-.wp-block-post.category-guide .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--guide);
-}
-
-.wp-block-post.category-note .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--note);
-}
-
-.wp-block-post.category-experiment .ik-article-card__cover {
-	background: var(--wp--custom--color--category-tint--experiment);
 }
 
 .wp-block-group.ik-article-card__meta {

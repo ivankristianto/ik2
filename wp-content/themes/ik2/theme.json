@@ -37,7 +37,7 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#F8F7F3",
+					"color": "#FCFCFA",
 					"name": "Paper",
 					"slug": "paper"
 				},
@@ -47,72 +47,67 @@
 					"slug": "surface"
 				},
 				{
-					"color": "#F1EFE8",
+					"color": "#EFEFEB",
 					"name": "Soft Paper",
 					"slug": "soft-paper"
 				},
 				{
-					"color": "#171717",
+					"color": "#1C1D1B",
 					"name": "Ink",
 					"slug": "ink"
 				},
 				{
-					"color": "#5F6368",
+					"color": "#494A46",
 					"name": "Graphite",
 					"slug": "graphite"
 				},
 				{
-					"color": "#676D79",
+					"color": "#5C5D58",
 					"name": "Dust",
 					"slug": "dust"
 				},
 				{
-					"color": "#D8D5CC",
+					"color": "#DCDCD5",
 					"name": "Line",
 					"slug": "line"
 				},
 				{
-					"color": "#B9B5AA",
+					"color": "#B6B6AE",
 					"name": "Rule",
 					"slug": "rule"
 				},
 				{
-					"color": "#C2410C",
-					"name": "Terracotta",
+					"color": "#2F5D50",
+					"name": "Bookcloth",
 					"slug": "signal"
 				},
 				{
-					"color": "#9A3412",
-					"name": "Deep Terracotta",
+					"color": "#234539",
+					"name": "Deep Bookcloth",
 					"slug": "signal-deep"
 				},
 				{
-					"color": "#FFEDD5",
-					"name": "Terracotta Soft",
+					"color": "#E1EAE5",
+					"name": "Bookcloth Wash",
 					"slug": "signal-soft"
 				},
 				{
-					"color": "#EFEEE8",
+					"color": "#F1F1ED",
 					"name": "Code Paper",
 					"slug": "code-paper"
 				},
 				{
-					"color": "#111827",
-					"name": "Code Ink",
-					"slug": "code-ink"
-				},
-				{
-					"color": "#15803D",
+					"color": "#2F5D50",
 					"name": "Build Green",
 					"slug": "build-green"
 				},
 				{
-					"color": "#B45309",
+					"color": "#8A5A14",
 					"name": "Amber",
 					"slug": "amber"
 				},
 				{
-					"color": "#B91C1C",
+					"color": "#A33A2A",
 					"name": "Red",
 					"slug": "red"
 				}
@@ -127,26 +122,10 @@
 		"custom": {
 			"color": {
 				"scrim": "color-mix(in srgb, var(--wp--preset--color--ink) 30%, transparent)",
-				"categoryTint": {
-					"wordpress": "#E0E7FF",
-					"ai": "#FDE68A",
-					"performance": "#D1FAE5",
-					"security": "#FECACA",
-					"webApis": "#DDD6FE",
-					"tooling": "#FED7AA",
-					"guide": "#BAE6FD",
-					"note": "#FBCFE8",
-					"experiment": "#FDE2E4"
-				},
-				"windowDot": {
-					"close": "#FF5F57",
-					"minimize": "#FEBC2E",
-					"zoom": "#28C840"
-				},
 				"syntax": {
 					"comment": "var(--wp--preset--color--graphite)",
 					"keyword": "var(--wp--preset--color--signal-deep)",
-					"string": "#5C6331"
+					"string": "#7A4E1C"
 				}
 			},
 			"focus": {
