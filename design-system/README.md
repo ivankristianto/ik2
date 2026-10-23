@@ -107,10 +107,10 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 ### Typography
 
 - **System fonts only.** `ui-sans-serif, system-ui` for text; `ui-monospace, SFMono-Regular` for metadata, code, and tags. No webfont download — the site loads instantly.
-- **Body text is unusually large** (`1.125rem`, the `lg` preset; UI copy drops to `md-plus` `1.0625rem`) with a generous `1.7` line-height (`relaxed`). This is a _reading_ site first.
+- **Body text is unusually large** (the `base` preset, 18px on phones to 20px on desktop; UI copy drops to `small`, 16 to 17px) with a generous `1.7` line-height (`relaxed`). This is a _reading_ site first.
 - **Headings are tight and confident**: `font-weight: 700`, `line-height: 1.1`, `letter-spacing: -0.04em`. They never feel like marketing.
 - **Mono is used as flavor**, not as the body face: dates, tags, reading-time, eyebrows on cards, the small lowercase `web engineer · wordpress · ai` hero label. Eyebrows carry no `//` prefix.
-- Article column is **960px**, with the body at `xl` (20px) from 900px up, about 90 characters a line.
+- Article column is **960px**, with the body at `base` (20px on desktop), about 90 characters a line. Nothing a reader reads is smaller than `x-small` (14px).
 
 ### Spacing
 

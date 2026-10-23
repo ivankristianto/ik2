@@ -18,56 +18,57 @@ colors:
   amber: "#8A5A14"
   red: "#A33A2A"
 typography:
-  display:
+  hero:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(2.5rem, 6vw, 4.5rem)" # preset display
+    fontSize: "clamp(3rem, 2.25rem + 3.3333vw, 4.75rem)" # preset xxx-large
     fontWeight: 700 # custom.fontWeight.bold
     lineHeight: 1.1 # custom.lineHeight.tight
     letterSpacing: "-0.04em" # custom.letterSpacing.tightest
-  headline:
+  display:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(2rem, 5vw, 3rem)" # preset headline
+    fontSize: "clamp(2.5rem, 1.9643rem + 2.381vw, 3.75rem)" # preset xx-large
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "-0.04em"
-  title-lg:
+  headline:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.75rem, 4vw, 2.5rem)" # preset title-lg
+    fontSize: "clamp(2rem, 1.6786rem + 1.4286vw, 2.75rem)" # preset x-large
     fontWeight: 700
     lineHeight: 1.1
-    letterSpacing: "-0.03em" # custom.letterSpacing.tighter
+    letterSpacing: "-0.04em"
+  title:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem)" # preset large
+    fontWeight: 700
+    lineHeight: 1.1
+    letterSpacing: "-0.03em"
   subtitle:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.375rem, 2.4vw, 1.625rem)" # preset subtitle
+    fontSize: "clamp(1.25rem, 1.1429rem + 0.4762vw, 1.5rem)" # preset medium
     fontWeight: 700
     lineHeight: 1.25 # custom.lineHeight.snug
-    letterSpacing: "-0.02em" # custom.letterSpacing.tight
-  card-title:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.25rem" # preset xl
-    fontWeight: 700
-    lineHeight: 1.25
     letterSpacing: "-0.02em"
   body:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.125rem" # preset lg
+    fontSize: "clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem)" # preset base
     fontWeight: 400 # custom.fontWeight.regular
     lineHeight: 1.7 # custom.lineHeight.relaxed
     letterSpacing: "0"
+  ui:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1rem, 0.9732rem + 0.119vw, 1.0625rem)" # preset small
+    fontWeight: 400
+    lineHeight: 1.55 # custom.lineHeight.comfortable
   label:
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.875rem" # preset sm
-    fontWeight: 400
-  micro:
-    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.75rem" # preset xs
+    fontSize: "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)" # preset x-small
     fontWeight: 400
     lineHeight: 1.4 # custom.lineHeight.normal
   eyebrow:
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace"
-    fontSize: "0.75rem" # preset xs
+    fontSize: "clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem)" # preset x-small
     fontWeight: 400
-    letterSpacing: "0" # custom.letterSpacing.normal
+    letterSpacing: "0"
 rounded:
   sm: "4px"
   md: "6px"
@@ -233,15 +234,19 @@ These live in `settings.custom.color`, outside the palette, so they never appear
 
 Sizes are `theme.json` font-size presets. Weights, line heights, and tracking come from `settings.custom`. All headings share bold weight, tight leading, and tightest tracking from `styles.elements.heading`; the roles below loosen that where the size drops.
 
-- **Display** (bold, `display`, tight leading, tightest tracking): the home hero title on desktop and nowhere else. Phones switch to the larger `hero` tier with a 10ch measure, so the title still fills the screen.
-- **Headline** (bold, `headline`, tight, tightest): page titles. Archive headers, the single-article H1, section titles on phones.
-- **Title LG** (bold, `title-lg`, tight, tighter): H2 inside articles.
-- **Subtitle** (bold, `subtitle`, snug, tight): H3 inside articles. From 900px up, article H3 moves to `title` and H4 to `2xl`.
-- **Card title** (bold, `xl`, snug, tight): article card titles.
-- **Body** (regular, `lg`, relaxed): the page default and article prose, capped at the 960px content width. Article prose steps up to `xl` from 900px up, and the lead to `2xl`. Card excerpts drop to `md` with comfortable leading; the hero sub copy uses `md-plus`.
-- **Label** (mono, `sm`): article-card meta, filter pills, cover labels, header controls.
-- **Micro** (mono, `xs`, normal leading): tags, project status badges, keyboard hints, palette group titles.
-- **Eyebrow** (mono, `xs`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
+- **Hero** (bold, `xxx-large`, tight leading, tightest tracking): the home hero title and the resume name. Phones keep a 10ch measure so the title still fills the screen.
+- **Display** (bold, `xx-large`, tight, tightest): the 404 title.
+- **Headline** (bold, `x-large`, tight, tightest): page titles and article H2s. Archive headers, the single-article H1, section titles on phones.
+- **Title** (bold, `large`, tight, tighter): section titles, article H3 from 900px up, the hero CTA.
+- **Subtitle** (bold, `medium`, snug, tight): article H3 on phones, lead paragraphs, project names.
+- **Body** (regular, `base`, relaxed): the page default, article prose and card titles. It runs from 18px on phones to 20px on desktop, capped at the 960px content width.
+- **UI** (regular, `small`): nav-adjacent copy, excerpts, the hero sub copy, buttons, code blocks.
+- **Label** (mono, `x-small`, normal leading): article-card meta, filter pills, cover labels, tags, status badges, keyboard hints, captions, the footer.
+- **Eyebrow** (mono, `x-small`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
+
+**The 14px Floor Rule.** Nothing a reader is meant to read is set below `x-small` (14px, 15px on wide screens). The only smaller text is inline code inside `x-small` copy, at 0.9em.
+
+**The Scales-With-The-Reader Rule.** Every size is in rem, and every fluid size is `clamp(min, rem + vw, max)` with a rem term in the middle, so it follows the reader's browser text size and zoom. Never write a pure-vw middle value. Breakpoints are in em for the same reason.
 
 ### Named Rules
 
@@ -309,9 +314,9 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 ### Buttons
 
 - **Shape:** medium radius, 44px minimum height so every button is a full touch target.
-- **Primary:** the header Resume CTA. Ink fill, Paper text, `sm` size, 8px by 16px padding. Hover swaps the fill to Deep Bookcloth. On `/resume` it fills with Bookcloth to confirm where you are.
+- **Primary:** the header Resume CTA. Ink fill, Paper text, `x-small` size, 8px by 16px padding. Hover swaps the fill to Deep Bookcloth. On `/resume` it fills with Bookcloth to confirm where you are.
 - **Secondary:** the header search trigger. Surface fill, 1px Line border, Graphite text, 12px padding, with a Micro-size `kbd` hint. Hover darkens the border to Rule and the text to Ink. The fill does not change.
-- **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `title` size (`title-lg` on phones) with a mono arrow, underlined by a 2px Bookcloth bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Bookcloth.
+- **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `large` size (`x-large` on phones) with a mono arrow, underlined by a 2px Bookcloth bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Bookcloth.
 - **Focus:** `2px solid` Bookcloth with a 3px offset (`custom.focus`). Always visible. Rows inside a scrolling list or track (palette results, lightbox slides) draw the same ring inset (`$focus-offset-inset`), because the scroller would clip it outside.
 - **Transitions:** `custom.transition.base` (200ms ease) on color, background, border, and box-shadow only. No transform, no scale.
 
@@ -330,25 +335,25 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 The site has no boxed form fields. The two inputs sit flush inside a row:
 
-- **Command palette input:** transparent, borderless, Ink text at `md-plus`, behind a Bookcloth mono caret. The row's bottom rule turns Bookcloth on `:focus-within`, which stands in for the outline the input drops.
-- **404 terminal input:** mono `sm-plus` on the terminal surface, transparent and borderless, with a Bookcloth caret.
+- **Command palette input:** transparent, borderless, Ink text at `small`, behind a Bookcloth mono caret. The row's bottom rule turns Bookcloth on `:focus-within`, which stands in for the outline the input drops.
+- **404 terminal input:** mono `small` on the terminal surface, transparent and borderless, with a Bookcloth caret.
 
 ### Navigation
 
-- **Desktop:** plain links in Graphite at `sm`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Bookcloth. The current page goes Ink with a Bookcloth underline (0.08em thick, 0.18em offset).
-- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `lg` size with small radius; hover fills Soft Paper, and the current item fills Bookcloth Wash with Deep Bookcloth semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
+- **Desktop:** plain links in Graphite at `x-small`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Bookcloth. The current page goes Ink with a Bookcloth underline (0.08em thick, 0.18em offset).
+- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `base` size with small radius; hover fills Soft Paper, and the current item fills Bookcloth Wash with Deep Bookcloth semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
 - **Not sticky.** The header scrolls away with the page.
 
 ### Code Blocks
 
 - **Inline code:** Code Paper fill, Ink text, 1px Line border, small radius, mono at 0.9375em.
-- **`<pre>`:** the same colors and border, medium radius, 24px padding, mono `sm-plus` with relaxed leading. Long lines wrap instead of scrolling.
+- **`<pre>`:** the same colors and border, medium radius, 24px padding, mono `small` with relaxed leading. Long lines wrap instead of scrolling.
 
 ### Command Palette (signature component)
 
 - **Overlay:** the scrim with a 2px backdrop blur, the one permitted `backdrop-filter`, justified because the palette is a true modal.
 - **Panel:** Surface fill, 1px Line border, large radius, medium shadow, 640px wide at most.
-- **Rows:** `sm-plus` sans labels with a mono glyph in Dust. The active row fills Bookcloth Wash with Deep Bookcloth text and a Bookcloth glyph.
+- **Rows:** `small` sans labels with a mono glyph in Dust. The active row fills Bookcloth Wash with Deep Bookcloth text and a Bookcloth glyph.
 - **Chrome:** mono throughout for group titles (uppercase, wider tracking), the Esc hint, and the Paper footer with `kbd` keys.
 
 ## Do's and Don'ts
@@ -393,11 +398,11 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 
 WordPress turns both into CSS custom properties:
 
-- **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--sm-plus`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`. Slugs with a digit before letters gain a hyphen: `3xl` becomes `--wp--preset--font-size--3-xl`.
+- **Presets** (`color.palette`, `typography.fontSizes`, `typography.fontFamilies`, `spacing.spacingSizes`, `border.radiusSizes`, `shadow.presets`) become `--wp--preset--<type>--<slug>`: `--wp--preset--color--signal`, `--wp--preset--font-size--x-small`, `--wp--preset--spacing--5`, `--wp--preset--border-radius--md`, `--wp--preset--shadow--sm`.
 - **Custom values** (`settings.custom`) become `--wp--custom--<group>--<key>`, with camelCase keys converted to kebab-case. `color.syntax.string` is `--wp--custom--color--syntax--string`.
 - **Layout widths** come from `settings.layout`: `--wp--style--global--content-size` (960px) and `--wp--style--global--wide-size` (1200px).
 
-Font sizes: static `xs`, `sm`, `sm-plus`, `md`, `md-plus`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, and fluid `lead`, `subtitle`, `title`, `title-lg`, `headline`, `display`, `hero`, `jumbo`. The fluid tiers are hand-written `clamp()` values with WordPress's own fluid typography turned off, so they render exactly as written.
+Font sizes: eight steps, `x-small`, `small`, `base`, `medium`, `large`, `x-large`, `xx-large`, `xxx-large`, shaped after the Human Made scale. Each is `clamp(min, rem + vw, max)`, fluid between 360px and 1200px. WordPress's own fluid typography is off, so they render exactly as written. The slugs are new names on purpose: stored page content still carries old preset classes such as `has-xl-font-size`, and those must not match a different size.
 
 The `settings.custom` groups:
 
@@ -415,8 +420,8 @@ The `settings.custom` groups:
 
 How code references them:
 
-- **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-sm-plus`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
-- **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--sm)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
+- **SCSS partials** under `src/` use the `$` aliases in `src/styles/_tokens.scss`: `$color-signal`, `$size-x-small`, `$leading-relaxed`, `$tracking-wide`, `$radius-md`, `$shadow-sm`, `$transition-base`, `$focus`. That file only aliases the custom properties; it holds no values of its own.
+- **Plain block CSS** (`blocks/*/style.css` and the plugin's `project-card`) has no build step, so it uses the properties directly: `var(--wp--preset--font-size--x-small)`, `var(--wp--preset--border-radius--md)`, `var(--wp--custom--transition--base)`.
 - **Prototype kits** load `design-system/colors_and_type.css`, which aliases the generated `tokens.css` under the older `--color-*`, `--font-size-*`, `--radius-*` names. It holds no values of its own.
 
 To add a token, put it in `theme.json` first, alias it in `_tokens.scss` if SCSS needs it, run `pnpm tokens`, and alias it in `design-system/colors_and_type.css` if the kits need it. Never write a literal value in a stylesheet when a token exists.
