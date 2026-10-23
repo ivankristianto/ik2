@@ -114,11 +114,6 @@
 	line-height: $leading-relaxed;
 	color: $color-ink;
 
-	// The 960px article column needs the larger body to hold ~90 characters a line.
-	@media (min-width: 56.25em) {
-		font-size: $size-base;
-	}
-
 	/* Reset margins so we can manage rhythm ourselves. */
 	> * {
 		margin-block: 0;
