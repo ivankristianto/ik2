@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
 function bootstrap(): void {
 	add_filter( 'wp_speculation_rules_configuration', __NAMESPACE__ . '\\prerender_on_hover' );
 	add_filter( 'wp_speculation_rules_href_exclude_paths', __NAMESPACE__ . '\\exclude_feed_paths' );
+	add_action( 'wp_load_speculation_rules', __NAMESPACE__ . '\\prerender_header_links_eagerly' );
 	add_action( 'wp_head', __NAMESPACE__ . '\\expect_main_landmark', 1 );
 }
 
@@ -47,6 +48,30 @@ function prerender_on_hover( ?array $config ): ?array {
  */
 function exclude_feed_paths( array $paths ): array {
 	return array_merge( $paths, [ '/feed', '/feed/*', '/*/feed', '/*/feed/*' ] );
+}
+
+/**
+ * Prerender the header nav and Resume links on a short hover instead of core's 200ms one.
+ *
+ * @param \WP_Speculation_Rules $speculation_rules Rules core is about to print.
+ */
+function prerender_header_links_eagerly( \WP_Speculation_Rules $speculation_rules ): void {
+	// A handful of static top pages, so eager costs little. `immediate` is
+	// refused for document rules, and the current page needs no prerender.
+	$speculation_rules->add_rule(
+		'prerender',
+		'ik2-header-links',
+		[
+			'source'    => 'document',
+			'where'     => [
+				'and' => [
+					[ 'selector_matches' => '.ik-header__nav a, .ik-header__resume a' ],
+					[ 'not' => [ 'selector_matches' => '[aria-current="page"]' ] ],
+				],
+			],
+			'eagerness' => 'eager',
+		]
+	);
 }
 
 /**
