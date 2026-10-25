@@ -1,5 +1,6 @@
 /**
- * Front-end JS entry: a lazy loader for the command palette.
+ * Front-end JS entry: a lazy loader for the command palette, plus the
+ * WebMCP article tools where the browser supports them.
  *
  * Nothing about the palette is needed for first paint, so this entry stays
  * tiny and only listens for the two ways to open it — ⌘K / Ctrl+K and the
@@ -59,6 +60,11 @@ function onIntent( e ) {
 	if ( e.target.closest( TRIGGER ) ) {
 		loadPalette();
 	}
+}
+
+// WebMCP is behind a flag in Chromium; every other browser skips the chunk entirely.
+if ( 'modelContext' in document ) {
+	import( /* webpackChunkName: "webmcp" */ './webmcp.js' );
 }
 
 document.addEventListener( 'keydown', onKeydown );
