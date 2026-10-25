@@ -4,13 +4,14 @@
  */
 
 import {
+	CATEGORY_SLUGS,
 	FORMATS,
 	MAX_LIMIT,
 	DEFAULT_LIMIT,
 	TOPICS,
 	articleUrl,
 	categoriesUrl,
-	categorySlugs,
+	categoryIdsFor,
 	isProtected,
 	listUrl,
 	readArticleRef,
@@ -43,7 +44,7 @@ const PAGING_PROPERTIES = {
 	},
 };
 
-let categoryIds = null;
+let categoryIdsBySlug = null;
 
 function htmlToText( html ) {
 	const doc = new window.DOMParser().parseFromString( html, 'text/html' );
@@ -78,24 +79,23 @@ async function getJson( url, signal ) {
 
 // Shared by concurrent calls, so it takes no signal: one cancelled call shouldn't fail another.
 function resolveCategories() {
-	if ( ! categoryIds ) {
-		const slugs = [ ...TOPICS, ...FORMATS ].filter( ( s ) => s !== 'all' );
-		categoryIds = getJson( categoriesUrl( restRoot, slugs ) ).then(
-			( res ) => {
-				if ( res.error ) {
-					throw new Error( res.error );
-				}
-				return new Map(
-					res.data.map( ( term ) => [ term.slug, term.id ] )
-				);
+	if ( ! categoryIdsBySlug ) {
+		categoryIdsBySlug = getJson(
+			categoriesUrl( restRoot, CATEGORY_SLUGS )
+		).then( ( res ) => {
+			if ( res.error ) {
+				throw new Error( res.error );
 			}
-		);
+			return new Map(
+				res.data.map( ( term ) => [ term.slug, term.id ] )
+			);
+		} );
 		// A failed lookup must not stick for the rest of the visit.
-		categoryIds.catch( () => {
-			categoryIds = null;
+		categoryIdsBySlug.catch( () => {
+			categoryIdsBySlug = null;
 		} );
 	}
-	return categoryIds;
+	return categoryIdsBySlug;
 }
 
 // Lets one call stop waiting on a shared promise without cancelling it for the others.
@@ -110,8 +110,8 @@ function untilAborted( promise, signal ) {
 	} );
 }
 
-// Cancellation re-throws; anything else goes back to the agent as a readable error.
-async function run( signal, work ) {
+// The agent never sees a thrown error's message, so only a cancellation may throw.
+async function withAgentErrors( signal, work ) {
 	try {
 		return await work();
 	} catch ( err ) {
@@ -122,17 +122,19 @@ async function run( signal, work ) {
 	}
 }
 
+async function fetchResults( url, page, signal ) {
+	const res = await getJson( url, signal );
+	return res.error ? res : toResults( res.data, res.total, page, htmlToText );
+}
+
 async function searchArticles( input, { signal } ) {
 	const args = readSearchInput( input );
 	if ( args.error ) {
 		return args;
 	}
-	return run( signal, async () => {
-		const res = await getJson( searchUrl( restRoot, args ), signal );
-		return res.error
-			? res
-			: toResults( res.data, res.total, args.page, htmlToText );
-	} );
+	return withAgentErrors( signal, () =>
+		fetchResults( searchUrl( restRoot, args ), args.page, signal )
+	);
 }
 
 async function listArticles( input, { signal } ) {
@@ -140,21 +142,14 @@ async function listArticles( input, { signal } ) {
 	if ( args.error ) {
 		return args;
 	}
-	return run( signal, async () => {
-		const ids = await untilAborted( resolveCategories(), signal );
-		const slugs = categorySlugs( args );
-		// A topic with no category yet has no articles, rather than every article.
-		if ( slugs.some( ( slug ) => ! ids.has( slug ) ) ) {
-			return { total: 0, page: args.page, articles: [] };
+	return withAgentErrors( signal, async () => {
+		const idsBySlug = await untilAborted( resolveCategories(), signal );
+		const categoryIds = categoryIdsFor( args, idsBySlug );
+		if ( ! categoryIds ) {
+			return toResults( [], 0, args.page, htmlToText );
 		}
-		const url = listUrl( restRoot, {
-			...args,
-			categoryIds: slugs.map( ( slug ) => ids.get( slug ) ),
-		} );
-		const res = await getJson( url, signal );
-		return res.error
-			? res
-			: toResults( res.data, res.total, args.page, htmlToText );
+		const url = listUrl( restRoot, { ...args, categoryIds } );
+		return fetchResults( url, args.page, signal );
 	} );
 }
 
@@ -165,7 +160,7 @@ async function getArticle( input, { signal } ) {
 			error: `Pass the URL of an article on ${ window.location.origin }, or its slug.`,
 		};
 	}
-	return run( signal, async () => {
+	return withAgentErrors( signal, async () => {
 		const res = await getJson( articleUrl( restRoot, ref ), signal );
 		if ( res.error ) {
 			return res;
@@ -214,14 +209,13 @@ const TOOLS = [
 					type: 'string',
 					enum: TOPICS,
 					default: 'all',
-					description: 'Subject area. "all" means any topic.',
+					description: 'Subject area to narrow the list to.',
 				},
 				format: {
 					type: 'string',
 					enum: FORMATS,
 					default: 'all',
-					description:
-						'Kind of article, such as a how-to guide or a short note. "all" means any format.',
+					description: 'Article format to narrow the list to.',
 				},
 				...PAGING_PROPERTIES,
 			},

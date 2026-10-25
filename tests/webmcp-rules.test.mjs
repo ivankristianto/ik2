@@ -4,7 +4,8 @@ import test from 'node:test';
 import {
 	readArticleRef,
 	articleUrl,
-	categorySlugs,
+	CATEGORY_SLUGS,
+	categoryIdsFor,
 	listUrl,
 	readListInput,
 	readSearchInput,
@@ -76,12 +77,30 @@ test( 'an unknown topic or format is rejected with the allowed values', () => {
 	assert.ok( readListInput( { format: 'video' } ).formats );
 } );
 
+const idsBySlug = new Map( [
+	[ 'ai', 3 ],
+	[ 'guide', 4 ],
+] );
+
 test( '"all" adds no category filter', () => {
-	assert.deepEqual( categorySlugs( readListInput( {} ) ), [] );
+	assert.deepEqual( categoryIdsFor( readListInput( {} ), idsBySlug ), [] );
 	assert.deepEqual(
-		categorySlugs( readListInput( { topic: 'ai', format: 'guide' } ) ),
-		[ 'ai', 'guide' ]
+		categoryIdsFor( readListInput( { topic: 'ai', format: 'guide' } ), idsBySlug ),
+		[ 3, 4 ]
 	);
+} );
+
+test( 'a topic with no category yet matches nothing instead of everything', () => {
+	assert.equal(
+		categoryIdsFor( readListInput( { topic: 'security' } ), idsBySlug ),
+		null
+	);
+} );
+
+test( 'the category lookup covers every topic and format but not "all"', () => {
+	assert.ok( ! CATEGORY_SLUGS.includes( 'all' ) );
+	assert.ok( CATEGORY_SLUGS.includes( 'web-apis' ) );
+	assert.ok( CATEGORY_SLUGS.includes( 'experiment' ) );
 } );
 
 test( 'a topic plus a format must both match', () => {

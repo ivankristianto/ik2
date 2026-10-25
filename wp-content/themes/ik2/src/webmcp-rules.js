@@ -14,6 +14,9 @@ export const TOPICS = [
 	'tooling',
 ];
 export const FORMATS = [ 'all', 'guide', 'note', 'experiment' ];
+export const CATEGORY_SLUGS = [ ...TOPICS, ...FORMATS ].filter(
+	( slug ) => slug !== 'all'
+);
 
 export const DEFAULT_LIMIT = 10;
 export const MAX_LIMIT = 20;
@@ -77,9 +80,13 @@ export function searchUrl( restRoot, { query, limit, page } ) {
 	} );
 }
 
-// The category slugs a list request filters on; "all" means no filter.
-export function categorySlugs( { topic, format } ) {
-	return [ topic, format ].filter( ( slug ) => slug !== 'all' );
+// Null when a slug has no category yet: that filter matches no articles, not every article.
+export function categoryIdsFor( { topic, format }, idsBySlug ) {
+	const slugs = [ topic, format ].filter( ( slug ) => slug !== 'all' );
+	if ( slugs.some( ( slug ) => ! idsBySlug.has( slug ) ) ) {
+		return null;
+	}
+	return slugs.map( ( slug ) => idsBySlug.get( slug ) );
 }
 
 export function categoriesUrl( restRoot, slugs ) {
@@ -91,6 +98,7 @@ export function categoriesUrl( restRoot, slugs ) {
 }
 
 // Topic and format both live in `category`, so the IDs must all match, not any.
+// Unlike the archive this skips child categories: REST can't AND two clauses on one taxonomy.
 export function listUrl( restRoot, { categoryIds, limit, page } ) {
 	const params = { per_page: limit, page, _fields: SUMMARY_FIELDS };
 	if ( categoryIds.length ) {
@@ -148,25 +156,30 @@ export function isProtected( post ) {
 	return Boolean( post?.excerpt?.protected || post?.content?.protected );
 }
 
-export function toSummary( post, toText ) {
+function toHeading( post, toText ) {
 	return {
 		title: toText( post.title?.rendered ?? '' ),
 		url: post.link,
 		date: post.date,
+	};
+}
+
+function toSummary( post, toText ) {
+	return {
+		...toHeading( post, toText ),
 		summary: toText( post.excerpt?.rendered ?? '' ),
 	};
 }
 
 export function toArticle( post, toText ) {
 	return {
-		title: toText( post.title?.rendered ?? '' ),
-		url: post.link,
-		date: post.date,
+		...toHeading( post, toText ),
 		modified: post.modified,
 		content: toText( post.content?.rendered ?? '' ),
 	};
 }
 
+// `total` is WordPress's count, as on the archive. Anonymous search already skips protected posts.
 export function toResults( posts, total, page, toText ) {
 	return {
 		total,
