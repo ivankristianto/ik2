@@ -1,16 +1,6 @@
 /**
- * Front-end JS entry: a lazy loader for the command palette, plus the
- * WebMCP article tools where the browser supports them.
- *
- * Nothing about the palette is needed for first paint, so this entry stays
- * tiny and only listens for the two ways to open it — ⌘K / Ctrl+K and the
- * header button. On first use it imports the palette module (which pulls in
- * its own stylesheet chunk) and hands over the request. Hovering or focusing
- * the header button warms the module so a click opens instantly.
- *
- * Styles are not bundled here — critical CSS is inlined in <head>, block
- * styles load on demand, and page-section styles are enqueued per template
- * (see inc/assets.php).
+ * Front-end JS entry, kept tiny: imports the command palette on ⌘K / Ctrl+K or a header button
+ * click (hover or focus warms it), and the WebMCP article tools where the browser has them.
  */
 
 const TRIGGER = '.ik-header__cmd';
