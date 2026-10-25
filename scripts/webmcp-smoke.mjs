@@ -103,11 +103,6 @@ const PAGE_CHECKS = `( async () => {
 	expect( ( await call( 'list_articles', { topic: 'nope' } ) ).error, 'list_articles accepted an unknown topic' );
 	expect( ( await call( 'search_articles', {} ) ).error, 'search_articles accepted an empty query' );
 
-	const cancelled = new AbortController();
-	cancelled.abort();
-	const rejected = await call( 'list_articles', {}, { signal: cancelled.signal } ).then( () => false, () => true );
-	expect( rejected, 'a cancelled list_articles call still resolved' );
-
 	const posts = performance.getEntriesByType( 'resource' ).map( ( e ) => e.name ).filter( ( n ) => n.includes( '/wp/v2/posts' ) );
 	expect( posts.length > 0, 'no wp/v2/posts requests were made' );
 	expect( posts.every( ( n ) => n.includes( 'status=publish' ) ), 'a posts request did not ask for status=publish' );

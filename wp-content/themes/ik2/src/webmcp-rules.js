@@ -1,5 +1,5 @@
 /**
- * Input checks, REST URLs and response shaping for the WebMCP article tools.
+ * Input checks, REST URLs, response shaping and cancellation for the WebMCP tools.
  * Pure, so node:test covers it without a DOM; webmcp.js does the fetching.
  */
 
@@ -188,4 +188,16 @@ export function toResults( posts, total, page, toText ) {
 			.filter( ( post ) => ! isProtected( post ) )
 			.map( ( post ) => toSummary( post, toText ) ),
 	};
+}
+
+// Lets one call stop waiting on a shared promise without cancelling it for the others.
+export function untilAborted( promise, signal ) {
+	return new Promise( ( resolve, reject ) => {
+		signal.throwIfAborted();
+		const onAbort = () => reject( signal.reason );
+		signal.addEventListener( 'abort', onAbort, { once: true } );
+		promise
+			.then( resolve, reject )
+			.finally( () => signal.removeEventListener( 'abort', onAbort ) );
+	} );
 }

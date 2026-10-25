@@ -12,6 +12,7 @@ import {
 	searchUrl,
 	toArticle,
 	toResults,
+	untilAborted,
 } from '../wp-content/themes/ik2/src/webmcp-rules.js';
 
 const ORIGIN = 'https://www.ivankristianto.com';
@@ -202,4 +203,31 @@ test('an article comes back as plain text', () => {
 	);
 	assert.equal(article.content, 'Setup');
 	assert.equal(article.modified, '2026-10-07T10:00:00');
+});
+
+const pending = () => new Promise(() => {});
+
+test('a caller that cancels stops waiting on the shared lookup at once', async () => {
+	const controller = new AbortController();
+	const waiting = untilAborted(pending(), controller.signal);
+	controller.abort(new Error('cancelled'));
+	await assert.rejects(waiting, /cancelled/);
+});
+
+test('one caller cancelling leaves the others waiting for the value', async () => {
+	let resolveLookup;
+	const shared = new Promise((resolve) => (resolveLookup = resolve));
+	const cancelled = new AbortController();
+	const first = untilAborted(shared, cancelled.signal);
+	const second = untilAborted(shared, new AbortController().signal);
+	cancelled.abort();
+	resolveLookup('ids');
+	await assert.rejects(first);
+	assert.equal(await second, 'ids');
+});
+
+test('a caller that was cancelled before asking never waits', async () => {
+	await assert.rejects(
+		untilAborted(Promise.resolve('ids'), AbortSignal.abort())
+	);
 });

@@ -20,6 +20,7 @@ import {
 	searchUrl,
 	toArticle,
 	toResults,
+	untilAborted,
 } from './webmcp-rules.js';
 
 const restRoot =
@@ -96,18 +97,6 @@ function resolveCategories() {
 		} );
 	}
 	return categoryIdsBySlug;
-}
-
-// Lets one call stop waiting on a shared promise without cancelling it for the others.
-function untilAborted( promise, signal ) {
-	return new Promise( ( resolve, reject ) => {
-		signal.throwIfAborted();
-		const onAbort = () => reject( signal.reason );
-		signal.addEventListener( 'abort', onAbort, { once: true } );
-		promise
-			.then( resolve, reject )
-			.finally( () => signal.removeEventListener( 'abort', onAbort ) );
-	} );
 }
 
 // The agent never sees a thrown error's message, so only a cancellation may throw.
