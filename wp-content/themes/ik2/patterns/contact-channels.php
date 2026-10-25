@@ -29,8 +29,8 @@ $ik2_channels = [
 	],
 	[
 		'label' => __( 'Twitter', 'ik2' ),
-		'value' => '@ivankristianto',
-		'href'  => 'https://twitter.com/ivankristianto',
+		'value' => '@ivankrisdotcom',
+		'href'  => 'https://x.com/ivankrisdotcom',
 		'note'  => __( 'Drive-by chat, retweets, occasional rants.', 'ik2' ),
 	],
 	[
