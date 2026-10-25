@@ -13,6 +13,7 @@
  *  - `index`  — front-end JS: the command palette's lazy loader. The palette
  *    itself is a dynamic `import()` chunk (`palette.js` + `palette.css`,
  *    which it imports) that webpack emits alongside and loads on first use.
+ *    It also imports the `webmcp` chunk, only in browsers with WebMCP.
  *  - `lightbox-loader`: single Articles only: marks enlargeable images and
  *    `import()`s the lightbox chunk (`lightbox.js` + `lightbox.css`) on first use.
  *  - `editor` — `editor.css`, loaded via `add_editor_style()` in inc/setup.php.
