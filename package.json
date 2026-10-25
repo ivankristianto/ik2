@@ -19,7 +19,8 @@
 		"packages-update": "wp-scripts packages-update",
 		"release": "node scripts/release.mjs",
 		"tokens": "node scripts/sync-tokens.mjs",
-		"tokens:check": "node scripts/sync-tokens.mjs --check"
+		"tokens:check": "node scripts/sync-tokens.mjs --check",
+		"test:webmcp": "node scripts/webmcp-smoke.mjs"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^27.1.0",
