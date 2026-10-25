@@ -100,8 +100,8 @@ export function listUrl( restRoot, { categoryIds, limit, page } ) {
 	return postsUrl( restRoot, params );
 }
 
-// Null for another origin's URL, so an agent can't point the tool at a third-party site.
-export function articleSlug( ref, origin ) {
+// Null for any other origin or path shape, so the tool can't be aimed at other pages.
+export function readArticleRef( ref, origin ) {
 	const value = typeof ref === 'string' ? ref.trim() : '';
 	if ( ! value ) {
 		return null;
@@ -117,14 +117,30 @@ export function articleSlug( ref, origin ) {
 		if ( url.origin !== origin ) {
 			return null;
 		}
+		const id = url.searchParams.get( 'p' );
+		if ( id && /^\d+$/.test( id ) ) {
+			return { id: Number( id ) };
+		}
 		path = url.pathname;
 	}
-	const slug = path.split( '/' ).filter( Boolean ).pop() ?? '';
-	return /^[a-z0-9-]+$/i.test( slug ) ? slug.toLowerCase() : null;
+	// Permalinks are /%postname%/, plus a page number on posts split with <!--nextpage-->.
+	const segments = path.split( '/' ).filter( Boolean );
+	const isPaged = segments.length === 2 && /^\d+$/.test( segments[ 1 ] );
+	if ( segments.length !== 1 && ! isPaged ) {
+		return null;
+	}
+	let slug;
+	try {
+		slug = decodeURIComponent( segments[ 0 ] ).toLowerCase();
+	} catch {
+		return null;
+	}
+	return /^[\p{L}\p{N}_-]+$/u.test( slug ) ? { slug } : null;
 }
 
-export function articleUrl( restRoot, slug ) {
-	return postsUrl( restRoot, { slug, _fields: ARTICLE_FIELDS } );
+export function articleUrl( restRoot, { slug, id } ) {
+	const match = id ? { include: id } : { slug };
+	return postsUrl( restRoot, { ...match, _fields: ARTICLE_FIELDS } );
 }
 
 // Anonymous REST still lists password-protected posts, with the body withheld.

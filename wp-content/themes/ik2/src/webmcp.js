@@ -8,12 +8,12 @@ import {
 	MAX_LIMIT,
 	DEFAULT_LIMIT,
 	TOPICS,
-	articleSlug,
 	articleUrl,
 	categoriesUrl,
 	categorySlugs,
 	isProtected,
 	listUrl,
+	readArticleRef,
 	readListInput,
 	readSearchInput,
 	searchUrl,
@@ -159,20 +159,22 @@ async function listArticles( input, { signal } ) {
 }
 
 async function getArticle( input, { signal } ) {
-	const slug = articleSlug( input?.article, window.location.origin );
-	if ( ! slug ) {
+	const ref = readArticleRef( input?.article, window.location.origin );
+	if ( ! ref ) {
 		return {
 			error: `Pass the URL of an article on ${ window.location.origin }, or its slug.`,
 		};
 	}
 	return run( signal, async () => {
-		const res = await getJson( articleUrl( restRoot, slug ), signal );
+		const res = await getJson( articleUrl( restRoot, ref ), signal );
 		if ( res.error ) {
 			return res;
 		}
 		const post = res.data[ 0 ];
 		if ( ! post ) {
-			return { error: `No published article has the slug "${ slug }".` };
+			return {
+				error: `No published article matches "${ input.article }".`,
+			};
 		}
 		if ( isProtected( post ) ) {
 			return { error: 'That article is password protected.' };

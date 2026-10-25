@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
-	articleSlug,
+	readArticleRef,
 	articleUrl,
 	categorySlugs,
 	listUrl,
@@ -66,7 +66,7 @@ test( 'every posts query asks for published posts only', () => {
 		params( listUrl( REST, { categoryIds: [], limit: 5, page: 1 } ) ).get( 'status' ),
 		'publish'
 	);
-	assert.equal( params( articleUrl( REST, 'some-post' ) ).get( 'status' ), 'publish' );
+	assert.equal( params( articleUrl( REST, { slug: 'some-post' } ) ).get( 'status' ), 'publish' );
 } );
 
 test( 'an unknown topic or format is rejected with the allowed values', () => {
@@ -93,20 +93,53 @@ test( 'a topic plus a format must both match', () => {
 } );
 
 test( 'an article can be named by its URL or its slug', () => {
-	assert.equal(
-		articleSlug( `${ ORIGIN }/chrome-modern-web-guidance/`, ORIGIN ),
-		'chrome-modern-web-guidance'
+	const slug = { slug: 'chrome-modern-web-guidance' };
+	assert.deepEqual(
+		readArticleRef( `${ ORIGIN }/chrome-modern-web-guidance/`, ORIGIN ),
+		slug
 	);
+	assert.deepEqual(
+		readArticleRef( `${ ORIGIN }/chrome-modern-web-guidance/?utm=x#top`, ORIGIN ),
+		slug
+	);
+	assert.deepEqual( readArticleRef( 'chrome-modern-web-guidance', ORIGIN ), slug );
+} );
+
+test( 'a page of a split article resolves to the article', () => {
+	assert.deepEqual( readArticleRef( `${ ORIGIN }/long-read/2/`, ORIGIN ), {
+		slug: 'long-read',
+	} );
+} );
+
+test( 'a ?p= link resolves by post ID', () => {
+	assert.deepEqual( readArticleRef( `${ ORIGIN }/?p=1981`, ORIGIN ), {
+		id: 1981,
+	} );
 	assert.equal(
-		articleSlug( 'chrome-modern-web-guidance', ORIGIN ),
-		'chrome-modern-web-guidance'
+		params( articleUrl( REST, { id: 1981 } ) ).get( 'include' ),
+		'1981'
 	);
 } );
 
-test( 'an article on another site, or a malformed one, has no slug', () => {
-	assert.equal( articleSlug( 'https://example.com/some-post/', ORIGIN ), null );
-	assert.equal( articleSlug( '', ORIGIN ), null );
-	assert.equal( articleSlug( '../wp-admin?x=1', ORIGIN ), null );
+test( 'real slugs with underscores or non-Latin letters are accepted', () => {
+	assert.deepEqual(
+		readArticleRef( `${ ORIGIN }/tips-write-print_r-output-to-file/`, ORIGIN ),
+		{ slug: 'tips-write-print_r-output-to-file' }
+	);
+	assert.deepEqual(
+		readArticleRef( `${ ORIGIN }/%E6%97%A5%E6%9C%AC/`, ORIGIN ),
+		{ slug: '日本' }
+	);
+} );
+
+test( 'archive URLs, other sites and malformed input are not articles', () => {
+	assert.equal( readArticleRef( `${ ORIGIN }/category/wordpress/`, ORIGIN ), null );
+	assert.equal( readArticleRef( `${ ORIGIN }/tag/php/page/2/`, ORIGIN ), null );
+	assert.equal( readArticleRef( `${ ORIGIN }/`, ORIGIN ), null );
+	assert.equal( readArticleRef( 'https://example.com/some-post/', ORIGIN ), null );
+	assert.equal( readArticleRef( `${ ORIGIN }/%E0%A4%A/`, ORIGIN ), null );
+	assert.equal( readArticleRef( '', ORIGIN ), null );
+	assert.equal( readArticleRef( '../wp-admin?x=1', ORIGIN ), null );
 } );
 
 test( 'password-protected posts are dropped from results', () => {
