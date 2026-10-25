@@ -32,6 +32,16 @@ test( 'a search needs words to look for', () => {
 	assert.ok( readSearchInput( { query: '   ' } ).error );
 } );
 
+test( 'a missing input object comes back as an error, not a throw', () => {
+	assert.ok( readSearchInput( null ).error );
+	assert.deepEqual( readListInput( null ), {
+		topic: 'all',
+		format: 'all',
+		limit: 10,
+		page: 1,
+	} );
+} );
+
 test( 'a search fills in the paging defaults the browser leaves out', () => {
 	assert.deepEqual( readSearchInput( { query: ' webmcp ' } ), {
 		query: 'webmcp',

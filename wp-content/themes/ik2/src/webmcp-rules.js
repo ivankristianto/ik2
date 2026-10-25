@@ -43,25 +43,28 @@ function readPaging( input ) {
 	return { limit, page };
 }
 
-export function readSearchInput( input = {} ) {
-	const query = typeof input.query === 'string' ? input.query.trim() : '';
+// `input ?? {}`: a throw here would reach the agent as a bare failure, not a message.
+export function readSearchInput( input ) {
+	const args = input ?? {};
+	const query = typeof args.query === 'string' ? args.query.trim() : '';
 	if ( ! query ) {
 		return { error: 'Pass the words to search for in query.' };
 	}
-	const paging = readPaging( input );
+	const paging = readPaging( args );
 	return paging.error ? paging : { query, ...paging };
 }
 
-export function readListInput( input = {} ) {
-	const topic = input.topic ?? 'all';
-	const format = input.format ?? 'all';
+export function readListInput( input ) {
+	const args = input ?? {};
+	const topic = args.topic ?? 'all';
+	const format = args.format ?? 'all';
 	if ( ! TOPICS.includes( topic ) ) {
 		return { error: `Unknown topic "${ topic }".`, topics: TOPICS };
 	}
 	if ( ! FORMATS.includes( format ) ) {
 		return { error: `Unknown format "${ format }".`, formats: FORMATS };
 	}
-	const paging = readPaging( input );
+	const paging = readPaging( args );
 	return paging.error ? paging : { topic, format, ...paging };
 }
 

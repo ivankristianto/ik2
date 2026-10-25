@@ -61,7 +61,12 @@ function htmlToText( html ) {
 // Cookies are omitted so a logged-in visitor can never get drafts or private posts back.
 async function getJson( url, signal ) {
 	const res = await fetch( url, { credentials: 'omit', signal } );
-	const data = await res.json().catch( () => null );
+	const data = await res.json().catch( ( err ) => {
+		if ( signal?.aborted ) {
+			throw err;
+		}
+		return null;
+	} );
 	if ( ! res.ok ) {
 		return {
 			error:
@@ -91,6 +96,18 @@ function resolveCategories() {
 		} );
 	}
 	return categoryIds;
+}
+
+// Lets one call stop waiting on a shared promise without cancelling it for the others.
+function untilAborted( promise, signal ) {
+	return new Promise( ( resolve, reject ) => {
+		signal.throwIfAborted();
+		const onAbort = () => reject( signal.reason );
+		signal.addEventListener( 'abort', onAbort, { once: true } );
+		promise
+			.then( resolve, reject )
+			.finally( () => signal.removeEventListener( 'abort', onAbort ) );
+	} );
 }
 
 // Cancellation re-throws; anything else goes back to the agent as a readable error.
@@ -124,8 +141,7 @@ async function listArticles( input, { signal } ) {
 		return args;
 	}
 	return run( signal, async () => {
-		const ids = await resolveCategories();
-		signal.throwIfAborted();
+		const ids = await untilAborted( resolveCategories(), signal );
 		const slugs = categorySlugs( args );
 		// A topic with no category yet has no articles, rather than every article.
 		if ( slugs.some( ( slug ) => ! ids.has( slug ) ) ) {
