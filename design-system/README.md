@@ -13,7 +13,6 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 | File / Folder         | Purpose                                                                   |
 | :-------------------- | :------------------------------------------------------------------------ |
 | `README.md`           | This file: context, content rules, visual foundations, iconography        |
-| `SKILL.md`            | Agent Skills front-matter so this folder can be loaded as a Claude skill  |
 | `tokens.css`          | Generated from the production `theme.json` by `pnpm tokens`               |
 | `colors_and_type.css` | Short-name aliases of `tokens.css`, plus base element styles              |
 | `theme.json`          | Copy of `wp-content/themes/ik2/theme.json`                                |
@@ -33,15 +32,15 @@ The system is intentionally **restrained**. It exists so Ivan can hit publish mo
 
 ## Brand at a glance
 
-| Aspect         | Value                                                                   |
-| :------------- | :---------------------------------------------------------------------- |
-| Author         | Ivan Kristianto                                                         |
-| Role           | Senior Web Engineer, Google Developer Expert                            |
-| Audience       | Working web engineers, WordPress developers, performance/security nerds |
-| Topics         | WordPress · Performance · Security · AI · Linux · DevTools · JavaScript |
-| Mood           | Minimal, readable, technical, calm, practical                           |
-| Default theme  | Light only (drafting white); a dark mode may come later via `theme.json`    |
-| Primary accent | Bookcloth green `#2F5D50`                                               |
+| Aspect         | Value                                                                    |
+| :------------- | :----------------------------------------------------------------------- |
+| Author         | Ivan Kristianto                                                          |
+| Role           | Senior Web Engineer, Google Developer Expert                             |
+| Audience       | Working web engineers, WordPress developers, performance/security nerds  |
+| Topics         | WordPress · Performance · Security · AI · Linux · DevTools · JavaScript  |
+| Mood           | Minimal, readable, technical, calm, practical                            |
+| Default theme  | Light only (drafting white); a dark mode may come later via `theme.json` |
+| Primary accent | Bookcloth green `#2F5D50`                                                |
 
 ---
 
@@ -197,7 +196,6 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 1. **CSS-only projects and prototypes:** import `colors_and_type.css` at the top of your stylesheet, with `tokens.css` beside it. Every token is a CSS custom property generated from the production `theme.json`.
 2. **WordPress (Gutenberg):** the production theme already owns `wp-content/themes/ik2/theme.json`. Edit tokens there and run `pnpm tokens`, never the other way. In block markup tokens are `var:preset|color|paper`, `var:preset|font-size|lg`; in CSS they are `var(--wp--preset--color--paper)` and `var(--wp--custom--transition--base)`.
 3. **Design / mocks:** open `ui_kits/blog/index.html` for an interactive recreation. Pull JSX components from `ui_kits/blog/components/`.
-4. **Agent / Claude Code:** see `SKILL.md`. The folder is a self-contained skill.
 
 ---
 

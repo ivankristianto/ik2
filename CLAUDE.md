@@ -36,7 +36,7 @@ CI: `.github/workflows/quality.yml` runs all four on push/PR. **Always run the r
 
 ## Design system status
 
-`design-system/` is **both** a reference and a self-contained Claude skill (`SKILL.md`, `name: ivankristianto-design`) that can be loaded as a skill. `wp-content/themes/ik2/theme.json` is the source of truth. `pnpm tokens` (`scripts/sync-tokens.mjs`) copies it to `design-system/theme.json` and generates `design-system/tokens.css` with the same `--wp--*` custom properties WordPress prints. `colors_and_type.css` holds only aliases onto those. Quality CI runs `pnpm tokens:check` and fails when the generated files are stale. Never edit them by hand.
+`design-system/` is the human-readable design reference. `wp-content/themes/ik2/theme.json` is the source of truth. `pnpm tokens` (`scripts/sync-tokens.mjs`) copies it to `design-system/theme.json` and generates `design-system/tokens.css` with the same `--wp--*` custom properties WordPress prints. `colors_and_type.css` holds only aliases onto those. Quality CI runs `pnpm tokens:check` and fails when the generated files are stale. Never edit them by hand.
 
 ## Architecture
 
@@ -71,7 +71,7 @@ The theme's front-end CSS is split for load performance — there is **no monoli
 
 ## Design rules that constrain code changes
 
-These are enforced by the design brief (see `design-system/README.md` and `SKILL.md`). They affect what you may add, not just what you write:
+These are enforced by the design brief (see `design-system/README.md`). They affect what you may add, not just what you write:
 
 - **One accent color**: Bookcloth green `#2F5D50` (palette slug `signal`). Anything that looks "accent-y" must be `var(--wp--preset--color--signal)` in CSS or `$color-signal` in SCSS (`var(--color-accent)` in the prototype kits). The old terracotta and blue accents are retired. Status colors (green/amber/red) are for status only.
 - **Light only.** No dark-mode CSS and no `prefers-color-scheme` blocks. If a dark mode comes later, it will be added through `theme.json` (a style variation or settings).
@@ -143,7 +143,3 @@ Only cut a release when the user asks. After the tag is pushed, watch the run wi
 ## Memory
 
 Project-specific memory lives in `.claude/memory/`. The index is `.claude/memory/MEMORY.md` — read it at the start of each session and consult individual files when relevant. When saving new memories for this project, write them to `.claude/memory/`, not to the global memory store.
-
-## Skill packaging
-
-`design-system/` is itself a loadable Claude skill — `SKILL.md` has the front matter (`name: ivankristianto-design`, `user-invocable: true`). Edits to `README.md` / `SKILL.md` change skill behavior for anyone who has loaded this folder as a skill.

@@ -10,7 +10,7 @@ The WordPress project behind [ivankristianto.com](https://www.ivankristianto.com
 ├── package.json               # pnpm, @wordpress/scripts, ESLint/Stylelint/Prettier
 ├── phpcs.xml.dist             # WordPress Coding Standards ruleset
 ├── phpstan.neon.dist          # PHPStan level 6 + phpstan-wordpress
-├── design-system/             # "Ink, Paper, and Signal" — tokens, previews, UI kit, Claude skill
+├── design-system/             # "Ink, Paper, and Signal" — tokens, previews, UI kit
 ├── samples/                   # (gitignored) extended prototype sandbox
 └── wp-content/
     ├── plugins/               # composer-managed (gitignored)
@@ -263,7 +263,7 @@ The theme expects WordPress 6.6+.
 
 ## Design system
 
-`design-system/` is a self-contained Claude skill (`SKILL.md`) and human-readable design reference (`README.md`). It owns the visual rules: colors, type, spacing, voice, iconography. Read it before writing UI code. Its token files (`theme.json`, `tokens.css`) are generated from `wp-content/themes/ik2/theme.json`, which is the canonical source, and `colors_and_type.css` only aliases them; nothing else may hardcode colors or spacing.
+`design-system/` is the human-readable design reference (`README.md`). It owns the visual rules: colors, type, spacing, voice, iconography. Read it before writing UI code. Its token files (`theme.json`, `tokens.css`) are generated from `wp-content/themes/ik2/theme.json`, which is the canonical source, and `colors_and_type.css` only aliases them; nothing else may hardcode colors or spacing.
 
 See [`design-system/README.md`](./design-system/README.md) and [`CLAUDE.md`](./CLAUDE.md).
 
