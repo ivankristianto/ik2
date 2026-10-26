@@ -15,3 +15,6 @@
 - [recolor 2026-10](project-recolor-2026-10.md) — bookcloth green accent on drafting white (never cream), branch recolor-bookcloth-green uncommitted; keep prompt wordmark + portrait frame; copy items pending
 - [type scale 2026-10](project-type-scale-2026-10.md) — 8 fluid steps (x-small..xxx-large), em breakpoints, new slug names to dodge stored preset classes; branch type-scale-a11y
 - [accessibility page](project-accessibility-page.md) — /accessibility is a dynamic block fed by report.php; update statuses + date there after each test
+- [release guard vs untracked files](project-release-untracked-guard.md) — bypass the clean-tree check with a status.showUntrackedFiles=no env var, never move the audit dirs
+- [blog idea queue](project-blog-idea-queue.md) — WebMCP, a11y audit and PHP 8.x scan queued for posts; webfont-split research done, draft next; blog-* skill output paths
+- [blog voice](feedback-blog-voice.md) — drafts must match his real posts (contractions, short version first, time order, code blocks over tables); run recent-posts.py first; no [Ivan: ...] placeholders in drafts, ask during research
