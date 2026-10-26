@@ -29,7 +29,7 @@ For every draft, mark each item pass or fail with one line of evidence quoting t
 - **V4** Headings name things from this story; none could be pasted unchanged into an unrelated post.
 - **V5** Sections end when the content ends. No punchline, moral or "readers can stop here" closers.
 - **V6** Speaks to the reader directly at least once, in a way that gives them something to do or decide.
-- **V7** Invents no personal moment, feeling, time or anecdote that the research file does not contain. `[Ivan: ...]` gaps are fine.
+- **V7** Invents no personal moment, feeling, time or anecdote that the research file does not contain. A `[Ivan: ...]` placeholder or any note addressed to Ivan inside the draft also fails V7.
 - **V8** Holistic: next to the six posts, would a regular reader believe Ivan wrote this? Score 1 to 5. Pass at 4 or 5.
 
 Then, for each pair of drafts on the same research file, say which one sounds more like Ivan and why, in two sentences. Ties are allowed only when you genuinely cannot choose.

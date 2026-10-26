@@ -32,7 +32,7 @@ A developer who knows WordPress or the web basics and has not seen your project.
 
 ## Voice
 
-Run `python3 -I .claude/skills/blog-draft/recent-posts.py 3` and read his latest posts, then read `references/voice.md` before you write the first sentence. Contractions everywhere (I couldn't, it's, doesn't), real commands and output in small code blocks instead of tables, and a closing "If you ..." list with Sources. `references/voice.md` quotes Ivan's own posts and shows what earlier drafts of this skill got wrong. The short version: start in a moment (when, what he was doing, what broke), say why he is writing, give the answer the way a colleague would in a sentence, show what it cost him, make his choices out loud with the reason, and talk to one reader. Use only moments, costs and feelings that the research file records; leave a `[Ivan: ...]` gap for the rest.
+Run `python3 -I .claude/skills/blog-draft/recent-posts.py 3` and read his latest posts, then read `references/voice.md` before you write the first sentence. Contractions everywhere (I couldn't, it's, doesn't), real commands and output in small code blocks instead of tables, and a closing "If you ..." list with Sources. `references/voice.md` quotes Ivan's own posts and shows what earlier drafts of this skill got wrong. The short version: start in a moment (when, what he was doing, what broke), say why he is writing, give the answer the way a colleague would in a sentence, show what it cost him, make his choices out loud with the reason, and talk to one reader. Use only moments, costs and feelings that the research file records or Ivan tells you. Never write a `[Ivan: ...]` placeholder, a question to Ivan or a notes block into the draft: the file is the post, nothing else.
 
 Global rules, strictly: no em dashes (use commas, periods or parentheses), no hype or consultant words (see the vocabulary guardrails in `~/.claude/CLAUDE.md`), no "it's not X, it's Y" or "not just X, but Y", no sweeping openings, no "In conclusion", no list-padding, no repeated sentence rhythm. Straight quotes. Sentence case headings. Cut any sentence that could appear unchanged in a random LinkedIn post.
 
@@ -53,7 +53,7 @@ Paragraphs run one to four sentences. Use a list only for steps or parallel item
 
 ## Process
 
-1. Read the research file and the global style rules. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
+1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing and when it happened. If either is missing and was never asked, ask him now with `AskUserQuestion` (one batch, concrete options from the research) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
 2. Frontmatter at the top of the file:
    ```yaml
    ---
@@ -70,12 +70,13 @@ Paragraphs run one to four sentences. Use a list only for steps or parallel item
    ```bash
    rg -n '\x{2014}|\x{2013}' <draft>            # em and en dashes, must be empty
    rg -n -i 'delve|seamless|robust|leverage|crucial|pivotal|comprehensive|powerful|showcase|landscape|unlock|elevate' <draft>
-   rg -n -i -F -f <(rg -o '^- `(.+)`$' -r '$1' .claude/skills/blog-draft/references/voice.md) <draft>   # giveaway phrases, must be empty
+   rg -n -i -F -f <(sed -n 's/^- `\(.*\)`$/\1/p' .claude/skills/blog-draft/references/voice.md) <draft>   # giveaway phrases, must be empty
+   rg -n -i '\[ivan|notes for ivan|\bTODO\b' <draft>   # placeholders or notes to Ivan, must be empty
    bash .claude/skills/blog-ideas/leak-check.sh <draft>
    wc -w <draft>
    ```
    Also confirm every code block was run, every URL resolves (`curl -sI`), and every number matches the research file.
-5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, spots that need his own experience), and the draft path as a `file:///` link. Ask for edits. Publishing is Ivan's call, and a WordPress draft is created only when he asks for it.
+5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, image ideas with alt text), and the draft path as a `file:///` link. Flags live in the chat reply only, never in the draft file. Ask for edits. Publishing is Ivan's call, and a WordPress draft is created only when he asks for it.
 
 ## Images
 

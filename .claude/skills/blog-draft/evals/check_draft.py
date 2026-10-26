@@ -97,6 +97,8 @@ def grade_draft(run, name, offline, results):
     giveaways = re.findall(r"^- `(.+)`$", VOICE.read_text(), re.M)
     found = sorted({g for g in giveaways if g.lower() in text.lower()})
     check(results, "No giveaway phrases from references/voice.md", not found, f"hits: {found}")
+    asks = re.findall(r"(?im)\[ivan\b[^\]\n]*\]?|^.*notes for ivan.*$|\bTODO\b", text)
+    check(results, "No placeholders or notes to Ivan in the draft", not asks, f"hits: {asks[:3]}")
     heads = re.findall(r"^#{2,}\s+(.+)$", body, re.M)
     generic = [h for h in heads if re.fullmatch(TEMPLATE_HEADINGS, h.strip().rstrip(".:").lower())]
     check(results, "Headings are specific to the story, not template labels", not generic, f"generic: {generic}")

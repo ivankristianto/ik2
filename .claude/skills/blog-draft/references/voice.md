@@ -98,11 +98,11 @@ The check script fails a draft that contains any of these (case-insensitive). Do
 
 ## Do not invent the person
 
-Every moment, hour, feeling and reason in the draft must come from the research file (its Story and Questions for Ivan sections) or from Ivan. If the story has no time, place or stake in it, leave a gap like `[Ivan: when did you notice this?]` in the draft and list it in your chat report. A made-up "I spent the evening on this" is worse than a flat sentence, because it is a false statement under his name.
+Every moment, hour, feeling and reason in the draft must come from the research file (its Story and Questions for Ivan sections) or from Ivan. If the story has no time, place or stake in it, ask him with `AskUserQuestion` before drafting. Never put a placeholder like `[Ivan: when did you notice this?]` in the draft; Ivan reads the draft as the post, and questions inside it read as unfinished work. If he leaves something unanswered, write around it. A made-up "I spent the evening on this" is worse than a flat sentence, because it is a false statement under his name.
 
 Two traps from test drafts:
 
-- **Why he is writing.** Research files rarely record it, and a post without it reads like documentation. If the file does not say, open with a gap (`[Ivan: why did you build this, or who was it for?]`) instead of skipping the motive or inventing one.
+- **Why he is writing.** Research files rarely record it, and a post without it reads like documentation. If the file does not say, ask him before drafting ("For your own notes, for someone with the same problem, or something else?") instead of skipping the motive or inventing one.
 - **Your own checks are not his story.** Reading core, re-running a snippet or curling a URL while drafting is your work, not his. Never write it as "Reading core while writing this..." or "I ran this on Node 24" unless the research says Ivan did it. Put what you checked in the chat report, and let the post state the fact with its source link.
 
 ## Things not to copy from the old posts

@@ -39,7 +39,18 @@ Each factual claim the post will make gets a row: claim, how it was verified, so
 - Search ivankristianto.com (`https://www.ivankristianto.com/wp-json/wp/v2/posts?search=<term>&_fields=link,title.rendered`) so the post links to related posts and does not repeat one.
 - Search the web for the top few existing write-ups. Note what they miss or get wrong. The gap is the reason this post exists. If nothing is missing, say so and suggest a narrower angle or dropping the idea.
 
-## 4. Save the research file
+## 4. Ask Ivan what the transcripts cannot tell you
+
+The draft step never asks Ivan anything in the post itself, so research collects his answers now. Before saving, ask him with `AskUserQuestion`, in one batch of up to four questions:
+
+- Why he is writing it (for his own notes, for a reader with the same problem, something else).
+- When it happened and what he was doing (a rough date and the situation, no client names).
+- What it cost him or what he suspected first, if the session does not show it.
+- Anything the outcome depends on: did it ship, did the numbers move, what he is allowed to say.
+
+Offer concrete options drawn from the session so he can answer with a click, and let him type his own. Write his answers into the Story, marked `(from Ivan)`. If he skips one, record it as not answered; the draft then leaves that part out rather than guessing.
+
+## 5. Save the research file
 
 Sections, in this order:
 
@@ -50,10 +61,10 @@ Sections, in this order:
 5. **Snippets**: runnable examples that are safe to publish, each tested, with the command and output.
 6. **Related**: existing posts on the blog and the best outside articles, as full URLs, each with a line on how it differs.
 7. **Suggested outline**: five to eight headings in sentence case, shortest path from problem to answer. Include a title and a 150-character excerpt candidate.
-8. **Questions for Ivan**: only things the transcripts cannot answer (what it felt like, what he would do differently, what the client outcome allows him to say).
+8. **Questions for Ivan**: each question asked in step 4, with his answer or "not answered". Only things the transcripts cannot answer (why he is writing, when, what it cost, what the client outcome allows him to say).
 9. **Leave out**: details cut for confidentiality or because they do not carry the point, described without naming them.
 
-Run `leak-check.sh`, fix hits, then report in chat: the thesis, how many claims are verified versus not, the open questions, and the file path as a `file:///` link. Ask whether to go to `/blog-draft`.
+Run `leak-check.sh`, fix hits, then report in chat: the thesis, how many claims are verified versus not, anything Ivan left unanswered, and the file path as a `file:///` link. Ask whether to go to `/blog-draft`.
 
 ## Writing rules
 
