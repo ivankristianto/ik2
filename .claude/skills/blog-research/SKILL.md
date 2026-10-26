@@ -12,7 +12,7 @@ Input is one idea: a title from `.claude/blog/ideas/*.md` (newest first) or a to
 
 Same rules as `blog-ideas`: sessions and client repos are sources to read, never to quote or link.
 
-- Restate client findings as generic facts. If a claim came from client code, reproduce the behavior in a small throwaway example (in the scratchpad, never in a client repo) and cite that, plus the public source of the underlying library.
+- Restate client findings as generic facts. If a claim came from client code, reproduce the behavior in a small throwaway example (in a temp folder, never in a client repo) and cite that, plus the public source of the underlying library.
 - No client names, private repos, ticket keys, hostnames, colleague names, screenshots or log lines in the research file.
 - Run `bash .claude/skills/blog-ideas/leak-check.sh <file>` before reporting. Any hit is a rewrite.
 
@@ -29,7 +29,7 @@ Find the sessions behind the idea (the ideas file says which project). Read what
 
 Each factual claim the post will make gets a row: claim, how it was verified, source.
 
-- **Primary sources first**: official docs, the source code of the library at a stated version, changelogs, specs (MDN, WordPress developer docs, RFCs, the project's GitHub). Use WebSearch and WebFetch. Prefer reading code over reading blog posts about code. Link the exact file and line or the exact doc section, with the version.
+- **Primary sources first**: official docs, the source code of the library at a stated version, changelogs, specs (MDN, WordPress developer docs, RFCs, the project's GitHub). Search the web and fetch the pages themselves. Prefer reading code over reading blog posts about code. Link the exact file and line or the exact doc section, with the version.
 - **Reproduce where it is cheap**: run the command, write the 10-line snippet, load the page. Record the command and what it printed. Use the local stack from CLAUDE.md for WordPress behavior.
 - Mark every claim `verified`, `sourced` (read in a primary source, not run), or `unverified`. Unverified claims either get checked or flagged for Ivan. Do not let one slip into the outline unmarked.
 - Check versions and dates. Anything about a vendor feature, a CVE or a browser flag may have changed since the session. Re-check it today.
@@ -41,7 +41,7 @@ Each factual claim the post will make gets a row: claim, how it was verified, so
 
 ## 4. Ask Ivan what the transcripts cannot tell you
 
-The draft step never asks Ivan anything in the post itself, so research collects his answers now. Before saving, ask him with `AskUserQuestion`, in one batch of up to four questions:
+The draft step never asks Ivan anything in the post itself, so research collects his answers now. Before saving, ask him in one batch of up to four questions (`AskUserQuestion` in Claude Code, one chat message with numbered options in other agents):
 
 - Why he is writing it (for his own notes, for a reader with the same problem, something else).
 - When it happened and what he was doing (a rough date and the situation, no client names).

@@ -22,14 +22,14 @@ Most sessions are client work (anything under a folder listed in `~/.claude/blog
 
 1. Sessions from the last 14 days (ask only if Ivan names another window):
    ```bash
-   bash .claude/skills/blog-ideas/sessions.sh 14 5 > <scratchpad>/sessions.txt
+   bash .claude/skills/blog-ideas/sessions.sh 14 5 > <temp dir>/sessions.txt
    ```
-   It prints each session's date, project folder and first prompts. Session files run to hundreds of MB, so never `cat` or `Read` them whole. Go deeper only with `jq` plus `head` on one file.
+   Use a temp folder outside the repo. The script reads Claude Code sessions in `~/.claude/projects`, whichever agent runs this skill. It prints each session's date, project folder and first prompts. Session files run to hundreds of MB, so never `cat` or `Read` them whole. Go deeper only with `jq` plus `head` on one file.
 2. For sessions that look promising, read what the assistant concluded, not only what Ivan asked:
    ```bash
    jq -r 'select(.type=="assistant") | .message.content[]? | select(.type=="text") | .text' <file> | rg -i -B1 -A6 '<keyword>' | head -80
    ```
-   Many sessions are wide. Split the reading across Explore or general-purpose agents, one per project folder, and brief each with the confidentiality rules above and an instruction to return anonymized notes only.
+   Many sessions are wide. If your agent can start subagents (Explore agents in Claude Code, for example), give each one a project folder and brief it with the confidentiality rules above and an instruction to return anonymized notes only. Otherwise read the folders one at a time.
 3. This repo's own work: `git log --since="14 days ago" --format='%h %ad %s' --date=short` and `.claude/memory/MEMORY.md`.
 4. What is already published, so nothing repeats:
    ```bash

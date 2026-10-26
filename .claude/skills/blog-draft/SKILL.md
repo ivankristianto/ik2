@@ -53,7 +53,7 @@ Paragraphs run one to four sentences. Use a list only for steps or parallel item
 
 ## Process
 
-1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing and when it happened. If either is missing and was never asked, ask him now with `AskUserQuestion` (one batch, concrete options from the research) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
+1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing and when it happened. If either is missing and was never asked, ask him now in one batch with concrete options from the research (`AskUserQuestion` in Claude Code, one chat message in other agents) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
 2. Frontmatter at the top of the file:
    ```yaml
    ---

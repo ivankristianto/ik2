@@ -98,7 +98,7 @@ The check script fails a draft that contains any of these (case-insensitive). Do
 
 ## Do not invent the person
 
-Every moment, hour, feeling and reason in the draft must come from the research file (its Story and Questions for Ivan sections) or from Ivan. If the story has no time, place or stake in it, ask him with `AskUserQuestion` before drafting. Never put a placeholder like `[Ivan: when did you notice this?]` in the draft; Ivan reads the draft as the post, and questions inside it read as unfinished work. If he leaves something unanswered, write around it. A made-up "I spent the evening on this" is worse than a flat sentence, because it is a false statement under his name.
+Every moment, hour, feeling and reason in the draft must come from the research file (its Story and Questions for Ivan sections) or from Ivan. If the story has no time, place or stake in it, ask him before drafting. Never put a placeholder like `[Ivan: when did you notice this?]` in the draft; Ivan reads the draft as the post, and questions inside it read as unfinished work. If he leaves something unanswered, write around it. A made-up "I spent the evening on this" is worse than a flat sentence, because it is a false statement under his name.
 
 Two traps from test drafts:
 
