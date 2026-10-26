@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "split the theme css so each block loads its own style.css instead of one big stylesheet"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Done. Each theme block now references a plain `blocks/<name>/style.css` from its block.json `style` field, and the monolithic stylesheet is gone. Critical CSS stays inlined in the head."}]}}
