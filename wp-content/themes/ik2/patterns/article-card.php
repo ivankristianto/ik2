@@ -21,7 +21,7 @@
 
 	<!-- wp:group {"className":"ik-article-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
 	<div class="wp-block-group ik-article-card__meta">
-		<!-- wp:post-date {"format":"Y-m-d","className":"ik-article-card__date"} /-->
+		<!-- wp:post-date {"className":"ik-article-card__date"} /-->
 	</div>
 	<!-- /wp:group -->
 

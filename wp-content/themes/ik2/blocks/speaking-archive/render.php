@@ -44,7 +44,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 			$ik2_kind  = (string) get_post_meta( get_the_ID(), 'kind', true );
 			?>
 			<article class="ik-talk">
-				<span class="ik-talk__date"><?php echo esc_html( get_the_date( 'Y-m-d' ) ); ?></span>
+				<span class="ik-talk__date"><?php echo esc_html( get_the_date() ); ?></span>
 				<div class="ik-talk__body">
 					<<?php echo $ik2_heading_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- whitelisted h2/h3. ?> class="ik-talk__title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></<?php echo $ik2_heading_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 					<?php if ( $ik2_venue !== '' ) : ?>

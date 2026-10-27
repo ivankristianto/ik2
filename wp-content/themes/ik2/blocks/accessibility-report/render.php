@@ -72,7 +72,7 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-a11y' ] );
 			<tr><th scope="row"><?php esc_html_e( 'Breakdown', 'ik2' ); ?></th><td><?php echo esc_html( $ik2_breakdown ); ?></td></tr>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Test date', 'ik2' ); ?></th>
-				<td><time class="ik-a11y__date" datetime="<?php echo esc_attr( $ik2_report['tested'] ); ?>"><?php echo esc_html( $ik2_tested_ts ? gmdate( 'Y-m-d', $ik2_tested_ts ) : $ik2_report['tested'] ); ?></time></td>
+				<td><time class="ik-a11y__date" datetime="<?php echo esc_attr( $ik2_report['tested'] ); ?>"><?php echo esc_html( $ik2_tested_ts ? wp_date( (string) get_option( 'date_format' ), $ik2_tested_ts, new DateTimeZone( 'UTC' ) ) : $ik2_report['tested'] ); ?></time></td>
 			</tr>
 			<?php foreach ( array_slice( $ik2_report['summary'], 4 ) as $ik2_item ) : ?>
 				<tr><th scope="row"><?php echo esc_html( $ik2_item[0] ); ?></th><td><?php echo esc_html( $ik2_item[1] ); ?></td></tr>

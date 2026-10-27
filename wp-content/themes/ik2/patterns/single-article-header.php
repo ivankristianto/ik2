@@ -16,7 +16,7 @@
 
 	<!-- wp:group {"className":"ik-article__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
 	<div class="wp-block-group ik-article__meta">
-		<!-- wp:post-date {"format":"Y-m-d","className":"ik-article__date"} /-->
+		<!-- wp:post-date {"className":"ik-article__date"} /-->
 
 		<!-- wp:paragraph {"className":"ik-article__sep"} -->
 		<p class="ik-article__sep" aria-hidden="true">·</p>
