@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use function IK2\Theme\Blocks\ArticlesFilters\build_url;
 use function IK2\Theme\Blocks\ArticlesFilters\detect_context;
+use function IK2\Theme\Blocks\ArticlesFilters\topic_has_posts;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,9 +33,9 @@ $ik2_topics = [
 	'wordpress'   => __( 'wordpress', 'ik2' ),
 	'ai'          => __( 'ai', 'ik2' ),
 	'performance' => __( 'performance', 'ik2' ),
-	'security'    => __( 'security', 'ik2' ),
 	'web-apis'    => __( 'web-apis', 'ik2' ),
 	'tooling'     => __( 'tooling', 'ik2' ),
+	'misc'        => __( 'misc', 'ik2' ),
 ];
 
 $ik2_formats = [
@@ -53,6 +54,13 @@ if ( $ik2_context['kind'] === 'category' && $ik2_context_topic !== null ) {
 }
 
 $ik2_active_format = $ik2_context['format'] !== '' ? $ik2_context['format'] : 'all';
+
+// A pill for an emptied category leads to a dead archive, so drop it unless it is the one being viewed.
+foreach ( array_keys( $ik2_topics ) as $ik2_slug ) {
+	if ( $ik2_slug !== 'all' && $ik2_slug !== $ik2_active_topic && ! topic_has_posts( $ik2_slug ) ) {
+		unset( $ik2_topics[ $ik2_slug ] );
+	}
+}
 
 $ik2_show_count = ! empty( $attributes['showCount'] );
 
