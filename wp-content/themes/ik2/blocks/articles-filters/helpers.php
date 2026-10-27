@@ -81,11 +81,11 @@ function build_url( array $context, string $topic, string $format ): string {
 }
 
 /**
- * Whether the topic's category exists and has published posts.
+ * Whether the category exists and has published posts.
  *
  * @param string $slug Category slug.
  */
-function topic_has_posts( string $slug ): bool {
+function category_has_posts( string $slug ): bool {
 	$term = get_term_by( 'slug', $slug, 'category' );
 
 	return $term instanceof \WP_Term && $term->count > 0;
