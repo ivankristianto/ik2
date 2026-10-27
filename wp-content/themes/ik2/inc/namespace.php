@@ -25,4 +25,5 @@ function bootstrap(): void {
 	PageTransitions\bootstrap();
 	Emoji\bootstrap();
 	ContentFixes\bootstrap();
+	PostTags\bootstrap();
 }
