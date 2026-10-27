@@ -81,7 +81,7 @@ These are enforced by the design brief (see `design-system/README.md`). They aff
 - **No emoji in chrome.** Body content is the writer's call.
 - **No `!important`.** Fix specificity, source order, or the markup instead of forcing overrides.
 - **Focus-visible is non-negotiable**: `2px solid` accent, `outline-offset: 3px` (`outline: $focus; outline-offset: $focus-offset;` in SCSS).
-- **Sentence case** for body and most UI; tags in lowercase; dates in monospace (e.g. `July 8, 2020`).
+- **Sentence case** for body and most UI; tags in lowercase; dates in monospace, ISO 8601 (e.g. `2020-07-08`).
 - **Article column 60rem / 960px** (`contentSize`, body 20px on desktop); wide images 75rem / 1200px (`wideSize`); full-bleed chrome 80rem / 1280px. Widths and breakpoints are rem/em so they follow the reader's text size.
 - **No transforms / scales / bounces** on hover. Transitions are `200ms ease` (`$transition-base`, `var(--wp--custom--transition--base)`) on `color`/`background`/`border`/`box-shadow` only.
 

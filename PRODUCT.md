@@ -51,7 +51,7 @@ First-person, working-engineer, conversational. Ivan writes the way he'd explain
 - Straight quotes only. No em-dash flourishes; commas, colons, periods, parentheses do the work.
 - No exclamation marks unless something genuinely deserves one.
 - Code, paths, commands always in monospace.
-- Dates in monospace, full month + day + year: `July 8, 2020`.
+- Dates in monospace, ISO 8601: `2020-07-08`.
 
 **CTAs:** verb-first, no period. **Browse Articles** · **Read Resume** · **Read more** · **Subscribe via RSS**.
 

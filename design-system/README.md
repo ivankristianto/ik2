@@ -87,7 +87,7 @@ The voice is **first-person, casual, practical, working-engineer**. Ivan writes 
 
 - CTAs: verb-first, no period. **Browse Guides** · **Read Resume** · **Read more** · **Subscribe via RSS**.
 - Empty states / footers: a single short sentence, lowercase or sentence case. No exclamation marks unless something genuinely deserves one.
-- Dates always shown in monospace, full month + day + year ("July 8, 2020") — matches the existing site convention.
+- Dates always shown in monospace as ISO 8601 ("2020-07-08"), readable in any locale.
 
 ---
 
@@ -183,7 +183,7 @@ The site is **almost icon-free by design**. Where icons appear, they follow a st
 ### Emoji & unicode
 
 - **No emoji in chrome.** Body content (article text) may contain emoji in rare cases — that's a writing choice, not a design rule.
-- Unicode glyphs allowed as small text decorations: `→` (right arrow in inline read-mores), `·` (middle dot as separator in metadata: `July 8, 2020 · 4 min read · WordPress`).
+- Unicode glyphs allowed as small text decorations: `→` (right arrow in inline read-mores), `·` (middle dot as separator in metadata: `2020-07-08 · 4 min read · WordPress`).
 
 ### Placeholder strategy
 

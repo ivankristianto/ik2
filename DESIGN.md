@@ -370,7 +370,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Do** transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.
 - **Do** keep touch targets at 44px or taller.
 - **Do** write CTAs verb-first with no period: **Browse Articles**, **Read more**, **Subscribe via RSS**.
-- **Do** show dates in monospace, full format: `July 8, 2020`.
+- **Do** show dates in monospace, ISO 8601: `2020-07-08`.
 - **Do** add a token to `theme.json` before using a new value anywhere.
 
 ### Don't:
