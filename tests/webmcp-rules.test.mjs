@@ -103,7 +103,7 @@ test('"all" adds no category filter', () => {
 
 test('a topic with no category yet matches nothing instead of everything', () => {
 	assert.equal(
-		categoryIdsFor(readListInput({ topic: 'security' }), idsBySlug),
+		categoryIdsFor(readListInput({ topic: 'misc' }), idsBySlug),
 		null
 	);
 });

@@ -9,9 +9,9 @@ export const TOPICS = [
 	'wordpress',
 	'ai',
 	'performance',
-	'security',
 	'web-apis',
 	'tooling',
+	'misc',
 ];
 export const FORMATS = [ 'all', 'guide', 'note', 'experiment' ];
 export const CATEGORY_SLUGS = [ ...TOPICS, ...FORMATS ].filter(

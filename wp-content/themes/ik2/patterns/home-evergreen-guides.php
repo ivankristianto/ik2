@@ -46,7 +46,7 @@ $ik2_guide_id  = $ik2_guide_cat instanceof WP_Term ? (int) $ik2_guide_cat->term_
 				<!-- wp:post-template {"className":"ik-guides-list","layout":{"type":"default"}} -->
 				<!-- wp:group {"className":"ik-guide","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 				<div class="wp-block-group ik-guide">
-					<!-- wp:post-date {"format":"F j, Y","className":"ik-guide__date"} /-->
+					<!-- wp:post-date {"format":"Y-m-d","className":"ik-guide__date"} /-->
 
 					<!-- wp:group {"className":"ik-guide__body","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 					<div class="wp-block-group ik-guide__body">

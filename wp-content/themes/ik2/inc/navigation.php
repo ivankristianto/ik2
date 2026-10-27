@@ -65,6 +65,24 @@ function ik2_normalize_path( string $url ): string {
 }
 
 /**
+ * The nav path of the section the request sits under, or '' when it is not inside one.
+ *
+ * @param string $current_path Normalized request path.
+ */
+function section_path( string $current_path ): string {
+	if ( is_singular( 'post' ) ) {
+		return ik2_normalize_path( \IK2\Theme\Breadcrumbs\parent_crumb()['url'] );
+	}
+
+	// Prod strips the /category/ base, so test the query, not the URL.
+	if ( is_category() || is_tag() || str_starts_with( $current_path, '/articles/' ) ) {
+		return '/articles';
+	}
+
+	return '';
+}
+
+/**
  * Inject aria-current="page" and a `current-menu-item` class on the anchor
  * when a navigation-link block points at the current request path.
  *
@@ -86,7 +104,11 @@ function mark_current_navigation_link( string $block_content, array $block ): st
 	$link_path    = ik2_normalize_path( $url );
 	$current_path = ik2_normalize_path( home_url( add_query_arg( [] ) ) );
 
-	if ( $link_path !== $current_path ) {
+	if ( $link_path === $current_path ) {
+		$aria_current = 'page';
+	} elseif ( $link_path === section_path( $current_path ) ) {
+		$aria_current = 'true';
+	} else {
 		return $block_content;
 	}
 
@@ -96,7 +118,7 @@ function mark_current_navigation_link( string $block_content, array $block ): st
 		return $block_content;
 	}
 
-	$processor->set_attribute( 'aria-current', 'page' );
+	$processor->set_attribute( 'aria-current', $aria_current );
 
 	$existing_class = (string) $processor->get_attribute( 'class' );
 

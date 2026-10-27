@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use function IK2\Theme\Blocks\ArticlesFilters\build_url;
 use function IK2\Theme\Blocks\ArticlesFilters\detect_context;
+use function IK2\Theme\Blocks\ArticlesFilters\category_has_posts;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,9 +33,9 @@ $ik2_topics = [
 	'wordpress'   => __( 'wordpress', 'ik2' ),
 	'ai'          => __( 'ai', 'ik2' ),
 	'performance' => __( 'performance', 'ik2' ),
-	'security'    => __( 'security', 'ik2' ),
 	'web-apis'    => __( 'web-apis', 'ik2' ),
 	'tooling'     => __( 'tooling', 'ik2' ),
+	'misc'        => __( 'misc', 'ik2' ),
 ];
 
 $ik2_formats = [
@@ -53,6 +54,22 @@ if ( $ik2_context['kind'] === 'category' && $ik2_context_topic !== null ) {
 }
 
 $ik2_active_format = $ik2_context['format'] !== '' ? $ik2_context['format'] : 'all';
+
+// A pill for an emptied category leads to a dead archive, so drop it unless it is the one being viewed.
+foreach ( array_keys( $ik2_topics ) as $ik2_slug ) {
+	if ( $ik2_slug !== 'all' && $ik2_slug !== $ik2_active_topic && ! category_has_posts( $ik2_slug ) ) {
+		unset( $ik2_topics[ $ik2_slug ] );
+	}
+}
+
+foreach ( array_keys( $ik2_formats ) as $ik2_slug ) {
+	if ( $ik2_slug !== 'all' && $ik2_slug !== $ik2_active_format && ! category_has_posts( $ik2_slug ) ) {
+		unset( $ik2_formats[ $ik2_slug ] );
+	}
+}
+
+// With one format left the row filters nothing, but a format URL still needs its way back to "all".
+$ik2_show_formats = count( $ik2_formats ) > 2 || $ik2_active_format !== 'all';
 
 $ik2_show_count = ! empty( $attributes['showCount'] );
 
@@ -133,22 +150,24 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes(
 		<?php endforeach; ?>
 	</div>
 
-	<span class="ik-articles-filters__divider" aria-hidden="true"></span>
+	<?php if ( $ik2_show_formats ) : ?>
+		<span class="ik-articles-filters__divider" aria-hidden="true"></span>
 
-	<div class="ik-articles-filters__group" role="group" aria-label="<?php esc_attr_e( 'Filter by format', 'ik2' ); ?>">
-		<?php foreach ( $ik2_formats as $slug => $label ) : ?>
-			<?php
-			$is_current = ( $slug === $ik2_active_format );
-			$href       = build_url( $ik2_context, $ik2_active_topic, $slug );
-			?>
-			<a
-				class="ik-articles-filters__pill<?php echo $is_current ? ' is-active' : ''; ?>"
-				href="<?php echo esc_url( $href ); ?>"
-				data-wp-on--click="actions.navigate"
-				<?php echo $is_current ? 'aria-current="true"' : ''; ?>
-			><?php echo esc_html( $label ); ?></a>
-		<?php endforeach; ?>
-	</div>
+		<div class="ik-articles-filters__group" role="group" aria-label="<?php esc_attr_e( 'Filter by format', 'ik2' ); ?>">
+			<?php foreach ( $ik2_formats as $slug => $label ) : ?>
+				<?php
+				$is_current = ( $slug === $ik2_active_format );
+				$href       = build_url( $ik2_context, $ik2_active_topic, $slug );
+				?>
+				<a
+					class="ik-articles-filters__pill<?php echo $is_current ? ' is-active' : ''; ?>"
+					href="<?php echo esc_url( $href ); ?>"
+					data-wp-on--click="actions.navigate"
+					<?php echo $is_current ? 'aria-current="true"' : ''; ?>
+				><?php echo esc_html( $label ); ?></a>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 
 	<?php if ( $ik2_show_count ) : ?>
 		<span class="ik-articles-filters__count" role="status" aria-live="polite" aria-atomic="true">

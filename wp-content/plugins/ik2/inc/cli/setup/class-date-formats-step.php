@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Converges the date display settings to the design brief: dates render
- * as "July 8, 2020" and the week starts on Monday.
+ * as ISO 8601 ("2020-07-08") and the week starts on Monday.
  */
 class Date_Formats_Step extends Options_Step {
 
@@ -31,7 +31,7 @@ class Date_Formats_Step extends Options_Step {
 	 */
 	protected function options(): array {
 		return [
-			'date_format'   => 'F j, Y',
+			'date_format'   => 'Y-m-d',
 			'start_of_week' => 1,
 		];
 	}

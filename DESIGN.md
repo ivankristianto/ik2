@@ -120,14 +120,11 @@ components:
     padding: "16px"
     typography: "{typography.label}"
   tag:
-    backgroundColor: "{colors.soft-paper}"
     textColor: "{colors.graphite}"
-    rounded: "{rounded.pill}"
-    padding: "2px 8px"
-    typography: "{typography.micro}"
+    padding: "3px 0"
+    typography: "{typography.label}"
   tag-hover:
-    backgroundColor: "{colors.signal-soft}"
-    textColor: "{colors.signal-deep}"
+    textColor: "{colors.signal}"
   filter-pill:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.graphite}"
@@ -187,17 +184,17 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 
 - **Bookcloth** (`signal`): the single accent. Links, focus rings, nav hover, the current-page underline, the hero CTA underline, and the Resume button when you are on `/resume`. Its rarity is what makes it read as signal. The slug stays `signal` from the retired blue and terracotta eras; only the value moved.
 - **Deep Bookcloth** (`signal-deep`): hover state for anything filled with ink or the accent, and the text color on every active state that sits on Bookcloth Wash.
-- **Bookcloth Wash** (`signal-soft`): the background for active states. Selected filter pills, tag hover, the palette's active row, the current item in the mobile nav drawer. Never a decorative fill.
+- **Bookcloth Wash** (`signal-soft`): the background for active states. Selected filter pills, the palette's active row, the current item in the mobile nav drawer. Never a decorative fill.
 
 ### Neutral
 
 - **Paper** (`paper`): the page background and the command palette footer.
 - **Surface** (`surface`): project cards, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
-- **Soft Paper** (`soft-paper`): muted sections, tag backgrounds, covers for misc and uncategorized articles, drawer row hover.
+- **Soft Paper** (`soft-paper`): muted sections, covers for misc and uncategorized articles, drawer row hover.
 - **Ink** (`ink`): body and heading text, the primary button fill. Near-black so the page never feels harsh.
 - **Graphite** (`graphite`): secondary copy, excerpts, nav links at rest, tag text, eyebrows.
 - **Dust** (`dust`): dates, reading time, separators, keyboard hints. Clears WCAG AA (6.47:1) on Paper and 5.76:1 on Soft Paper.
-- **Line** (`line`): every resting border: cards, pills, tags, code, dividers, the palette rules.
+- **Line** (`line`): every resting border: cards, pills, code, dividers, the palette rules.
 - **Rule** (`rule`): the hover border on cards and pills, and the blockquote rule.
 - **Code Paper** (`code-paper`): inline code, `<pre>` blocks, and the 404 terminal. Code text is plain Ink.
 
@@ -301,12 +298,12 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows.
 - **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
-- **Pill** (`pill`): tags, filter pills, project status badges. Pills always mean "this is a label".
+- **Pill** (`pill`): filter pills, the category chip in the post header, project status badges. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
 
-**The Pill-Means-Label Rule.** Buttons are never pills. A pill shape tells the reader they are looking at a tag, a filter, or a status.
+**The Pill-Means-Label Rule.** Buttons are never pills. A pill shape tells the reader they are looking at a category, a filter, or a status.
 
 ## Components
 
@@ -323,14 +320,14 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 ### Chips
 
-- **Tags:** Soft Paper fill, 1px Line border, Graphite text, pill radius, 2px by 8px padding, Micro type. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus move to Bookcloth Wash with a Bookcloth border and Deep Bookcloth text.
-- **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses the same Bookcloth Wash treatment as tag hover.
+- **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Cards show at most three, drop any tag that repeats the post's category, and end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
+- **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses Bookcloth Wash with Deep Bookcloth text.
 - **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
 
 ### Cards
 
 - **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
-- **Article card:** no frame. A 16:9 cover (the category wash, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and tags pinned to the bottom. The cover gives the card its edge; a border would double it.
+- **Article card:** no frame. A 16:9 cover (the category wash, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and the tag line pinned to the bottom. The cover gives the card its edge; a border would double it.
 
 ### Inputs / Fields
 
@@ -370,7 +367,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Do** transition only color, background, border, and box-shadow at `transition.base`. The mobile drawer slide is the only exception.
 - **Do** keep touch targets at 44px or taller.
 - **Do** write CTAs verb-first with no period: **Browse Articles**, **Read more**, **Subscribe via RSS**.
-- **Do** show dates in monospace, full format: `July 8, 2020`.
+- **Do** show dates in monospace, ISO 8601: `2020-07-08`.
 - **Do** add a token to `theme.json` before using a new value anywhere.
 
 ### Don't:

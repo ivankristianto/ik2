@@ -1,0 +1,43 @@
+@use 'tokens' as *;
+
+/* Tag line (inc/post-tags.php): lowercase mono tags split by a middle dot.
+   Shared by the article cards and the tag list under a single post. */
+
+.ik-tag-line {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	line-height: $leading-normal;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+
+	a {
+		color: $color-graphite;
+		padding-block: 3px;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.2em;
+		transition: color $transition-base, text-decoration-color $transition-base;
+	}
+}
+
+.ik-tag-line__dot {
+	color: $color-rule;
+	padding-inline: $space-2;
+}
+
+.ik-tag-line__label {
+	color: $color-dust;
+	margin-right: $space-3;
+}
+
+.ik-tag-line a.ik-tag-line__more {
+	color: $color-dust;
+	margin-left: $space-3;
+}
+
+.ik-tag-line a:hover,
+.ik-tag-line a:focus-visible {
+	color: $color-signal;
+	text-decoration-color: currentcolor;
+}

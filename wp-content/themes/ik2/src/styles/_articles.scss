@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'tag-line';
 
 /* ===========================================================================
    Articles archive page (templates/page-articles.html)
@@ -141,23 +142,8 @@
 }
 
 .ik-article-card__tags {
-	font-family: $font-mono;
-	font-size: $size-x-small;
-	display: flex;
-	flex-wrap: wrap;
-	gap: $space-2;
 	margin-top: auto;
 	padding-top: $space-2;
-
-	a {
-		color: $color-graphite;
-		text-decoration: none;
-		padding: 2px $space-2;
-		border-radius: $radius-pill;
-		background: $color-soft-paper;
-		border: 1px solid $color-line;
-		line-height: $leading-normal;
-	}
 }
 
 /* Hover and focus states grouped after base styles to satisfy
@@ -165,13 +151,6 @@
 .ik-article-card__title a:hover,
 .ik-article-card__title a:focus-visible {
 	color: $color-signal;
-}
-
-.ik-article-card__tags a:hover,
-.ik-article-card__tags a:focus-visible {
-	color: $color-signal-deep;
-	border-color: $color-signal;
-	background: $color-signal-soft;
 }
 
 /* ---- Pagination -------------------------------------------------------- */

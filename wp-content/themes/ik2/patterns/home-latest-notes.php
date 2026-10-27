@@ -46,7 +46,7 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 				<!-- wp:post-template {"className":"ik-notes-list","layout":{"type":"default"}} -->
 				<!-- wp:group {"className":"ik-note","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 				<div class="wp-block-group ik-note">
-					<!-- wp:post-date {"format":"F j, Y","className":"ik-note__date"} /-->
+					<!-- wp:post-date {"format":"Y-m-d","className":"ik-note__date"} /-->
 
 					<!-- wp:group {"className":"ik-note__body","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 					<div class="wp-block-group ik-note__body">
