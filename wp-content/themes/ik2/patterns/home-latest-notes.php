@@ -4,15 +4,15 @@
  * Slug: ik2/home-latest-notes
  * Categories: ik2-home
  * Viewport Width: 1400
- * Description: Two-column section — a Query Loop of the latest note posts beside the /now card.
+ * Description: Two-column section — a Query Loop of the latest posts tagged experiments beside the /now card.
  *
  * @package IK2
  */
 
-// Omit taxQuery entirely when the category is missing (fresh install): a baked
+// Omit taxQuery entirely when the tag is missing (fresh install): a baked
 // [0] filter would permanently show "no results" once saved into post_content.
-$ik2_note_cat = get_category_by_slug( 'note' );
-$ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id : 0;
+$ik2_experiments_tag = get_term_by( 'slug', 'experiments', 'post_tag' );
+$ik2_experiments_id  = $ik2_experiments_tag instanceof WP_Term ? (int) $ik2_experiments_tag->term_id : 0;
 
 ?>
 <!-- wp:group {"tagName":"section","align":"full","className":"ik-section","layout":{"type":"constrained","contentSize":"var(--wp--custom--width--full)"}} -->
@@ -41,7 +41,7 @@ $ik2_note_id  = $ik2_note_cat instanceof WP_Term ? (int) $ik2_note_cat->term_id 
 	<div class="wp-block-columns ik-notes-layout">
 		<!-- wp:column {"className":"ik-notes-layout__main"} -->
 		<div class="wp-block-column ik-notes-layout__main">
-			<!-- wp:query {"queryId":11,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false<?php echo $ik2_note_id > 0 ? ',"taxQuery":{"category":[' . (int) $ik2_note_id . ']}' : ''; ?>}} -->
+			<!-- wp:query {"queryId":11,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false<?php echo $ik2_experiments_id > 0 ? ',"taxQuery":{"post_tag":[' . (int) $ik2_experiments_id . ']}' : ''; ?>}} -->
 			<div class="wp-block-query">
 				<!-- wp:post-template {"className":"ik-notes-list","layout":{"type":"default"}} -->
 				<!-- wp:group {"className":"ik-note","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
