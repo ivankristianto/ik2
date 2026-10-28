@@ -43,7 +43,9 @@ function link_sources( string $block_content ): string {
 	}
 
 	$cites      = [];
+	$starts     = [];
 	$ends       = [];
+	$bodies     = [];
 	$skip_depth = 0;
 	$source     = null;
 	$list_open  = null;
@@ -84,8 +86,10 @@ function link_sources( string $block_content ): string {
 			}
 
 			$source           = $id;
+			$starts[ $id ]    = $i;
+			$bodies[ $id ]    = substr( $text, strlen( $marker[0] ) );
 			$tokens[ $i ]     = tag_with( $token, 'ik-source', 'ik-source-' . $id );
-			$tokens[ $i + 1 ] = $marker[1] . '<span class="ik-source__num">' . $id . '</span> ' . substr( $text, strlen( $marker[0] ) );
+			$tokens[ $i + 1 ] = $marker[1] . '<span class="ik-source__num">' . $id . '</span> ' . $bodies[ $id ];
 
 			if ( $list_open !== null ) {
 				$tokens[ $list_open ] = tag_with( $tokens[ $list_open ], 'ik-sources' );
@@ -95,7 +99,8 @@ function link_sources( string $block_content ): string {
 
 	// Sources come after the text, so the citation counts are complete only now.
 	foreach ( $ends as $id => $end ) {
-		$tokens[ $end ] = backlinks( $id, $cites[ $id ] ?? 0 ) . $tokens[ $end ];
+		$body           = $bodies[ $id ] . implode( '', array_slice( $tokens, $starts[ $id ] + 2, $end - $starts[ $id ] - 2 ) );
+		$tokens[ $end ] = backlinks( $id, $cites[ $id ] ?? 0 ) . preview( $id, $body ) . $tokens[ $end ];
 	}
 
 	return implode( '', $tokens );
@@ -128,7 +133,7 @@ function link_markers( string $text, array $source_ids, array &$cites ): string 
 		foreach ( $ids as $id ) {
 			$cites[ $id ] = ( $cites[ $id ] ?? 0 ) + 1;
 			$links[]      = sprintf(
-				'<a href="#ik-source-%1$d" id="ik-cite-%1$d-%2$d" role="doc-noteref"><span class="ik-cite__label">%3$s </span>%1$d</a>',
+				'<a href="#ik-source-%1$d" id="ik-cite-%1$d-%2$d" role="doc-noteref" interestfor="ik-source-preview-%1$d"><span class="ik-cite__label">%3$s </span>%1$d</a>',
 				$id,
 				$cites[ $id ],
 				esc_html__( 'Source', 'ik2' )
@@ -171,6 +176,22 @@ function backlinks( int $id, int $count ): string {
 	}
 
 	return $links ? ' <span class="ik-source__backs"><span aria-hidden="true">&uarr;</span> ' . implode( ' ', $links ) . '</span>' : '';
+}
+
+/**
+ * Hover and focus preview of a source, opened by the citations' `interestfor`.
+ *
+ * @param int    $id   Source number.
+ * @param string $body Source item HTML after its `[n]` marker.
+ */
+function preview( int $id, string $body ): string {
+	return sprintf(
+		'<div popover="hint" id="ik-source-preview-%1$d" class="ik-source-preview"><span class="ik-source-preview__label">%2$s</span> %3$s</div>',
+		$id,
+		/* translators: %d: source number. */
+		esc_html( sprintf( __( 'Source %d', 'ik2' ), $id ) ),
+		trim( $body )
+	);
 }
 
 /**

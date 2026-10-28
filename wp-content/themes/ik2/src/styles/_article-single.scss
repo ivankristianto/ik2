@@ -1066,6 +1066,30 @@
 	background: $color-signal-soft;
 }
 
+/* Opened by the citation's `interestfor`, which also makes it the implicit anchor. */
+.ik-source-preview {
+	position-area: block-start;
+	position-try-fallbacks: flip-block;
+	margin: 0 0 $space-2;
+	max-inline-size: min(#{$width-measure}, calc(100vw - #{$space-6}));
+	padding: $space-3 $space-4;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	background: $color-surface;
+	box-shadow: $shadow-md;
+	color: $color-ink;
+	font-size: $size-x-small;
+	line-height: $leading-comfortable;
+	overflow-wrap: anywhere;
+}
+
+.ik-source-preview__label {
+	display: block;
+	margin-bottom: $space-1;
+	font-family: $font-mono;
+	color: $color-graphite;
+}
+
 /* ---- Hover / focus (last for stylelint no-descending-specificity) ------- */
 
 .ik-crumbs__link:hover,
@@ -1084,6 +1108,10 @@
 .ik-article__body a:focus-visible {
 	color: $color-signal-deep;
 	text-decoration-color: $color-signal-deep;
+}
+
+.ik-article__body .ik-cite a:interest-source {
+	background: $color-signal-soft;
 }
 
 .wp-block-group.ik-article__share a:hover,
