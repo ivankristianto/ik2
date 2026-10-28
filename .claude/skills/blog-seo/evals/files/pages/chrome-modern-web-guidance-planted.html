@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<link rel="expect" href="#ik-main" blocking="render">
+
+	<!-- This site is optimized with the Yoast SEO plugin v28.6 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Chrome Modern Web Guidance, What is it? - ivan</title>
+	<link rel="canonical" href="https://www.ivankristianto.com/chrome-modern-web-guidance/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Chrome Modern Web Guidance, What is it? - ivan" />
+	<meta property="og:description" content="Notes to my future self on Chrome&#039;s Modern Web Guidance skill: what it is, how to install it, and how it runs a small RAG over its guides with a local all-MiniLM model." />
+	<meta property="og:url" content="https://www.ivankristianto.com/chrome-modern-web-guidance/" />
+	<meta property="og:site_name" content="ivan" />
+	<meta property="article:published_time" content="2026-10-06T05:37:26+00:00" />
+	<meta property="article:modified_time" content="2026-10-27T11:45:57+00:00" />
+	<meta property="og:image:width" content="2144" />
+	<meta property="og:image:height" content="1024" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="author" content="ivan" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:creator" content="@ivankrisdotcom" />
+	<meta name="twitter:site" content="@ivankrisdotcom" />
+	<meta name="twitter:label1" content="Written by" />
+	<meta name="twitter:data1" content="ivan" />
+	<meta name="twitter:label2" content="Est. reading time" />
+	<meta name="twitter:data2" content="17 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{,,"@context":"https:\/\/schema.org","@graph":[{"@type":"Article","@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#article","isPartOf":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/"},"author":{"name":"ivan","@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"headline":"Chrome Modern Web Guidance, What is it?","datePublished":"2026-10-06T05:37:26+00:00","dateModified":"2026-10-27T11:45:57+00:00","mainEntityOfPage":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/"},"wordCount":3537,"publisher":{"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"image":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#primaryimage"},"thumbnailUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/10\/01-build-and-query-flow.png","keywords":["agent-skills","ai agents","chrome","experiments","rag","web-platform"],"articleSection":["AI","Web APIs"],"inLanguage":"en-US"},{"@type":"WebPage","@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/","url":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/","name":"Chrome Modern Web Guidance, What is it? - ivan","isPartOf":{"@id":"https:\/\/www.ivankristianto.com\/#website"},"primaryImageOfPage":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#primaryimage"},"image":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#primaryimage"},"thumbnailUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/10\/01-build-and-query-flow.png","datePublished":"2026-10-06T05:37:26+00:00","dateModified":"2026-10-27T11:45:57+00:00","breadcrumb":{"@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#primaryimage","url":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/10\/01-build-and-query-flow.png","contentUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/10\/01-build-and-query-flow.png"},{"@type":"BreadcrumbList","@id":"https:\/\/www.ivankristianto.com\/chrome-modern-web-guidance\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www.ivankristianto.com\/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https:\/\/www.ivankristianto.com\/articles\/"},{"@type":"ListItem","position":3,"name":"Chrome Modern Web Guidance, What is it?"}]},{"@type":"WebSite","@id":"https:\/\/www.ivankristianto.com\/#website","url":"https:\/\/www.ivankristianto.com\/","name":"Ivan - Web Engineer & Google Developer Expert","description":"Web engineer, WordPress, AI, Performance, Tooling","publisher":{"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.ivankristianto.com\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":["Person","Organization"],"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42","name":"ivan","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","url":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","contentUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","width":696,"height":666,"caption":"ivan"},"logo":{"@id":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg"},"description":"I am a Senior Web Engineer at Human Made and Google Developer Expert in Web Technology, Lead organiser of Jakarta WordPress Meetup and WordCamp Jakarta Organiser.","sameAs":["https:\/\/www.ivankristianto.com","https:\/\/www.linkedin.com\/in\/ivankristianto","https:\/\/x.com\/ivankrisdotcom"],"url":"https:\/\/www.ivankristianto.com\/author\/ivan\/"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<title>Chrome Modern Web Guidance, What is it? - ivan</title>
+<link rel='dns-prefetch' href='//www.ivankristianto.com' />
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel="alternate" type="application/rss+xml" title="ivan &raquo; Feed" href="https://www.ivankristianto.com/feed/" />
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<link rel='stylesheet' id='ik2-section-single-css' href='https://www.ivankristianto.com/wp-content/themes/ik2/build/section-single.css?ver=1793157051' media='all' />
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+
+
+<meta name="generator" content="Site Kit by Google 1.189.0" /><meta name="generator" content="performance-lab 4.2.0; plugins: ">
+
+<link rel="modulepreload" href="https://www.ivankristianto.com/wp-includes/js/dist/script-modules/interactivity/index.min.js?ver=efaa5193bbad9c60ffd1" id="@wordpress/interactivity-js-modulepreload" fetchpriority="low">
+
+<!-- Google Tag Manager snippet added by Site Kit -->
+
+
+<!-- End Google Tag Manager snippet added by Site Kit -->
+<link rel="icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" sizes="32x32" />
+<link rel="icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" />
+<meta name="msapplication-TileImage" content="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" />
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-1985 single-format-standard wp-embed-responsive wp-theme-ik2">
+		<!-- Google Tag Manager (noscript) snippet added by Site Kit -->
+		<noscript>
+			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5X6FPZ" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) snippet added by Site Kit -->
+		
+<div class="wp-site-blocks"><header class="wp-block-template-part">
+<div class="wp-block-group alignfull ik-header has-global-padding is-layout-constrained wp-container-core-group-is-layout-fd1e5494 wp-block-group-is-layout-constrained">
+	
+	<a class="ik-skip-link" href="#ik-main">Skip to content</a>
+	
+
+	
+	<div class="wp-block-group ik-header__row is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-49496290 wp-block-group-is-layout-flex">
+		<p class="ik-wordmark wp-block-site-title"><a href="https://www.ivankristianto.com" target="_self" rel="home">ivan</a></p>
+
+		
+		<div class="wp-block-group ik-header__right is-layout-flex wp-block-group-is-layout-flex">
+			<nav class="is-responsive items-justified-left ik-header__nav wp-block-navigation is-content-justification-left is-layout-flex wp-container-core-navigation-is-layout-94bab234 wp-block-navigation-is-layout-flex" aria-label="Primary" 
+		 data-wp-interactive="core/navigation" data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'><button aria-haspopup="dialog" aria-label="Open menu" class="wp-block-navigation__responsive-container-open" 
+				data-wp-on--click="actions.openMenuOnClick"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+			><svg></svg></button>
+				<div class="wp-block-navigation__responsive-container"  id="modal-1" 
+				data-wp-class--has-modal-open="state.isMenuOpen"
+				data-wp-class--is-menu-open="state.isMenuOpen"
+				data-wp-watch="callbacks.initMenu"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+				data-wp-on--focusout="actions.handleMenuFocusout"
+				tabindex="-1"
+			>
+					<div class="wp-block-navigation__responsive-close" tabindex="-1">
+						<div class="wp-block-navigation__responsive-dialog" 
+				data-wp-bind--aria-modal="state.ariaModal"
+				data-wp-bind--aria-label="state.ariaLabel"
+				data-wp-bind--role="state.roleAttribute"
+			>
+							<button aria-label="Close menu" class="wp-block-navigation__responsive-container-close" 
+				data-wp-on--click="actions.closeMenuOnClick"
+			><svg></svg></button>
+							<div class="wp-block-navigation__responsive-container-content" 
+				data-wp-watch="callbacks.focusFirstElement"
+			 id="modal-1-content">
+								<ul class="wp-block-navigation__container is-responsive items-justified-left ik-header__nav wp-block-navigation" aria-label="Primary"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/"><span class="wp-block-navigation-item__label">Home</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a aria-current="true" class="wp-block-navigation-item__content current-menu-item"  href="/articles/"><span class="wp-block-navigation-item__label">Articles</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/projects/"><span class="wp-block-navigation-item__label">Projects</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/speaking/"><span class="wp-block-navigation-item__label">Speaking</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/about/"><span class="wp-block-navigation-item__label">About</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/contact/"><span class="wp-block-navigation-item__label">Contact</span></a></li></ul>
+								
+							</div>
+						</div>
+					</div>
+				</div></nav>
+
+			
+			<button
+				type="button"
+				class="ik-header__cmd"
+				aria-keyshortcuts="Meta+K Control+K"
+				aria-haspopup="dialog"
+				aria-controls="ik-command-palette"
+				aria-expanded="false"
+			>
+				<span>Search</span>
+				<kbd aria-hidden="true">⌘K</kbd>
+			</button>
+			
+
+			
+			<div class="wp-block-buttons ik-header__resume-wrap is-layout-flex wp-block-buttons-is-layout-flex">
+				
+				<div class="wp-block-button ik-header__resume">
+					<a
+						class="wp-block-button__link wp-element-button"
+						href="/resume/"
+						>Resume</a
+					>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+</header>
+
+
+<main tabindex="-1" id="ik-main" class="wp-block-group alignfull ik-article has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+	
+<nav class="wp-block-group ik-crumbs is-layout-flex wp-block-group-is-layout-flex" aria-label="Breadcrumb">
+	<div class="yoast-breadcrumbs"><span><span><a class="ik-crumbs__link" href="https://www.ivankristianto.com/">Home</a></span> <span class="ik-crumbs__sep" aria-hidden="true">/</span> <span><a class="ik-crumbs__link" href="https://www.ivankristianto.com/articles/">Articles</a></span> <span class="ik-crumbs__sep" aria-hidden="true">/</span> <span class="breadcrumb_last ik-crumbs__current" aria-current="page"><strong>Chrome Modern Web Guidance, What is it?</strong></span></span></div>
+</nav>
+
+
+	
+<header class="wp-block-group ik-article__head is-layout-flow wp-block-group-is-layout-flow">
+	<h1 class="ik-article__title wp-block-post-title">Chrome Modern Web Guidance, What is it?</h1>
+
+	
+	<div class="wp-block-group ik-article__meta is-layout-flex wp-block-group-is-layout-flex">
+		<div class="ik-article__date wp-block-post-date"><time datetime="2026-10-06T12:37:26+07:00">2026-10-06</time></div>
+
+		
+		<p class="ik-article__sep wp-block-paragraph" aria-hidden="true">·</p>
+		
+
+		<div class="taxonomy-category ik-article__tags wp-block-post-terms"><a href="https://www.ivankristianto.com/ai/" rel="tag">AI</a><span class="wp-block-post-terms__separator"> </span><a href="https://www.ivankristianto.com/web-apis/" rel="tag">Web APIs</a></div>
+	</div>
+	
+</header>
+
+
+
+	
+
+	<div class="entry-content ik-article__body wp-block-post-content has-global-padding is-layout-constrained wp-block-post-content-is-layout-constrained">
+<h1 class="wp-block-heading">Chrome Modern Web Guidance</h1>
+<p class="wp-block-paragraph">This post is largely for my own use. In a few months I may forget how this process functions, and I will want to replicate the method for another project. These notes follow my review after cloning the source repository and reading it carefully.</p>
+
+
+
+<p class="wp-block-paragraph">The post has three parts, and they get more detailed as they go:</p>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Using it:</strong> what it is, how to install it, and what I use it for.</li>
+
+
+
+<li><strong>Real sessions:</strong> Observations on occasions I applied or replicated it, along with my impressions.</li>
+
+
+
+<li><strong>How it works inside:</strong> the search, the embedding model, and how Google tests the guides. This is the long part. If you only want to use the skill, you can stop before it and jump to <a href="#what-i-took-from-it">What I took from it</a> at the end.</li>
+</ol>
+
+
+
+<h2 id="what-it-is" class="wp-block-heading">What it is</h2>
+<h4 class="wp-block-heading">Before you start</h4>
+
+
+
+<p class="wp-block-paragraph"><a href="https://developer.chrome.com/docs/modern-web-guidance">Modern Web Guidance</a> is an agent skill from the Chrome team, with help from the Edge team and the community. It gives a coding agent (Claude Code, Gemini CLI, Codex, Copilot CLI, Cursor) a searchable library of short guides on how to use current web platform features.</p>
+
+
+
+<p class="wp-block-paragraph">The problem it solves is simple. Models learn from years of old code. Ask an agent for a modal and you often get a <code>div</code>, a focus trap library, and fifty lines of JavaScript, when <code>&lt;dialog&gt;</code> with <code>closedby="any"</code> does the job. Ask for a tooltip and you get Popper.js instead of the Popover API and anchor positioning. The model may know the new API exists, but it has seen far fewer real examples of it.</p>
+
+
+
+<p class="wp-block-paragraph">The skill fixes that by putting the right guide into the agent&#8217;s context at the moment it needs it, and nothing else.</p>
+
+
+
+<p class="wp-block-paragraph">At the time of writing (CLI version <code>0.0.191</code>, October 2026) the package ships 161 guides across 16 categories: accessibility, built-in AI, CSS, forms, HTML, JS, performance, privacy, PWA, security, UI atoms, UI behaviors, UI components, visual design, WebAssembly and WebMCP. The README lists 130 web features covered. In September it was 104 features and 132 use cases, so it&#8217;s growing fast.</p>
+
+
+
+<p class="wp-block-paragraph">Two repos to remember:</p>
+
+
+
+<ul class="wp-block-list">
+<li><a href="https://github.com/GoogleChrome/modern-web-guidance">GoogleChrome/modern-web-guidance</a> is the published skill.</li>
+
+
+
+<li><a href="https://github.com/GoogleChrome/modern-web-guidance-src">GoogleChrome/modern-web-guidance-src</a> is the source: guide content, the build pipeline, the CLI, and the eval harness. This is the one worth reading.</li>
+</ul>
+
+
+
+<h2 id="installing-it" class="wp-block-heading">Installing it</h2>
+
+
+
+<p class="wp-block-paragraph">The interactive installer detects which agents I have and wires the skill in: To install it, <a href="https://developer.chrome.com/docs/">click here</a>.</p>
+<figure class="wp-block-image"><img src="https://www.ivankristianto.com/wp-content/uploads/2026/10/guidance-terminal.png" width="1200" height="700" /></figure>
+
+
+
+<pre data-language="bash" class="wp-block-code"><code>npx modern-web-guidance@latest install</code></pre>
+
+
+
+<p class="wp-block-paragraph">Agent-specific options, from the Chrome docs:</p>
+
+
+
+<pre data-language="bash" class="wp-block-code"><code># Claude Code
+claude plugin install modern-web-guidance@claude-plugins-official
+
+# Vercel's skills CLI
+npx skills add GoogleChrome/modern-web-guidance</code></pre>
+
+
+
+<p class="wp-block-paragraph">You don&#8217;t have to install anything to try it. The CLI works on its own:</p>
+
+
+
+<pre data-language="bash" class="wp-block-code"><code>npx modern-web-guidance@latest search "animate a dialog modal backdrop"
+npx modern-web-guidance@latest retrieve "animate-to-from-top-layer"
+npx modern-web-guidance@latest list</code></pre>
+
+
+
+<p class="wp-block-paragraph">One thing to know: the CLI sends usage telemetry (search queries, guide IDs, latency) to Google. Turn it off with:</p>
+
+
+
+<pre data-language="bash" class="wp-block-code"><code>export DISABLE_TELEMETRY=1</code></pre>
+
+
+
+<h2 id="what-i-use-it-for" class="wp-block-heading">What I use it for</h2>
+
+
+
+<p class="wp-block-paragraph">The skill&#8217;s description tells the agent to run it first for any HTML, CSS or client-side JS task. These are the kinds of jobs it covers. The next section has the ones I&#8217;ve actually run.</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>New UI.</strong> Accordions with exclusive <code>&lt;details name&gt;</code>, tab underlines with anchor positioning, cards that respond to container queries, carousels with scroll snap and scroll markers.</li>
+
+
+
+<li><strong>Modernizing old code.</strong> Swap a custom modal for <code>&lt;dialog&gt;</code>, a JS tooltip for <code>popover="hint"</code>, a scroll listener for a scroll-driven animation.</li>
+
+
+
+<li><strong>Performance.</strong> LCP image priority with <code>fetchpriority</code>, <code>content-visibility</code> for long pages, <code>scheduler.yield()</code> to break up long tasks for INP, speculation rules for instant navigations.</li>
+
+
+
+<li><strong>Security and auth.</strong> Passkeys with WebAuthn, Trusted Types, CSP setup.</li>
+</ul>
+
+
+
+<p class="wp-block-paragraph">The guides also carry Baseline data for each feature. By default the agent treats Baseline Widely Available features as safe and adds the guide&#8217;s fallback for anything newer. If a project has its own support policy, the skill tells the agent to read it from <code>CLAUDE.md</code> or <code>AGENTS.md</code>. Something like this is enough:</p>
+
+
+
+<pre class="wp-block-code"><code>**Browser Support:** Allow Newly Available features, but only add fallback
+code that is 20 lines or fewer and needs no external dependency.</code></pre>
+
+
+
+<p class="wp-block-paragraph">I should add one of these to my own projects. Without it the agent will dutifully add fallbacks I don&#8217;t want.</p>
+
+
+
+<h2 id="where-ive-used-it-so-far" class="wp-block-heading">Where I&#8217;ve used it so far</h2>
+
+
+
+<p class="wp-block-paragraph">Four sessions occurred over the past month. Three involve actual web work: one on this blog (the site you are reading) and two on a client’s WordPress site. The fourth marks where I began replicating the concept. Client details have been removed.</p>
+
+
+
+<p class="wp-block-paragraph">In each one I told the agent to use the skill in my prompt. I didn&#8217;t wait to see if it would pick the skill up by itself.</p>
+
+
+
+<h3 id="1-a-performance-and-accessibility-pass-on-this-blog" class="wp-block-heading">1. A performance and accessibility pass on this blog</h3>
+
+
+
+<p class="wp-block-paragraph">I gave the agent five guide IDs up front: <code>optimize-image-priority</code>, <code>improve-next-page-load-performance</code>, <code>defer-rendering-heavy-content</code>, <code>css-layout</code> and <code>accessibility</code>, plus the two cross-document transition guides. It ran <code>list</code>, then <code>retrieve</code> with all of them comma-separated in one call. Later it ran one narrow search on its own: &#8220;keyboard focus order follows visual order of flex items reordered with CSS order.&#8221;</p>
+
+
+
+<p class="wp-block-paragraph">What came out of it:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Image priority.</strong> The LCP images already had <code>fetchpriority="high"</code>. No change. I like that the guide let the agent confirm this instead of inventing work.</li>
+
+
+
+<li><strong>Next-page loading.</strong> Links now prerender on hover instead of only prefetching on click, with feeds excluded.</li>
+
+
+
+<li><strong>Deferred rendering.</strong> The last two home sections and the later resume sections use <code>content-visibility</code> and skip rendering until you scroll near them. No height jump, and keyboard users can still tab into them.</li>
+
+
+
+<li><strong>Page transitions.</strong> These are cross-document view transitions, where the browser animates from one page to the next on a normal link click. The first attempt was a whole-page cross-fade, and it looked like flicker. For part of the 200 ms both pages were visible at half opacity, and two unrelated layouts double-exposed read as a jump. The fix was a fade-through (old page out in 100 ms, a moment of plain paper, new page in) with the header pinned so it never fades. Pinning the header then broke taps on the mobile menu, which needed its own fix.</li>
+</ul>
+
+
+
+<p class="wp-block-paragraph">axe reported no WCAG 2.2 AA issues afterwards on six templates. The guide got the agent to the right APIs. Making the transition feel right still took me looking at it frame by frame.</p>
+
+
+
+<h3 id="2-site-performance-on-a-client-wordpress-site" class="wp-block-heading">2. Site performance on a client WordPress site</h3>
+
+
+
+<p class="wp-block-paragraph">Same pattern: <code>list</code>, then one <code>retrieve</code> for the <code>performance</code> hub guide (each category has one overview guide that links to the specific ones) plus <code>optimize-image-priority</code>, <code>optimize-preload-priority</code>, <code>identify-inp-causes</code>, <code>defer-rendering-heavy-content</code> and <code>improve-next-page-load-performance</code>. One extra search for &#8220;prerender next page navigation with speculation rules.&#8221;</p>
+
+
+
+<p class="wp-block-paragraph">Two findings stuck with me:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>WordPress core already ships speculation rules.</strong> It prerenders a same-origin link after a 200 ms hover, with the right exclusions for admin, login, uploads and query strings. The agent checked core&#8217;s rule against the guide&#8217;s checklist, found it already covered, and only added a more eager prefetch for the header nav links on top.</li>
+
+
+
+<li><strong>The font stylesheet was the real blocker.</strong> It got split in two: a 6 KB render-blocking file with only the glyphs the site uses, and a 95 KB fallback for everything else. The fallback starts as <code>&lt;link media="print"&gt;</code> and switches to <code>media="all"</code> once it loads, so it never blocks first paint and Chrome fetches it at the lowest priority.</li>
+</ul>
+
+
+
+<p class="wp-block-paragraph">A gotcha to remember: Chrome disables prerendering while DevTools automation is attached (<code>PrerenderingDisabledByDevTools</code>). The agent can see the prefetch happen but can&#8217;t watch a prerendered page open. Check that by hand in a normal window under DevTools → Application → Speculative loads.</p>
+
+
+
+<h3 id="3-a-core-web-vitals-audit-on-the-same-site" class="wp-block-heading">3. A Core Web Vitals audit on the same site</h3>
+
+
+
+<p class="wp-block-paragraph">This one was audit and recommendations only. The agent looped over five searches:</p>
+
+
+
+<pre class="wp-block-code"><code>for q in "improve LCP image loading priority" \
+         "improve INP interaction responsiveness long tasks" \
+         "prevent layout shift CLS" \
+         "defer offscreen rendering content-visibility" \
+         "responsive images srcset sizes"; do
+  npx -y modern-web-guidance@latest search "$q"
+done</code></pre>
+
+
+
+<p class="wp-block-paragraph">Then it retrieved six guides, including <code>visually-stable-font-fallbacks</code> and <code>break-up-long-tasks</code>. The fixes that followed:</p>
+
+
+
+<ul class="wp-block-list">
+<li><code>fetchpriority="low"</code> on a decorative signature image, so core gives the portrait next to it <code>fetchpriority="high"</code> at every width.</li>
+
+
+
+<li>A <code>srcset</code> for core images that had no intermediate sizes, so the 1600px original stopped going to every screen.</li>
+
+
+
+<li><code>sizes</code> hints written from the rendered width of each image, measured from 360px to 1920px. At 768px wide, one section image went from fetching 1600w to 1024w, which is exactly what its slot needed.</li>
+</ul>
+
+
+
+<h3 id="4-not-a-use-but-a-copy" class="wp-block-heading">4. Not a use, but a copy</h3>
+
+
+
+<p class="wp-block-paragraph">The last session wasn&#8217;t a web task. I spent it designing a skill for work that copies this architecture for WordPress conventions: blocks, block themes, performance, security. It&#8217;s covered at the end of this post.</p>
+
+
+
+<h3 id="what-i-noticed-from-using-it" class="wp-block-heading">What I noticed from using it</h3>
+
+
+
+<ul class="wp-block-list">
+<li><strong>I rarely start with <code>search</code>.</strong> When I already know the area, <code>list</code> plus one <code>retrieve</code> with several IDs is faster. Search earns its place for narrow questions in the middle of a task, like the focus-order one above.</li>
+
+
+
+<li><strong>It&#8217;s good at telling me what&#8217;s already done.</strong> Twice the guide confirmed the existing code was right (LCP priority, core&#8217;s speculation rules). That&#8217;s worth as much as a new fix, because the agent didn&#8217;t rewrite working code.</li>
+
+
+
+<li><strong>Guides get the API right. They don&#8217;t make the result look good.</strong> The view transition was correct by the guide and still looked wrong. I needed to look at it myself.</li>
+
+
+
+<li><strong>I didn&#8217;t measure the skill on its own.</strong> I have no before and after Lighthouse numbers from these sessions, and no run of the same task without the skill. So I can say what changed, not how much the skill was responsible for. Google&#8217;s evals (section 8 below) are the place that measures that.</li>
+</ul>
+
+
+
+<h2 id="how-it-works-behind-the-scenes" class="wp-block-heading">How it works behind the scenes</h2>
+
+
+
+<p class="wp-block-paragraph">This is the part I actually wanted to remember.</p>
+
+
+
+<p class="wp-block-paragraph">The skill is a small RAG system (retrieval-augmented generation: find the relevant text first, then hand only that text to the model) that runs entirely on my laptop. No vector database service, no embedding API, no API key. A 21.5 MB embedding model and a gzipped JSON file of about 6 MB do all the work.</p>
+
+
+
+<figure class="wp-block-image size-full"><a href="https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow.png"><img loading="lazy" decoding="async" width="2144" height="1024" src="https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow.png" alt="Build time chunks, embeds and gzips the guides. Query time embeds the query and scans the shipped vector file." class="wp-image-1981" srcset="https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow.png 2144w, https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow-300x143.png 300w, https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow-1024x489.png 1024w, https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow-768x367.png 768w, https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow-1536x734.png 1536w, https://www.ivankristianto.com/wp-content/uploads/2026/10/01-build-and-query-flow-2048x978.png 2048w" sizes="auto, (max-width: 960px) 100vw, 960px" /></a><figcaption class="wp-element-caption">The gzipped vector file is the only thing that crosses from build to query. At query time nothing embeds a document or touches the network. It embeds one string, reads two local files and does arithmetic. Dashed arrows are file reads.</figcaption></figure>
+
+
+
+<h3 id="1-the-skill-file" class="wp-block-heading">1. The skill file</h3>
+
+
+
+<p class="wp-block-paragraph"><code>SKILL.md</code> is short. It tells the agent three things: search with an action-oriented query, retrieve the guide by ID, then check its own code against the guide before finishing. The search command includes <code>--skill-version 2026_09_04-7de96777</code>, which the CLI compares against its own version to warn on stderr when the installed <code>SKILL.md</code> is stale. Small detail, but it means the instructions and the tool can&#8217;t drift apart quietly.</p>
+
+
+
+<p class="wp-block-paragraph">The full library never goes into context. The agent sees five search results, each with a <code>tokenCount</code>, then pulls one or two guides. A typical guide is 1,000 to 3,000 tokens.</p>
+
+
+
+<h3 id="2-the-guides" class="wp-block-heading">2. The guides</h3>
+
+
+
+<p class="wp-block-paragraph">In the source repo every guide is a folder:</p>
+
+
+
+<pre class="wp-block-code"><code>guides/ui-behaviors/animate-to-from-top-layer/
+  guide.md          # the guidance, written for agents
+  demo.html         # a gold-standard working example
+  expectations.md   # testable assertions, used to generate graders
+  targets/...       # generated eval tasks, patches and Playwright graders</code></pre>
+
+
+
+<p class="wp-block-paragraph"><code>guide.md</code> has frontmatter with <code>name</code>, <code>description</code> and <code>web-feature-ids</code>. The body is written for a model, not a person: imperative DO and DO NOT lists, short commented snippets, a fallback section. Authors use macros like <code>{{ BASELINE_STATUS("popover") }}</code> and <code>{{ FEATURE_FALLBACKS("anchor-positioning") }}</code>, which the build expands from the <code>web-features</code> and <code>@mdn/browser-compat-data</code> packages. Browser support data comes from the source of truth at build time instead of being typed by hand.</p>
+
+
+
+<p class="wp-block-paragraph">Here&#8217;s a trimmed piece of what <code>retrieve light-dismiss-a-dialog</code> returns, so I remember the tone:</p>
+
+
+
+<pre class="wp-block-code"><code>## Constraints &amp; Accessibility
+
+- **MANDATORY**: Use `closedby="any"` to enable light-dismiss declaratively.
+- **MANDATORY**: Always open modal dialogs with `showModal()`. This ensures the
+  dialog is in the top layer, focus is trapped, and the `Esc` key is handled.
+- **DO**: Use `aria-labelledby` or `aria-label` to provide an accessible name.
+- **DO NOT**: Use `closedby` for non-modal dialogs (opened with `show()`).
+
+## Fallback strategies
+
+&lt;dialog closedby&gt; has limited availability.
+Supported by: Chrome 134 (Mar 2025), Edge 134 (Mar 2025), and Firefox 141 (Jul 2025).
+Unsupported in: Safari.</code></pre>
+
+
+
+<p class="wp-block-paragraph">That &#8220;Supported by&#8221; block is the expanded <code>BASELINE_STATUS</code> macro. The full guide then gives a short click-outside script as the Safari fallback.</p>
+
+
+
+<h3 id="3-building-the-index" class="wp-block-heading">3. Building the index</h3>
+
+
+
+<p class="wp-block-paragraph"><code>serving/scripts/build-guides.ts</code> turns the guides into the index. For each published guide it:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Expands the macros.</li>
+
+
+
+<li>Splits the markdown into chunks at every heading (using <code>marked.lexer</code>), and adds the raw frontmatter as one more chunk.</li>
+
+
+
+<li>Prefixes each chunk with the guide ID, category and feature names before embedding. So a chunk about <code>@starting-style</code> is embedded as <code>animate-to-from-top-layer (ui-behaviors)\nFeatures: ::backdrop, &lt;dialog&gt;, ...\n\n&lt;chunk&gt;</code>. Every chunk carries the guide&#8217;s identity, which helps a query match the right guide even when it only hits one section.</li>
+
+
+
+<li>Embeds each chunk with <code>Xenova/all-MiniLM-L6-v2</code> through transformers.js. Embedding turns text into a list of 384 numbers, placed so that texts with similar meaning end up close together. That closeness is what search measures later.</li>
+
+
+
+<li>Writes everything to <code>use-cases.vectors.gen.json.gz</code>. Each record holds the guide ID, description, category, features, token count, chunk text, and a 384-number vector.</li>
+</ol>
+
+
+
+<p class="wp-block-paragraph">The current file has 1,628 chunks from 161 guides, about 6 MB gzipped.</p>
+
+
+
+<p class="wp-block-paragraph">The build also hashes the guide files and the build scripts, and skips the whole embedding step on a cache hit. Re-embedding 1,600 chunks on every build would get old quickly.</p>
+
+
+
+<h3 id="4-loading-the-model" class="wp-block-heading">4. Loading the model</h3>
+
+
+
+<p class="wp-block-paragraph">At query time the embedder (<code>serving/lib/tfjs-embedder.ts</code>) loads <code>all-MiniLM-L6-v2</code> as a TensorFlow.js graph model.</p>
+
+
+
+<figure class="wp-block-image size-full"><a href="https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading.png"><img loading="lazy" decoding="async" width="1864" height="764" src="https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading.png" alt="A custom IO handler reads model.json and the weight shard from disk. The BERT tokenizer produces three int32 tensors. Mean pooling and L2 normalization are part of the graph." class="wp-image-1982" srcset="https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading.png 1864w, https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading-300x123.png 300w, https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading-1024x420.png 1024w, https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading-768x315.png 768w, https://www.ivankristianto.com/wp-content/uploads/2026/10/02-model-loading-1536x630.png 1536w" sizes="auto, (max-width: 960px) 100vw, 960px" /></a><figcaption class="wp-element-caption">Two inputs feed one graph, and the graph does more than the encoder. The conversion script appends mean pooling and L2 normalization before converting, so <code>embed()</code> gets a finished unit vector with no pooling code in TypeScript. The struck-through line at the top is TF.js&#8217;s default way of loading a model (over HTTP), which the CLI replaces with disk reads.</figcaption></figure>
+
+
+
+<p class="wp-block-paragraph">Two terms that come up below. The model produces one vector per token; <strong>mean pooling</strong> averages them into one vector for the whole text. <strong>L2 normalization</strong> then scales that vector to length 1, so comparing two vectors only measures direction (meaning), not length.</p>
+
+
+
+<p class="wp-block-paragraph">A few details I liked:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>The model is converted ahead of time.</strong> <code>tfjs_model_minilm/convert.py</code> takes the PyTorch weights, wraps them in Keras with mean pooling and L2 normalization, and converts to a TF.js graph model with <code>--quantization_bytes=1</code>. That 8-bit quantization is how about 90 MB of float32 weights becomes one 21.5 MB shard. (The README in that folder still says float32. The script and the file size say otherwise.)</li>
+
+
+
+<li><strong>CPU backend only.</strong> No native binaries, no GPU, nothing for <code>npx</code> to compile. It runs anywhere Node runs.</li>
+
+
+
+<li><strong>Only the kernels it needs.</strong> The production bundle swaps in <code>tfjs-kernels-precise.ts</code>, which registers about 26 CPU kernels instead of the whole backend. A kernel is the code for one math operation (matrix multiply, softmax and so on). This model only uses 26 of them, so shipping the rest would be dead weight.</li>
+
+
+
+<li><strong>Tokenizer without the runtime.</strong> They use transformers.js only for its BERT tokenizer. To keep <code>onnxruntime-node</code> out of the bundle, esbuild aliases it to <code>dummy-onnx.ts</code>, which is a <code>Proxy</code> that returns a no-op function for any property. Cheap and effective. Without it, the npm package would drag in a native ONNX binary it never calls.</li>
+
+
+
+<li><strong>No network on the hot path.</strong> The package carries <code>tokenizer.json</code> in the transformers.js cache location, so <code>local_files_only: true</code> resolves on the first run. The model loads through a custom IO handler that reads <code>model.json</code> and the weight shard from disk instead of using <code>fetch</code>.</li>
+
+
+
+<li><strong>Quiet output.</strong> <code>init()</code> silences <code>console.log</code> and <code>console.warn</code> while TF.js starts, so backend chatter can&#8217;t break the JSON the agent parses.</li>
+</ul>
+
+
+
+<h3 id="5-searching" class="wp-block-heading">5. Searching</h3>
+
+
+
+<p class="wp-block-paragraph"><code>serving/lib/search.ts</code> is short enough to read in one sitting. The search itself is brute force:</p>
+
+
+
+<pre data-language="javascript" class="wp-block-code"><code>for (const item of cachedVectors) {
+  const sim = dotProduct(queryVector, item.vector) / (queryNorm * item.norm);
+  if (sim &lt; minSimilarity) continue;
+
+  const existing = resultsMap.get(item.id);
+  if (!existing || sim &gt; existing.similarity) {
+    resultsMap.set(item.id, { item, similarity: sim });
+  }
+}</code></pre>
+
+
+
+<p class="wp-block-paragraph">Cosine similarity against all 1,628 chunks, drop anything under 0.3, keep the best-scoring chunk per guide, sort, return the top five. No approximate-nearest-neighbour index (HNSW, FAISS and the like, which exist to avoid comparing against every vector), no vector DB. At this size a linear scan takes a few milliseconds, so anything smarter would be overhead.</p>
+
+
+
+<p class="wp-block-paragraph">The division by the two norms is the standard cosine formula. With this model it changes nothing, because every vector already has length 1 and the dot product alone gives the same score. It keeps the function correct if someone swaps in a model that doesn&#8217;t normalize.</p>
+
+
+
+<figure class="wp-block-image size-full"><a href="https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse.png"><img loading="lazy" decoding="async" width="1824" height="724" src="https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse.png" alt="One guide is split into several chunks. Each is scored, and a Map keyed by guide ID keeps only the highest score." class="wp-image-1983" srcset="https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse.png 1824w, https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse-300x119.png 300w, https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse-1024x406.png 1024w, https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse-768x305.png 768w, https://www.ivankristianto.com/wp-content/uploads/2026/10/03-chunk-collapse-1536x610.png 1536w" sizes="auto, (max-width: 960px) 100vw, 960px" /></a><figcaption class="wp-element-caption">Chunking happens at build time, collapsing happens at query time. That <code>Map</code> is why the results read as five guides instead of five pieces of the same guide. The scores in the diagram are made up for illustration.</figcaption></figure>
+
+
+
+<p class="wp-block-paragraph">A real run:</p>
+
+
+
+<pre class="wp-block-code"><code>$ DISABLE_TELEMETRY=1 npx -y modern-web-guidance@latest search "animate a dialog modal backdrop"</code></pre>
+
+
+
+<pre data-language="json" class="wp-block-code"><code>&#91;{"id":"light-dismiss-a-dialog","category":"ui-behaviors","featuresUsed":&#91;"&lt;dialog closedby&gt;"],"tokenCount":1092,"similarity":0.703},
+{"id":"animate-to-from-top-layer","category":"ui-behaviors","featuresUsed":&#91;"::backdrop","&lt;dialog&gt;","overlay","Popover","@starting-style","transition-behavior"],"tokenCount":1947,"similarity":0.6813},
+{"id":"declarative-dialog-popover-control","category":"ui-behaviors","featuresUsed":&#91;"Invoker commands","Popover","&lt;dialog&gt;"],"tokenCount":3001,"similarity":0.562},
+{"id":"html","category":"html","tokenCount":5587,"similarity":0.5471},
+{"id":"accessibility","category":"accessibility","tokenCount":7131,"similarity":0.5102}]</code></pre>
+
+
+
+<p class="wp-block-paragraph">(I trimmed the descriptions.) About 1.2 seconds wall time with a warm npx cache, and most of that is Node starting and loading the model. The output is one JSON object per line on purpose; the CLI source has a comment saying it&#8217;s compact so the user can read it in the agent&#8217;s output and it costs fewer tokens.</p>
+
+
+
+<p class="wp-block-paragraph">The CLI also loads the embedder with a dynamic <code>import()</code> only in the <code>search</code> branch, and the published package splits it into a separate <code>search.mjs</code> bundle. <code>list</code> and <code>retrieve</code> never pay for the model.</p>
+
+
+
+<p class="wp-block-paragraph">One thing I noticed: the index is built with the transformers.js version of the model (ONNX, <code>q8</code>), while queries use the TF.js conversion with its own 8-bit weights. Same model, two runtimes, two quantizations. The vectors are close enough that cosine scores still rank well, and their RAG benchmark in <code>serving/benchmarks/rag/</code> compares the variants. Worth remembering if I copy this: use one runtime for both sides, or measure that the two agree well enough.</p>
+
+
+
+<h3 id="6-retrieving" class="wp-block-heading">6. Retrieving</h3>
+
+
+
+<p class="wp-block-paragraph"><code>retrieve</code> is boring, which is good. It looks up the ID in a generated TypeScript list and reads <code>guides/&lt;category&gt;/&lt;id&gt;.md</code> from the package. The macros were already expanded at build time, so the agent gets clean markdown with the Baseline status and fallbacks inlined.</p>
+
+
+
+<h3 id="7-publishing" class="wp-block-heading">7. Publishing</h3>
+
+
+
+<p class="wp-block-paragraph">The build output goes to two places, and they don&#8217;t get the same files.</p>
+
+
+
+<figure class="wp-block-image size-full"><a href="https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets.png"><img loading="lazy" decoding="async" width="1824" height="752" src="https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets.png" alt="dist/skills-cli is pushed to the GitHub distribution repo through a filter that strips bundles, the model and the vectors, and published in full to npm." class="wp-image-1984" srcset="https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets.png 1824w, https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets-300x124.png 300w, https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets-1024x422.png 1024w, https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets-768x317.png 768w, https://www.ivankristianto.com/wp-content/uploads/2026/10/04-publish-targets-1536x633.png 1536w" sizes="auto, (max-width: 960px) 100vw, 960px" /></a><figcaption class="wp-element-caption">The GitHub repo gets markdown only, which people can read and review. The npm tarball has everything needed to search, and it&#8217;s what <code>npx</code> downloads. The diagram is a snapshot of release 0.0.185 (140 guides). Today&#8217;s 0.0.191 has 161 guides, and the flow is the same.</figcaption></figure>
+
+
+
+<p class="wp-block-paragraph">A weekly GitHub Action builds the distribution, tests it, pushes the filtered copy to the public skill repo, tags a release, then runs <code>npm publish --provenance</code>. Reviewing a diff of 140 markdown files is useful. Reviewing a diff of a 6 MB gzipped float blob is not.</p>
+
+
+
+<h3 id="8-proving-the-guides-help" class="wp-block-heading">8. Proving the guides help</h3>
+
+
+
+<p class="wp-block-paragraph">The part that&#8217;s easy to miss: they test whether each guide actually changes agent output.</p>
+
+
+
+<p class="wp-block-paragraph"><code>gd</code> is the repo&#8217;s own CLI for authors. Each guide has an <code>expectations.md</code>, a plain list of things that must be true if the guide was followed. <code>gd dev</code> then:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Asks three different coding agents (Google&#8217;s internal Jetski or Gemini CLI, Claude Code, and Codex) to implement the guide in two sample apps. These are the <strong>golden patches</strong>, known-good answers.</li>
+
+
+
+<li>Generates one deliberately wrong answer, the <strong>zero-passrate patch</strong>.</li>
+
+
+
+<li>Writes a Playwright test (the <strong>grader</strong>) from the expectations.</li>
+
+
+
+<li><strong>Calibrates</strong> the grader: it only counts if it passes every golden patch and fails the wrong one. If not, it regenerates the grader with the failure fed back in.</li>
+</ol>
+
+
+
+<p class="wp-block-paragraph">Then <code>gd eval</code> runs each task twice, once with the skill and once without, grades both with the calibrated grader, and compares pass rates. The README says they use these results to cut content the models already know. That&#8217;s why the guides skip basics: anything the model already knows is wasted tokens.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 id="what-i-took-from-it" class="wp-block-heading">What I took from it</h2>
+
+
+
+<p class="wp-block-paragraph">The idea I keep coming back to: <strong>a skill doesn&#8217;t need to hold the knowledge. It can hold a search tool for the knowledge.</strong></p>
+
+
+
+<p class="wp-block-paragraph">A normal skill is a markdown file the agent reads in full. That stops working once you have more than a handful of topics, because every topic you add costs context in every session. This design keeps <code>SKILL.md</code> small and stable, puts the knowledge in a local index, and lets the agent pull only what the current task needs. Adding guide number 162 costs nothing at runtime.</p>
+
+
+
+<p class="wp-block-paragraph">The pieces are all off the shelf:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Markdown files with frontmatter as the source of truth.</li>
+
+
+
+<li>Chunk by heading, prefix each chunk with its document&#8217;s identity, embed.</li>
+
+
+
+<li>A small sentence-embedding model (all-MiniLM-L6-v2, 384 dimensions) that runs on CPU.</li>
+
+
+
+<li>A gzipped JSON file as the &#8220;vector database.&#8221;</li>
+
+
+
+<li>Brute-force cosine similarity.</li>
+
+
+
+<li>A CLI with <code>search</code>, <code>retrieve</code> and <code>list</code>, run through <code>npx</code>.</li>
+
+
+
+<li>Evals that compare the agent with and without the guidance.</li>
+</ul>
+
+
+
+<p class="wp-block-paragraph">The core of it is small. <code>search.ts</code>, <code>tfjs-embedder.ts</code>, <code>build-guides.ts</code>, <code>retrieve.ts</code> and <code>practices.ts</code> add up to about 670 lines, and the build script is more than half of that.</p>
+
+
+
+<h3 id="copying-it-for-wordpress" class="wp-block-heading">Copying it for WordPress</h3>
+
+
+
+<p class="wp-block-paragraph">I&#8217;ve started on this at work. Our blocks, block themes, performance and security conventions are spread across repos, handbooks and people&#8217;s heads, and agents default to whatever WordPress code they saw in training. So I&#8217;m building an internal skill with the same shape: task-shaped guides, <code>expectations.md</code>, golden and zero-passrate patches, and calibrated graders. </p>
+
+
+
+<p class="wp-block-paragraph">Some decisions came straight from reading this codebase, and a few go the other way:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>One runtime for embedding.</strong> MiniLM through TensorFlow.js at both build and query time, so the index and the query vectors come from the same weights.</li>
+
+
+
+<li><strong>Keyword search alongside vectors.</strong> WordPress questions are full of exact names (hooks, functions, block names) that a 384-dimension embedding can blur. So I&#8217;m adding BM25, the classic keyword ranking that search engines used long before embeddings, and merging the two result lists with reciprocal rank fusion (each guide scores by how high it ranks in each list). A small retrieval benchmark checks that the mix beats either one alone.</li>
+
+
+
+<li><strong>The skill carries its own CLI.</strong> <code>SKILL.md</code> runs a bundled script with <code>node</code> instead of <code>npx</code>, so a search never depends on the registry or the network.</li>
+
+
+
+<li><strong>The built skill is committed</strong> under <code>dist/</code>, so there&#8217;s no separate publish step.</li>
+
+
+
+<li><strong>Static-first graders.</strong> Graders check the code itself first and only reach for a browser when an expectation needs one.</li>
+
+
+
+<li><strong>Guides are self-contained.</strong> No live handbook lookups at query time. Handbook changes get ported by hand.</li>
+</ul>
+
+
+
+<p class="wp-block-paragraph">My checklist if I do this again for something else:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Start with ten guides that fix things agents get wrong today. Write them for a model: DO and DO NOT, short snippets.</li>
+
+
+
+<li>Chunk at headings, prefix with ID and category, embed with all-MiniLM-L6-v2, gzip the JSON.</li>
+
+
+
+<li>Ship search and retrieve as a CLI. Brute-force cosine until it&#8217;s measurably slow. Add BM25 if names and identifiers matter.</li>
+
+
+
+<li>Use the same embedding runtime at build and query time.</li>
+
+
+
+<li>Return <code>tokenCount</code> with search results so the agent can budget.</li>
+
+
+
+<li>Version <code>SKILL.md</code> against the CLI so stale installs warn.</li>
+
+
+
+<li>Write evals early, even a crude with-and-without comparison. Without them there&#8217;s no way to know a guide helps.</li>
+
+
+
+<li>Make telemetry opt-in for anything internal.</li>
+</ol>
+
+
+
+<p class="wp-block-paragraph">The same pattern works outside agent skills too. Search over a personal notes folder, or a docs site where the search box runs on the visitor&#8217;s CPU (TF.js runs in the browser too). Wherever I have a pile of markdown and want &#8220;find the relevant one&#8221; without a server, this is the template.</p>
+
+
+<!--[googlesitekit-end-of-content]-->
+
+</div>
+
+	<div id="tags" class="taxonomy-post_tag ik-article__tagged wp-block-post-terms ik-tag-line"><span class="ik-tag-line__label">tags:</span><a href="https://www.ivankristianto.com/tag/agent-skills/" rel="tag">agent-skills</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/ai-agents/" rel="tag">ai agents</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/chrome/" rel="tag">chrome</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/experiments/" rel="tag">experiments</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/rag/" rel="tag">rag</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/web-platform/" rel="tag">web-platform</a></div>
+</main>
+
+
+<footer class="wp-block-template-part">
+<div
+	class="wp-block-group alignfull ik-footer has-soft-paper-background-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-fd1e5494 wp-block-group-is-layout-constrained"
+>
+	
+	<div class="wp-block-group ik-footer__bottom is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-e980f4c3 wp-block-group-is-layout-flex">
+		
+		<p class="ik-footer__copy wp-block-paragraph">
+			©&nbsp;2010&#8288;–&#8288;2026 Ivan. All thoughts my own.
+		</p>
+		
+
+		
+		<div class="wp-block-group ik-footer__links is-content-justification-right is-layout-flex wp-container-core-group-is-layout-078285ef wp-block-group-is-layout-flex">
+			<nav class="items-justified-right ik-footer__meta wp-block-navigation is-content-justification-right is-layout-flex wp-container-core-navigation-is-layout-2aff95ba wp-block-navigation-is-layout-flex" aria-label="Footer"><ul class="wp-block-navigation__container items-justified-right ik-footer__meta wp-block-navigation" aria-label="Footer"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/privacy/"><span class="wp-block-navigation-item__label">Privacy</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/accessibility/"><span class="wp-block-navigation-item__label">Accessibility</span></a></li></ul></nav>
+
+			
+			<nav class="ik-footer__social" aria-label="Profiles">
+				<ul>
+					<li><a href="https://github.com/ivankristianto" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://linkedin.com/in/ivankristianto" target="_blank" rel="noopener" aria-label="LinkedIn (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://x.com/ivankrisdotcom" target="_blank" rel="noopener" aria-label="X (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://profiles.wordpress.org/ivankristianto/" target="_blank" rel="noopener" aria-label="WordPress.org profile (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://www.ivankristianto.com/feed" target="_blank" rel="noopener" aria-label="RSS feed (opens in a new tab)"><svg></svg></a></li>
+				</ul>
+			</nav>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+</footer>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

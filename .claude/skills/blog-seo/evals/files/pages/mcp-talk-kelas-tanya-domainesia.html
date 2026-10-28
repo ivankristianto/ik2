@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<link rel="expect" href="#ik-main" blocking="render">
+
+	<!-- This site is optimized with the Yoast SEO plugin v28.6 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Letting an AI agent into your hosting, safely - ivan</title>
+	<link rel="canonical" href="https://www.ivankristianto.com/mcp-talk-kelas-tanya-domainesia/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Letting an AI agent into your hosting, safely - ivan" />
+	<meta property="og:description" content="Notes from my MCP talk at Kelas Tanya DomaiNesia: what agents and MCP are, and why content on your own server can steer the agent." />
+	<meta property="og:url" content="https://www.ivankristianto.com/mcp-talk-kelas-tanya-domainesia/" />
+	<meta property="og:site_name" content="ivan" />
+	<meta property="article:published_time" content="2026-09-24T12:30:00+00:00" />
+	<meta property="article:modified_time" content="2026-10-14T05:32:59+00:00" />
+	<meta property="og:image" content="https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp.jpg" />
+	<meta property="og:image:width" content="1280" />
+	<meta property="og:image:height" content="720" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="author" content="ivan" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:creator" content="@ivankrisdotcom" />
+	<meta name="twitter:site" content="@ivankrisdotcom" />
+	<meta name="twitter:label1" content="Written by" />
+	<meta name="twitter:data1" content="ivan" />
+	<meta name="twitter:label2" content="Est. reading time" />
+	<meta name="twitter:data2" content="3 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"Article","@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#article","isPartOf":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/"},"author":{"name":"ivan","@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"headline":"Letting an AI agent into your hosting, safely","datePublished":"2026-09-24T12:30:00+00:00","dateModified":"2026-10-14T05:32:59+00:00","mainEntityOfPage":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/"},"wordCount":488,"publisher":{"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"image":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#primaryimage"},"thumbnailUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/09\/kelas-tanya-domainesia-mcp.jpg","keywords":["ai agents","indonesia","mcp","prompt injection","security","web hosting"],"articleSection":["Talk"],"inLanguage":"en-US"},{"@type":"WebPage","@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/","url":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/","name":"Letting an AI agent into your hosting, safely - ivan","isPartOf":{"@id":"https:\/\/www.ivankristianto.com\/#website"},"primaryImageOfPage":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#primaryimage"},"image":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#primaryimage"},"thumbnailUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/09\/kelas-tanya-domainesia-mcp.jpg","datePublished":"2026-09-24T12:30:00+00:00","dateModified":"2026-10-14T05:32:59+00:00","breadcrumb":{"@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#primaryimage","url":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/09\/kelas-tanya-domainesia-mcp.jpg","contentUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/09\/kelas-tanya-domainesia-mcp.jpg","width":1280,"height":720,"caption":"Kelas Tanya DomaiNesia webinar poster: Otomasi AI Agent, Kelola Website dan Hosting pakai MCP, with speaker Ivan Kristianto, September 24, 2026, 19.30 WIB"},{"@type":"BreadcrumbList","@id":"https:\/\/www.ivankristianto.com\/mcp-talk-kelas-tanya-domainesia\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www.ivankristianto.com\/"},{"@type":"ListItem","position":2,"name":"Speaking","item":"https:\/\/www.ivankristianto.com\/speaking\/"},{"@type":"ListItem","position":3,"name":"Letting an AI agent into your hosting, safely"}]},{"@type":"WebSite","@id":"https:\/\/www.ivankristianto.com\/#website","url":"https:\/\/www.ivankristianto.com\/","name":"Ivan - Web Engineer & Google Developer Expert","description":"Web engineer, WordPress, AI, Performance, Tooling","publisher":{"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.ivankristianto.com\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":["Person","Organization"],"@id":"https:\/\/www.ivankristianto.com\/#\/schema\/person\/e80526b2695c84817ac58dadf8f4bd42","name":"ivan","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","url":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","contentUrl":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg","width":696,"height":666,"caption":"ivan"},"logo":{"@id":"https:\/\/www.ivankristianto.com\/wp-content\/uploads\/2026\/07\/IMG_6620.jpg"},"description":"I am a Senior Web Engineer at Human Made and Google Developer Expert in Web Technology, Lead organiser of Jakarta WordPress Meetup and WordCamp Jakarta Organiser.","sameAs":["https:\/\/www.ivankristianto.com","https:\/\/www.linkedin.com\/in\/ivankristianto","https:\/\/x.com\/ivankrisdotcom"],"url":"https:\/\/www.ivankristianto.com\/author\/ivan\/"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<title>Letting an AI agent into your hosting, safely - ivan</title>
+<link rel='dns-prefetch' href='//www.ivankristianto.com' />
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel="alternate" type="application/rss+xml" title="ivan &raquo; Feed" href="https://www.ivankristianto.com/feed/" />
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<style></style>
+<link rel='stylesheet' id='ik2-section-single-css' href='https://www.ivankristianto.com/wp-content/themes/ik2/build/section-single.css?ver=1793157051' media='all' />
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+
+
+<meta name="generator" content="Site Kit by Google 1.189.0" /><meta name="generator" content="performance-lab 4.2.0; plugins: ">
+
+<link rel="modulepreload" href="https://www.ivankristianto.com/wp-includes/js/dist/script-modules/interactivity/index.min.js?ver=efaa5193bbad9c60ffd1" id="@wordpress/interactivity-js-modulepreload" fetchpriority="low">
+
+<!-- Google Tag Manager snippet added by Site Kit -->
+
+
+<!-- End Google Tag Manager snippet added by Site Kit -->
+<link rel="icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" sizes="32x32" />
+<link rel="icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" />
+<meta name="msapplication-TileImage" content="https://www.ivankristianto.com/wp-content/themes/ik2/assets/favicon/favicon.svg" />
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-1975 single-format-standard wp-embed-responsive wp-theme-ik2">
+		<!-- Google Tag Manager (noscript) snippet added by Site Kit -->
+		<noscript>
+			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5X6FPZ" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) snippet added by Site Kit -->
+		
+<div class="wp-site-blocks"><header class="wp-block-template-part">
+<div class="wp-block-group alignfull ik-header has-global-padding is-layout-constrained wp-container-core-group-is-layout-fd1e5494 wp-block-group-is-layout-constrained">
+	
+	<a class="ik-skip-link" href="#ik-main">Skip to content</a>
+	
+
+	
+	<div class="wp-block-group ik-header__row is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-49496290 wp-block-group-is-layout-flex">
+		<p class="ik-wordmark wp-block-site-title"><a href="https://www.ivankristianto.com" target="_self" rel="home">ivan</a></p>
+
+		
+		<div class="wp-block-group ik-header__right is-layout-flex wp-block-group-is-layout-flex">
+			<nav class="is-responsive items-justified-left ik-header__nav wp-block-navigation is-content-justification-left is-layout-flex wp-container-core-navigation-is-layout-94bab234 wp-block-navigation-is-layout-flex" aria-label="Primary" 
+		 data-wp-interactive="core/navigation" data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'><button aria-haspopup="dialog" aria-label="Open menu" class="wp-block-navigation__responsive-container-open" 
+				data-wp-on--click="actions.openMenuOnClick"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+			><svg></svg></button>
+				<div class="wp-block-navigation__responsive-container"  id="modal-1" 
+				data-wp-class--has-modal-open="state.isMenuOpen"
+				data-wp-class--is-menu-open="state.isMenuOpen"
+				data-wp-watch="callbacks.initMenu"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+				data-wp-on--focusout="actions.handleMenuFocusout"
+				tabindex="-1"
+			>
+					<div class="wp-block-navigation__responsive-close" tabindex="-1">
+						<div class="wp-block-navigation__responsive-dialog" 
+				data-wp-bind--aria-modal="state.ariaModal"
+				data-wp-bind--aria-label="state.ariaLabel"
+				data-wp-bind--role="state.roleAttribute"
+			>
+							<button aria-label="Close menu" class="wp-block-navigation__responsive-container-close" 
+				data-wp-on--click="actions.closeMenuOnClick"
+			><svg></svg></button>
+							<div class="wp-block-navigation__responsive-container-content" 
+				data-wp-watch="callbacks.focusFirstElement"
+			 id="modal-1-content">
+								<ul class="wp-block-navigation__container is-responsive items-justified-left ik-header__nav wp-block-navigation" aria-label="Primary"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/"><span class="wp-block-navigation-item__label">Home</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/articles/"><span class="wp-block-navigation-item__label">Articles</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/projects/"><span class="wp-block-navigation-item__label">Projects</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a aria-current="true" class="wp-block-navigation-item__content current-menu-item"  href="/speaking/"><span class="wp-block-navigation-item__label">Speaking</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/about/"><span class="wp-block-navigation-item__label">About</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/contact/"><span class="wp-block-navigation-item__label">Contact</span></a></li></ul>
+								
+							</div>
+						</div>
+					</div>
+				</div></nav>
+
+			
+			<button
+				type="button"
+				class="ik-header__cmd"
+				aria-keyshortcuts="Meta+K Control+K"
+				aria-haspopup="dialog"
+				aria-controls="ik-command-palette"
+				aria-expanded="false"
+			>
+				<span>Search</span>
+				<kbd aria-hidden="true">⌘K</kbd>
+			</button>
+			
+
+			
+			<div class="wp-block-buttons ik-header__resume-wrap is-layout-flex wp-block-buttons-is-layout-flex">
+				
+				<div class="wp-block-button ik-header__resume">
+					<a
+						class="wp-block-button__link wp-element-button"
+						href="/resume/"
+						>Resume</a
+					>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+</header>
+
+
+<main tabindex="-1" id="ik-main" class="wp-block-group alignfull ik-article has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+	
+<nav class="wp-block-group ik-crumbs is-layout-flex wp-block-group-is-layout-flex" aria-label="Breadcrumb">
+	<div class="yoast-breadcrumbs"><span><span><a class="ik-crumbs__link" href="https://www.ivankristianto.com/">Home</a></span> <span class="ik-crumbs__sep" aria-hidden="true">/</span> <span><a class="ik-crumbs__link" href="https://www.ivankristianto.com/speaking/">Speaking</a></span> <span class="ik-crumbs__sep" aria-hidden="true">/</span> <span class="breadcrumb_last ik-crumbs__current" aria-current="page"><strong>Letting an AI agent into your hosting, safely</strong></span></span></div>
+</nav>
+
+
+	
+<header class="wp-block-group ik-article__head is-layout-flow wp-block-group-is-layout-flow">
+	<h1 class="ik-article__title wp-block-post-title">Letting an AI agent into your hosting, safely</h1>
+
+	
+	<div class="wp-block-group ik-article__meta is-layout-flex wp-block-group-is-layout-flex">
+		<div class="ik-article__date wp-block-post-date"><time datetime="2026-09-24T19:30:00+07:00">2026-09-24</time></div>
+
+		
+		<p class="ik-article__sep wp-block-paragraph" aria-hidden="true">·</p>
+		
+
+		<div class="taxonomy-category ik-article__tags wp-block-post-terms"><a href="https://www.ivankristianto.com/talk/" rel="tag">Talk</a></div>
+	</div>
+	
+</header>
+
+
+
+	<figure class="alignwide ik-article__featured wp-block-post-featured-image"><img width="1024" height="576" src="https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp-1024x576.jpg" class="attachment-large size-large wp-post-image" alt="Kelas Tanya DomaiNesia webinar poster: Otomasi AI Agent, Kelola Website dan Hosting pakai MCP, with speaker Ivan Kristianto, September 24, 2026, 19.30 WIB" style="object-fit:cover;" decoding="async" fetchpriority="high" srcset="https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp-1024x576.jpg 1024w, https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp-300x169.jpg 300w, https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp-768x432.jpg 768w, https://www.ivankristianto.com/wp-content/uploads/2026/09/kelas-tanya-domainesia-mcp.jpg 1280w" sizes="(max-width: 1200px) 100vw, 1200px" /></figure>
+
+	<div class="entry-content ik-article__body wp-block-post-content has-global-padding is-layout-constrained wp-block-post-content-is-layout-constrained">
+<p class="wp-block-paragraph">On September 24, 2026 I gave a webinar for Kelas Tanya DomaiNesia, run by the Indonesian host DomaiNesia: &#8220;Otomasi AI Agent: Kelola Website dan Hosting pakai MCP&#8221; (AI agent automation: managing your website and hosting with MCP). The audience was beginner developers and small business owners who run their own sites. The question for the evening: can an AI do the work on my website, instead of only telling me how?</p>
+
+
+
+<p class="wp-block-paragraph">It can, with one catch. Here&#8217;s the short English version.</p>
+
+
+
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<iframe title="#KelasTanya: &quot;Otomasi AI Agent: Kelola Website dan Hosting pakai MCP&quot;" width="500" height="281" src="https://www.youtube.com/embed/5VAr_uUUiX0?feature=oembed&#038;enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div><figcaption class="wp-element-caption">The full recording, in Indonesian.</figcaption></figure>
+
+
+
+<p class="wp-block-paragraph"><a href="https://www.youtube.com/watch?v=5VAr_uUUiX0">Watch the recording on YouTube</a></p>
+
+
+
+<h2 class="wp-block-heading">Agents and MCP in two paragraphs</h2>
+
+
+
+<p class="wp-block-paragraph">A chatbot tells you to check your error log. An agent reads the log and tells you there are 47 copies of the same error, caused by plugin X. The difference is tools: the agent picks one, runs it, reads the result, and decides the next step until it&#8217;s done.</p>
+
+
+
+<p class="wp-block-paragraph">MCP (Model Context Protocol) is the open standard that plugs those tools in. When the agent connects, the server lists what it can do, so nobody writes glue code. It also means a host builds one MCP server and it works with Claude, ChatGPT and the rest. DomaiNesia&#8217;s version is a card in the hosting panel with four access levels: Full, No destructive, Read-only and Containment. Any host that ships an MCP server works the same way.</p>
+
+
+
+<h2 class="wp-block-heading">The catch: your server can talk back</h2>
+
+
+
+<p class="wp-block-paragraph">One demo site was a made-up motorbike workshop with injected gambling spam (judol, in Indonesian), including a fake <code>thumb.php</code> holding <code>@eval(base64_decode(...))</code>. Scanning for that is a good job for an agent. But to find the file, the agent has to read it, and an attacker wrote it.</p>
+
+
+
+<p class="wp-block-paragraph">Anything on your server can carry instructions: a comment, a log line, a file name, an upload. The agent reads it next to your prompt and can&#8217;t always tell the two apart. That&#8217;s prompt injection, and on a hacked site you should expect it. So keep investigating and repairing separate: scan on Read-only, read the report yourself, then raise the access level for one narrow change.</p>
+
+
+
+<h2 class="wp-block-heading">The checklist</h2>
+
+
+
+<ol class="wp-block-list">
+
+<li><strong>Start read-only.</strong> Most questions only need reading.</li>
+
+
+<li><strong>Back up before anything changes.</strong> An agent that gets it wrong gets it wrong fast.</li>
+
+
+<li><strong>Name the target.</strong> This domain, this folder, this file.</li>
+
+
+<li><strong>Read the plan before approving,</strong> and check the logs afterwards.</li>
+
+</ol>
+
+
+
+<p class="wp-block-paragraph">&#8220;Please fix my website&#8221; is a bad prompt. This is better:</p>
+
+
+
+<pre class="wp-block-code"><code>Read the error log for the domain toko-saya.com.
+Summarise the last 10 errors and explain the cause.
+Don't change any files.</code></pre>
+
+
+
+<p class="wp-block-paragraph">A clear target, a narrow task, an explicit limit.</p>
+
+
+
+<h2 class="wp-block-heading">Slides and starter kit</h2>
+
+
+
+<p class="wp-block-paragraph">The live demo used Claude Desktop against three seeded sites on a throwaway account. The slides are in Indonesian (arrow keys to move, <code>d</code> for dark mode).</p>
+
+
+
+<ul class="wp-block-list">
+
+<li><a href="https://belajarweb.cloud/belajar-mcp/">Slides</a></li>
+
+
+<li><a href="https://belajarweb.cloud/belajar-mcp/starter-kit/">Starter kit</a>, with ready prompts for common problems</li>
+
+
+<li><a href="https://github.com/ivankristianto/belajar-mcp-deck">Deck source and demo sites</a>, if you want to run a similar workshop (keep the answer key off the server, or the agent will read it)</li>
+
+</ul>
+
+
+
+
+<!--[googlesitekit-end-of-content]-->
+
+</div>
+
+	<div id="tags" class="taxonomy-post_tag ik-article__tagged wp-block-post-terms ik-tag-line"><span class="ik-tag-line__label">tags:</span><a href="https://www.ivankristianto.com/tag/ai-agents/" rel="tag">ai agents</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/indonesia/" rel="tag">indonesia</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/mcp/" rel="tag">mcp</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/prompt-injection/" rel="tag">prompt injection</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/security/" rel="tag">security</a><span class="ik-tag-line__dot" aria-hidden="true">·</span><a href="https://www.ivankristianto.com/tag/web-hosting/" rel="tag">web hosting</a></div>
+</main>
+
+
+<footer class="wp-block-template-part">
+<div
+	class="wp-block-group alignfull ik-footer has-soft-paper-background-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-fd1e5494 wp-block-group-is-layout-constrained"
+>
+	
+	<div class="wp-block-group ik-footer__bottom is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-e980f4c3 wp-block-group-is-layout-flex">
+		
+		<p class="ik-footer__copy wp-block-paragraph">
+			©&nbsp;2010&#8288;–&#8288;2026 Ivan. All thoughts my own.
+		</p>
+		
+
+		
+		<div class="wp-block-group ik-footer__links is-content-justification-right is-layout-flex wp-container-core-group-is-layout-078285ef wp-block-group-is-layout-flex">
+			<nav class="items-justified-right ik-footer__meta wp-block-navigation is-content-justification-right is-layout-flex wp-container-core-navigation-is-layout-2aff95ba wp-block-navigation-is-layout-flex" aria-label="Footer"><ul class="wp-block-navigation__container items-justified-right ik-footer__meta wp-block-navigation" aria-label="Footer"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/privacy/"><span class="wp-block-navigation-item__label">Privacy</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/accessibility/"><span class="wp-block-navigation-item__label">Accessibility</span></a></li></ul></nav>
+
+			
+			<nav class="ik-footer__social" aria-label="Profiles">
+				<ul>
+					<li><a href="https://github.com/ivankristianto" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://linkedin.com/in/ivankristianto" target="_blank" rel="noopener" aria-label="LinkedIn (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://x.com/ivankrisdotcom" target="_blank" rel="noopener" aria-label="X (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://profiles.wordpress.org/ivankristianto/" target="_blank" rel="noopener" aria-label="WordPress.org profile (opens in a new tab)"><svg></svg></a></li>
+					<li><a href="https://www.ivankristianto.com/feed" target="_blank" rel="noopener" aria-label="RSS feed (opens in a new tab)"><svg></svg></a></li>
+				</ul>
+			</nav>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+</footer>
+</div>
+
+
+
+
+
+
+</body>
+</html>
