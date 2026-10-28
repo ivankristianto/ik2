@@ -6,6 +6,7 @@
 # Dev artifacts
 node_modules
 vendor
+.tools
 # Third-party plugins are composer-managed (installed at build time), so they're
 # excluded from the context — except the first-party `ik2` plugin, which is
 # committed to this repo and must be baked into the image. Its `build/` is still

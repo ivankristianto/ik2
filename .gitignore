@@ -45,6 +45,9 @@
 # Logs
 *.log
 
+# Pinned CLI binaries (scripts/secret-scan.sh install)
+/.tools/
+
 # Lock files: keep composer.lock and pnpm-lock.yaml in git
 /.pnpm-store/
 
