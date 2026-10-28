@@ -53,7 +53,7 @@ A surprise is welcome as long as it stays inside the design system: a token set 
 It serves the folder over http (playwright-cli can't open `file://`), screenshots at 2x, and writes the PNG and a WebP at quality 88. Then look, fix everything one look shows, and render again:
 
 1. The full PNG: nothing collides, nothing clips, the footer has room.
-2. A crop at full size of the busiest part (`magick <name>.png -crop 1000x560+1300+300 crop.png`): labels against lines, icons drawn whole.
+2. Four tiles at full size (`magick <name>.png -crop 2x2@ +repage tile-%d.png`), each one looked at: labels against lines, icons drawn whole. Tiles cover every pixel; a fixed crop missed the busy part on most layouts.
 3. At feed size (`magick <name>.png -resize 500x feed.png`): the punch line reads without zooming.
 
 In SVG attributes, quote font names with single quotes; `"Segoe UI"` inside `font-family="..."` breaks the file.

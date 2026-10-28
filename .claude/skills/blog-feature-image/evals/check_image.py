@@ -18,7 +18,7 @@ LEAK_CHECK = REPO / ".claude/skills/blog-ideas/leak-check.sh"
 PALETTE = {c["color"].upper() for c in json.loads((REPO / "wp-content/themes/ik2/theme.json").read_text())["settings"]["color"]["palette"]}
 GREEN, TERRACOTTA, PAPER, WARM_PAPER = (0x2F, 0x5D, 0x50), (0xC2, 0x41, 0x0C), (0xFC, 0xFC, 0xFA), (0xF8, 0xF7, 0xF3)
 # Working files a run may leave next to the deliverable; they are not the image being graded.
-SCRATCH = re.compile(r"crop|sample|ref|montage|check|zoom|detail|preview|feed", re.I)
+SCRATCH = re.compile(r"crop|tile|sample|ref|montage|check|zoom|detail|preview|feed", re.I)
 FORBIDDEN = r"@font-face|fonts\.googleapis|fonts\.gstatic|gradient|box-shadow|drop-shadow|<filter\b|text-shadow"
 TITLES = {
     "php-cve-redo": "Two critical PHP bugs, and how I patched this blog",
