@@ -1,0 +1,4 @@
+#!/bin/sh
+# Opt in per clone: git config core.hooksPath .githooks (see docs/secret-scanning.md).
+# Resolved from the hook's own path so a scratch repo pointing core.hooksPath here still finds the wrapper.
+exec "$(dirname -- "$0")/../scripts/secret-scan.sh" pre-push "$@"

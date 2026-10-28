@@ -206,6 +206,32 @@ test( 'pre-push scans only the commits being sent', () => {
 	assert.equal( result.status, 1, result.output );
 } );
 
+test( 'the pre-push hook blocks a real git push', () => {
+	const dir = repo();
+	const remote = join( dir, '..', `remote-${ repoCount }.git` );
+	git( dir, 'init', '-q', '--bare', remote );
+	git( dir, 'remote', 'add', 'origin', remote );
+	git( dir, 'config', 'core.hooksPath', join( ROOT, '.githooks' ) );
+	const push = () =>
+		spawnSync( 'git', [ 'push', '-q', 'origin', 'main' ], {
+			cwd: dir,
+			env,
+			encoding: 'utf8',
+		} );
+
+	let result = push();
+	assert.equal( result.status, 0, result.stderr );
+
+	commit( dir, 'config.txt', `token = "${ fakeToken() }"\n` );
+	result = push();
+	assert.notEqual( result.status, 0 );
+	assert.match( result.stderr, /credentials found/ );
+	assert.notEqual(
+		git( remote, 'rev-parse', 'main' ),
+		git( dir, 'rev-parse', 'HEAD' )
+	);
+} );
+
 test( 'pre-push on a new branch skips commits the remote already has', () => {
 	const dir = repo();
 	git(
