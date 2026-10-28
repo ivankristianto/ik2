@@ -80,4 +80,4 @@ Paragraphs run one to four sentences. Use a list only for steps or parallel item
 
 ## Images
 
-Suggest where a diagram or screenshot would help and what it should show, in a line each. Provide alt text for each. Never use captures from client environments.
+Suggest where a diagram or screenshot would help and what it should show, in a line each. Provide alt text for each. Never use captures from client environments. The featured image is made by `blog-feature-image`, only when Ivan asks for it.
