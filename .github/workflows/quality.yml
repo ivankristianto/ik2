@@ -6,8 +6,10 @@ on:
     pull_request:
     workflow_dispatch:
 
+# Only PR runs share a group. A cancelled or replaced push run on main would leave
+# its commit range unscanned by the secrets job, since the next run starts after it.
 concurrency:
-    group: quality-${{ github.ref }}
+    group: quality-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
     cancel-in-progress: true
 
 # The release commit only bumps package.json, and release.mjs already required
