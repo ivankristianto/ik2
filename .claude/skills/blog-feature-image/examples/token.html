@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Pattern C, the token, built for /webmcp-read-only-tools/. Reference only: take the structure, never the content. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+.punch { position: absolute; left: 64px; top: 58px; width: 1072px; font-size: 54px; }
+.band { position: absolute; left: 0; right: 0; top: 236px; height: 196px; display: flex; align-items: center; padding: 0 64px; background: var(--code-paper); border-block: 1px solid var(--line); font-family: var(--font-mono); font-size: 92px; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+.band em { font-style: normal; color: var(--signal); }
+.cap { position: absolute; left: 64px; right: 64px; top: 452px; font-family: var(--font-mono); font-size: 20px; color: var(--graphite); white-space: nowrap; }
+.cap b { font-weight: 600; color: var(--ink); }
+
+</style></head><body>
+<h1 class="punch">The hint says read-only.<br><em>WordPress is what enforces it.</em></h1>
+<div class="band">readOnlyHint:&nbsp;<em>true</em></div>
+<div class="cap">every fetch asks for <b>status=publish</b> with <b>credentials: &#x27;omit&#x27;</b></div>
+<div class="sig"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>

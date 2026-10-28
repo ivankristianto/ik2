@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Pattern B variant, the path, built for /webmcp-read-only-tools/. Reference only: take the structure, never the content. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+.punch { position: absolute; left: 64px; top: 58px; width: 960px; font-size: 56px; }
+.subject { position: absolute; right: 64px; top: 66px; color: var(--ink); }
+.wire { position: absolute; inset: 0; }
+.step { position: absolute; top: 330px; width: 230px; height: 76px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); font-family: var(--font-mono); font-size: 21px; color: var(--ink); white-space: nowrap; }
+.step.skip { border: 2px dashed var(--red); background: var(--paper); color: var(--dust); }
+.step.skip span { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.step.skip .ico { color: var(--red); }
+.step.end { border-color: var(--signal); background: var(--signal-soft); color: var(--signal-deep); font-weight: 600; }
+.note { position: absolute; top: 424px; width: 230px; text-align: center; font-family: var(--font-mono); font-size: 18px; color: var(--graphite); white-space: nowrap; }
+.note.no { color: var(--red); }
+.note.ok { color: var(--signal); }
+
+</style></head><body>
+<h1 class="punch">The tools run in my logged-in browser.<br><em>Their requests don't log in.</em></h1>
+<span class="subject"><svg class="ico" width="56" height="56" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></svg></span>
+
+<svg class="wire" width="1200" height="628" viewBox="0 0 1200 628" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--ink)"/></marker></defs>
+  <path d="M220 330 C 250 252, 690 252, 720 326" fill="none" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#head)"/>
+  <line x1="838" y1="368" x2="904" y2="368" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#head)"/>
+</svg>
+
+<div class="step" style="left:64px"><span>search_articles</span></div>
+<div class="step skip" style="left:345px"><svg class="ico" width="22" height="22" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><span>login cookie</span></div>
+<div class="step" style="left:626px"><span>/wp/v2/posts</span></div>
+<div class="step end" style="left:906px"><span>public posts</span></div>
+
+<div class="note" style="left:64px">readOnlyHint: true</div>
+<div class="note no" style="left:345px">credentials: 'omit'</div>
+<div class="note" style="left:626px">status=publish</div>
+<div class="note ok" style="left:906px">HTTP 200</div>
+
+<div class="sig"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>

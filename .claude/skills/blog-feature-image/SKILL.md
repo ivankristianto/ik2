@@ -12,7 +12,7 @@ The card shows up in feeds and link previews at about 500px wide, with the post 
 
 ## The punch line
 
-The biggest thing on the card, and Ivan likes it that way.
+The biggest thing on the card, and Ivan likes it that way. Pattern C is the one exception.
 
 - It says the surprising fact or the question the post answers. It never repeats the title, because the preview already shows the title.
 - Short: one thought, about 4 to 12 words, at 50 to 60px. It has to read at 500px wide.
@@ -37,12 +37,14 @@ Next to the punch line, show something only this post has: its code, a command a
 
 ## Patterns to start from
 
-Two references in `examples/`. Read them for structure and spacing, then make the card for this post. Never reuse their content, and don't copy one when the post's material wants another shape.
+References in `examples/`. Read them for structure and spacing, then make the card for this post. Never reuse their content, and don't copy one when the post's material wants another shape. Pick by the shape of the evidence: two states of one thing is A, one input and what came back is B, one value the whole post turns on is C.
 
 - **A, the diff** (`examples/diff.html`): punch line left, a code panel right with a file tab and subject logo, the old way struck out, the new way in green, the result in one mono line. For posts with a fix, an upgrade, a before and after.
 - **B, the receipt** (`examples/receipt.html`): the punch line as a question across the top, the subject mark in the corner, a real command and its real output below, the answer row in green. For posts with a command, a test, a measurement.
+  - **Path variant** (`examples/path.html`): the same top half, then 3 to 5 mono boxes joined by arrows. The step the post is about is the odd one: dashed and struck out in red when it's skipped, red when it breaks, green at the end when it works. One real value under each box. For mechanism posts: an auth flow, a request path, a pipeline.
+- **C, the token** (`examples/token.html`): the punch line across the top, then one real value (an attribute, flag, header or config key) set huge in mono on a full-width code-paper band, with the meaningful part in green, and one mono caption line under the band with what surrounds or enforces it. This is the one pattern where the evidence may outsize the punch line. Keep the token on one line: at 92px a mono glyph is about 55px wide, so 18 characters is the most that fits; shrink the size for longer ones. Write the space after a colon as `&nbsp;`, or the tight letter-spacing swallows it. For single-gotcha posts where one setting explains everything.
 
-A surprise is welcome as long as it stays inside the design system: a token set huge, real timestamps as a timeline, letter tiles, a table of three numbers. When you break from A and B, say in the report what you did and why the post asked for it.
+A surprise is welcome as long as it stays inside the design system: real timestamps as a timeline, letter tiles, a table of three numbers. When you break from A, B and C, say in the report what you did and why the post asked for it.
 
 ## Render and check
 
