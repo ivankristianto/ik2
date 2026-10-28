@@ -26,4 +26,5 @@ function bootstrap(): void {
 	Emoji\bootstrap();
 	ContentFixes\bootstrap();
 	PostTags\bootstrap();
+	Footnotes\bootstrap();
 }
