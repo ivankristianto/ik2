@@ -274,12 +274,12 @@ Several partials still use one-off breakpoints (600, 700, 720, 760, 800, 960, 10
 
 ## Elevation & Depth
 
-The system is flat by default. Depth comes from the Paper-to-Surface step, a 1px Line border, and alternating Paper and Soft Paper sections. Shadows appear only as a response to state, or on the one true overlay.
+The system is flat by default. Depth comes from the Paper-to-Surface step, a 1px Line border, and alternating Paper and Soft Paper sections. Shadows appear only as a response to state, or on an overlay in the top layer.
 
 ### Shadow Vocabulary
 
 - **Small** (`shadow.presets.sm`, `0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`): card hover on project cards and the 404 page's cards. A 1px lift, paired with the border darkening from Line to Rule. The border change is the larger half of the gesture.
-- **Medium** (`shadow.presets.md`, `0 6px 24px rgba(0, 0, 0, 0.08)`): the command palette panel. The only resting shadow in the system.
+- **Medium** (`shadow.presets.md`, `0 6px 24px rgba(0, 0, 0, 0.08)`): top-layer overlays, meaning the command palette panel and the article source preview (`.ik-source-preview`, a `popover="hint"` card). Nothing in the page flow rests on a shadow.
 
 Core's default shadow presets are disabled, so these two are the only shadows the editor offers.
 
@@ -295,7 +295,7 @@ Core's default shadow presets are disabled, so these two are the only shadows th
 
 Corners are gently rounded and small. Radius presets live in `border.radiusSizes`:
 
-- **Small** (`sm`): inline code, keyboard hints, mobile drawer rows.
+- **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
 - **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
 - **Pill** (`pill`): filter pills, the category chip in the post header, project status badges. Pills always mean "this is a label".

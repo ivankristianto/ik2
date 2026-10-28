@@ -1,5 +1,6 @@
 @use 'tokens' as *;
 @use 'tag-line';
+@use 'visually-hidden' as *;
 
 /* ===========================================================================
    Single post template (templates/single.html)
@@ -990,6 +991,105 @@
 	}
 }
 
+/* ---- Source citations and list (inc/footnotes.php) --------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+
+	html:has(.ik-cite) {
+		scroll-behavior: smooth;
+	}
+}
+
+.ik-cite__label {
+
+	@include visually-hidden;
+}
+
+.ik-cite__sep {
+	color: $color-dust;
+}
+
+.ik-article__body .ik-cite a {
+	padding-inline: 0.15em;
+	border-radius: $radius-sm;
+	font-family: $font-mono;
+	text-decoration: none;
+	scroll-margin-top: $space-7;
+	transition: color $transition-base, background $transition-base;
+}
+
+.ik-article__body .ik-sources {
+	padding-left: 0;
+	list-style: none;
+	font-size: $size-small;
+	line-height: $leading-comfortable;
+}
+
+.ik-article__body .ik-source {
+	position: relative;
+	padding: $space-1 $space-2 $space-1 2.75em;
+	margin-inline: calc(-1 * #{$space-2});
+	border-radius: $radius-sm;
+	overflow-wrap: anywhere;
+	scroll-margin-top: $space-7;
+	transition: background $transition-base;
+}
+
+.ik-article__body .ik-source + .ik-source {
+	margin-top: $space-1;
+}
+
+.ik-source__num {
+	position: absolute;
+	inset-inline-start: $space-2;
+	font-family: $font-mono;
+	color: $color-graphite;
+}
+
+.ik-source__backs {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-dust;
+	white-space: nowrap;
+}
+
+.ik-article__body .ik-source__back {
+	padding-inline: 0.2em;
+	border-radius: $radius-sm;
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	text-decoration: none;
+}
+
+.ik-article__body .ik-source:target,
+.ik-article__body .ik-cite a:target {
+	background: $color-signal-soft;
+}
+
+/* Opened by the citation's `interestfor`, which also makes it the implicit anchor. */
+.ik-source-preview {
+	position-area: block-start;
+	position-try-fallbacks: flip-block;
+	margin: 0 0 $space-2;
+	max-inline-size: min(#{$width-measure}, calc(100vw - #{$space-6}));
+	padding: $space-3 $space-4;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+	background: $color-surface;
+	box-shadow: $shadow-md;
+	color: $color-ink;
+	font-size: $size-x-small;
+	line-height: $leading-comfortable;
+	overflow-wrap: anywhere;
+}
+
+.ik-source-preview__label {
+	display: block;
+	margin-bottom: $space-1;
+	font-family: $font-mono;
+	color: $color-graphite;
+}
+
 /* ---- Hover / focus (last for stylelint no-descending-specificity) ------- */
 
 .ik-crumbs__link:hover,
@@ -1008,6 +1108,10 @@
 .ik-article__body a:focus-visible {
 	color: $color-signal-deep;
 	text-decoration-color: $color-signal-deep;
+}
+
+.ik-article__body .ik-cite a:interest-source {
+	background: $color-signal-soft;
 }
 
 .wp-block-group.ik-article__share a:hover,

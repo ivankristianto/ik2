@@ -51,6 +51,8 @@ A post has jobs to do. They are not headings, and the order can bend to the stor
 
 Paragraphs run one to four sentences. Use a list only for steps or parallel items, a table only for comparing things on the same axes. Link public sources with full `https://` URLs on first mention, to the exact doc section or source file; several sources can also go in a plain list at the end. Link related posts on the blog.
 
+Numbered citations are optional. If you use them, write `[n]` right after the sentence (`[9][10]` for several) and start each item in the closing Sources list with the same `[n]`. The theme (`wp-content/themes/ik2/inc/footnotes.php`) turns them into superscript links with back links only when both sides match, so never cite a number the list doesn't have.
+
 ## Process
 
 1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing and when it happened. If either is missing and was never asked, ask him now in one batch with concrete options from the research (`AskUserQuestion` in Claude Code, one chat message in other agents) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
