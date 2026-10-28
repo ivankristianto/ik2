@@ -18,3 +18,4 @@
 - [release guard vs untracked files](project-release-untracked-guard.md) — bypass the clean-tree check with a status.showUntrackedFiles=no env var, never move the audit dirs
 - [blog idea queue](project-blog-idea-queue.md) — WebMCP, a11y audit and PHP 8.x scan queued for posts; webfont-split research done, draft next; blog-* skill output paths
 - [blog voice](feedback-blog-voice.md) — drafts must match his real posts (contractions, short version first, time order, code blocks over tables); run recent-posts.py first; no [Ivan: ...] placeholders in drafts, ask during research
+- [use playwright-cli](feedback-use-playwright-cli.md) — browser checks go through the playwright-cli skill; serve local HTML over http, not file://
