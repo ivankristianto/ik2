@@ -34,6 +34,8 @@ docker compose --profile tools run --rm pnpm lint            # ESLint + Stylelin
 
 CI: `.github/workflows/quality.yml` runs all four on push/PR. **Always run the relevant gate before finishing a task** — `composer quality` for PHP changes, `pnpm lint` for JS/CSS changes. PHPCS rules are relaxed for modern PHP (short arrays, namespaces); don't add `// phpcs:disable` comments without checking `phpcs.xml.dist` first.
 
+Secret scanning: `scripts/secret-scan.sh` runs a pinned Betterleaks from the opt-in `.githooks/pre-push` hook and the `Secrets (Betterleaks)` CI job. Change the wrapper only with `node --test tests/secret-scan.test.mjs` passing on the host. Never add `.betterleaks.toml`, `.gitleaks.toml`, `.gitleaksignore` or allow comments; false positives go in `.betterleaksignore` as commit-scoped fingerprints with a reason. Details in `docs/secret-scanning.md`.
+
 ## Design system status
 
 `design-system/` is the human-readable design reference. `wp-content/themes/ik2/theme.json` is the source of truth. `pnpm tokens` (`scripts/sync-tokens.mjs`) copies it to `design-system/theme.json` and generates `design-system/tokens.css` with the same `--wp--*` custom properties WordPress prints. `colors_and_type.css` holds only aliases onto those. Quality CI runs `pnpm tokens:check` and fails when the generated files are stale. Never edit them by hand.
