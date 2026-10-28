@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- Pattern A, the diff, built for /chrome-modern-web-guidance/. Reference only: take the structure, never the content. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+.punch { position: absolute; left: 64px; top: 0; bottom: 110px; width: 530px; display: flex; flex-direction: column; justify-content: center; font-size: 54px; }
+.panel { position: absolute; right: 0; top: 0; bottom: 0; width: 560px; background: var(--code-paper); border-left: 1px solid var(--line); font-family: var(--font-mono); }
+.tab { display: flex; align-items: center; gap: 12px; height: 84px; padding: 0 44px; border-bottom: 1px solid var(--line); color: var(--graphite); font-size: 19px; }
+.tab .subject { margin-left: auto; color: var(--ink); }
+.diff { position: absolute; left: 0; right: 0; top: 84px; bottom: 96px; display: flex; flex-direction: column; justify-content: center; font-size: 20px; line-height: 1.8; white-space: pre; }
+.del { padding-left: 44px; color: var(--dust); text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.del b, .add b { display: inline-block; width: 2ch; font-weight: 400; text-decoration: none; }
+.del b { color: var(--red); }
+.more { padding-left: calc(44px + 2ch); color: var(--dust); }
+.adds { margin-top: 22px; padding: 14px 0; background: var(--signal-soft); border-block: 2px solid var(--signal); }
+.add { padding-left: 44px; color: var(--signal-deep); font-weight: 600; font-size: 26px; line-height: 1.6; }
+.add b { color: var(--signal); font-weight: 600; }
+.count { position: absolute; left: 44px; right: 44px; bottom: 52px; display: flex; justify-content: flex-end; align-items: center; height: 44px; font-size: 20px; color: var(--graphite); }
+
+</style></head><body>
+<h1 class="punch">Ask your AI agent<br>for a modal.<br><em>Count the lines.</em></h1>
+<div class="panel"><div class="tab"><svg class="ico " width="22" height="22" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 12.5 8 15l2 2.5" />
+  <path d="m14 12.5 2 2.5-2 2.5" />
+  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" />
+</svg>modal.html<span class="subject"><svg class="ico " width="30" height="30" aria-hidden="true" fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></svg></span></div>
+<div class="diff"><div class="del"><b>-</b>&lt;div class=&quot;modal&quot; role=&quot;dialog&quot;&gt;</div><div class="del"><b>-</b>import { createFocusTrap } from …</div><div class="del"><b>-</b>trap.activate();</div><div class="del"><b>-</b>addEventListener(&#x27;keydown&#x27;, …</div><div class="more">… 46 more lines</div><div class="adds"><div class="add"><b>+</b>&lt;dialog closedby=&quot;any&quot;&gt;</div></div></div>
+<div class="count">51 lines → 1</div></div>
+<div class="sig"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>

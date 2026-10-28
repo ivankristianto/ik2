@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Pattern B, the receipt, built for /split-webfont-text-layout/. Reference only: take the structure, never the content. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+.punch { position: absolute; left: 64px; top: 58px; width: 940px; font-size: 56px; }
+.subject { position: absolute; right: 64px; top: 66px; color: var(--ink); }
+.cmd { position: absolute; left: 64px; right: 64px; top: 268px; display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 20px; color: var(--graphite); white-space: nowrap; overflow: hidden; }
+.cmd span { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
+.rows { position: absolute; left: 64px; right: 64px; top: 316px; border-top: 1px solid var(--rule); font-family: var(--font-mono); }
+.row { display: grid; grid-template-columns: 1fr; align-items: center; column-gap: 24px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 24px; color: var(--graphite); white-space: nowrap; }
+.row span { white-space: pre; }
+.row .s { font-size: 21px; color: var(--dust); }
+.row .ok { color: var(--signal); } .row .no { color: var(--red); } .row .meh { color: var(--amber); }
+.row.top { color: var(--signal-deep); font-weight: 600; font-size: 30px; }
+.row.top .s { color: var(--signal); font-weight: 600; }
+
+</style></head><body>
+<h1 class="punch">Why is the word "injection"<br>slow to draw?</h1>
+<span class="subject"><svg class="ico " width="56" height="56" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <polyline points="4 7 4 4 20 4 20 7" />
+  <line x1="9" x2="15" y1="20" y2="20" />
+  <line x1="12" x2="12" y1="4" y2="20" />
+</svg></span>
+<div class="cmd"><svg class="ico " width="24" height="24" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m7 11 2-2-2-2" />
+  <path d="M11 13h4" />
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+</svg><span>python3 audit.py result.css quick tracing injection</span></div>
+<div class="rows"><div class="row"><span>quick      [292, 292, 291, 292, 292]</span></div><div class="row"><span>tracing    [292, 292, 292, 292, 291, 292, 292]</span></div><div class="row top"><span>injection  [291, 292, 291, 292, 292, 292, 291, 292, 292]</span></div></div>
+<div class="sig sig--right"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>

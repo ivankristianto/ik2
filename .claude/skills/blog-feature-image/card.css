@@ -1,0 +1,13 @@
+/* The fixed parts of every feature image: canvas, ground, type, punch line and the footer signature. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 628px; overflow: hidden; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); position: relative; -webkit-font-smoothing: antialiased; }
+
+.punch { font-weight: 700; letter-spacing: -0.03em; line-height: 1.06; font-size: 56px; text-wrap: balance; }
+.punch em { font-style: normal; color: var(--signal); }
+
+.ico { display: inline-block; flex: none; }
+
+.sig { position: absolute; left: 64px; bottom: 52px; display: flex; align-items: center; gap: 14px; font-family: var(--font-mono); font-size: 21px; font-weight: 600; color: var(--ink); }
+.sig--right { left: auto; right: 64px; }
+.badge { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 10px; background: var(--signal); color: var(--paper); font-family: var(--font-sans); font-weight: 700; font-size: 20px; letter-spacing: -0.04em; }
