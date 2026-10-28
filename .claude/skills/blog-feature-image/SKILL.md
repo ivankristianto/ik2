@@ -39,6 +39,8 @@ Next to the punch line, show something only this post has: its code, a command a
 
 References in `examples/`. Read them for structure and spacing, then make the card for this post. Never reuse their content, and don't copy one when the post's material wants another shape. Pick by the shape of the evidence: two states of one thing is A, one input and what came back is B, one value the whole post turns on is C.
 
+When the post could fairly go two ways, ask Ivan before building. Name each pattern, say in one line what its card would show for this post, and lead with the one you recommend and why. Don't ask when the shape is clear. In an unattended run, such as an eval, build your recommendation and say in the report which other pattern you considered.
+
 - **A, the diff** (`examples/diff.html`): punch line left, a code panel right with a file tab and subject logo, the old way struck out, the new way in green, the result in one mono line. For posts with a fix, an upgrade, a before and after.
 - **B, the receipt** (`examples/receipt.html`): the punch line as a question across the top, the subject mark in the corner, a real command and its real output below, the answer row in green. For posts with a command, a test, a measurement.
   - **Path variant** (`examples/path.html`): the same top half, then 3 to 5 mono boxes joined by arrows. The step the post is about is the odd one: dashed and struck out in red when it's skipped, red when it breaks, green at the end when it works. One real value under each box. For mechanism posts: an auth flow, a request path, a pipeline.
