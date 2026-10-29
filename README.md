@@ -168,6 +168,13 @@ docker compose --profile tools run --rm pnpm lint:css:fix
 
 `.github/workflows/quality.yml` runs the four gates on every push to `main` and every pull request (two parallel jobs: `php` and `js`). To make these blocking, set GitHub **branch protection** on `main` to require both `Quality / PHP (PHPCS + PHPStan)` and `Quality / JS + CSS (ESLint + Stylelint)` to pass before merge.
 
+A third job, `Secrets (Betterleaks)`, scans each push and pull request for credentials. The same scan runs locally from an opt-in pre-push hook. Setup, coverage and limits are in [docs/secret-scanning.md](docs/secret-scanning.md):
+
+```bash
+scripts/secret-scan.sh install           # pinned binary into .tools/
+git config core.hooksPath .githooks      # opt in to the pre-push hook
+```
+
 The `Build & push images` workflow runs in parallel. It pushes images to GHCR on push to `main` (never on PR) but only tags `latest` and deploys on a release tag, so a failing quality gate blocks the merge long before anything reaches production.
 
 ### Running tools on the host instead

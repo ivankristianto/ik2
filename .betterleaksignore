@@ -1,0 +1,8 @@
+# Placeholder in the REDIS_SERVER format example in a doc comment, not a real credential
+744c8ad0d974cc1977f3849f9820d89426f612d6:docker/wordpress/wp-config-redis.php:generic-credential-uri:6
+# "changeme" admin password in the README's local dev install command
+9021d81e772343630b89386a258b42aa51eae9ca:README.md:generic-password:101
+# Local dev default (wordpress) in .env.example
+5d7d5759f891c78dff308c51cb9140cd99389b9a:.env.example:generic-password:7
+# Local dev default (wordpress) in .env.example, first version of the file
+9021d81e772343630b89386a258b42aa51eae9ca:.env.example:generic-password:7
