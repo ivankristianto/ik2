@@ -15,6 +15,7 @@ const ARTICLES_PAGE_SLUG = 'articles';
 const ARTICLES_QUERY_ID  = 42;
 const ARCHIVE_QUERY_ID   = 43;
 const RELATED_QUERY_ID   = 44;
+const RELATED_LIMIT      = 4;
 const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
 const REWRITE_VERSION    = 2;
 
@@ -97,7 +98,7 @@ function filter_query_loop_format( array $query, $block ): array {
 }
 
 /**
- * Fill the related-posts loop with the newest posts sharing the current post's first category.
+ * Fill the related-posts loop with Corpus picks, topped up with the newest posts in the first category.
  *
  * @param array<string,mixed> $query Query vars for the loop.
  * @param mixed               $block Block instance (typically \WP_Block).
@@ -110,15 +111,39 @@ function filter_related_query( array $query, $block ): array {
 		return $query;
 	}
 
-	$post_id    = (int) get_queried_object_id();
-	$categories = wp_get_post_categories( $post_id );
+	$post_id = (int) get_queried_object_id();
+	$picked  = [];
 
-	$query['post__not_in']        = [ $post_id ];
-	$query['ignore_sticky_posts'] = true;
-
-	if ( $categories ) {
-		$query['category__in'] = [ (int) $categories[0] ];
+	// The plugin can be inactive, and get_related() returns [] until the Corpus is populated.
+	if ( function_exists( '\IK2\Plugin\Corpus\get_related' ) ) {
+		$picked = array_map( 'intval', (array) \IK2\Plugin\Corpus\get_related( $post_id, RELATED_LIMIT ) );
+		$picked = array_slice( array_values( array_diff( $picked, [ $post_id ] ) ), 0, RELATED_LIMIT );
 	}
+
+	if ( count( $picked ) < RELATED_LIMIT ) {
+		$categories = wp_get_post_categories( $post_id );
+		$fallback   = [
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'posts_per_page'      => RELATED_LIMIT - count( $picked ),
+			'post__not_in'        => array_merge( [ $post_id ], $picked ),
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'fields'              => 'ids',
+		];
+
+		if ( $categories ) {
+			$fallback['category__in'] = [ (int) $categories[0] ];
+		}
+
+		$picked = array_merge( $picked, array_map( 'intval', get_posts( $fallback ) ) );
+	}
+
+	// An empty post__in means "no restriction"; [0] keeps the loop empty so the block hides.
+	$query['post__in']            = $picked ? $picked : [ 0 ];
+	$query['orderby']             = 'post__in';
+	$query['posts_per_page']      = RELATED_LIMIT;
+	$query['ignore_sticky_posts'] = true;
 
 	return $query;
 }

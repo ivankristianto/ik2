@@ -83,6 +83,9 @@ $shadow-md: var(--wp--preset--shadow--md);
 
 $color-scrim: var(--wp--custom--color--scrim);
 
+// theme.json settings.custom.color.categoryWash keys in kebab-case, which match the category slugs. Misc has no wash.
+$category-washes: wordpress, ai, performance, web-apis, tooling, guide, note, talk;
+
 $transition-base:   var(--wp--custom--transition--base);
 $transition-drawer: var(--wp--custom--transition--drawer);
 

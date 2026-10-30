@@ -96,52 +96,220 @@
 
 /* ---- Related posts (patterns/single-article-related.php) ---------------- */
 
+// Every item carries every field. The first post is the lead (cover, reading
+// time, excerpt) and the rest are rows (title, then date and category).
+
 .ik-related {
-	margin-block-start: $space-7;
+	margin-block-start: $space-8;
+}
+
+.ik-related__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: $space-2 $space-4;
+	padding-top: $space-3;
+	border-top: 2px solid $color-ink;
+
+	> * {
+		margin: 0;
+	}
 }
 
 .ik-related__title {
-	margin: 0 0 $space-4;
-	font-size: $size-medium;
-	font-weight: $weight-semibold;
+	font-family: $font-mono;
+	font-size: $size-small;
+	font-weight: $weight-regular;
 	line-height: $leading-snug;
+	letter-spacing: $tracking-normal;
+	color: $color-ink;
+}
+
+.ik-related__note {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-dust;
 }
 
 .ik-related__list {
 	display: grid;
-	gap: $space-4;
-	margin: 0;
+	grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+
+	// The trailing 1fr row soaks up the lead's extra height, so the rows stay packed at the top.
+	grid-template-rows: repeat(3, auto) 1fr;
+	column-gap: $space-7;
+	margin: $space-5 0 0;
 	padding: 0;
 	list-style: none;
 
-	// The grid gap spaces items; drop the flow layout's sibling margins.
+	// Grid placement spaces items; drop the flow layout's sibling margins.
 	> * {
+		grid-column: 2;
 		margin-block: 0;
 	}
 }
 
-.ik-related__name {
-	margin: 0;
-	font-size: $size-base;
-	font-weight: $weight-medium;
+.ik-related__item {
+	display: flex;
+	flex-direction: column;
+	gap: $space-1;
+
+	> * {
+		margin: 0;
+	}
+}
+
+.ik-related__cover {
+	aspect-ratio: 16 / 7;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: $space-4;
+	border-radius: $radius-md;
+	background: $color-soft-paper;
+	overflow: clip;
+}
+
+.ik-related__cover-label {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-graphite;
+	text-align: center;
 	line-height: $leading-snug;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		pointer-events: none;
+	}
+}
+
+// Same washes as the /articles card cover in _articles.scss. Misc keeps Soft Paper.
+@each $category in $category-washes {
+	.wp-block-post.category-#{$category} .ik-related__cover {
+		background: var(--wp--custom--color--category-wash--#{$category});
+	}
+}
+
+.ik-related__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-2;
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-dust;
+
+	> * {
+		margin: 0;
+		font-size: inherit;
+		color: inherit;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		transition: color $transition-base;
+	}
+}
+
+.ik-related__reading::before,
+.ik-related__category::before {
+	content: "·" / "";
+	margin-inline-end: $space-2;
+	color: $color-rule;
+}
+
+.ik-related__name {
+	font-size: $size-small;
+	font-weight: $weight-semibold;
+	line-height: $leading-snug;
+	letter-spacing: $tracking-tight;
 
 	a {
 		color: $color-ink;
 		text-decoration: none;
 		transition: color $transition-base;
 	}
+}
 
-	a:hover,
-	a:focus-visible {
-		color: $color-signal-deep;
+.ik-related__excerpt {
+	color: $color-graphite;
+	font-size: $size-small;
+	line-height: $leading-comfortable;
+
+	p {
+		margin: 0;
 	}
 }
 
-.ik-related__date {
-	font-family: $font-mono;
-	font-size: $size-x-small;
-	color: $color-dust;
+.ik-related__list > :first-child {
+	position: relative;
+	grid-row: 1 / -1;
+	grid-column: 1;
+
+	.ik-related__item {
+		gap: $space-3;
+	}
+
+	.ik-related__name {
+		font-size: $size-medium;
+		letter-spacing: $tracking-tighter;
+	}
+
+	// One link target: the title link covers the whole lead.
+	.ik-related__name a::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+
+	.ik-related__category {
+		display: none;
+	}
+}
+
+.ik-related__list > :only-child {
+	grid-column: 1 / -1;
+}
+
+.ik-related__list > :not(:first-child) {
+	padding-block: $space-3;
+	border-top: 1px solid $color-line;
+
+	.ik-related__cover,
+	.ik-related__reading,
+	.ik-related__excerpt {
+		display: none;
+	}
+
+	.ik-related__name {
+		order: -1;
+	}
+}
+
+.ik-related__meta a:hover,
+.ik-related__name a:hover,
+.ik-related__name a:focus-visible {
+	color: $color-signal-deep;
+}
+
+@media (max-width: 40em) {
+
+	.ik-related__list {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: none;
+
+		> * {
+			grid-column: auto;
+		}
+	}
+
+	.ik-related__list > :first-child {
+		grid-row: auto;
+		grid-column: auto;
+		margin-block-end: $space-5;
+	}
 }
 
 /* ---- Featured image (post-featured-image block, alignwide) -------------- */
