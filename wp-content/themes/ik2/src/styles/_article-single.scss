@@ -278,6 +278,24 @@
 	}
 }
 
+// The rows' label sits above their first hairline. It repeats the heading's
+// meaning, so the empty alt keeps it out of the accessibility tree.
+.ik-related__list > :nth-child(2) {
+	padding-top: 0;
+	border-top: 0;
+
+	&::before {
+		content: "also close" / "";
+		display: block;
+		margin-block-end: $space-3;
+		padding-block-end: $space-2;
+		border-bottom: 1px solid $color-line;
+		font-family: $font-mono;
+		font-size: $size-x-small;
+		color: $color-dust;
+	}
+}
+
 .ik-related__meta a:hover,
 .ik-related__name a:hover,
 .ik-related__name a:focus-visible {
