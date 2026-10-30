@@ -20,6 +20,7 @@ function bootstrap(): void {
 	Assets\bootstrap();
 	Blocks\bootstrap();
 	CodeHighlight\bootstrap();
+	LegacyRedirects\bootstrap();
 	CLI\bootstrap();
 	PostTypes\Project\bootstrap();
 	PostTypes\TalkMeta\bootstrap();
