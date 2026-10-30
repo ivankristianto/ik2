@@ -38,9 +38,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/setup/class-object-cache-step.php';
 	require_once __DIR__ . '/setup/class-sample-content-step.php';
 	require_once __DIR__ . '/class-setup-command.php';
-	require_once __DIR__ . '/class-noindex-posts-command.php';
 
 	\WP_CLI::add_command( 'ik2 stats', Stats_Command::class );
 	\WP_CLI::add_command( 'ik2 setup', Setup_Command::class );
-	\WP_CLI::add_command( 'ik2 noindex-posts', Noindex_Posts_Command::class );
 }
