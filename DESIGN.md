@@ -165,7 +165,7 @@ components:
 
 This is the design of a well-kept lab notebook. Open it and the page is drafting white, the ink is near-black, and the only color you see is the occasional mark in bookcloth green, the color of a cloth-bound notebook spine: a link the writer wants you to follow, a tag for a topic, a focus ring that won't let you lose your place. Everything else is type, line, and whitespace doing the hierarchy work. The personality comes from the contrast between the system sans body and the system mono metadata. The page is for reading, the metadata is for scanning, and the two never get confused.
 
-The system rejects the marketing register. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll, it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.
+The system rejects the marketing register. It does not look like a Medium template, a Substack newsletter, a SaaS landing page, or an AI tool launch. It does not animate on scroll (the `/resume` lines are the one exception), it does not bounce on hover, it does not have a hero image. It is the design of someone who already has a job and is publishing because they have something to say. When in doubt, widen the margins instead of adding a shadow; tighten the type instead of adding an icon.
 
 **Key Characteristics:**
 
@@ -317,6 +317,7 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 - **Hero CTA:** the `hero-cta` block style on core Button. An oversized bold text link at `large` size (`x-large` on phones) with a mono arrow, underlined by a 2px Bookcloth bar painted as a sized background. Hover thickens the bar to 4px and turns the text Deep Bookcloth.
 - **Focus:** `2px solid` Bookcloth with a 3px offset (`custom.focus`). Always visible. Rows inside a scrolling list or track (palette results, lightbox slides) draw the same ring inset (`$focus-offset-inset`), because the scroller would clip it outside.
 - **Transitions:** `custom.transition.base` (200ms ease) on color, background, border, and box-shadow only. No transform, no scale.
+- **Scroll-linked emphasis (`/resume` only):** a reading line sits at mid-viewport. Section rules after Experience draw as their title rises the first 16rem (40vh on short screens) into the viewport, the Experience spine fills in Bookcloth down to it, and the row or section crossing it marks its year or number in Bookcloth. Only lines draw and marks recolor; content never fades, slides, or scales. CSS scroll-driven animations only, behind `prefers-reduced-motion: no-preference`, `forced-colors: none`, `screen`, and an `@supports` check, so print, reduced motion, forced colors, and engines without support get the static page.
 
 ### Chips
 
@@ -339,7 +340,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 ### Navigation
 
 - **Desktop:** plain links in Graphite at `x-small`, 8px by 12px padding, 44px tall, no underline at rest. Hover turns Bookcloth. The current page goes Ink with a Bookcloth underline (0.08em thick, 0.18em offset).
-- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `base` size with small radius; hover fills Soft Paper, and the current item fills Bookcloth Wash with Deep Bookcloth semibold text. The drawer slides in on `custom.transition.drawer`, the one motion exception.
+- **Mobile (768px and below):** the core navigation hamburger opens a drawer over the scrim. Rows are 56px tall at `base` size with small radius; hover fills Soft Paper, and the current item fills Bookcloth Wash with Deep Bookcloth semibold text. The drawer slides in on `custom.transition.drawer`, the one transition exception. The `/resume` scroll-linked lines are the one scroll exception.
 - **Not sticky.** The header scrolls away with the page.
 
 ### Code Blocks
@@ -382,7 +383,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Don't** build the SaaS hero-metric block (big number, small label, supporting stats).
 - **Don't** repeat identical icon-heading-text card grids. Article cards have covers, guides have numbers, notes lead with the date.
 - **Don't** reach for a modal first. Inline disclosure, an expanded section, or a new page come before it.
-- **Don't** animate layout properties, bounce, scale, or add entrance and scroll animations.
+- **Don't** animate layout properties, bounce, scale, or add entrance and scroll animations. The `/resume` scroll-linked lines and marks are the one exception.
 - **Don't** put emoji in chrome (nav, footer, buttons, headings, eyebrows).
 - **Don't** use em dashes in copy.
 - **Don't** add an icon next to a heading to make it feel designed.
