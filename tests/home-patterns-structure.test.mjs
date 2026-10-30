@@ -44,7 +44,7 @@ assert.match(
 assert.doesNotMatch(
 	homePagePattern,
 	/<!-- wp:html\b|WP_Query|get_term_by|get_post_meta|file_exists|wp_count_posts|taxQuery/,
-	'Expected patterns/home-page.php to stay a thin composition of dynamic section blocks, free of inline logic and Custom HTML.'
+	'Expected patterns/home-page.php to stay a thin composition of section patterns, free of inline logic and Custom HTML.'
 );
 
 const sectionOrder = [
@@ -52,24 +52,37 @@ const sectionOrder = [
 	'ik2/home-featured-topics',
 	'ik2/home-evergreen-guides',
 	'ik2/home-latest-notes',
-	'ik2/home-projects-preview',
-	'ik2/home-speaking-preview',
+	'ik2/home-projects',
+	'ik2/home-speaking',
 ];
 
 let cursor = -1;
 
-for ( const blockName of sectionOrder ) {
-	const at = homePagePattern.indexOf( `<!-- wp:${ blockName } /-->` );
+for ( const slug of sectionOrder ) {
+	const at = homePagePattern.indexOf(
+		`<!-- wp:pattern {"slug":"${ slug }"} /-->`
+	);
 
 	assert.notEqual(
 		at,
 		-1,
-		`Expected ${ blockName } to appear in patterns/home-page.php.`
+		`Expected ${ slug } to appear in patterns/home-page.php.`
 	);
 
 	assert.ok(
 		at > cursor,
-		`Expected ${ blockName } to appear in patterns/home-page.php after the previous section (template order).`
+		`Expected ${ slug } to appear in patterns/home-page.php after the previous section (template order).`
+	);
+
+	const section = readFileSync(
+		`wp-content/themes/ik2/patterns/${ slug.replace( 'ik2/', '' ) }.php`,
+		'utf8'
+	);
+
+	assert.match(
+		section,
+		new RegExp( `^ \\* Slug: ${ slug }$`, 'm' ),
+		`Expected patterns/${ slug.replace( 'ik2/', '' ) }.php to register as ${ slug }.`
 	);
 
 	cursor = at;
