@@ -1,0 +1,11 @@
+[
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "<p>Classic intro with&nbsp;a non-breaking space.</p>\n<h2 id=\"classic-heading\">Classic heading</h2>\n<p>Classic text &amp; more.</p>\n<h4>Classic small heading</h4>\n<h3 class=\"x\">Classic sub</h3>\nBare line one\nstill line one.\n\nSecond paragraph.<script>alert(\"x\")</script>\n",
+        "innerContent": [
+            "<p>Classic intro with&nbsp;a non-breaking space.</p>\n<h2 id=\"classic-heading\">Classic heading</h2>\n<p>Classic text &amp; more.</p>\n<h4>Classic small heading</h4>\n<h3 class=\"x\">Classic sub</h3>\nBare line one\nstill line one.\n\nSecond paragraph.<script>alert(\"x\")</script>\n"
+        ]
+    }
+]

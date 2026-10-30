@@ -48,4 +48,9 @@
     <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_tax_query">
         <exclude-pattern>*/wp-content/themes/ik2/patterns/*</exclude-pattern>
     </rule>
+
+    <!-- The corpus text module is pure PHP so PHPUnit can load it without WordPress. -->
+    <rule ref="WordPress.WP.AlternativeFunctions.strip_tags_strip_tags">
+        <exclude-pattern>*/wp-content/plugins/ik2/inc/corpus/text.php</exclude-pattern>
+    </rule>
 </ruleset>

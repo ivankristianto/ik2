@@ -23,6 +23,7 @@ function bootstrap(): void {
 	LegacyRedirects\bootstrap();
 	LlmsTxt\bootstrap();
 	CLI\bootstrap();
+	Corpus\bootstrap();
 	PostTypes\Project\bootstrap();
 	PostTypes\TalkMeta\bootstrap();
 
