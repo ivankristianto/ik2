@@ -98,8 +98,11 @@ Out of scope, each for a later spec:
 ## Data model
 
 All tables use `$wpdb->prefix`. The plugin creates and upgrades them with
-`dbDelta`, keyed on a `ik2_corpus_db_version` option. The worker never runs
-DDL.
+`dbDelta` from a version check on `plugins_loaded` that compares the
+`ik2_corpus_db_version` option with a `CORPUS_DB_VERSION` constant, on every
+request and under WP-CLI. The activation hook is not relied on: the plugin is
+already active in production and a redeploy never fires it. The worker never
+runs DDL.
 
 ### `{prefix}ik2_corpus_documents`
 
@@ -112,9 +115,9 @@ DDL.
 | `url` | varchar(500) | permalink at enqueue time |
 | `embed_text` | mediumtext | text for the Article-level vector, see below |
 | `embed_hash` | char(64) | sha256 of `embed_text` alone, what the Document vector is checked against |
-| `content_hash` | char(64) | sha256 of `embed_text` and every chunk's text, used to skip no-op saves |
+| `content_hash` | char(64) | sha256 of the title, URL, `embed_text` and every Chunk, used to skip no-op saves. A URL-only change re-queues the Document; the worker then marks it `indexed` without embedding, since `embed_hash` is unchanged |
 | `status` | varchar(16) | `queued`, `indexed`, `remove`, `parked` |
-| `attempts` | tinyint unsigned | reset to 0 on enqueue |
+| `attempts` | tinyint unsigned | reset to 0 on enqueue and on a successful embed |
 | `last_error` | text | last worker error, cleared on success |
 | `queued_at` | datetime | |
 | `indexed_at` | datetime null | |
@@ -146,7 +149,7 @@ Unique key on (`document_id`, `chunk_index`).
 | `model` | varchar(100) | e.g. `nomic-ai/nomic-embed-text-v1.5:q8` |
 | `prefix` | varchar(32) | `clustering:` or `search_document:` |
 | `dims` | smallint unsigned | 768 |
-| `vector` | blob | packed little-endian float32, unit length |
+| `embedding` | blob | packed little-endian float32, unit length (`vector` is reserved in MariaDB 11.7+) |
 | `content_hash` | char(64) | hash of the text that produced it |
 | `embedded_at` | datetime | |
 
@@ -161,12 +164,12 @@ an orphan and gets deleted.
 | Column | Type | Notes |
 | --- | --- | --- |
 | `post_id` | bigint unsigned | |
-| `rank` | tinyint unsigned | 1 to 8, by fused rank |
+| `position` | tinyint unsigned | 1 to 8, by fused rank (`rank` is reserved in MySQL 8) |
 | `related_id` | bigint unsigned | |
 | `score` | float | cosine similarity of the two Article vectors |
 | `run_id` | bigint unsigned | |
 
-Primary key (`post_id`, `rank`).
+Primary key (`post_id`, `position`).
 
 ### `{prefix}ik2_corpus_runs`
 
@@ -242,9 +245,14 @@ PHP estimate can be off.
 
 ### Queueing
 
-`enqueue( int $post_id )` builds the Document and its Chunks, hashes them,
-and compares `content_hash` with the stored one. Same hash: nothing happens.
-New hash: it upserts the Chunks on (`document_id`, `chunk_index`), deletes
+Every trigger calls one `sync( int $post_id )`, which applies the inclusion
+rules and either calls `enqueue()` or marks the Document `remove`, so the
+hooks that fire together on one save can't disagree.
+
+`enqueue( int $post_id, bool $force = false )` builds the Document and its
+Chunks, hashes them, and compares `content_hash` with the stored one. Same
+hash and status `queued` or `indexed`, without `$force`: nothing happens.
+Otherwise (new hash, a `remove` or `parked` row, or `$force`): it upserts the Chunks on (`document_id`, `chunk_index`), deletes
 only the rows past the new last index, and writes the Document with
 `status = queued`, `attempts = 0` and the current time. Upserting keeps Chunk
 IDs stable, so the worker re-embeds only the Chunks whose text changed.
@@ -264,8 +272,10 @@ Article once. Term changes made in the editor arrive through it too.
 
 ### WP-CLI
 
-- `wp ik2 corpus enqueue <id>... | --all`: queue Articles by hand, and the
-  first backfill. `--all` walks every published Article.
+- `wp ik2 corpus enqueue <id>... | --all [--force]`: queue Articles by hand,
+  and the first backfill. `--all` walks every published Article. `--force`
+  re-queues even when the hash is unchanged, which is how a parked row is
+  retried.
 - `wp ik2 corpus status`: Documents by status, parked rows with their
   `last_error`, Chunk and vector counts, and the last Run.
 - `wp ik2 corpus preview <id>`: print the `embed_text` and each Chunk with
@@ -286,19 +296,24 @@ one-line comment saying where it came from.
 
 ## Worker: `services/embedder/`
 
-A pnpm workspace package (`@ik2/embedder`) with its own `Dockerfile`.
+A self-contained Node package (`@ik2/embedder`) with its own lockfile and `Dockerfile`, built with `services/embedder` as the Docker context. It is not a member of the root pnpm workspace, so the root install and lockfile stay untouched.
 
 ### Runtime
 
 - `node:24-slim`, `@huggingface/transformers` pinned, `mysql2`.
 - Model `nomic-ai/nomic-embed-text-v1.5`, dtype `q8`, downloaded at image
   build into `/models` and loaded with remote downloads off, so a Run needs
-  no network beyond MySQL.
+  no network beyond MySQL. The Dockerfile runs one embedding with remote
+  models disabled as a build step, so a cache layout mistake fails the build
+  instead of the first hourly Run.
 - Configured by environment: `CORPUS_DB_HOST`, `CORPUS_DB_PORT`,
   `CORPUS_DB_USER`, `CORPUS_DB_PASSWORD`, `CORPUS_DB_NAME`,
   `CORPUS_TABLE_PREFIX` (default `wp_`).
 
 ### A Run
+
+The whole Run uses one `mysql2/promise` connection, never a pool: `GET_LOCK`
+belongs to the session that took it and a transaction is per connection.
 
 1. `SELECT GET_LOCK('ik2_corpus', 0)`. If another Run holds it, log and exit 0.
 2. Find work: Documents with `status` `queued` or `remove` and
@@ -309,19 +324,22 @@ A pnpm workspace package (`@ik2/embedder`) with its own `Dockerfile`.
 3. Removals: delete the Document, its Chunks and their vectors, then any
    orphan vectors.
 4. Embeddings, one input at a time:
-   - Document vectors from `embed_text` with the `clustering: ` prefix.
-   - Chunk vectors from Chunk `text` with the `search_document: ` prefix.
+   - Document vectors from `embed_text` with the `clustering: ` prefix,
+     truncated at 1,024 tokens by the model's tokenizer.
+   - Chunk vectors from Chunk `text` with the `search_document: ` prefix,
+     truncated at 512 tokens.
    - Only stale or missing vectors. A model change makes every vector
      stale, so the whole Corpus is re-embedded in that Run.
    - Mean pooling, normalised to unit length, 768 dimensions.
    - A Document whose embedding fails gets `attempts + 1` and `last_error`.
      At 3 it becomes `parked`. Others carry on.
-5. Ranking, over every indexed Document (not only the changed ones, since one
+5. Ranking, over every Document with a current-model vector that is not
+   marked `remove` (not only the changed ones, since one
    new Article can change everyone's list):
    - Vector list: cosine between Document vectors, top 20.
    - Keyword list: BM25 (k1 1.2, b 0.75, stopwords, light plural stemming)
-     over `embed_text`, querying with the Article's title plus its tags
-     twice, top 20.
+     over `embed_text`, querying with the Article's title and tags as
+     unique terms (what the prototype measured), top 20.
    - Fuse with reciprocal rank fusion, k = 60, equal weights.
    - Keep the top 8 per Article with their cosine score.
 6. In one transaction: insert the Run row, `DELETE` every row from
@@ -401,10 +419,12 @@ Mockups: https://claude.ai/artifact/SSEb1dpkqXej6R2MVwWxAR
   (semver and `latest` on `v*` tags, `<branch>` and `sha-*` on manual runs).
 - **Local.** An `embedder` service in `docker-compose.yml` under the
   `corpus` profile, on the default network, pointed at the local `db`.
-  `composer dev:corpus` runs
-  `docker compose --profile corpus run --rm embedder`. A local
-  `ik2_corpus` user is created by the same SQL, so grant mistakes show up
-  locally first.
+  `composer dev:corpus` runs `docker/corpus/grant.sh` and then
+  `docker compose --profile corpus run --rm embedder`. `grant.sh` applies the
+  same grants as production against the running `db` service with
+  `CREATE USER IF NOT EXISTS`, so it is safe to repeat and grant mistakes show
+  up locally first. It is not an initdb script: table-level grants fail until
+  the plugin has created the tables.
 - **Production.** A Dokploy Server schedule, hourly (`0 * * * *`):
 
   ```
@@ -443,18 +463,26 @@ Mockups: https://claude.ai/artifact/SSEb1dpkqXej6R2MVwWxAR
    pushes the `ik2-embedder` image. Nothing is queued yet, so the block keeps
    rendering today's picks through the fallback.
 2. Create the `ik2_corpus` MySQL user with its grants (the tables now exist)
-   and `/etc/ik2/corpus.env` on the host.
+   and `/etc/ik2/corpus.env` on the host. Make the new
+   `ghcr.io/ivankristianto/ik2-embedder` package public (a first push starts
+   private, and the host's `docker run` doesn't use Dokploy's registry
+   login), then `docker pull` it once by hand.
 3. `wp ik2 corpus enqueue --all` on production.
 4. Run the `docker run` command once by hand, watch its peak memory, and
    check `wp ik2 corpus status`.
 5. Add the hourly Dokploy Server schedule.
 6. Delete the "Hello world!" sample post (2026-10-06) on production.
 
+Later schema changes: the worker image moves `latest` on every release,
+independently of the app deploy. A change that adds a column the worker reads
+ships the plugin migration in one release and the worker change in the next,
+or the worker tolerates both shapes.
+
 ## Risks
 
 - **Server memory.** 575 MB measured on a Mac at about 600 tokens per input.
-  The 512-token chunk cap and the 1,024-token Document cap keep inputs
-  bounded, and `--memory=1g` caps the container. Check the first Run's peak
+  The 512-token Chunk cap and the 1,024-token Document cap, both enforced
+  by the tokenizer in the worker, keep inputs bounded, and `--memory=1g` caps the container. Check the first Run's peak
   in Dokploy before enabling the schedule.
 - **Image size.** `node_modules` for transformers.js was 377 MB on macOS,
   including binaries for other platforms. Prune to linux-x64 in the
