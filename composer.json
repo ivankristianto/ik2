@@ -20,8 +20,10 @@
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"php-stubs/wp-cli-stubs": "dev-master",
 		"phpcsstandards/phpcsextra": "^1.2",
 		"phpstan/phpstan": "^2.0",
+		"phpunit/phpunit": "^12.5",
 		"squizlabs/php_codesniffer": "^3.10",
 		"szepeviktor/phpstan-wordpress": "^2.0",
 		"wp-coding-standards/wpcs": "^3.1"
@@ -68,6 +70,7 @@
 			"@lint",
 			"@analyse"
 		],
+		"test": "phpunit",
 		"dev": [
 			"Composer\\Config::disableProcessTimeout",
 			"docker compose up -d",
@@ -98,6 +101,10 @@
 		"dev:wp:cmd": [
 			"Composer\\Config::disableProcessTimeout",
 			"docker compose exec wp-cli wp"
+		],
+		"dev:corpus": [
+			"Composer\\Config::disableProcessTimeout",
+			"bash docker/corpus/grant.sh && docker compose --profile corpus run --rm embedder"
 		]
 	},
 	"scripts-descriptions": {
@@ -105,6 +112,7 @@
 		"lint:fix": "Auto-fix PHPCS violations where possible.",
 		"analyse": "Run PHPStan static analysis (level 6).",
 		"quality": "Run both lint + analyse — the full PHP quality gate.",
+		"test": "Run the PHPUnit tests in tests/php.",
 		"dev": "Start the local Docker dev stack (app + nginx + db) in the background.",
 		"dev:build": "Start the dev stack, rebuilding images first.",
 		"dev:down": "Stop the dev stack (preserves DB and uploads).",
@@ -112,6 +120,7 @@
 		"dev:logs": "Tail logs from all running services.",
 		"dev:shell": "Open a shell inside the running app (PHP-FPM) container.",
 		"dev:wp": "Shell into the persistent wp-cli container (interactive — run `wp ...` once inside).",
-		"dev:wp:cmd": "Run a single wp-cli command from the host, e.g. `composer dev:wp:cmd -- plugin list`."
+		"dev:wp:cmd": "Run a single wp-cli command from the host, e.g. `composer dev:wp:cmd -- plugin list`.",
+		"dev:corpus": "Apply the local ik2_corpus MySQL grants, then run the embedder worker once."
 	}
 }

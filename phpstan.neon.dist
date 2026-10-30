@@ -7,17 +7,15 @@ parameters:
     paths:
         - wp-content/themes/ik2
         - wp-content/mu-plugins
+        # Composer-managed third-party plugins sit outside these paths.
+        - wp-content/plugins/ik2
     scanFiles:
-        # First-party plugin: theme blocks reference its constants & functions
-        # (e.g. IK2\Plugin\PostTypes\Project\POST_TYPE). Scanning these makes
-        # the symbols resolvable without expanding our analyse paths.
-        - wp-content/plugins/ik2/inc/post-types/project.php
-        - wp-content/plugins/ik2/inc/post-types/project-data.php
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-tools-stubs.php
     excludePaths:
-        - wp-content/plugins/*
+        - wp-content/plugins/ik2/build/*
         - wp-content/themes/ik2/build/*
-        # WP-CLI maintenance scripts (wp eval-file): WP_CLI symbols are not in
-        # the wordpress-stubs set this config loads.
+        # One-off WP-CLI scripts (wp eval-file), not yet typed for level 6.
         - wp-content/themes/ik2/bin/*
         - vendor/*
         - node_modules/*
