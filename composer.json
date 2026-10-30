@@ -20,7 +20,7 @@
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-		"php-stubs/wp-cli-stubs": "dev-master",
+		"php-stubs/wp-cli-stubs": "dev-master#335d4890308f9fbb3427c56412d30f157d21f697",
 		"phpcsstandards/phpcsextra": "^1.2",
 		"phpstan/phpstan": "^2.0",
 		"phpunit/phpunit": "^12.5",
