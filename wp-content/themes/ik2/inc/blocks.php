@@ -30,6 +30,7 @@ function bootstrap(): void {
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_related_query', 10, 2 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\hide_empty_related_query', 10, 2 );
 	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\unlink_cover_label', 10, 2 );
+	add_filter( 'render_block_core/post-time-to-read', __NAMESPACE__ . '\\shorten_related_reading_time', 10, 2 );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
 	add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
 	add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
@@ -179,6 +180,25 @@ function unlink_cover_label( string $html, array $block ): string {
 	}
 
 	return (string) preg_replace( '#</?a\b[^>]*>#i', '', $html );
+}
+
+/**
+ * Print the related lead's reading time as "N min read", keeping core's minute count.
+ *
+ * @param string              $html  Rendered post-time-to-read block.
+ * @param array<string,mixed> $block Parsed block.
+ */
+function shorten_related_reading_time( string $html, array $block ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( ! in_array( 'ik-related__reading', $classes, true ) || ! preg_match( '/\d+/', wp_strip_all_tags( $html ), $minutes ) ) {
+		return $html;
+	}
+
+	/* translators: %d: minutes it takes to read the post. */
+	$label = sprintf( __( '%d min read', 'ik2' ), (int) $minutes[0] );
+
+	return (string) preg_replace( '/>[^<]*</', '>' . esc_html( $label ) . '<', $html, 1 );
 }
 
 /**
