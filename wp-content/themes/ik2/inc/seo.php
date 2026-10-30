@@ -24,7 +24,8 @@ const EXTRA_PROFILES = [
 function bootstrap(): void {
 	add_filter( 'render_block_core/post-author-name', __NAMESPACE__ . '\\link_byline_to_about', 10, 2 );
 	add_filter( 'render_block_core/post-date', __NAMESPACE__ . '\\label_updated_date', 10, 2 );
-	add_filter( 'wpseo_schema_person', __NAMESPACE__ . '\\point_person_at_about' );
+	add_filter( 'wpseo_schema_person', __NAMESPACE__ . '\\point_person_at_about', 10, 2 );
+	add_filter( 'wpseo_schema_article', __NAMESPACE__ . '\\use_full_name_for_article_author', 10, 2 );
 	add_filter( 'user_contactmethods', __NAMESPACE__ . '\\add_profile_fields' );
 	add_filter( 'wpseo_schema_person_social_profiles', __NAMESPACE__ . '\\add_schema_profiles' );
 	add_filter( 'wpseo_schema_webpage', __NAMESPACE__ . '\\mark_about_as_profile_page', 10, 2 );
@@ -87,14 +88,35 @@ function label_updated_date( string $html, array $block ): string {
 }
 
 /**
- * Use /about/ as the Person's url instead of the author archive.
+ * The user's first and last name, for schema only; the display name stays short on the page.
  *
- * @param array<string, mixed> $data Person graph piece.
+ * @param int $user_id User id.
+ */
+function full_name( int $user_id ): string {
+	$user = get_userdata( $user_id );
+
+	if ( ! $user instanceof \WP_User ) {
+		return '';
+	}
+
+	return trim( $user->first_name . ' ' . $user->last_name );
+}
+
+/**
+ * Use /about/ as the Person's url and the full name as its name.
+ *
+ * @param array<string, mixed> $data    Person graph piece.
+ * @param object               $context Yoast meta tags context.
  * @return array<string, mixed>
  */
-function point_person_at_about( $data ): array {
+function point_person_at_about( $data, $context = null ): array {
 	$data        = (array) $data;
 	$data['url'] = about_url();
+	$name        = full_name( (int) ( $context->site_user_id ?? 0 ) );
+
+	if ( '' !== $name ) {
+		$data['name'] = $name;
+	}
 
 	// Yoast adds the user's website (this site) to sameAs; sameAs is for other profiles.
 	if ( isset( $data['sameAs'] ) && is_array( $data['sameAs'] ) ) {
@@ -108,6 +130,24 @@ function point_person_at_about( $data ): array {
 		}
 
 		$data['sameAs'] = $profile;
+	}
+
+	return $data;
+}
+
+/**
+ * Give the Article author the same full name as the Person node it points to.
+ *
+ * @param array<string, mixed> $data    Article graph piece.
+ * @param object               $context Yoast meta tags context.
+ * @return array<string, mixed>
+ */
+function use_full_name_for_article_author( $data, $context ): array {
+	$data = (array) $data;
+	$name = full_name( (int) ( $context->post->post_author ?? 0 ) );
+
+	if ( '' !== $name && isset( $data['author'] ) && is_array( $data['author'] ) ) {
+		$data['author']['name'] = $name;
 	}
 
 	return $data;
