@@ -17,8 +17,8 @@ export const SEED = 20261030;
 export const FIXED_IDS = [ 503, 494, 985, 576, 536, 522, 701, 1981 ];
 export const EVAL_SIZE = 30;
 export const LIMIT = 4;
-// Mirrors RELATED_MIN_SCORE in wp-content/plugins/ik2/inc/corpus/related.php.
-export const CURRENT_FLOOR = 0.6;
+// Mirrors RELATED_MIN_SCORE in wp-content/plugins/ik2/inc/corpus/related.php; a test keeps them equal.
+export const CURRENT_FLOOR = 0.65;
 export const ZERO_DROP_MIN = 0.8;
 export const TWO_DROP_MAX = 0.1;
 const EXCLUDED_CATEGORIES = [ 'Uncategorized' ];
@@ -711,7 +711,7 @@ function reportCommand( args ) {
 	);
 	if ( recommended !== null ) {
 		push(
-			`**Recommended RELATED_MIN_SCORE: ${ recommended.toFixed( 3 ) }** (current placeholder ${ CURRENT_FLOOR }).`,
+			`**Recommended RELATED_MIN_SCORE: ${ recommended.toFixed( 3 ) }** (current floor ${ CURRENT_FLOOR }).`,
 			''
 		);
 	} else {

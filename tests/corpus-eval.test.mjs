@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import {
+	CURRENT_FLOOR,
 	allocate,
 	dcg,
 	floors,
@@ -21,6 +23,13 @@ const row = ( position, related_id, score ) => ( {
 	position,
 	related_id,
 	score,
+} );
+
+test( 'CURRENT_FLOOR matches RELATED_MIN_SCORE in related.php', () => {
+	const php = readFileSync( new URL( '../wp-content/plugins/ik2/inc/corpus/related.php', import.meta.url ), 'utf8' );
+	const match = /const RELATED_MIN_SCORE = ([0-9.]+);/.exec( php );
+	assert.ok( match, 'RELATED_MIN_SCORE not found in related.php' );
+	assert.equal( CURRENT_FLOOR, Number( match[ 1 ] ) );
 } );
 
 test( 'the same seed gives the same shuffle', () => {

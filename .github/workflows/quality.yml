@@ -102,6 +102,10 @@ jobs:
             - name: node --test
               run: npm test
 
+            - name: Corpus eval tests
+              working-directory: .
+              run: node --test tests/corpus-eval.test.mjs
+
     # No release-commit skip: every pushed range gets scanned. See docs/secret-scanning.md.
     secrets:
         name: Secrets (Betterleaks)
