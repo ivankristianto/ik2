@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 
 const ABOUT_PAGE_SLUG = 'about';
 
+const WORDMARK_TEXT = 'Ivan';
+
 const EXTRA_PROFILES = [
 	'github'        => 'GitHub profile URL',
 	'wordpress_org' => 'WordPress.org profile URL',
@@ -23,6 +25,7 @@ const EXTRA_PROFILES = [
  */
 function bootstrap(): void {
 	add_filter( 'render_block_core/post-author-name', __NAMESPACE__ . '\\link_byline_to_about', 10, 2 );
+	add_filter( 'render_block_core/site-title', __NAMESPACE__ . '\\short_wordmark', 10, 2 );
 	add_filter( 'render_block_core/post-date', __NAMESPACE__ . '\\label_updated_date', 10, 2 );
 	add_filter( 'wpseo_schema_person', __NAMESPACE__ . '\\point_person_at_about', 10, 2 );
 	add_filter( 'wpseo_schema_article', __NAMESPACE__ . '\\use_full_name_for_article_author', 10, 2 );
@@ -37,6 +40,20 @@ function bootstrap(): void {
  */
 function about_url(): string {
 	return home_url( '/' . ABOUT_PAGE_SLUG . '/' );
+}
+
+/**
+ * Show the short name in the header wordmark; the Site Title keeps the full name for search results.
+ *
+ * @param string               $html  Rendered block.
+ * @param array<string, mixed> $block Parsed block.
+ */
+function short_wordmark( string $html, array $block ): string {
+	if ( ! str_contains( (string) ( $block['attrs']['className'] ?? '' ), 'ik-wordmark' ) ) {
+		return $html;
+	}
+
+	return (string) preg_replace( '#(<a\\b[^>]*>)[^<]*(</a>)#', '${1}' . esc_html( WORDMARK_TEXT ) . '${2}', $html, 1 );
 }
 
 /**
