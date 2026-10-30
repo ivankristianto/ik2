@@ -1,0 +1,31 @@
+# Meta descriptions for old posts with search impressions (GSC, 90 days to 2026-10-27): slug, a tab, the description.
+howto-add-item-to-context-menu-on-windows	Add your own command to the Windows right-click menu with one registry key under HKEY_CLASSES_ROOT, such as "Open with Notepad++" for PHP files.
+beginners-guide-overwrite-all-files-with-cp-command-in-linux	Stop cp asking about every file: pipe yes into it, as in yes | cp -R source target, to overwrite a whole directory in one go. Use it with care.
+google-is-your-friend-giyf	What "Google is your friend" (GIYF) and LMGTFY mean, why people reply with them on forums, and the sites that animate the search for you.
+beginners-guide-change-ls-command-text-color	Change the colours ls uses for files, folders and links on Linux by editing /etc/DIR_COLORS, with the default colour codes explained.
+top-cloud-apps-to-boost-your-productivity	The cloud apps I used every day in 2012 to work with a team from anywhere: Dropbox, Google Drive, Evernote, Asana and more.
+reset-windows-7-password-with-ubuntu	Reset a forgotten Windows 7 password from an Ubuntu live USB or CD with chntpw, without reinstalling Windows or losing data.
+heidisql-another-free-mysql-client-tools	HeidiSQL is the light, free Windows client I used to run MySQL: browse and edit data, tables, views and triggers without MySQL Workbench's weight.
+howto-make-semi-transparant-menu-bar-in-firefox	Make the Firefox address bar drop-down semi-transparent like Chrome's with one rule in userChrome.css. Written for Firefox 3 on Windows.
+seoquake-seo-user-friendly-tools-a-firefox-extension	SeoQuake is a Firefox extension that shows a page's SEO numbers (PageRank, index counts, Alexa rank, keyword density) on any site and in search results.
+beginners-guide-use-ftp-from-command-line	How to connect, log in and move files with the ftp command on a server without a GUI, with the flags and commands I use in a terminal session.
+cross-browser-compatibility-check-tools	Five online tools I used in 2010 to test a design in browsers I didn't have installed, including Browsershots and Adobe BrowserLab.
+howto-create-linux-bootable-live-usb	Make a bootable live USB for Ubuntu, Fedora and other Linux distributions with UNetbootin instead of burning another CD.
+beginners-guide-how-to-use-wget	A beginner's guide to wget: download files over HTTP, HTTPS and FTP from the command line, with the options I use most, like background mode and logging.
+5-best-website-to-become-professional-web-designer	Five sites I recommended in 2009 for learning web design, from beginner tutorials to building WordPress and Joomla templates.
+tortoisesvn-free-and-easy-to-use-subversion-client	TortoiseSVN puts Subversion in the Windows Explorer right-click menu. The free SVN client I used to commit my WordPress plugins to wordpress.org.
+useful-google-chrome-extensions-for-web-developer	The Chrome extensions I used for web development in 2010, when Chrome was new and most developers still tested in Firefox.
+things-you-can-do-with-string-format-in-c	String.Format in C# by example: the {index,alignment:format} syntax, padding numbers with zeros, aligning columns and formatting dates.
+simple-ways-to-change-and-adjust-your-mac-osx-display-resolution	Two ways to change the display resolution on Mac OS X: the monitor icon in the menu bar and the Displays pane in System Preferences.
+create-patch-files-from-multiple-commits-in-git	Export your last few commits as patches with git format-patch -N, or squash them into one file with --stdout so they're easy to apply.
+paste-with-ctrlv-in-windows-command-prompt	The old Windows Command Prompt ignored Ctrl+V. A four-line AutoHotkey script makes it paste the clipboard like any other window.
+beginners-guide-copy-your-files-to-remote-server-with-scp	Copy files and folders between your machine and a remote server over SSH with scp, with the commands for each direction.
+howto-install-remote-desktop-on-ubuntu	Control your Ubuntu desktop from another computer with TightVNC: install the server, start it and connect with a VNC viewer.
+howto-setup-your-own-virtual-private-network	Browse safely on public Wi-Fi by tunnelling through your own server with ssh -ND, using PuTTY on Windows or the terminal on Mac and Linux.
+php-script-to-test-send-email	A small PHP script I wrote to check whether a server can send email, for hosts where mail lands in spam or never arrives.
+howto-change-ubuntu-ip-address-from-dhcp-to-static	Switch an Ubuntu or Debian network card from DHCP to a static IP by editing /etc/network/interfaces, then restart networking.
+the-best-media-player-in-ubuntu	Why VLC was my media player of choice on Ubuntu, and how to install it with apt-get to play almost any video, DVD or stream.
+scan-all-the-computer-ip-addresses-inside-your-network-in-one-click	Find every device and IP address on your network without pinging them one by one, using Angry IP Scanner or Advanced IP Scanner.
+504-gateway-timeout-with-nginx-and-apache	Debugging a 504 gateway timeout with nginx in front of Apache: why fastcgi_read_timeout wasn't it, and the Apache and MySQL stall I suspected.
+rescue-system-with-linux-systemrescuecd	SystemRescueCd is a 200 MB Linux live disc full of repair tools. Use it to recover a crashed Linux system, booted from CD or USB.
+opensolaris-another-free-and-open-source-operating-system	OpenSolaris was Sun's open-source release of Solaris, the only System V Unix available as open source. What it offered when I tried it in 2010.

@@ -48,6 +48,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/class-attachment-resolver.php';
 	require_once __DIR__ . '/class-fix-image-ids-command.php';
 	require_once __DIR__ . '/class-link-images-command.php';
+	require_once __DIR__ . '/class-set-descriptions-command.php';
 	require_once __DIR__ . '/class-code-language-detector.php';
 	require_once __DIR__ . '/class-code-languages-command.php';
 	require_once __DIR__ . '/class-reset-modified-dates-command.php';
@@ -63,4 +64,5 @@ function bootstrap(): void {
 	\WP_CLI::add_command( 'ik2 remove-dead-images', Remove_Dead_Images_Command::class );
 	\WP_CLI::add_command( 'ik2 noindex-posts', Noindex_Posts_Command::class );
 	\WP_CLI::add_command( 'ik2 link-images', Link_Images_Command::class );
+	\WP_CLI::add_command( 'ik2 set-descriptions', Set_Descriptions_Command::class );
 }
