@@ -282,10 +282,12 @@ function link_markers( string $text, array $targets, array &$cites ): string {
 		foreach ( $ids as $id ) {
 			$cites[ $id ] = ( $cites[ $id ] ?? 0 ) + 1;
 			$links[]      = sprintf(
-				'<a href="#%4$s" id="ik-cite-%1$d-%2$d" role="doc-noteref" interestfor="ik-source-preview-%1$d"><span class="ik-cite__label">%3$s </span>%1$d</a>',
+				// The label lives in aria-label, not a hidden span, so extracted text reads "v0.14.0.8", not "v0.14.0.Source 8".
+				'<a href="#%4$s" id="ik-cite-%1$d-%2$d" role="doc-noteref" aria-label="%3$s" interestfor="ik-source-preview-%1$d">%1$d</a>',
 				$id,
 				$cites[ $id ],
-				esc_html__( 'Source', 'ik2' ),
+				/* translators: %d: source number. */
+				esc_attr( sprintf( __( 'Source %d', 'ik2' ), $id ) ),
 				esc_attr( $targets[ $id ] )
 			);
 		}
