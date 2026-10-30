@@ -1,4 +1,4 @@
-- [impeccable skill: no superpowers mixing](feedback-impeccable-no-superpowers.md) — when using impeccable, do not invoke any superpowers:* skills alongside it
+- [no superpowers](feedback-no-superpowers.md) — superpowers skills retired; specs in docs/specs, plans in docs/plans
 - [Restart app to bust PHP opcache](feedback-opcache-restart.md) — when adding new theme PHP files or new `require_once`, run `docker compose restart app` before testing
 - [Editor canvas (blob iframe) gotchas](reference-editor-canvas-blob-iframe.md) — verify via wp.data or devtools contentDocument; canvas replaces its <body> after load; RichText uses <br> for newlines
 - [all webroots are non-volume /var/www/app](project-cli-webroot-non-volume.md) — `VOLUME /var/www/html` shadowing on Dokploy served stale code across redeploys; app/nginx/cli all bake at /var/www/app
