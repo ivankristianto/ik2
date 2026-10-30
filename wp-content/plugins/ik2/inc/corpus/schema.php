@@ -18,6 +18,8 @@ const CORPUS_DB_VERSION = '1';
 
 const DB_VERSION_OPTION = 'ik2_corpus_db_version';
 
+const TABLES = [ 'documents', 'chunks', 'vectors', 'related', 'runs' ];
+
 /**
  * Prefixed table name, e.g. table( 'documents' ) is wp_ik2_corpus_documents.
  *
@@ -44,7 +46,31 @@ function maybe_upgrade(): void {
 
 	dbDelta( schema() );
 
+	// Leave the version behind when a CREATE failed, so the next request retries.
+	if ( ! tables_exist() ) {
+		return;
+	}
+
 	update_option( DB_VERSION_OPTION, CORPUS_DB_VERSION, true );
+}
+
+/**
+ * Whether every Corpus table is in the database.
+ */
+function tables_exist(): bool {
+	global $wpdb;
+
+	$found = $wpdb->get_col(
+		$wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( table( '' ) ) . '%' )
+	);
+
+	foreach ( TABLES as $name ) {
+		if ( ! in_array( table( $name ), $found, true ) ) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /**
