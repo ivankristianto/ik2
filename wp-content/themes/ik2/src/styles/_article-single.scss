@@ -177,12 +177,6 @@
 	color: $color-graphite;
 	text-align: center;
 	line-height: $leading-snug;
-
-	a {
-		color: inherit;
-		text-decoration: none;
-		pointer-events: none;
-	}
 }
 
 // Same washes as the /articles card cover in _articles.scss. Misc keeps Soft Paper.

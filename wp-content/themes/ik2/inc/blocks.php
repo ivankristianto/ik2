@@ -19,6 +19,8 @@ const RELATED_LIMIT      = 4;
 const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
 const REWRITE_VERSION    = 2;
 
+const RELATED_COVER_LABEL_CLASS = 'ik-related__cover-label';
+
 /**
  * Register hooks owned by this module.
  */
@@ -27,6 +29,7 @@ function bootstrap(): void {
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_related_query', 10, 2 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\hide_empty_related_query', 10, 2 );
+	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\unlink_related_cover_label', 10, 2 );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
 	add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
 	add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
@@ -160,6 +163,22 @@ function hide_empty_related_query( string $html, array $block ): string {
 	}
 
 	return str_contains( $html, 'wp-block-post ' ) ? $html : '';
+}
+
+/**
+ * Print the related lead's cover label as text, so its stretched title is the lead's only tab stop.
+ *
+ * @param string              $html  Rendered post-terms block.
+ * @param array<string,mixed> $block Parsed block.
+ */
+function unlink_related_cover_label( string $html, array $block ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( ! in_array( RELATED_COVER_LABEL_CLASS, $classes, true ) ) {
+		return $html;
+	}
+
+	return (string) preg_replace( '#</?a\b[^>]*>#i', '', $html );
 }
 
 /**
