@@ -302,6 +302,9 @@ announce "Source N".
 
 ### 2.8 Related posts (`ONPAGE-06`)
 
+Superseded by `docs/specs/2026-10-30-embedding-corpus-design.md`, which ranks
+related posts by content instead of by category.
+
 79% of posts have no internal link in the body. Add a "More on <category>"
 list of 3 posts from the primary category under the article in
 `templates/single.html`, using a `core/query` with `taxQuery` on the

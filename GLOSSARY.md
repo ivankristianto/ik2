@@ -11,3 +11,7 @@ _Avoid_: Post (except when talking about the WordPress type), blog entry, story
 **Format**:
 The kind of writing an Article is: a guide, a note, or an experiment.
 _Avoid_: Type, kind, category (when the format is meant)
+
+**Corpus**:
+The published Articles, cleaned, split into chunks and embedded, that AI features such as related posts read from.
+_Avoid_: Index, embeddings (when the whole store is meant)
