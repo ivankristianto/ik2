@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { findWork, isStale } from '../src/staleness.mjs';
+import { STATUS, findWork, isStale } from '../src/staleness.mjs';
 
 const MODEL = 'nomic-ai/nomic-embed-text-v1.5:q8';
 
@@ -131,4 +131,11 @@ test( 'vectors whose owner is gone are orphans', () => {
 	assert.deepEqual( work.orphanVectorIds, [ 102, 103, 104 ] );
 	assert.deepEqual( work.toIndex, [] );
 	assert.equal( work.hasWork, true );
+} );
+
+test( 'STATUS matches the status constants in the PHP queue', async () => {
+	const { readFile } = await import( 'node:fs/promises' );
+	const php = await readFile( new URL( '../../../wp-content/plugins/ik2/inc/corpus/queue.php', import.meta.url ), 'utf8' );
+	const fromPhp = Object.fromEntries( [ ...php.matchAll( /const STATUS_([A-Z]+)\s*= '([a-z]+)';/g ) ].map( ( [ , k, v ] ) => [ k.toLowerCase(), v ] ) );
+	assert.deepEqual( fromPhp, { ...STATUS } );
 } );

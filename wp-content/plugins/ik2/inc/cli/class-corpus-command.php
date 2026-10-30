@@ -123,8 +123,9 @@ class Corpus_Command {
 		);
 		$parked   = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT object_id AS post_id, title, attempts, last_error FROM %i WHERE status = 'parked' ORDER BY object_id",
-				Corpus\table( 'documents' )
+				'SELECT object_id AS post_id, title, attempts, last_error FROM %i WHERE status = %s ORDER BY object_id',
+				Corpus\table( 'documents' ),
+				Corpus\STATUS_PARKED
 			),
 			ARRAY_A
 		);
@@ -249,9 +250,10 @@ class Corpus_Command {
 
 		$stored = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT object_id FROM %i WHERE object_type = %s AND status <> 'remove'",
+				'SELECT object_id FROM %i WHERE object_type = %s AND status <> %s',
 				Corpus\table( 'documents' ),
-				Corpus\OBJECT_TYPE
+				Corpus\OBJECT_TYPE,
+				Corpus\STATUS_REMOVE
 			)
 		);
 

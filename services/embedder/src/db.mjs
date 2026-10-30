@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 
+import { STATUS } from './staleness.mjs';
 import { pack, unpack } from './vectors.mjs';
 
 const LOCK_NAME = 'ik2_corpus';
@@ -84,7 +85,7 @@ export class CorpusDb {
 	async removeDocument( id ) {
 		const t = this.tables;
 		return this.transaction( async () => {
-			const [ res ] = await this.conn.execute( `DELETE FROM ${ t.documents } WHERE id = ? AND status = 'remove'`, [ id ] );
+			const [ res ] = await this.conn.execute( `DELETE FROM ${ t.documents } WHERE id = ? AND status = ?`, [ id, STATUS.remove ] );
 			if ( res.affectedRows === 0 ) {
 				return false;
 			}
@@ -141,9 +142,9 @@ export class CorpusDb {
 		// status is assigned before attempts so it reads the old value in every sql_mode.
 		await this.conn.execute(
 			`UPDATE ${ this.tables.documents }
-			SET status = IF(attempts + 1 >= ?, 'parked', status), attempts = attempts + 1, last_error = ?
-			WHERE id = ? AND content_hash = ? AND status IN ('queued', 'indexed')`,
-			[ maxAttempts, message.slice( 0, 1000 ), id, contentHash ]
+			SET status = IF(attempts + 1 >= ?, ?, status), attempts = attempts + 1, last_error = ?
+			WHERE id = ? AND content_hash = ? AND status IN (?, ?)`,
+			[ maxAttempts, STATUS.parked, message.slice( 0, 1000 ), id, contentHash, STATUS.queued, STATUS.indexed ]
 		);
 	}
 
@@ -157,9 +158,9 @@ export class CorpusDb {
 			`SELECT d.object_id AS postId, d.title, d.embed_text AS embedText, v.embedding
 			FROM ${ t.documents } d
 			JOIN ${ t.vectors } v ON v.level = 'document' AND v.owner_id = d.id AND v.model = ?
-			WHERE d.object_type = 'post' AND d.status <> 'remove'
+			WHERE d.object_type = 'post' AND d.status <> ?
 			ORDER BY d.object_id`,
-			[ model ]
+			[ model, STATUS.remove ]
 		);
 		return rows.map( ( r ) => ( { postId: r.postId, title: r.title, embedText: r.embedText, vector: unpack( r.embedding ) } ) );
 	}
@@ -198,9 +199,9 @@ export class CorpusDb {
 	async markIndexed( id, contentHash ) {
 		await this.conn.execute(
 			`UPDATE ${ this.tables.documents }
-			SET status = 'indexed', indexed_at = UTC_TIMESTAMP(), attempts = 0, last_error = NULL
-			WHERE id = ? AND content_hash = ? AND status IN ('queued', 'indexed')`,
-			[ id, contentHash ]
+			SET status = ?, indexed_at = UTC_TIMESTAMP(), attempts = 0, last_error = NULL
+			WHERE id = ? AND content_hash = ? AND status IN (?, ?)`,
+			[ STATUS.indexed, id, contentHash, STATUS.queued, STATUS.indexed ]
 		);
 	}
 }

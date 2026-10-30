@@ -17,6 +17,12 @@ const NOINDEX_META = '_yoast_wpseo_meta-robots-noindex';
 
 const EXCLUDE_META = '_ik2_corpus_exclude';
 
+// Document statuses, shared with services/embedder/src/staleness.mjs.
+const STATUS_QUEUED  = 'queued';
+const STATUS_INDEXED = 'indexed';
+const STATUS_REMOVE  = 'remove';
+const STATUS_PARKED  = 'parked';
+
 /**
  * Whether a post meets the Corpus inclusion rules.
  *
@@ -93,7 +99,7 @@ function queue_post( int $post_id, bool $force = false ): string {
 		! $force
 		&& null !== $existing
 		&& $existing['content_hash'] === $document['content_hash']
-		&& in_array( $existing['status'], [ 'queued', 'indexed' ], true )
+		&& in_array( $existing['status'], [ STATUS_QUEUED, STATUS_INDEXED ], true )
 	) {
 		return 'unchanged';
 	}
@@ -116,7 +122,7 @@ function queue_post( int $post_id, bool $force = false ): string {
 			$document['embed_text'],
 			$document['embed_hash'],
 			$document['content_hash'],
-			'queued',
+			STATUS_QUEUED,
 			current_time( 'mysql', true )
 		)
 	);
@@ -177,12 +183,14 @@ function mark_remove( int $post_id ): bool {
 	// Attempts go back to 0: the worker skips rows at 3, which would keep a parked Document forever.
 	$changed = $wpdb->query(
 		$wpdb->prepare(
-			"UPDATE %i SET status = 'remove', attempts = 0, queued_at = %s
-			WHERE object_type = %s AND object_id = %d AND status <> 'remove'",
+			'UPDATE %i SET status = %s, attempts = 0, queued_at = %s
+			WHERE object_type = %s AND object_id = %d AND status <> %s',
 			table( 'documents' ),
+			STATUS_REMOVE,
 			current_time( 'mysql', true ),
 			OBJECT_TYPE,
-			$post_id
+			$post_id,
+			STATUS_REMOVE
 		)
 	);
 

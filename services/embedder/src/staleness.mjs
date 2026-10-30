@@ -1,5 +1,8 @@
 export const MAX_ATTEMPTS = 3;
 
+// Document statuses, shared with wp-content/plugins/ik2/inc/corpus/queue.php.
+export const STATUS = Object.freeze( { queued: 'queued', indexed: 'indexed', remove: 'remove', parked: 'parked' } );
+
 export function isStale( vector, model, ownerHash ) {
 	return ! vector || vector.model !== model || vector.contentHash !== ownerHash;
 }
@@ -28,18 +31,18 @@ export function findWork( { documents, chunks, vectors }, model ) {
 		if ( doc.attempts >= MAX_ATTEMPTS ) {
 			continue;
 		}
-		if ( doc.status === 'remove' ) {
+		if ( doc.status === STATUS.remove ) {
 			removals.push( doc.id );
 			continue;
 		}
-		if ( doc.status !== 'queued' && doc.status !== 'indexed' ) {
+		if ( doc.status !== STATUS.queued && doc.status !== STATUS.indexed ) {
 			continue;
 		}
 		const embedDocument = isStale( vectorOf.get( vectorKey( 'document', doc.id ) ), model, doc.embedHash );
 		const chunkIds = ( chunksOf.get( doc.id ) ?? [] )
 			.filter( ( c ) => isStale( vectorOf.get( vectorKey( 'chunk', c.id ) ), model, c.contentHash ) )
 			.map( ( c ) => c.id );
-		if ( doc.status === 'queued' || embedDocument || chunkIds.length ) {
+		if ( doc.status === STATUS.queued || embedDocument || chunkIds.length ) {
 			toIndex.push( { id: doc.id, contentHash: doc.contentHash, embedDocument, chunkIds } );
 		}
 	}

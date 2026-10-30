@@ -53,9 +53,9 @@ test( 'rankingSet takes every Article not marked remove, so a re-queued one keep
 	} );
 	const docs = await new CorpusDb( conn, TABLES ).rankingSet( MODEL_NAME );
 	const [ [ , sql, params ] ] = conn.calls;
-	assert.match( sql, /WHERE d\.object_type = 'post' AND d\.status <> 'remove' ORDER/ );
-	assert.doesNotMatch( sql, /status = 'indexed'/ );
-	assert.deepEqual( params, [ MODEL_NAME ] );
+	assert.match( sql, /WHERE d\.object_type = 'post' AND d\.status <> \? ORDER/ );
+	assert.doesNotMatch( sql, /status = / );
+	assert.deepEqual( params, [ MODEL_NAME, 'remove' ] );
 	assert.deepEqual( docs, [
 		{ postId: 7, title: 'Edited', embedText: 'Edited\nCategory: \nTags: \n\nBody', vector: Float32Array.from( [ 0.5, -1 ] ) },
 	] );
