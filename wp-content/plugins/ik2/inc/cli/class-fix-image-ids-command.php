@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace IK2\Plugin\CLI;
 
-use IK2\Plugin\CLI\Migrate\Content_Rewriter;
 use WP_CLI;
 use WP_HTML_Tag_Processor;
 
@@ -38,11 +37,11 @@ class Fix_Image_Ids_Command {
 	private const CAPTION_ATTR = '/(\[caption\b[^\]]*\bid=["\']attachment_)(\d+)/';
 
 	/**
-	 * Resolved attachment ID per src, shared across posts.
+	 * Maps image srcs to attachment IDs, shared across posts.
 	 *
-	 * @var array<string, int>
+	 * @var Attachment_Resolver
 	 */
-	private array $resolved = [];
+	private Attachment_Resolver $resolver;
 
 	/**
 	 * Old ID => new ID for the block or caption being repaired.
@@ -64,6 +63,13 @@ class Fix_Image_Ids_Command {
 	 * @var array<int, array{old: int, new: int, src: string, conflict: bool}>
 	 */
 	private array $images = [];
+
+	/**
+	 * Set up the shared resolver.
+	 */
+	public function __construct() {
+		$this->resolver = new Attachment_Resolver();
+	}
 
 	/**
 	 * Rewrites stale attachment IDs on inline images to match their src.
@@ -300,7 +306,7 @@ class Fix_Image_Ids_Command {
 			}
 
 			$old = (int) $found[1];
-			$new = $this->resolve( $src );
+			$new = $this->resolver->resolve( $src );
 
 			if ( $new === $old || 0 === $new ) {
 				$keep[ $old ] = true;
@@ -349,38 +355,6 @@ class Fix_Image_Ids_Command {
 		}
 
 		return $image['conflict'] ? 'conflict' : $post_status;
-	}
-
-	/**
-	 * Find the attachment an image src belongs to, or 0.
-	 *
-	 * @param string $src Image src as written in the content.
-	 */
-	private function resolve( string $src ): int {
-		if ( isset( $this->resolved[ $src ] ) ) {
-			return $this->resolved[ $src ];
-		}
-
-		$url = strtok( $src, '?#' );
-		$id  = attachment_url_to_postid( (string) $url );
-
-		// A resized copy (photo-300x200.jpg) isn't the attached file; its original is.
-		if ( 0 === $id ) {
-			$original = ( new Content_Rewriter() )->strip_size_suffix( (string) $url );
-
-			if ( $original !== $url ) {
-				$id = attachment_url_to_postid( $original );
-
-				// Big uploads are stored as photo-scaled.jpg.
-				if ( 0 === $id ) {
-					$id = attachment_url_to_postid( (string) preg_replace( '/(?=\.[A-Za-z0-9]+$)/', '-scaled', $original, 1 ) );
-				}
-			}
-		}
-
-		$this->resolved[ $src ] = $id;
-
-		return $id;
 	}
 
 	/**

@@ -45,6 +45,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/migrate/class-media-sideloader.php';
 	require_once __DIR__ . '/migrate/class-post-importer.php';
 	require_once __DIR__ . '/class-migrate-articles-command.php';
+	require_once __DIR__ . '/class-attachment-resolver.php';
 	require_once __DIR__ . '/class-fix-image-ids-command.php';
 	require_once __DIR__ . '/class-code-language-detector.php';
 	require_once __DIR__ . '/class-code-languages-command.php';
