@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'category-wash';
 @use 'tag-line';
 
 /* ===========================================================================
@@ -179,12 +180,7 @@
 	line-height: $leading-snug;
 }
 
-// Same washes as the /articles card cover in _articles.scss. Misc keeps Soft Paper.
-@each $category in $category-washes {
-	.wp-block-post.category-#{$category} .ik-related__cover {
-		background: var(--wp--custom--color--category-wash--#{$category});
-	}
-}
+@include category-wash.covers(".ik-related__cover");
 
 .ik-related__meta {
 	display: flex;

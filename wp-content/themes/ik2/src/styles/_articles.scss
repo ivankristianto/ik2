@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'category-wash';
 @use 'tag-line';
 
 /* ===========================================================================
@@ -90,14 +91,7 @@
 	}
 }
 
-/* Keyed on the post's category class, not the term link, because production
-   strips the /category/ base from term URLs. Scoped to .wp-block-post since
-   category archives put the same class on <body>. Misc keeps Soft Paper. */
-@each $category in $category-washes {
-	.wp-block-post.category-#{$category} .ik-article-card__cover {
-		background: var(--wp--custom--color--category-wash--#{$category});
-	}
-}
+@include category-wash.covers(".ik-article-card__cover");
 
 .wp-block-group.ik-article-card__meta {
 	font-family: $font-mono;
