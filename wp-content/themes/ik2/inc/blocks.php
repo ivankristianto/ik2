@@ -30,6 +30,10 @@ function bootstrap(): void {
 	add_action( 'init', __NAMESPACE__ . '\\maybe_flush_rewrite_rules', 20 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\rewrite_query_loop_pagination_hrefs', 10, 2 );
 	add_filter( 'get_canonical_url', __NAMESPACE__ . '\\filter_articles_canonical_url', 10, 2 );
+	add_filter( 'wpseo_canonical', __NAMESPACE__ . '\\filter_articles_yoast_url' );
+	add_filter( 'wpseo_opengraph_url', __NAMESPACE__ . '\\filter_articles_yoast_url' );
+	add_filter( 'wpseo_adjacent_rel_url', __NAMESPACE__ . '\\filter_articles_adjacent_rel_url' );
+	add_filter( 'wpseo_title', __NAMESPACE__ . '\\filter_articles_yoast_title' );
 	add_action( 'after_switch_theme', __NAMESPACE__ . '\\flush_rewrite_on_theme_switch' );
 }
 
@@ -307,6 +311,65 @@ function filter_articles_canonical_url( string $url, $post ): string {
 	}
 
 	return ik2_build_archive_pagination_url( $page );
+}
+
+/**
+ * Yoast canonical and og:url for the Articles page: the route actually served.
+ *
+ * Yoast never calls get_canonical_url, and its stored permalink can go stale.
+ *
+ * @param string|false $url URL Yoast computed.
+ * @return string|false
+ */
+function filter_articles_yoast_url( $url ) {
+	if ( ! is_page( ARTICLES_PAGE_SLUG ) ) {
+		return $url;
+	}
+
+	return ik2_build_archive_pagination_url( max( 1, (int) get_query_var( 'paged', 1 ) ) );
+}
+
+/**
+ * Rewrite Yoast's rel next/prev (`?query-42-page=N`) to the /page/N/ links the page shows.
+ *
+ * @param string $url Adjacent URL Yoast computed, empty when there is none.
+ */
+function filter_articles_adjacent_rel_url( $url ): string {
+	$url = (string) $url;
+
+	if ( $url === '' || ! is_page( ARTICLES_PAGE_SLUG ) ) {
+		return $url;
+	}
+
+	$query = [];
+	wp_parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $query );
+	$key = 'query-' . ARTICLES_QUERY_ID . '-page';
+
+	if ( ! isset( $query[ $key ] ) ) {
+		return $url;
+	}
+
+	return ik2_build_archive_pagination_url( max( 1, (int) $query[ $key ] ) );
+}
+
+/**
+ * Add the page number to the Articles title on page 2 and beyond.
+ *
+ * @param string $title Title Yoast computed.
+ */
+function filter_articles_yoast_title( $title ): string {
+	$title = (string) $title;
+	$page  = (int) get_query_var( 'paged', 1 );
+
+	if ( $page < 2 || ! is_page( ARTICLES_PAGE_SLUG ) ) {
+		return $title;
+	}
+
+	$sep = strrpos( $title, ' - ' );
+	/* translators: %d: page number. */
+	$label = sprintf( __( 'Page %d', 'ik2' ), $page );
+
+	return false === $sep ? $title . ' - ' . $label : substr( $title, 0, $sep ) . ' - ' . $label . substr( $title, $sep );
 }
 
 /**
