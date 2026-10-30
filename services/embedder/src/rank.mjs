@@ -1,4 +1,4 @@
-import { buildIndex, search, tokenize } from './bm25.mjs';
+import { buildIndex, search, tokenize, topIds } from './bm25.mjs';
 import { fuse } from './rrf.mjs';
 import { dot, norm } from './vectors.mjs';
 
@@ -57,10 +57,7 @@ export function rankAll( docs, { candidates = CANDIDATES, keep = KEEP } = {} ) {
 				cosineOf.set( other.postId, dot( doc.vector, other.vector ) / ( norms[ i ] * norms[ j ] ) );
 			}
 		} );
-		const vectorList = [ ...cosineOf ]
-			.sort( ( a, b ) => b[ 1 ] - a[ 1 ] || a[ 0 ] - b[ 0 ] )
-			.slice( 0, candidates )
-			.map( ( [ id ] ) => id );
+		const vectorList = topIds( cosineOf, candidates );
 		const keywordList = search( index, bm25Query( doc.title, parseTags( doc.embedText ) ), candidates, doc.postId );
 		result.set( doc.postId, cut( fuse( [ vectorList, keywordList ] ), cosineOf, keep ) );
 	} );

@@ -15,14 +15,27 @@ export async function connect( config ) {
 		charset: 'utf8mb4',
 		dateStrings: true,
 	} );
-	const t = Object.fromEntries( Object.entries( config.tables ).map( ( [ k, v ] ) => [ k, mysql.escapeId( v ) ] ) );
-	return new CorpusDb( conn, t );
+	const tables = Object.fromEntries( Object.entries( config.tables ).map( ( [ k, v ] ) => [ k, mysql.escapeId( v ) ] ) );
+	return new CorpusDb( conn, tables );
 }
 
 export class CorpusDb {
 	constructor( conn, tables ) {
 		this.conn = conn;
-		this.t = tables;
+		this.tables = tables;
+	}
+
+	/** Runs `work` in one transaction, rolled back when it throws. */
+	async transaction( work, { snapshot = false } = {} ) {
+		await this.conn.query( snapshot ? 'START TRANSACTION WITH CONSISTENT SNAPSHOT' : 'START TRANSACTION' );
+		try {
+			const result = await work();
+			await this.conn.commit();
+			return result;
+		} catch ( err ) {
+			await this.conn.rollback();
+			throw err;
+		}
 	}
 
 	async close() {
@@ -45,25 +58,23 @@ export class CorpusDb {
 
 	/** Metadata only, no text or blobs, so finding work stays cheap. */
 	async loadMetadata() {
-		const { t } = this;
+		const t = this.tables;
 		// One snapshot, so a save that commits a Document and its Chunks between reads is seen whole or not at all.
-		await this.conn.query( 'START TRANSACTION WITH CONSISTENT SNAPSHOT' );
-		try {
-			const [ documents ] = await this.conn.query(
-				`SELECT id, status, attempts, embed_hash AS embedHash, content_hash AS contentHash FROM ${ t.documents }`
-			);
-			const [ chunks ] = await this.conn.query(
-				`SELECT id, document_id AS documentId, content_hash AS contentHash FROM ${ t.chunks }`
-			);
-			const [ vectors ] = await this.conn.query(
-				`SELECT id, level, owner_id AS ownerId, model, content_hash AS contentHash FROM ${ t.vectors }`
-			);
-			await this.conn.commit();
-			return { documents, chunks, vectors };
-		} catch ( err ) {
-			await this.conn.rollback();
-			throw err;
-		}
+		return this.transaction(
+			async () => {
+				const [ documents ] = await this.conn.query(
+					`SELECT id, status, attempts, embed_hash AS embedHash, content_hash AS contentHash FROM ${ t.documents }`
+				);
+				const [ chunks ] = await this.conn.query(
+					`SELECT id, document_id AS documentId, content_hash AS contentHash FROM ${ t.chunks }`
+				);
+				const [ vectors ] = await this.conn.query(
+					`SELECT id, level, owner_id AS ownerId, model, content_hash AS contentHash FROM ${ t.vectors }`
+				);
+				return { documents, chunks, vectors };
+			},
+			{ snapshot: true }
+		);
 	}
 
 	/**
@@ -71,42 +82,36 @@ export class CorpusDb {
 	 * @return {Promise<boolean>} false when it was re-queued since the work was read
 	 */
 	async removeDocument( id ) {
-		const { t } = this;
-		await this.conn.beginTransaction();
-		try {
+		const t = this.tables;
+		return this.transaction( async () => {
 			const [ res ] = await this.conn.execute( `DELETE FROM ${ t.documents } WHERE id = ? AND status = 'remove'`, [ id ] );
 			if ( res.affectedRows === 0 ) {
-				await this.conn.rollback();
 				return false;
 			}
 			const [ chunks ] = await this.conn.execute( `SELECT id FROM ${ t.chunks } WHERE document_id = ?`, [ id ] );
 			await this.deleteVectorsByOwner( 'chunk', chunks.map( ( c ) => c.id ) );
 			await this.deleteVectorsByOwner( 'document', [ id ] );
 			await this.conn.execute( `DELETE FROM ${ t.chunks } WHERE document_id = ?`, [ id ] );
-			await this.conn.commit();
 			return true;
-		} catch ( err ) {
-			await this.conn.rollback();
-			throw err;
-		}
+		} );
 	}
 
 	async deleteVectorsByOwner( level, ownerIds ) {
 		if ( ownerIds.length ) {
-			await this.conn.query( `DELETE FROM ${ this.t.vectors } WHERE level = ? AND owner_id IN (?)`, [ level, ownerIds ] );
+			await this.conn.query( `DELETE FROM ${ this.tables.vectors } WHERE level = ? AND owner_id IN (?)`, [ level, ownerIds ] );
 		}
 	}
 
 	async deleteVectors( ids ) {
 		if ( ids.length ) {
-			await this.conn.query( `DELETE FROM ${ this.t.vectors } WHERE id IN (?)`, [ ids ] );
+			await this.conn.query( `DELETE FROM ${ this.tables.vectors } WHERE id IN (?)`, [ ids ] );
 		}
 	}
 
 	/** @return {Promise<{text:string, hash:string}|null>} null when the row is gone */
 	async documentText( id ) {
 		const [ [ row ] ] = await this.conn.execute(
-			`SELECT embed_text AS text, embed_hash AS hash FROM ${ this.t.documents } WHERE id = ?`,
+			`SELECT embed_text AS text, embed_hash AS hash FROM ${ this.tables.documents } WHERE id = ?`,
 			[ id ]
 		);
 		return row ?? null;
@@ -115,7 +120,7 @@ export class CorpusDb {
 	/** @return {Promise<{text:string, hash:string}|null>} null when the row is gone */
 	async chunkText( id ) {
 		const [ [ row ] ] = await this.conn.execute(
-			`SELECT text, content_hash AS hash FROM ${ this.t.chunks } WHERE id = ?`,
+			`SELECT text, content_hash AS hash FROM ${ this.tables.chunks } WHERE id = ?`,
 			[ id ]
 		);
 		return row ?? null;
@@ -123,7 +128,7 @@ export class CorpusDb {
 
 	async saveVector( { level, ownerId, model, prefix, vector, contentHash } ) {
 		await this.conn.execute(
-			`INSERT INTO ${ this.t.vectors } (level, owner_id, model, prefix, dims, embedding, content_hash, embedded_at)
+			`INSERT INTO ${ this.tables.vectors } (level, owner_id, model, prefix, dims, embedding, content_hash, embedded_at)
 			VALUES (?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())
 			ON DUPLICATE KEY UPDATE model = VALUES(model), prefix = VALUES(prefix), dims = VALUES(dims),
 				embedding = VALUES(embedding), content_hash = VALUES(content_hash), embedded_at = VALUES(embedded_at)`,
@@ -135,7 +140,7 @@ export class CorpusDb {
 	async recordFailure( id, contentHash, message, maxAttempts ) {
 		// status is assigned before attempts so it reads the old value in every sql_mode.
 		await this.conn.execute(
-			`UPDATE ${ this.t.documents }
+			`UPDATE ${ this.tables.documents }
 			SET status = IF(attempts + 1 >= ?, 'parked', status), attempts = attempts + 1, last_error = ?
 			WHERE id = ? AND content_hash = ? AND status IN ('queued', 'indexed')`,
 			[ maxAttempts, message.slice( 0, 1000 ), id, contentHash ]
@@ -147,7 +152,7 @@ export class CorpusDb {
 	 * so a re-queued Article whose embedding failed keeps its previous vector in the lists.
 	 */
 	async rankingSet( model ) {
-		const { t } = this;
+		const t = this.tables;
 		const [ rows ] = await this.conn.query(
 			`SELECT d.object_id AS postId, d.title, d.embed_text AS embedText, v.embedding
 			FROM ${ t.documents } d
@@ -165,9 +170,8 @@ export class CorpusDb {
 	 * @return {Promise<number>} the Run ID
 	 */
 	async writeRun( { startedAt, model, counts, related } ) {
-		const { t } = this;
-		await this.conn.beginTransaction();
-		try {
+		const t = this.tables;
+		return this.transaction( async () => {
 			const [ res ] = await this.conn.execute(
 				`INSERT INTO ${ t.runs } (started_at, finished_at, model, documents_embedded, chunks_embedded, removed, failed)
 				VALUES (?, UTC_TIMESTAMP(), ?, ?, ?, ?, ?)`,
@@ -187,18 +191,14 @@ export class CorpusDb {
 					rows.slice( i, i + INSERT_BATCH ),
 				] );
 			}
-			await this.conn.commit();
 			return runId;
-		} catch ( err ) {
-			await this.conn.rollback();
-			throw err;
-		}
+		} );
 	}
 
 	/** An Article edited or removed during the Run no longer matches and keeps its status. */
 	async markIndexed( id, contentHash ) {
 		await this.conn.execute(
-			`UPDATE ${ this.t.documents }
+			`UPDATE ${ this.tables.documents }
 			SET status = 'indexed', indexed_at = UTC_TIMESTAMP(), attempts = 0, last_error = NULL
 			WHERE id = ? AND content_hash = ? AND status IN ('queued', 'indexed')`,
 			[ id, contentHash ]

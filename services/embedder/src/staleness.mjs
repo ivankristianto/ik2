@@ -30,7 +30,7 @@ export function findWork( { documents, chunks, vectors }, model ) {
 	}
 
 	const removals = [];
-	const process = [];
+	const toIndex = [];
 	for ( const doc of documents ) {
 		if ( doc.attempts >= MAX_ATTEMPTS ) {
 			continue;
@@ -47,7 +47,7 @@ export function findWork( { documents, chunks, vectors }, model ) {
 			.filter( ( c ) => isStale( vectorOf.get( vectorKey( 'chunk', c.id ) ), model, c.contentHash ) )
 			.map( ( c ) => c.id );
 		if ( doc.status === 'queued' || embedDocument || chunkIds.length ) {
-			process.push( { id: doc.id, contentHash: doc.contentHash, embedDocument, chunkIds } );
+			toIndex.push( { id: doc.id, contentHash: doc.contentHash, embedDocument, chunkIds } );
 		}
 	}
 
@@ -59,8 +59,8 @@ export function findWork( { documents, chunks, vectors }, model ) {
 
 	return {
 		removals,
-		process,
+		toIndex,
 		orphanVectorIds,
-		hasWork: removals.length > 0 || process.length > 0 || orphanVectorIds.length > 0,
+		hasWork: removals.length > 0 || toIndex.length > 0 || orphanVectorIds.length > 0,
 	};
 }

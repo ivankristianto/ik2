@@ -41,10 +41,10 @@ export async function runOnce( { db, loadEmbedder, log } ) {
 		}
 		await db.deleteVectors( work.orphanVectorIds );
 
-		const needsModel = work.process.some( ( p ) => p.embedDocument || p.chunkIds.length );
+		const needsModel = work.toIndex.some( ( p ) => p.embedDocument || p.chunkIds.length );
 		const { embed } = needsModel ? await loadEmbedder() : { embed: null };
 		const succeeded = [];
-		for ( const item of work.process ) {
+		for ( const item of work.toIndex ) {
 			const done = { documents: 0, chunks: 0 };
 			try {
 				if ( item.embedDocument ) {

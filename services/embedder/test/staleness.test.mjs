@@ -25,7 +25,7 @@ test( 'an indexed Corpus with fresh vectors has no work', () => {
 		},
 		MODEL
 	);
-	assert.deepEqual( work, { removals: [], process: [], orphanVectorIds: [], hasWork: false } );
+	assert.deepEqual( work, { removals: [], toIndex: [], orphanVectorIds: [], hasWork: false } );
 } );
 
 test( 'document vectors check embed_hash and chunk vectors check the Chunk content_hash', () => {
@@ -44,7 +44,7 @@ test( 'document vectors check embed_hash and chunk vectors check the Chunk conte
 		},
 		MODEL
 	);
-	assert.deepEqual( work.process, [ { id: 1, contentHash: 'c1-new', embedDocument: false, chunkIds: [ 12, 13 ] } ] );
+	assert.deepEqual( work.toIndex, [ { id: 1, contentHash: 'c1-new', embedDocument: false, chunkIds: [ 12, 13 ] } ] );
 } );
 
 test( 'a queued Document with nothing stale is still processed so it becomes indexed', () => {
@@ -56,7 +56,7 @@ test( 'a queued Document with nothing stale is still processed so it becomes ind
 		},
 		MODEL
 	);
-	assert.deepEqual( work.process, [ { id: 1, contentHash: 'c1', embedDocument: false, chunkIds: [] } ] );
+	assert.deepEqual( work.toIndex, [ { id: 1, contentHash: 'c1', embedDocument: false, chunkIds: [] } ] );
 	assert.equal( work.hasWork, true );
 } );
 
@@ -72,7 +72,7 @@ test( 'a model change makes every vector of indexed Documents stale', () => {
 		},
 		MODEL
 	);
-	assert.deepEqual( work.process, [
+	assert.deepEqual( work.toIndex, [
 		{ id: 1, contentHash: 'c1', embedDocument: true, chunkIds: [] },
 		{ id: 2, contentHash: 'c2', embedDocument: true, chunkIds: [ 21 ] },
 	] );
@@ -94,7 +94,7 @@ test( 'parked Documents and those at 3 attempts are left alone', () => {
 	);
 	assert.deepEqual( work.removals, [] );
 	assert.deepEqual(
-		work.process.map( ( p ) => p.id ),
+		work.toIndex.map( ( p ) => p.id ),
 		[ 4 ]
 	);
 } );
@@ -109,7 +109,7 @@ test( 'remove rows are removals, not embeddings', () => {
 		MODEL
 	);
 	assert.deepEqual( work.removals, [ 5 ] );
-	assert.deepEqual( work.process, [] );
+	assert.deepEqual( work.toIndex, [] );
 } );
 
 test( 'vectors whose owner is gone are orphans', () => {
@@ -129,6 +129,6 @@ test( 'vectors whose owner is gone are orphans', () => {
 		MODEL
 	);
 	assert.deepEqual( work.orphanVectorIds, [ 102, 103, 104 ] );
-	assert.deepEqual( work.process, [] );
+	assert.deepEqual( work.toIndex, [] );
 	assert.equal( work.hasWork, true );
 } );
