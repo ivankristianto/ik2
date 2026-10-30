@@ -1,22 +1,22 @@
-- [no superpowers](feedback-no-superpowers.md) — superpowers skills retired; specs in docs/specs, plans in docs/plans
-- [Restart app to bust PHP opcache](feedback-opcache-restart.md) — when adding new theme PHP files or new `require_once`, run `docker compose restart app` before testing
-- [Editor canvas (blob iframe) gotchas](reference-editor-canvas-blob-iframe.md) — verify via wp.data or devtools contentDocument; canvas replaces its <body> after load; RichText uses <br> for newlines
-- [all webroots are non-volume /var/www/app](project-cli-webroot-non-volume.md) — `VOLUME /var/www/html` shadowing on Dokploy served stale code across redeploys; app/nginx/cli all bake at /var/www/app
-- [Docker is OrbStack](project-docker-is-orbstack.md) — start the daemon with `open -a OrbStack`, there is no Docker.app
-- [theme depends on plugin blocks](project-theme-depends-on-plugin-blocks.md) — single-project + projects-archive render `ik2/project-card`, a block registered by the ik2 plugin, not the theme
-- [no worktrees for container-verified work](project-no-worktrees-docker-bindmount.md) — Docker bind-mounts the main checkout; use a feature branch in place so containers see the changes
-- [articles normalized](project-articles-normalized.md) — all 487 posts block-converted + shortcode→code + proofread + recategorized to feature topics/misc; stamped `_ik2_normalized`/`_ik2_topic`
-- [staging sync](project-staging-sync.md) — REST API sync local→next.ivankristianto.com (toolkit in `_ik2_work/sync/`); staging nginx 404s runtime-uploaded media (no shared uploads volume in prod)
-- [native layout refactor](project-native-layout-refactor.md) — container-full is gone (alignfull + constrained 1280 + root-padding gutters); gotchas: useRootPaddingAwareAlignments is top-level, wp_slash serialize_blocks before wp_update_post, constrained child rules override direct-child CSS caps
-- [verify the literal request](feedback-verify-literal-request.md) — check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
-- [prod page content via REST](project-prod-page-content-via-rest.md) — releases never touch pattern-backed page content; splice it in over REST with the `.env` IK2_PROD_* app password (not .mcp.json), set a User-Agent, never run regen on prod
+- [no superpowers](feedback-no-superpowers.md): superpowers skills retired; specs in docs/specs, plans in docs/plans
+- [Restart app to bust PHP opcache](feedback-opcache-restart.md): when adding new theme PHP files or new `require_once`, run `docker compose restart app` before testing
+- [Editor canvas (blob iframe) gotchas](reference-editor-canvas-blob-iframe.md): verify via wp.data or devtools contentDocument; canvas replaces its <body> after load; RichText uses <br> for newlines
+- [all webroots are non-volume /var/www/app](project-cli-webroot-non-volume.md): `VOLUME /var/www/html` shadowing on Dokploy served stale code across redeploys; app/nginx/cli all bake at /var/www/app
+- [Docker is OrbStack](project-docker-is-orbstack.md): start the daemon with `open -a OrbStack`, there is no Docker.app
+- [theme depends on plugin blocks](project-theme-depends-on-plugin-blocks.md): single-project + projects-archive render `ik2/project-card`, a block registered by the ik2 plugin, not the theme
+- [no worktrees for container-verified work](project-no-worktrees-docker-bindmount.md): Docker bind-mounts the main checkout; use a feature branch in place so containers see the changes
+- [articles normalized](project-articles-normalized.md): all 487 posts block-converted + shortcode→code + proofread + recategorized to feature topics/misc; stamped `_ik2_normalized`/`_ik2_topic`
+- [staging sync](project-staging-sync.md): REST API sync local→next.ivankristianto.com (toolkit in `_ik2_work/sync/`); staging nginx 404s runtime-uploaded media (no shared uploads volume in prod)
+- [native layout refactor](project-native-layout-refactor.md): container-full is gone (alignfull + constrained 1280 + root-padding gutters); gotchas: useRootPaddingAwareAlignments is top-level, wp_slash serialize_blocks before wp_update_post, constrained child rules override direct-child CSS caps
+- [verify the literal request](feedback-verify-literal-request.md): check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
+- [prod page content via REST](project-prod-page-content-via-rest.md): releases never touch pattern-backed page content; splice it in over REST with the `.env` IK2_PROD_* app password (not .mcp.json), set a User-Agent, never run regen on prod
 - [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures
-- [recolor 2026-10](project-recolor-2026-10.md) — bookcloth green accent on drafting white (never cream), branch recolor-bookcloth-green uncommitted; keep prompt wordmark + portrait frame; copy items pending
-- [type scale 2026-10](project-type-scale-2026-10.md) — 8 fluid steps (x-small..xxx-large), em breakpoints, new slug names to dodge stored preset classes; branch type-scale-a11y
-- [accessibility page](project-accessibility-page.md) — /accessibility is a dynamic block fed by report.php; update statuses + date there after each test
-- [release guard vs untracked files](project-release-untracked-guard.md) — bypass the clean-tree check with a status.showUntrackedFiles=no env var, never move the audit dirs
-- [blog idea queue](project-blog-idea-queue.md) — WebMCP, a11y audit and PHP 8.x scan queued for posts; webfont-split research done, draft next; blog-* skill output paths
-- [blog voice](feedback-blog-voice.md) — drafts must match his real posts (contractions, short version first, time order, code blocks over tables); run recent-posts.py first; no [Ivan: ...] placeholders in drafts, ask during research
-- [use playwright-cli](feedback-use-playwright-cli.md) — browser checks go through the playwright-cli skill; serve local HTML over http, not file://
-- [cutting-edge web APIs](feedback-cutting-edge-web-apis.md) — GDE Web: ship new platform features natively (interestfor, popover=hint, anchor positioning), never pitch the play-safe option, polyfills or JS libraries; perf, a11y and CWV come first
-- [old post refresh](project-old-post-refresh.md) — "Updated" callout + new card + Yoast on old posts; REST prepend with suffix check, file_upload via injected input, noindex field
+- [recolor 2026-10](project-recolor-2026-10.md): bookcloth green accent on drafting white (never cream), branch recolor-bookcloth-green uncommitted; keep prompt wordmark + portrait frame; copy items pending
+- [type scale 2026-10](project-type-scale-2026-10.md): 8 fluid steps (x-small..xxx-large), em breakpoints, new slug names to dodge stored preset classes; branch type-scale-a11y
+- [accessibility page](project-accessibility-page.md): /accessibility is a dynamic block fed by report.php; update statuses + date there after each test
+- [release guard vs untracked files](project-release-untracked-guard.md): bypass the clean-tree check with a status.showUntrackedFiles=no env var, never move the audit dirs
+- [blog idea queue](project-blog-idea-queue.md): WebMCP, a11y audit and PHP 8.x scan queued for posts; webfont-split research done, draft next; blog-* skill output paths
+- [blog voice](feedback-blog-voice.md): drafts must match his real posts (contractions, short version first, time order, code blocks over tables); run recent-posts.py first; no [Ivan: ...] placeholders in drafts, ask during research
+- [use playwright-cli](feedback-use-playwright-cli.md): browser checks go through the playwright-cli skill; serve local HTML over http, not file://
+- [cutting-edge web APIs](feedback-cutting-edge-web-apis.md): GDE Web: ship new platform features natively (interestfor, popover=hint, anchor positioning), never pitch the play-safe option, polyfills or JS libraries; perf, a11y and CWV come first
+- [old post refresh](project-old-post-refresh.md): "Updated" callout + new card + Yoast on old posts; REST prepend with suffix check, file_upload via injected input, noindex field
