@@ -148,6 +148,7 @@ The system is built on **borders + whitespace + type contrast**, not shadows, gr
 
 - **Use sparingly.** Transitions use one token, `--transition-base` (`200ms ease`), applied to `color`, `background-color`, `border-color`, `box-shadow`. The mobile nav drawer slide is the only exception (`--transition-drawer`).
 - **No bounces, no scales, no entrances.** Content appears; it doesn't perform.
+- **One scroll-linked exception, on `/resume`:** section rules and the Experience spine draw toward a mid-viewport reading line, and the year or section number at that line turns Bookcloth. Lines and marks only, never content, and off for reduced motion, forced colors and print.
 - A copy button on code blocks may briefly swap label to "Copied" — that's the most "motion" the site does.
 
 ### Transparency & blur
