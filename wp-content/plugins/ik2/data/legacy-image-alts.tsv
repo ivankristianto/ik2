@@ -1,0 +1,372 @@
+# Alt text for migrated images in kept posts, written by looking at each image: file name (size suffix stripped), a tab, the alt.
+Screen-Shot-2020-07-08-at-11.27.30.png	Terminal running the cf CLI: cf dns list ivankristianto.com --fields=type,name
+google-io-2019.gif	Google I/O 2019 logo built from colored geometric shapes
+WhatsApp-Image-2018-10-16-at-18.40.26.jpeg	Webinar banner for "Make WordPress load faster with LiteSpeed Cache" with Ivan Kristianto, 18 October 2018
+security-protection-anti-virus-software-60504.jpeg	Close-up of a screen with the word "Security" and a hand cursor pointing at it
+Screen-Shot-2018-01-10-at-14.21.51.png	Tracking script the ISP injected into a plain HTTP page, shown as minified JavaScript
+wordpress-security.jpg	WordPress logo with a padlock and the words "WordPress Security"
+Screen-Shot-2018-07-26-at-16.53.29.png	Chrome address bar showing "Secure" and https://www.ivankristianto.com with a green padlock
+Screen-Shot-2018-07-26-at-16.55.56.png	Jetpack WordPress.com sign in settings with "Require two-step authentication" turned on
+openvpn.png	OpenVPN logo
+wpjkt15.jpg	Group photo of WordPress Jakarta Meetup #15 attendees under World Cup flags
+IMG_4660.jpg	Google office entrance decorated for the 2018 World Cup, with a turf pitch and two Android figures
+IMG_4686.jpg	Jeanny presenting on AMP to the WordPress Jakarta meetup audience
+P1010226.jpg	Ivan giving the opening remarks, with the Jakarta WordPress Meetup page on screen
+P1010229.jpg	Audience seated at the WordPress Jakarta meetup, some taking photos with phones
+P1010235.jpg	Aldrich in a Google shirt presenting on SEO and how Google crawls the web
+P1010292-2.jpg	Ivan in a WordPress t-shirt posing with five Googlers in front of a patterned wall
+highres_471200749.jpeg	Group photo of WordPress Jakarta Meetup #14 attendees in front of the WPJKT banner
+IMG_0384-e1511102900772-1.jpg	Group photo of the WordCamp Jakarta 2017 crowd in the main hall
+23347507_185277095363136_9202311166502633472_n.jpg	Ivan's baby daughter wrapped in a hooded towel, looking at the camera
+Screen-Shot-2017-11-19-at-23.36.16.png	Survey results for how attendees felt about WordCamp Jakarta: 53% rated 5, 40% rated 4, 6% rated 3
+IMG_0268-e1511103018532.jpg	Speaker on stage giving the opening remarks at WordCamp Jakarta 2017
+IMG_0242-e1511103070114.jpg	WordCamp Jakarta team gathered around Rocio holding a birthday cake
+IMG_0246-e1511103056136.jpg	Group photo at the WordCamp Jakarta 2017 VIP dinner
+IMG_0380-e1511102955140.jpg	WordCamp Jakarta 2017 organizers, speakers, volunteers and sponsors on stage
+IMG_0384-e1511102900772.jpg	Group photo of the WordCamp Jakarta 2017 crowd in the main hall
+20170323_194324-scaled-1.jpg	Group photo from Jakarta WordPress Meetup #9 in front of a projector screen
+vagrant.png	Vagrant logo with the tagline "Development environments made easy"
+PredictionIO-Open-Source-Machine-Learning-Server.jpg	PredictionIO title slide: a machine learning server in Scala
+Progress_Logo_Orange_lg.jpg	Progress logo with three rising orange bars
+sublime-evernoteedited.jpg	Sublime Text 3 note with Evernote front matter (title, notebook, tags) written with sublime-evernote
+ubuntu-15-04.png	Ubuntu 15.04 system details: 7.7 GiB memory, Intel Core i3-3217U, 64-bit
+wordpress-faq.jpg	Blue card with "FAQ" in white and the WordPress logo
+ubuntu-wallpaper.jpg	Ubuntu logo on a blurred orange and yellow bokeh wallpaper
+hex-editor.jpg	Notepad++ Hex Editor showing the first bytes of a PHP file, used to find hidden characters before the PHP open tag
+security.jpg	Row of open red padlocks and one closed blue padlock over hex code
+sublime-phpcs.jpg	sublime-phpcs project page: PHP CodeSniffer, PHP CS Fixer, linter and mess detector for Sublime Text
+Git-Logo.png	Git logo
+commandline.png	Ubuntu terminal running find with -exec grep to list PHP files that contain "die_dump"
+php.jpg	PHP logo
+phpmyadmin.jpg	phpMyAdmin home screen on localhost with the General Settings panel
+ivan-love-ubuntu.png	Ubuntu 14.04 desktop with Ivan's GitHub profile in Chrome and PHP code open in Sublime Text
+ModSecurity.jpg	ModSecurity 2.7 banner with Apache, IIS 7 and Nginx logos
+FreeNAS-Project-Open-Source-Storage-FreeNAS-Project.jpg	FreeNAS banner listing its file sharing protocols: CIFS/SMB, NFS and AFP
+validar_email_php.jpeg.jpg	PHP logo plus an envelope with circular arrows, for sending email from PHP
+gmail_tricks.jpg	Gmail logo with the words "Tips & Tricks"
+google-app-engine.jpg	Google App Engine logo
+GAE-1.jpg	Google Cloud Platform "Get started" dialog with project name and project ID filled in
+GAE-2.jpg	Google App Engine Launcher on Windows with one application listed and Run and Deploy buttons
+GAE-3.jpg	Deployment to Google window reporting "Deployment successful" for the app
+ftpserver.jpg	Ftp Server app by The Olive Tree on Google Play with the Install button
+phishing-reported.jpg	Chrome "Reported Phishing Website Ahead!" warning page
+phishing.jpg	Phishing email asking the reader to open a Google Drive link and sign in, sent by BCC
+wordpress.jpg	WordPress for Android app shown on a phone and two tablets
+composer.jpg	Composer logo, a conductor with raised arms
+xampp.jpg	XAMPP logo
+Ivankristianto.com-speedtest.jpg	Speed test of ivankristianto.com: grade 91/100, 70 requests, 4.96 s load, 766.8 kB
+jetpack.jpg	Jetpack by WordPress.com plugin banner with a Download Jetpack button
+ivankristianto.jpg	Ivan Kristianto in a black t-shirt with arms crossed
+love-and-passion.jpg	Quote card: "Love without passion is dreary; passion without love is horrific."
+make-things-happen.jpg	Sticky note reading "Make things happen!"
+asana.png	Checkbox icon with the words "Do Great Things." on a blue background
+Screenshot_2013-09-15-22-07-25.png	This blog's feed in the Feedly Android app, each post listed with its thumbnail
+wordpress-2steps-verification.jpg	WordPress.com Two Step Authentication settings with status ON
+wordpress-2steps-verification-application-password.jpg	WordPress.com Application Passwords form with an Application Name field and Generate Password button
+gistbox.jpg	GistBox logo, a cardboard box with a code symbol
+backup.gif	Illustration of servers, files, a lock and devices on a cloud, representing backups
+ubuntu-live-cd.jpg	Ubuntu live CD boot menu with "Try Ubuntu without installing" at the top
+unetbootin.jpg	UNetbootin window with Distribution and Diskimage options and Type set to USB Drive
+unetbootin-2.jpg	UNetbootin with Diskimage set to an Ubuntu 11.04 ISO (1) and the target USB drive selected (2)
+linux-bash.jpg	Banner reading "Bash 101 Hacks" with a ship's wheel
+cloud-apps.jpg	Tablet, phone and laptop linked by a circle of blue arrows, for syncing across devices
+jquery-countdown-timer.jpg	jQuery countdown timer showing days, hours, minutes and seconds left until the new year
+star_wars_a_vtipek_s_traceroute.png	Windows tracert output whose hop names spell out the Star Wars opening crawl
+puttygen-sample.jpg	PuTTY Key Generator asking you to move the mouse over the blank area to generate randomness
+pageant-sample.jpg	Pageant tray menu on Windows with Add Key and View Keys options
+google-nexus.jpg	Close-up of a Google Nexus tablet home screen with the Google Play My Library widget
+iPhone-4s-picture.png	Black and white iPhone 4S with Siri on screen, beside the iPhone 4S feature list
+steve-techcrunch.png	Black and white portrait of Steve Jobs, 1955-2011
+wordpress-hacked.jpg	Red handprint stamped "hacked!" over the WordPress logo
+malicious-code.png	Obfuscated JavaScript of hex-escaped strings injected into l10n.js
+malicious-code2.png	Unknown PHP file with a hashed name next to index.php in the TimThumb cache folder
+facebook.jpg	Facebook logo
+Google.jpg	Google+ and Facebook pages side by side, each marked with left sidebar, news feed and right sidebar
+ps-logo.png	Adobe Photoshop "Ps" logo
+Firefox.jpg	Firefox logo wallpaper with the tagline "The hottest thing on the net"
+Web-Browser-Benchmark-Tools.png	Acid3 test result of 100/100 with its row of colored boxes
+google-search-by-image.jpg	Google Images search box with a camera icon and a photo being dragged in
+facebook_opengraph.png	Settings page of the Facebook Open Graph Meta for WordPress plugin with Facebook ID and site title fields
+sharedaddy.jpg	Sharedaddy settings for sharing services and the resulting share bar under a post
+HeidiSQL.jpg	HeidiSQL showing a MySQL database's tables, a right-click Commands menu and the SQL log
+jsfiddle_final.jpg	jsFiddle editor with HTML, CSS and JavaScript panes and a jQuery UI accordion in the result pane
+XFBML-Live-Testing.png	Facebook Like button and comment box rendered from XFBML in the test console
+ssh.gif	OpenSSH logo with a pufferfish
+suhosin-logo.gif	Suhosin logo, the name written in Korean Hangul
+thunderbird.jpg	Mozilla Thunderbird logo
+wordpress-flare.jpg	WordPress logo in a burst of light on a black background
+Ubuntu.jpg	Ubuntu logo on an orange background
+vmware-player-ubuntu-install-1.png	Ubuntu installer boot prompt running inside a VMware Player window
+ubuntu-beautiful.jpg	Lenovo laptop running the Ubuntu Unity desktop
+windows-7.jpg	Windows 7 logo on a pastel gradient background
+maintenance.png	Ivan Kristianto blog banner saying it is temporarily down for maintenance, with a pointer to Twitter for updates
+SpamAssassin_logo.png	SpamAssassin logo
+windowswallpaperbyakrige600Wallpaper.jpg	Windows logo in a burst of blue light on a dark background
+LastPass.png	LastPass logo surrounded by browser, operating system, website and credit card icons
+Password-security.jpg	Close-up of a login form with a username and a masked password
+digital_art_CG_swan.jpg	Digital artwork of a masked fairy riding a white swan
+PhotoScape.jpg	PhotoScape editor with a city photo open and the Filter menu expanded
+StudioLine.jpg	StudioLine Photo Basic showing a photo library and a kitten photo being edited
+fxfoto.jpg	Triscape FxFoto editor with the Correct tab, a photo folder and the welcome panel
+Google_voice_1.png	Google Voice timeline from 2009 to 2011, from Google Voice numbers to calling in Gmail and number porting
+gmail-security-checklist.jpg	Gmail logo under the question "Is your Gmail safe?" with the caption Gmail security checklist
+LMGTFY.png	Google logo
+cloudlinux.jpg	CloudLinux logo
+google_panda_algorithm_index.png	Google logo with a panda face in the G, labelled Panda Algorithm
+top-wordpress-plugins.jpg	Power plug next to the WordPress logo
+wp-plugin-svn_2.png	Windows Explorer right-click menu on the plugin folder with SVN Commit highlighted
+TortoiseSVN.png	TortoiseSVN website home page with the project logo and a download button
+wordpress-tag-cloud-plugin-names.png	Word cloud of common WordPress plugin name terms such as wordpress, plugin, widget and post
+google_panda_algorithm_index1.png	Google logo with a panda face in the G, labelled Panda Algorithm
+google_algorithm.png	Webmaster Tools search queries graph dropping after 2/21/11, marked "Google change algorithm"
+google_adsense.jpg	Google AdSense logo
+adsense_preview.jpg	Internet Explorer right-click menu with the Google AdSense Preview Tool entry
+adsense_preview_sample.png	Google AdSense Preview Tool showing sample ads for the United States with the selected advertiser URLs revealed
+adsense_prevew_tool_2.png	AdSense Block new URLs dialog with a note to paste the unwanted advertiser URLs into the box
+seoquake1.png	SeoQuake logo with the Firefox logo and a fox mascot
+seoquake.png	SeoQuake page info for ivankristianto.com with PageRank, index counts, backlinks and other parameters
+ipad21.jpg	Front and side views of the iPad 2 with its dimensions, 241.2 by 185.7 mm and 8.8 mm thick
+IncredibleUsefulWebsites535x146.gif	Incredibly Useful WebSites banner with a cursor in a red target
+devlife-cycle.jpg	Product development life-cycle diagram, a loop from research and prototyping through testing, deployment and maintenance
+wordpress-post-thumbnail.jpg	"Practical uses for post-thumbnail function in WordPress 2.9" title over PHP code and the Post Thumbnail box
+feature_image.png	WordPress media upload options with the "Use as featured image" link highlighted
+feature_image_box.png	Featured Image box in the WordPress post editor with the chosen image and a Remove featured image link
+facebook_fanpage.jpg	CalibreWorks Facebook page with its cover image and logo
+Facebook_username.png	Facebook username form with a desired username field and a Check Availability button
+facebookhacked1.png	Facebook logo with the words phishing, scams and hacking
+ssh_port.png	sshd_config file with an arrow pointing at the Port 22 line
+MySQL-Workbench1.jpg	MySQL Workbench logo
+MySQL-Workbench-model.png	MySQL Workbench home screen with SQL Development, Data Modeling and Server Administration panels
+require-error-php.png	Browser showing a PHP require_once warning that wp-settings.php failed to open from wp-config.php on line 75
+wordpress-3-1-2.png	WordPress 3.1 dashboard header in the new blue admin color scheme
+wordpress-3-1.png	WordPress 3.1 admin bar with admin, Add New, Comments, Appearance and Updates menus
+wordpress-3-1-3.png	WordPress 3.1 Insert/edit link dialog with the new "Or link to existing content" search
+glow-css-menu.jpg	Glossy CSS menu buttons (Home, Icons, Coding, Fonts) with the hovered Coding button lit up
+OriginalGoogleLogo.jpg	Classic Google home page with the logo, search box and I'm Feeling Lucky button
+jquery.jpg	jQuery logo with the tagline "write less, do more"
+google-social.jpg	Google logo with the word Social underneath
+bad-interpreter.png	The same bash script with Windows line endings and with Linux line endings, the line end marks highlighted
+opcode_wordpress.png	Bar chart of PHP opcode caches: no cache and Zend near 900, APC, XCache and eAccelerator around 500
+google-2-steps-verification.jpg	Google logo with a padlock
+google-2-steps-verification.png	Google Accounts security links with an arrow pointing at Using 2-step verification
+GoogleDNSvsOpenDNS1.jpg	Line chart of repeated lookup times, Google 8.8.8.8 spiking above 2 while OpenDNS 208.67.222.222 stays steadier
+code-snippet-blog-post-1.jpg	Code snippets banner above a keyboard
+winscp-11.png	WinSCP login dialog with host name, port 22, user name and password fields and SCP selected
+winscp-1.png	WinSCP login dialog with host name, port 22, user name and password fields and SCP selected
+winscp-3.png	WinSCP connection log, from searching for host through authenticating to starting the session
+winspc-2.png	WinSCP file manager connected to the server with the Commands menu open
+php_obfuscator.png	PHP Obfuscator title over obfuscated PHP code with hashed variable names
+phpobfuscator.jpg	PHP Obfuscator window with source and target folders set and getbrowser.php selected
+greasemonkey1.jpg	Greasemonkey monkey mascot holding a wrench over an Amazon web page
+greasemonkey-1.png	Greasemonkey 0.9.1 page on Firefox Add-ons with the Add to Firefox button
+pastebin-21.jpg	Pastebin "Post a new pastebin" form with syntax highlighting, expiration and exposure options
+custom_dashboard1.png	WordPress dashboard header with a custom logo, also shown as the tab favicon, marked by arrows
+memcache-phpinfo.png	phpinfo() memcache section showing memcache support enabled
+memcached-1.png	PuTTY session downloading memcached 1.4.5 with wget, extracting it and running ./configure
+memcached-3.png	phpinfo() page with the memcache section, memcache support enabled and version 2.2.5
+disable-autoplay.png	AutoPlay control panel with an arrow at the "Use AutoPlay for all media and devices" checkbox
+disable-autoplay-1.png	Windows Run dialog with gpedit.msc typed in
+disable-autoplay-2.png	AutoPlay Policies in the Group Policy editor with Turn off Autoplay selected and its Properties link marked
+disable-autoplay-3.png	Turn off Autoplay properties set to Enabled for all drives
+createAPIconsole-screen1.png	Google APIs Console start page with a Create project button
+Google-account-error.png	Google Accounts error saying the site ivankristianto.com has not been registered
+Google-Domain-Manage.png	Google domain registration page showing www.ivankristianto.com as active with its OAuth consumer key
+top-10-computer-viruses-631.jpg	Window with a "Virus detected!" warning and a Help button
+avira_antivir_rescue_system.jpg	Avira AntiVir Rescue CD scanner running a check of the master boot record (German interface)
+norman-malware-cleaner.jpg	Norman Malware Cleaner scan results listing infected files deleted or marked for cleaning
+Skype.jpg	Skype logo beside a desktop computer showing a four-person video call
+firefox_660_thum-100001380-large.png	Mozilla Firefox logo
+SQLite-Manager.jpg	SQLite Manager 0.6.8 add-on page with the Add to Firefox button
+SQLite-Manager-1.jpg	Firefox Tools menu with SQLite Manager highlighted
+SQLite-Manager-2.jpg	Select SQLite Database dialog in the Firefox profile folder with places.sqlite selected
+SQLite-Manager-3.jpg	SQLite Manager with places.sqlite open and Empty Table chosen for the moz_favicons table
+Realistic-benchmark.jpg	3D figure pushing up the tallest of a row of blue bar chart columns
+what-is-dns.png	Network patch panel with tangled colored Ethernet cables
+Google-Apps.jpg	Google Apps service list showing the App Engine app with its appspot.com URL and a custom ivankristianto.com subdomain
+webproxy.jpg	Diagram of a web proxy between a web client and a web server, relaying both connections
+pagespeed.png	Page Speed tool icon, a blue speed gauge
+mysql-logo.jpg	MySQL logo
+Increase.Copy_.Speed_.TeraCopy.png	TeraCopy window testing a copy job, with a CRC match status for each file
+ubuntu-nginx-php-wordpress.jpg	Ubuntu, Nginx, PHP and WordPress logos above the caption "Ubuntu + Nginx + PHP-FPM + WP"
+PhpInfoXDebug.png	phpinfo() output showing Zend Engine v2.2.0 running with Xdebug v2.0.4
+Facebook-Apps-Slide.jpg	Facebook Apps banner with the Facebook logo drawn as a dimensioned blueprint
+radmin.jpg	Radmin Server 3.4 settings window with the tray icon menu open
+twitter-api.png	Twitter "t" logo next to the word API
+nginx-apache.jpg	Nginx logo above the Apache feather logo
+GooglHeader.jpg	goo.gl logo
+07-19_css_shorthand_cheat_sheet.png	Top of a CSS shorthand cheat sheet showing the border-color and border-style values
+regular_expressions_v2_plain.png	Thumbnail of the AddedBytes regular expressions cheat sheet, with tables for anchors, character classes and quantifiers
+wordpress-upgrade.jpg	WordPress logo with a cursor clicking a red Update button
+csf.jpg	ConfigServer Security & Firewall banner with a burning CSF/LFD brick wall and an armed Tux penguin
+openvz-12.042.jpg	Ubuntu 12.04 Precise Pangolin and OpenVZ logos
+pear.png	PEAR logo
+Smartphones.jpg	Five smartphones side by side: an iPhone, a Sony, a Samsung, an HTC and a Nokia Windows Phone
+windows-gorundwork-black2.jpg	Windows logo with the words Monitoring Windows
+softwares-cpuz.jpg	CPU-Z CPU tab showing an Intel Core i7 860 with its clock speeds and cache sizes
+chrome-extensions414.png	Google logo with Chrome logos as the two Os, captioned Most Popular Extensions
+Chrome-MeasureIt.jpg	MeasureIt ruler measuring the Google logo at 280 by 107 pixels, with an arrow pointing to its toolbar icon
+chrome-speedtracer.jpg	Speed Tracer timeline of the scripts, styles and images loaded by reddit.com
+chrome-DomainAvailabilityChecker.jpg	Domain Availability Checker popup showing ivankristianto.com as taken and the .net as available
+chrome-IETab.jpg	Google homepage rendered by Internet Explorer inside a Chrome tab with IE Tab
+chrome-Google-Share-Button.png	Google Share Button menu in Chrome listing Blogger, Facebook, Twitter and other services to share to
+chrome-Aviary-Screen-Capture.jpg	Aviary Screen Capture menu in Chrome with options to capture the page and open Aviary editors
+chrome-Webpage-Screenshot.jpg	Webpage Screenshot extension showing a full-page capture preview of cnn.com
+chrome-seoquake.jpg	SeoQuake toolbar of SEO stats in Chrome above the ivankristianto.com header
+chrome-iMacros.jpg	iMacros filling out a Yahoo Finance loan calculator form automatically in Chrome
+chrome-Web-Developer1.jpg	Web Developer extension menu with image options such as outlining images without alt attributes
+chrome-JavaScript-tester.jpg	JavaScript tester panel under the Google homepage in Chrome, showing timing results for a test script
+chrome-Firebug-Lite.jpg	Firebug Lite inspecting an h2 element, with its CSS rules in the Style tab
+chrome-validity.jpg	Chrome developer tools console listing HTML validation errors found by Validity on google.co.uk
+chrome-stumbleupon.jpg	StumbleUpon homepage with a topic picker and a Start Stumbling button
+xampp-logo-team.png	XAMPP logo above the sendmail, Apache, PHP and MySQL logos
+wordpress-optimization.jpg	WordPress logo with the word Optimize stamped across it in red
+office-2011-update.jpeg.jpg	Microsoft Office for Mac 2011 Word, Excel, PowerPoint and Outlook icons
+unix-command_ssh.png	PuTTY terminal logged in as root over SSH to an Ubuntu 12.10 machine
+How-to-Make-Money-Online-Blog.jpg	The word success in green 3D letters under a rising arrow
+slider-WHM.jpg	cPanel and WHM logos next to a monitor showing the WHM admin control panel
+ipadsgen2.png	First, second and third generation Apple iPads side by side
+orange_uk_iphone_3gs.jpg	Orange banner announcing the iPhone 3GS is coming soon to Orange
+cool-android-tips.jpg	Gingerbread Android mascot hugging an Android phone, with the words Cool Android Tricks
+MacOS-ScreenResolution-Step3.jpg	Mac OS X Display preferences with the 1440 x 900 resolution circled in red
+bad-spam-bot.jpg	Grey banner reading "Bad Spam Bot!"
+052-Images-Trends-in-Instant-Messaging.jpg-.jpg	Logos of QQ, Windows Live Messenger, Yahoo, AIM, Google Talk, Skype, ICQ and Facebook linked by arrows
+Malware-Android.png	Green Android robot labeled Infected next to a red Android robot with devil horns
+paypal-android1.jpg	PayPal logo next to the Android robot
+paypal-android.png	PayPal blog post titled "Buying Apps? Pay with PayPal on All Three Major Mobile Platforms", dated October 26, 2010
+xl_08_facebook_app_screen_610.jpg	Three BlackBerry phones running the Facebook app
+ubuntu-maverick-meerkat.png	Ubuntu 10.10 Maverick Meerkat logo with a cartoon meerkat
+TopStory-080424-TrueCrypt.gif	TrueCrypt Volume Creation Wizard with "Create a file container" selected
+layers.png	Browser architecture diagram: UI, browser engine and rendering engine above networking, JavaScript and UI backend
+valid.png	W3C Markup Validation Service result saying the page passed as XHTML 1.0 Strict
+work-on-progress.jpg	Cartoon of two workers stacking blocks into a progress bar at 39% complete
+Private-Nameservers.jpg	Title card asking "How To Create Nameservers?"
+mysql.png	MySQL logo
+csharpOrigins_3.png	Joke diagram rearranging the four plus signs of C++++ into C#, with the .NET logo
+numberformat.jpg	Table of C# standard numeric format specifiers (c, d, e, f, g, n, r, x) with sample output
+customnumberformat.jpg	Table of C# custom numeric format specifiers such as 0, #, comma and percent, with sample output
+dateformat.jpg	Table of C# standard date and time format specifiers from d to Y, with example output
+customdateformat.jpg	Table of C# custom date and time format specifiers such as dd, MMM and yyyy, with example output
+google_cl.png	Command prompt with "$ google" typed, for the GoogleCL tool
+minify.jpg	The word Minify over a background of minified CSS code
+optimized-css.jpg	CSS optimizer result cutting a 30.118KB stylesheet to 28.172KB, a 6.5% saving
+optimized-js.jpg	JavaScript compressor with pasted code and its compressed output, reporting a 34% ratio (149623 to 98604)
+reset-windows-7-password-1.jpg	Windows 7 logo on a blue background
+chnptw1.png	chntpw reading the Windows SAM file in an Ubuntu terminal and listing user accounts such as Administrator
+chnptw2.png	chntpw user edit menu with option 1 chosen to clear the password and the SAM hive written back
+watermark.png	Title card reading "Watermark: Image to Image & Text to Image"
+multifox1.jpg	Firefox File menu with New Identity Profile highlighted
+Multifox2.jpg	Firefox windows with Multifox identity numbers 2 and 3 highlighted in the address bar
+url-shortener.png	URL shortener input box containing http://long-url-too-short and a Shorten button
+9.png	netboot.me Linux boot menu with Ubuntu selected among Debian, Fedora and OpenSUSE
+zeyaf1.png	Zeya music library in Firefox playing "Dueling Guitars" by Doug Smith from a list of 1548 tracks
+php-curl.png	PHP elephant logo and the cURL logo, joined by an ampersand
+ShortcutMenu.png	Windows 7 right-click menu on a picture with the Resize Pictures option
+Advanced.png	Image Resizer's Resize Pictures dialog with small, medium, large, mobile device and custom size options
+iptraf2.png	iptraf monitor listing live TCP connections and UDP packets on eth1
+ddos_attack.gif	Diagram of a DDoS attack: an attacker controls handlers, which direct zombie machines to flood one victim
+uTorrent_Logo_by_SnowShade.png	uTorrent logo
+Windows-Phone-7-series-logo1.jpg	Windows Phone 7 Series logo with tiles for Xbox Live, Internet Explorer, Office and Bing
+NLite_small.jpg	nLite logo
+nLite-1.jpg	nLite locating the Windows installation, found as Windows XP Professional Service Pack 3
+nLite-2.jpg	nLite Task Selection screen with options to integrate drivers, remove components and create a bootable ISO
+Wget-screenshot.png	xterm showing wget downloading listen-half.jpg from gnu.org with a progress meter
+ftp_transactions_command_line.png	Windows command prompt FTP session to localhost: login, two put uploads and a denied mkdir
+create-app.jpg	Google App Engine Create an Application form with the identifier ivankriscdn reported as available
+GAE-launcher.jpg	Google App Engine Launcher listing the ivan-kris app on port 8080
+GAE-preferences.jpg	Google App Engine Launcher preferences with paths to Python, the App Engine SDK and Notepad++
+google-instant.png	Google Instant logo with the Flash comic book hero running across it
+Linux-Kernel1.jpg	Linux wordmark with the Tux penguin
+gnome-logo-1.jpg	GNOME Desktop foot logo
+Screenshot-Aqua-aero.-GNOME-Look.org-Mozilla-Firefox.preview.jpeg	Ubuntu desktop with a 3D window switcher showing the GNOME-Look.org Aqua aero theme page in Firefox
+shareaholic.jpg	Shareaholic banner reading "Share the knowledge!" over a grid of social bookmarking site icons
+Facebook-spams.jpg	Facebook wall item where a friend was tagged in a bag sale ad photo, marked "I don't need this on my wall!"
+sshot-2009-11-03-11-01-57.png	Windows 7 Explorer with wallpaper photos selected and the right-click "Set as desktop background" option
+500x_screen_shot_2010-09-01_at_10.08.52_am.jpg	Apple keynote slide of iOS 4.1 features: bug fixes, HDR photos, HD video upload over Wi-Fi and TV show rentals
+500x_hdr.jpg	Two iPhone 4 screens comparing a normal photo of a woman with its HDR version
+scribefire-wide.png	ScribeFire editor with a blog post open, plus blog, entry and category panels
+icon_implus11.jpg	IM+ logo
+IMplus-censored_610x380.png	IM+ web app with a contact list (names blacked out) and a Yahoo chat open
+01_keyboard-shortcuts-1.png	Ubuntu Preferences menu with Keyboard Shortcuts highlighted
+02_keyboard-shortcuts-2.png	Ubuntu Keyboard Shortcuts dialog with "Run a terminal" set to Ctrl+Alt+T
+1128426215-1.png	ImgBurn main window with options such as "Create image file from disc"
+screenshot_ezmodepicker.png	ImgBurn Ez-Mode Picker with write, create image, verify and discovery modes
+windows-command-prompt.png	Command prompt window menu opened to Edit > Paste
+B001AMHWP8-1.jpg	MacBook Pro showing the Mac OS X desktop
+googledocs.jpg	Google Docs logo with spreadsheet, presentation, document, drawing and form icons
+android-x86-1.png	Android-x86 1.6 boot menu with "Live CD - Run Android-x86 without installation" selected
+android-x86-2.png	Android-x86 home screen with a waterfall wallpaper and Dialer, Contacts and Browser icons
+android-x86-3.png	Android-x86 app drawer with Alarm Clock, Browser, Camera, Email and other apps
+Ipscan-winxp.png	Angry IP Scanner on Windows XP listing scanned IP addresses with ping, hostname and open ports
+linux_foundation_open_compliance_program1.jpg	Linux Foundation Open Compliance Program logo
+rsync-hiddenfiles-example.png	Terminal running rsync -avzP ~/.[^.]* /mnt/test to copy hidden files such as .ssh and .profile
+dedicated-hosting-web.jpg	3D render of two rows of server racks
+high-pr-backlink.jpg	Chain links beside the words "High PR Backlinks"
+takeitie2b.jpg	BSD daemon poking the Internet Explorer logo with a pitchfork, captioned "This Is the Enemy"
+analytic.jpg	Google Analytics browser report: Firefox 54.92%, Chrome 20.50%, Internet Explorer 14.10% of visits
+VPNExample.bmp	VPN diagram: a home PC and laptop reach the VPN server and office machines through secure tunnels over the internet
+putty_seedbox1.gif	PuTTY Tunnels settings with dynamic source port 52014 added as forwarded port D52014
+putty_seedbox5.gif	Firefox Options, Advanced panel, Network tab with the connection Settings button marked
+putty_seedbox6.gif	Firefox Connection Settings with manual proxy, SOCKS v5 host localhost and port 52014
+vector-icons-pack.jpg	Vector icons pack banner: 25 free icon sets for web and graphic designers
+blackberry-app-world-logo.jpg	BlackBerry App World logo
+sandboxie-logo.png	Sandboxie logo with the tagline "Trust No Program"
+internet_marketing.jpg	Word cloud built around the words "internet marketing"
+ciscohem.jpg	Cisco Connected Grid home energy screens: energy use, thermostat, bill and appliance manager
+freeraser-5.png	Freeraser tray menu with System > Destruction Mode options Fast, Forced and Ultimate
+opendns.jpg	OpenDNS homepage asking "What are you protecting?" with Home, School and Work options
+WebBrowserLogos.jpg	Firefox, Safari, Opera, Internet Explorer and Chrome logos
+browsershots.jpg	Browsershots page with checkboxes for browsers on Linux, Windows, Mac OS and BSD
+spoon-browser-sandbox.jpg	Spoon Browser Sandbox page offering Internet Explorer 8 and 7 to run from the web
+netrenderer.jpg	IE NetRenderer page with an Internet Explorer version picker and URL field
+browserlab.jpg	Adobe BrowserLab homepage, cross-browser testing for Creative Suite 5
+litmusapp.jpg	Litmus homepage for browser and email client compatibility testing
+browsera.jpg	Browsera homepage showing a layout bug it detected between Firefox 3 and Firefox 2
+ietab.jpg	IE Tab 1.5 add-on page on the Firefox Add-ons site
+ietester.jpg	IETester download page with the app rendering a test page in two IE versions side by side
+multisafari.jpg	Multi-Safari download page explaining standalone builds of old Safari versions
+facebmook.co_.cc-2.jpg	Fake Facebook login page with the address bar www.facebmook.co.cc circled in red
+open-office.png	OpenOffice.org logo
+ubuntu-proftpd.png	Ubuntu logo plus the ProFTPD logo
+FlashCookies-1.png	Flash Cookies Cleaner after analysis, listing 251 folders and files to delete
+FlashCookies-2.png	Flash Cookies Cleaner after deleting, with 0 folders and files left
+proxy-firefox.jpg	Firefox Connection Settings with a manual HTTP proxy IP and port filled in
+proxy-opera.jpg	Opera Proxy servers dialog with HTTP checked and a proxy IP and port entered
+ProblemEjecting1.jpg	Windows "Problem Ejecting USB Mass Storage Device" error saying the device is in use
+tutorial2.png	Unlocker listing Explorer.exe handles that lock files, with Unlock and Unlock All buttons
+teamviewer-17.png	TeamViewer window showing this computer's ID and password and the Create session panel
+OpenSolarisLogo.gif	OpenSolaris logo
+ubuntu-server.gif	Ubuntu installer boot screen with "server" typed at the boot prompt
+zencart-high-res.png	Zen Cart logo, "The art of e-commerce"
+Panic2.png	Panic Button extension menu in Chrome with Options highlighted
+unetbootin-install-done.png	UNetbootin showing installation complete, with an arrow at Reboot Now
+vim3d_the_editor.jpg	Vim logo with the words "The editor"
+screenshot.jpg	Firefox loaded inside a Firefox tab through chrome://browser/content/browser.xul, with the toolbars repeated
+microsoftwindowsxp2gn.png	Microsoft Windows XP logo
+windows_xp_logo.jpg	Windows XP logo
+dvd-to-windows-movie-maker.jpg	DVD-ROM icon with an arrow pointing to the Windows Movie Maker icon
+pidgin.jpg	Pidgin logo with its purple pigeon mascot
+ireboot.jpg	Logo reading "ireboot" with the tagline "Discover yourself"
+roboform-logo.gif	RoboForm logo, "Remembers passwords so you don't have to"
+html5-logo.jpg	HTML5 logo
+format-usb-drive.png	Windows Explorer right-click menu on the USB drive with Format selected
+convert-usb-flash-drive-fat32-to-ntfs.png	Command prompt running convert i: /fs:ntfs to convert the USB drive from FAT32 to NTFS
+apache-server.png	Apache HTTP Server logo
+facebookphishing.jpg	Facebook login page stamped "PHISHING" in red
+7-zip.jpg	7-Zip logo
+linux_windows_gparted_main.jpg	GParted showing /dev/sda partitions: NTFS, ext3 /boot and an LVM partition
+Create-Project.jpg	Visual Studio New Project dialog creating a Windows Forms app named SQLiteTest
+Add-Reference.jpg	Solution Explorer with System.Data.SQLite added under References
+add-database.jpg	Solution Explorer with data.db3 in the Data folder of the SQLiteTest project
+Form.jpg	Empty Form1 with a DataGridView of ID, First Name and LastName columns
+Result.jpg	Running form with three rows from the SQLite database shown in the DataGridView
+squid-cache.png	Squid logo, "Surf globally, cache locally"
+usb-notepad.jpg	Notepad++ editing a Notepad++Portable.nsi file
+FileHippo.com-Download-Free-Software.png	FileHippo.com homepage listing latest updates and popular free software
+Modmono-basic-setup.png	Diagram of Apache workers passing requests to mod-mono-server, which hosts /forums, /support, /blog and /api
+Creative-Web-Design-Services.jpg	Letter blocks spelling "web" and "design" crossword style
+gedit-logo.png	gedit logo
+xhotlinking-disallowed.png.pagespeed.ic_.qE6AORlzgU.png	Red handwritten text "Hotlinking dis-allowed!"
+grails.png	Grails logo
+apache_logo.gif	Apache HTTP Server Project logo
+createorder.jpg	Zen Cart admin Create Order page with a customer dropdown and Create order button
+How-to-code-with-AI-agents.webp	A man in a black T-shirt beside the Claude, OpenAI and Gemini logos
