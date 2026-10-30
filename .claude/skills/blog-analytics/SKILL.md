@@ -32,8 +32,8 @@ node $F sitemaps --out <scratchpad>/sitemaps.json
 | `--dimensions a,b` | gsc, ga4 | gsc: `query`, `page`, `date`, `country`, `device`, `searchAppearance`; default `query,page`. ga4: any [GA4 dimension](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema); default `pagePath`. |
 | `--metrics a,b` | ga4 | Default `screenPageViews,activeUsers,sessions`. Rows are sorted by the first one, descending. |
 | `--filter dim:op:value` | gsc, ga4 | Repeatable, ANDed. `op` is `equals`, `notEquals`, `contains`, `notContains`, `regex`, `notRegex` (RE2, partial match). |
-| `--type` | gsc | `web` (default), `image`, `video`, `news`, `discover`, `googleNews`. |
-| `--data-state` | gsc | `final` (default) or `all` to include the last few unfinalised days. |
+| `--type` | gsc | `web` (default), `image`, `video`, `news`, `discover`, `googleNews`. Discover and Google News have no `query` dimension or `position`, so their default dimension is `page`. |
+| `--data-state` | gsc | `final` (default) or `all`. With `all` the default end moves to today, so the range includes the last few unfinalised days. |
 | `--max-rows N` | gsc, ga4 | Default 100000. The script pages through the API until it has them all. |
 | `--body file.json` | gsc, ga4 | Merged over the generated request body, for anything the flags don't cover (GA4 `metricFilter`, `orderBys`, a second `dateRanges` entry). Write the file to the scratchpad. |
 | `--site`, `--property` | all | Override `IK2_GSC_SITE` / `IK2_GA4_PROPERTY` for one run. |

@@ -44,6 +44,33 @@ test( 'a non-numeric --days is rejected', () => {
 	assert.throws( () => dateRange( { days: 'month' }, 3, today ), /--days/ );
 } );
 
+test( 'a lag of zero ends the range today', () => {
+	assert.equal( dateRange( { days: '7' }, 0, today ).endDate, '2026-10-30' );
+} );
+
+test( 'malformed and impossible dates are rejected by flag name', () => {
+	assert.throws(
+		() => dateRange( { start: '2026/01/01', days: '28' }, 3, today ),
+		/--start/
+	);
+	assert.throws(
+		() => dateRange( { end: '2026-02-30', days: '28' }, 3, today ),
+		/--end/
+	);
+} );
+
+test( 'a start after the end is rejected', () => {
+	assert.throws(
+		() =>
+			dateRange(
+				{ start: '2026-03-01', end: '2026-02-01', days: '28' },
+				3,
+				today
+			),
+		/after end date/
+	);
+} );
+
 test( 'a filter value may contain colons', () => {
 	assert.deepEqual(
 		parseFilter( 'page:equals:https://www.ivankristianto.com/' ),

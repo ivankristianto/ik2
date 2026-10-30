@@ -18,14 +18,17 @@ const SCOPES = [
 	'https://www.googleapis.com/auth/webmasters.readonly',
 	'https://www.googleapis.com/auth/analytics.readonly',
 ];
-const GSC = 'https://searchconsole.googleapis.com';
-const GA_DATA = 'https://analyticsdata.googleapis.com/v1beta';
-const GA_ADMIN = 'https://analyticsadmin.googleapis.com/v1beta';
+const GSC_API = 'https://searchconsole.googleapis.com';
+const GA_DATA_API = 'https://analyticsdata.googleapis.com/v1beta';
+const GA_ADMIN_API = 'https://analyticsadmin.googleapis.com/v1beta';
 const GSC_PAGE = 25000;
 const GA4_PAGE = 100000;
 // Search Console finalises a day's numbers two to three days later.
 const GSC_LAG_DAYS = 3;
 const GA4_LAG_DAYS = 1;
+// Discover and Google News reports have no query dimension.
+const NO_QUERY_TYPES = [ 'discover', 'googleNews' ];
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const OPERATORS = {
 	equals: { gsc: 'equals', ga4: 'EXACT' },
@@ -45,7 +48,7 @@ const OPTIONS = {
 	filter: { type: 'string', multiple: true, default: [] },
 	type: { type: 'string', default: 'web' },
 	'data-state': { type: 'string', default: 'final' },
-	'max-rows': { type: 'string' },
+	'max-rows': { type: 'string', default: '100000' },
 	body: { type: 'string' },
 	out: { type: 'string' },
 	site: { type: 'string' },
@@ -66,9 +69,24 @@ export function positiveInt( value, flag ) {
 	return number;
 }
 
+function parseDate( value, flag ) {
+	const date = new Date( `${ value }T00:00:00Z` );
+	// The round trip rejects dates JS would roll over, like 2026-02-30.
+	if (
+		! ISO_DATE.test( value ) ||
+		Number.isNaN( date.getTime() ) ||
+		isoDate( date ) !== value
+	) {
+		throw new Error(
+			`--${ flag } must be a YYYY-MM-DD date, got "${ value }"`
+		);
+	}
+	return date;
+}
+
 export function dateRange( { start, end, days }, lagDays, today = new Date() ) {
 	const endDate = end
-		? new Date( `${ end }T00:00:00Z` )
+		? parseDate( end, 'end' )
 		: new Date(
 				Date.UTC(
 					today.getUTCFullYear(),
@@ -76,12 +94,20 @@ export function dateRange( { start, end, days }, lagDays, today = new Date() ) {
 					today.getUTCDate() - lagDays
 				)
 			);
+	let startDate;
 	if ( start ) {
-		return { startDate: start, endDate: isoDate( endDate ) };
+		startDate = parseDate( start, 'start' );
+	} else {
+		startDate = new Date( endDate );
+		startDate.setUTCDate(
+			startDate.getUTCDate() - ( positiveInt( days, 'days' ) - 1 )
+		);
 	}
-	const count = positiveInt( days, 'days' );
-	const startDate = new Date( endDate );
-	startDate.setUTCDate( startDate.getUTCDate() - ( count - 1 ) );
+	if ( startDate > endDate ) {
+		throw new Error(
+			`start date ${ isoDate( startDate ) } is after end date ${ isoDate( endDate ) }`
+		);
+	}
 	return { startDate: isoDate( startDate ), endDate: isoDate( endDate ) };
 }
 
@@ -144,14 +170,19 @@ export function flattenGscRows( rows = [], dimensions ) {
 }
 
 export function flattenGa4Rows( report ) {
-	const dims = ( report.dimensionHeaders ?? [] ).map( ( h ) => h.name );
-	const mets = ( report.metricHeaders ?? [] ).map( ( h ) => h.name );
+	const dimensionNames = ( report.dimensionHeaders ?? [] ).map(
+		( h ) => h.name
+	);
+	const metricNames = ( report.metricHeaders ?? [] ).map( ( h ) => h.name );
 	return ( report.rows ?? [] ).map( ( row ) => ( {
 		...Object.fromEntries(
-			dims.map( ( name, i ) => [ name, row.dimensionValues[ i ].value ] )
+			dimensionNames.map( ( name, i ) => [
+				name,
+				row.dimensionValues[ i ].value,
+			] )
 		),
 		...Object.fromEntries(
-			mets.map( ( name, i ) => [
+			metricNames.map( ( name, i ) => [
 				name,
 				Number( row.metricValues[ i ].value ),
 			] )
@@ -159,7 +190,7 @@ export function flattenGa4Rows( report ) {
 	} ) );
 }
 
-function list( value ) {
+function splitList( value ) {
 	return value
 		.split( ',' )
 		.map( ( s ) => s.trim() )
@@ -188,8 +219,15 @@ function config() {
 	if ( ! existsSync( keyPath ) ) {
 		fail( `no key file at ${ keyPath }` );
 	}
+	let key;
+	try {
+		key = JSON.parse( readFileSync( keyPath, 'utf8' ) );
+	} catch {
+		// Never echo the parse error: it can quote part of the private key.
+		fail( `${ keyPath } is not a valid JSON key file` );
+	}
 	return {
-		key: JSON.parse( readFileSync( keyPath, 'utf8' ) ),
+		key,
 		site: process.env.IK2_GSC_SITE,
 		property: process.env.IK2_GA4_PROPERTY,
 	};
@@ -262,6 +300,10 @@ function emit( result, out, summary ) {
 	}
 }
 
+function gscSite( cfg, args ) {
+	return requireSetting( args.site ?? cfg.site, 'site', 'IK2_GSC_SITE' );
+}
+
 function requireSetting( value, flag, env ) {
 	if ( ! value ) {
 		fail(
@@ -278,14 +320,16 @@ async function check( call, cfg ) {
 		ga4Properties: null,
 	};
 	try {
-		const { siteEntry = [] } = await call( `${ GSC }/webmasters/v3/sites` );
+		const { siteEntry = [] } = await call(
+			`${ GSC_API }/webmasters/v3/sites`
+		);
 		result.gscSites = siteEntry;
 	} catch ( error ) {
 		result.gscError = error.message;
 	}
 	try {
 		const { accountSummaries = [] } = await call(
-			`${ GA_ADMIN }/accountSummaries`
+			`${ GA_ADMIN_API }/accountSummaries`
 		);
 		result.ga4Properties = accountSummaries.flatMap( ( account ) =>
 			( account.propertySummaries ?? [] ).map( ( p ) => ( {
@@ -301,26 +345,27 @@ async function check( call, cfg ) {
 		IK2_GSC_SITE: cfg.site ?? null,
 		IK2_GA4_PROPERTY: cfg.property ?? null,
 	};
-	return result;
+	return { result, summary: 'check done' };
 }
 
 async function gsc( call, cfg, args ) {
-	const site = requireSetting(
-		args.site ?? cfg.site,
-		'site',
-		'IK2_GSC_SITE'
+	const site = gscSite( cfg, args );
+	const dimensions = splitList(
+		args.dimensions ??
+			( NO_QUERY_TYPES.includes( args.type ) ? 'page' : 'query,page' )
 	);
-	const dimensions = list( args.dimensions ?? 'query,page' );
-	const maxRows = positiveInt( args[ 'max-rows' ] ?? 100000, 'max-rows' );
+	const maxRows = positiveInt( args[ 'max-rows' ], 'max-rows' );
+	// Unfinalised days are only worth asking for when the range reaches them.
+	const lagDays = args[ 'data-state' ] === 'all' ? 0 : GSC_LAG_DAYS;
 	const request = {
-		...dateRange( args, GSC_LAG_DAYS ),
+		...dateRange( args, lagDays ),
 		dimensions,
 		type: args.type,
 		dataState: args[ 'data-state' ],
 		dimensionFilterGroups: gscFilterGroups( args.filter ),
 		...readBody( args.body ),
 	};
-	const url = `${ GSC }/webmasters/v3/sites/${ encodeURIComponent( site ) }/searchAnalytics/query`;
+	const url = `${ GSC_API }/webmasters/v3/sites/${ encodeURIComponent( site ) }/searchAnalytics/query`;
 	const rows = [];
 	while ( rows.length < maxRows ) {
 		const rowLimit = Math.min( GSC_PAGE, maxRows - rows.length );
@@ -346,13 +391,15 @@ async function ga4( call, cfg, args ) {
 		'property',
 		'IK2_GA4_PROPERTY'
 	);
-	const maxRows = positiveInt( args[ 'max-rows' ] ?? 100000, 'max-rows' );
+	const maxRows = positiveInt( args[ 'max-rows' ], 'max-rows' );
 	const request = {
 		dateRanges: [ dateRange( args, GA4_LAG_DAYS ) ],
-		dimensions: list( args.dimensions ?? 'pagePath' ).map( ( name ) => ( {
-			name,
-		} ) ),
-		metrics: list(
+		dimensions: splitList( args.dimensions ?? 'pagePath' ).map(
+			( name ) => ( {
+				name,
+			} )
+		),
+		metrics: splitList(
 			args.metrics ?? 'screenPageViews,activeUsers,sessions'
 		).map( ( name ) => ( { name } ) ),
 		dimensionFilter: ga4DimensionFilter( args.filter ),
@@ -362,7 +409,7 @@ async function ga4( call, cfg, args ) {
 	request.orderBys ??= [
 		{ metric: { metricName: request.metrics[ 0 ].name }, desc: true },
 	];
-	const url = `${ GA_DATA }/properties/${ property }:runReport`;
+	const url = `${ GA_DATA_API }/properties/${ property }:runReport`;
 	const rows = [];
 	let total = Infinity;
 	let metadata;
@@ -397,11 +444,7 @@ async function ga4( call, cfg, args ) {
 }
 
 async function inspect( call, cfg, args, urls ) {
-	const site = requireSetting(
-		args.site ?? cfg.site,
-		'site',
-		'IK2_GSC_SITE'
-	);
+	const site = gscSite( cfg, args );
 	if ( ! urls.length ) {
 		fail( 'inspect needs one or more page URLs' );
 	}
@@ -409,7 +452,7 @@ async function inspect( call, cfg, args, urls ) {
 	for ( const inspectionUrl of urls ) {
 		try {
 			const { inspectionResult } = await call(
-				`${ GSC }/v1/urlInspection/index:inspect`,
+				`${ GSC_API }/v1/urlInspection/index:inspect`,
 				{
 					inspectionUrl,
 					siteUrl: site,
@@ -427,13 +470,9 @@ async function inspect( call, cfg, args, urls ) {
 }
 
 async function sitemaps( call, cfg, args ) {
-	const site = requireSetting(
-		args.site ?? cfg.site,
-		'site',
-		'IK2_GSC_SITE'
-	);
+	const site = gscSite( cfg, args );
 	const { sitemap = [] } = await call(
-		`${ GSC }/webmasters/v3/sites/${ encodeURIComponent( site ) }/sitemaps`
+		`${ GSC_API }/webmasters/v3/sites/${ encodeURIComponent( site ) }/sitemaps`
 	);
 	return {
 		result: { source: 'gsc-sitemaps', site, sitemaps: sitemap },
@@ -447,23 +486,21 @@ async function main() {
 		allowPositionals: true,
 	} );
 	const [ command, ...rest ] = positionals;
-	const commands = { gsc, ga4, sitemaps };
-	if (
-		! [ 'check', 'inspect', ...Object.keys( commands ) ].includes( command )
-	) {
-		fail( 'usage: fetch.mjs <check|gsc|ga4|inspect|sitemaps> [options]' );
+	const commands = { check, gsc, ga4, inspect, sitemaps };
+	if ( ! Object.hasOwn( commands, command ) ) {
+		fail(
+			`usage: fetch.mjs <${ Object.keys( commands ).join( '|' ) }> [options]`
+		);
 	}
 	const cfg = config();
-	const call = client( await accessToken( cfg.key ) );
 	try {
-		if ( command === 'check' ) {
-			emit( await check( call, cfg ), args.out, 'check done' );
-			return;
-		}
-		const { result, summary } =
-			command === 'inspect'
-				? await inspect( call, cfg, args, rest )
-				: await commands[ command ]( call, cfg, args );
+		const call = client( await accessToken( cfg.key ) );
+		const { result, summary } = await commands[ command ](
+			call,
+			cfg,
+			args,
+			rest
+		);
 		emit( result, args.out, summary );
 	} catch ( error ) {
 		fail(
