@@ -17,6 +17,19 @@ defined( 'ABSPATH' ) || exit;
 function bootstrap(): void {
 	add_action( 'after_setup_theme', __NAMESPACE__ . '\\register_theme_supports' );
 	add_action( 'init', __NAMESPACE__ . '\\register_primary_nav_menu' );
+	add_action( 'wp_head', __NAMESPACE__ . '\\remove_block_template_title_tag', 0 );
+}
+
+/**
+ * Drop core's block-template <title> when Yoast prints its own.
+ *
+ * Yoast unhooks it early, but locate_block_template() re-adds it at
+ * template_include, so every page ended up with two <title> elements.
+ */
+function remove_block_template_title_tag(): void {
+	if ( defined( 'WPSEO_VERSION' ) ) {
+		remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
+	}
 }
 
 /**
