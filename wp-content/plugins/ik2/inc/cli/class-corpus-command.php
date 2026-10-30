@@ -117,7 +117,6 @@ class Corpus_Command {
 	public function status(): void {
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- custom Corpus tables, read by hand from the CLI.
 		$statuses = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT status, COUNT(*) AS documents FROM %i GROUP BY status ORDER BY status', Corpus\table( 'documents' ) ),
 			ARRAY_A
@@ -136,7 +135,6 @@ class Corpus_Command {
 			'related rows'     => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', Corpus\table( 'related' ) ) ),
 		];
 		$run      = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i ORDER BY id DESC LIMIT 1', Corpus\table( 'runs' ) ), ARRAY_A );
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery
 
 		WP_CLI::log( 'Documents' );
 		if ( [] === $statuses ) {
@@ -249,7 +247,6 @@ class Corpus_Command {
 	private function remove_missing( array $published ): int {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- custom Corpus table.
 		$stored = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT object_id FROM %i WHERE object_type = %s AND status <> 'remove'",

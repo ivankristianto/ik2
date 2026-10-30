@@ -67,7 +67,6 @@ function related_rows( int $post_id, int $run_id ): array {
 		return $rows;
 	}
 
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- custom Corpus table, cached below.
 	$results = $wpdb->get_results(
 		$wpdb->prepare(
 			'SELECT related_id, score FROM %i WHERE post_id = %d ORDER BY position ASC',
@@ -100,7 +99,6 @@ function last_run_id(): int {
 	static $run_id = null;
 
 	if ( null === $run_id ) {
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one indexed MAX() per request, memoised.
 		$run_id = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT MAX(id) FROM %i', table( 'runs' ) ) );
 	}
 

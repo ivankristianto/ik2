@@ -102,7 +102,6 @@ function queue_post( int $post_id, bool $force = false ): string {
 		return 'unchanged';
 	}
 
-	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- custom Corpus tables have no WordPress API or cache.
 	$wpdb->query( 'START TRANSACTION' );
 
 	$ok = false !== $wpdb->query(
@@ -164,7 +163,6 @@ function queue_post( int $post_id, bool $force = false ): string {
 	}
 
 	$wpdb->query( 'COMMIT' );
-	// phpcs:enable WordPress.DB.DirectDatabaseQuery
 
 	return 'queued';
 }
@@ -181,7 +179,6 @@ function queue_post( int $post_id, bool $force = false ): string {
 function mark_remove( int $post_id ): bool {
 	global $wpdb;
 
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- custom Corpus table.
 	$changed = $wpdb->query(
 		$wpdb->prepare(
 			"UPDATE %i SET status = 'remove', attempts = 0, queued_at = %s
@@ -205,7 +202,6 @@ function mark_remove( int $post_id ): bool {
 function find_document( int $post_id ): ?array {
 	global $wpdb;
 
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- custom Corpus table, read just before a write.
 	$row = $wpdb->get_row(
 		$wpdb->prepare(
 			'SELECT id, content_hash, status FROM %i WHERE object_type = %s AND object_id = %d',

@@ -53,4 +53,10 @@
     <rule ref="WordPress.WP.AlternativeFunctions.strip_tags_strip_tags">
         <exclude-pattern>*/wp-content/plugins/ik2/inc/corpus/text.php</exclude-pattern>
     </rule>
+
+    <!-- The Corpus tables are custom, with no WordPress API to go through. Related reads cache in related.php. -->
+    <rule ref="WordPress.DB.DirectDatabaseQuery">
+        <exclude-pattern>*/wp-content/plugins/ik2/inc/corpus/*</exclude-pattern>
+        <exclude-pattern>*/wp-content/plugins/ik2/inc/cli/class-corpus-command.php</exclude-pattern>
+    </rule>
 </ruleset>
