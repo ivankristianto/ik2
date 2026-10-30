@@ -25,5 +25,6 @@ require_once __DIR__ . '/inc/content-fixes.php';
 require_once __DIR__ . '/inc/post-tags.php';
 require_once __DIR__ . '/inc/class-span-walker.php';
 require_once __DIR__ . '/inc/footnotes.php';
+require_once __DIR__ . '/inc/seo.php';
 
 bootstrap();

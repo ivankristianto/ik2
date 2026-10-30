@@ -59,9 +59,10 @@
 	text-wrap: balance;
 }
 
-.ik-article__sep,
 .ik-article__reading,
-.ik-article__date {
+.ik-article__date,
+.ik-article__byline,
+.ik-article__updated {
 	font-size: inherit;
 	color: inherit;
 	margin: 0;
@@ -899,8 +900,24 @@
 		margin: 0;
 	}
 
+	// A CSS separator keeps the first <p> after the H1 as article text for extractors.
+	> * + *::before {
+		content: "·" / "";
+		margin-inline-end: $space-2;
+	}
+
 	time {
 		color: inherit;
+	}
+
+	.ik-article__byline a {
+		color: $color-graphite;
+		text-decoration: none;
+	}
+
+	.ik-article__byline a:hover,
+	.ik-article__byline a:focus-visible {
+		color: $color-signal-deep;
 	}
 }
 

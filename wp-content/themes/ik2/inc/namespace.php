@@ -27,4 +27,5 @@ function bootstrap(): void {
 	ContentFixes\bootstrap();
 	PostTags\bootstrap();
 	Footnotes\bootstrap();
+	Seo\bootstrap();
 }
