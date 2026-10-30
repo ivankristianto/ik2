@@ -123,6 +123,27 @@ services:
         stdin_open: true
         restart: unless-stopped
 
+    embedder:
+        # The Corpus worker (services/embedder). It idles here so an hourly
+        # Dokploy Compose schedule can `docker exec` a Run into it; the model
+        # loads only during a Run. Same IMAGE_TAG as the app, so the worker
+        # always matches the plugin's tables.
+        image: ghcr.io/ivankristianto/ik2-embedder:${IMAGE_TAG:-latest}
+        pull_policy: always
+        networks:
+            - dokploy-network
+        environment:
+            CORPUS_DB_HOST: ${WORDPRESS_DB_HOST}
+            CORPUS_DB_NAME: ${WORDPRESS_DB_NAME}
+            CORPUS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
+            # Its own MySQL user, granted the wp_ik2_corpus_* tables only.
+            CORPUS_DB_USER: ${CORPUS_DB_USER:-ik2_corpus}
+            CORPUS_DB_PASSWORD: ${CORPUS_DB_PASSWORD}
+        # A Run peaks around 600 MB; the cap keeps a bad one from starving WordPress.
+        mem_limit: 1g
+        command: ["tail", "-f", "/dev/null"]
+        restart: unless-stopped
+
 networks:
     # Dokploy's shared network. The Dokploy-managed MySQL service
     # (e.g. ik2-db-a3zfgl) lives here; services must join it to resolve
