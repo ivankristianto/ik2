@@ -35,6 +35,9 @@ function on_after_insert_post( int $post_id, \WP_Post $post ): void {
 		return;
 	}
 
+	$pending = &pending_syncs();
+	unset( $pending[ $post_id ] );
+
 	sync( $post_id );
 }
 
@@ -67,7 +70,7 @@ function on_deleted_post( int $post_id, \WP_Post $post ): void {
 }
 
 /**
- * Re-check inclusion when the noindex or exclude flag changes.
+ * Re-check inclusion when the noindex or exclude flag changes, once per request.
  *
  * @param int|int[] $meta_id   Meta ID, or IDs for deleted_post_meta.
  * @param int       $object_id Post ID.
@@ -82,5 +85,35 @@ function on_post_meta_change( $meta_id, int $object_id, string $meta_key ): void
 		return;
 	}
 
-	sync( $object_id );
+	// A save stores meta before wp_after_insert_post, which then syncs once; otherwise sync at shutdown.
+	$pending = &pending_syncs();
+
+	if ( [] === $pending ) {
+		add_action( 'shutdown', __NAMESPACE__ . '\\sync_pending' );
+	}
+
+	$pending[ $object_id ] = true;
+}
+
+/**
+ * Post IDs whose noindex or exclude flag changed and are still waiting for a sync.
+ *
+ * @return array<int, true>
+ */
+function &pending_syncs(): array {
+	static $pending = [];
+
+	return $pending;
+}
+
+/**
+ * Sync every Article whose flag changed outside a save.
+ */
+function sync_pending(): void {
+	$pending = &pending_syncs();
+
+	foreach ( array_keys( $pending ) as $post_id ) {
+		unset( $pending[ $post_id ] );
+		sync( $post_id );
+	}
 }
