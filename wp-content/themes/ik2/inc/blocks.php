@@ -15,8 +15,11 @@ const ARTICLES_PAGE_SLUG = 'articles';
 const ARTICLES_QUERY_ID  = 42;
 const ARCHIVE_QUERY_ID   = 43;
 const RELATED_QUERY_ID   = 44;
+const RELATED_LIMIT      = 4;
 const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
 const REWRITE_VERSION    = 2;
+
+const COVER_LABEL_CLASSES = [ 'ik-article-card__cover-label', 'ik-related__cover-label' ];
 
 /**
  * Register hooks owned by this module.
@@ -26,6 +29,8 @@ function bootstrap(): void {
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_related_query', 10, 2 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\hide_empty_related_query', 10, 2 );
+	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\unlink_cover_label', 10, 2 );
+	add_filter( 'render_block_core/post-time-to-read', __NAMESPACE__ . '\\shorten_related_reading_time', 10, 2 );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
 	add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
 	add_filter( 'query_vars', __NAMESPACE__ . '\\register_format_query_var' );
@@ -97,7 +102,7 @@ function filter_query_loop_format( array $query, $block ): array {
 }
 
 /**
- * Fill the related-posts loop with the newest posts sharing the current post's first category.
+ * Fill the related-posts loop with Corpus picks, topped up with the newest posts in the first category.
  *
  * @param array<string,mixed> $query Query vars for the loop.
  * @param mixed               $block Block instance (typically \WP_Block).
@@ -110,15 +115,39 @@ function filter_related_query( array $query, $block ): array {
 		return $query;
 	}
 
-	$post_id    = (int) get_queried_object_id();
-	$categories = wp_get_post_categories( $post_id );
+	$post_id = (int) get_queried_object_id();
+	$picked  = [];
 
-	$query['post__not_in']        = [ $post_id ];
-	$query['ignore_sticky_posts'] = true;
-
-	if ( $categories ) {
-		$query['category__in'] = [ (int) $categories[0] ];
+	// The plugin can be inactive, and get_related() returns [] until the Corpus is populated.
+	if ( function_exists( '\IK2\Plugin\Corpus\get_related' ) ) {
+		$picked = array_map( 'intval', (array) \IK2\Plugin\Corpus\get_related( $post_id, RELATED_LIMIT ) );
+		$picked = array_slice( array_values( array_diff( $picked, [ $post_id ] ) ), 0, RELATED_LIMIT );
 	}
+
+	if ( count( $picked ) < RELATED_LIMIT ) {
+		$categories = wp_get_post_categories( $post_id );
+		$fallback   = [
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'posts_per_page'      => RELATED_LIMIT - count( $picked ),
+			'post__not_in'        => array_merge( [ $post_id ], $picked ),
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'fields'              => 'ids',
+		];
+
+		if ( $categories ) {
+			$fallback['category__in'] = [ (int) $categories[0] ];
+		}
+
+		$picked = array_merge( $picked, array_map( 'intval', get_posts( $fallback ) ) );
+	}
+
+	// An empty post__in means "no restriction"; [0] keeps the loop empty so the block hides.
+	$query['post__in']            = $picked ? $picked : [ 0 ];
+	$query['orderby']             = 'post__in';
+	$query['posts_per_page']      = RELATED_LIMIT;
+	$query['ignore_sticky_posts'] = true;
 
 	return $query;
 }
@@ -135,6 +164,41 @@ function hide_empty_related_query( string $html, array $block ): string {
 	}
 
 	return str_contains( $html, 'wp-block-post ' ) ? $html : '';
+}
+
+/**
+ * Print a card cover's category label as text: the cover is decoration, so the label must not be a Tab stop.
+ *
+ * @param string              $html  Rendered post-terms block.
+ * @param array<string,mixed> $block Parsed block.
+ */
+function unlink_cover_label( string $html, array $block ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( [] === array_intersect( COVER_LABEL_CLASSES, $classes ) ) {
+		return $html;
+	}
+
+	return (string) preg_replace( '#</?a\b[^>]*>#i', '', $html );
+}
+
+/**
+ * Print the related lead's reading time as "N min read", keeping core's minute count.
+ *
+ * @param string              $html  Rendered post-time-to-read block.
+ * @param array<string,mixed> $block Parsed block.
+ */
+function shorten_related_reading_time( string $html, array $block ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( ! in_array( 'ik-related__reading', $classes, true ) || ! preg_match( '/\d+/', wp_strip_all_tags( $html ), $minutes ) ) {
+		return $html;
+	}
+
+	/* translators: %d: minutes it takes to read the post. */
+	$label = sprintf( __( '%d min read', 'ik2' ), (int) $minutes[0] );
+
+	return (string) preg_replace( '/>[^<]*</', '>' . esc_html( $label ) . '<', $html, 1 );
 }
 
 /**

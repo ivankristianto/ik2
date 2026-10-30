@@ -122,7 +122,7 @@ function render_code_block( string $block_content, array $block ): string {
 
 	$tags = new WP_HTML_Tag_Processor( $block_content );
 
-	if ( ! $tags->next_tag( 'pre' ) ) {
+	if ( ! $tags->next_tag( [ 'tag_name' => 'pre' ] ) ) {
 		return $block_content;
 	}
 

@@ -1,0 +1,288 @@
+[
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>Before the media.</p>\n",
+        "innerContent": [
+            "\n<p>Before the media.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/image",
+        "attrs": {
+            "id": 12,
+            "sizeSlug": "large"
+        },
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-image size-large\"><img src=\"https://example.com/a.png\" alt=\"Alt text\" class=\"wp-image-12\"/><figcaption class=\"wp-element-caption\">Image caption</figcaption></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-image size-large\"><img src=\"https://example.com/a.png\" alt=\"Alt text\" class=\"wp-image-12\"/><figcaption class=\"wp-element-caption\">Image caption</figcaption></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/gallery",
+        "attrs": {
+            "linkTo": "none"
+        },
+        "innerBlocks": [
+            {
+                "blockName": "core/image",
+                "attrs": {
+                    "id": 13
+                },
+                "innerBlocks": [],
+                "innerHTML": "\n<figure class=\"wp-block-image\"><img src=\"https://example.com/b.png\" alt=\"\" class=\"wp-image-13\"/><figcaption class=\"wp-element-caption\">Gallery caption</figcaption></figure>\n",
+                "innerContent": [
+                    "\n<figure class=\"wp-block-image\"><img src=\"https://example.com/b.png\" alt=\"\" class=\"wp-image-13\"/><figcaption class=\"wp-element-caption\">Gallery caption</figcaption></figure>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<figure class=\"wp-block-gallery has-nested-images columns-default is-cropped\"></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-gallery has-nested-images columns-default is-cropped\">",
+            null,
+            "</figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/cover",
+        "attrs": {
+            "url": "https://example.com/c.jpg",
+            "dimRatio": 50
+        },
+        "innerBlocks": [
+            {
+                "blockName": "core/paragraph",
+                "attrs": [],
+                "innerBlocks": [],
+                "innerHTML": "\n<p>Cover text</p>\n",
+                "innerContent": [
+                    "\n<p>Cover text</p>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<div class=\"wp-block-cover\"><span aria-hidden=\"true\" class=\"wp-block-cover__background has-background-dim\"></span><img class=\"wp-block-cover__image-background\" alt=\"\" src=\"https://example.com/c.jpg\" data-object-fit=\"cover\"/><div class=\"wp-block-cover__inner-container\"></div></div>\n",
+        "innerContent": [
+            "\n<div class=\"wp-block-cover\"><span aria-hidden=\"true\" class=\"wp-block-cover__background has-background-dim\"></span><img class=\"wp-block-cover__image-background\" alt=\"\" src=\"https://example.com/c.jpg\" data-object-fit=\"cover\"/><div class=\"wp-block-cover__inner-container\">",
+            null,
+            "</div></div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/embed",
+        "attrs": {
+            "url": "https://www.youtube.com/watch?v=abc",
+            "type": "video",
+            "providerNameSlug": "youtube"
+        },
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube\"><div class=\"wp-block-embed__wrapper\">\nhttps://www.youtube.com/watch?v=abc\n</div><figcaption class=\"wp-element-caption\">Embed caption</figcaption></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube\"><div class=\"wp-block-embed__wrapper\">\nhttps://www.youtube.com/watch?v=abc\n</div><figcaption class=\"wp-element-caption\">Embed caption</figcaption></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/video",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-video\"><video controls src=\"https://example.com/v.mp4\"></video><figcaption class=\"wp-element-caption\">Video caption</figcaption></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-video\"><video controls src=\"https://example.com/v.mp4\"></video><figcaption class=\"wp-element-caption\">Video caption</figcaption></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/audio",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-audio\"><audio controls src=\"https://example.com/a.mp3\"></audio><figcaption class=\"wp-element-caption\">Audio caption</figcaption></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-audio\"><audio controls src=\"https://example.com/a.mp3\"></audio><figcaption class=\"wp-element-caption\">Audio caption</figcaption></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/file",
+        "attrs": {
+            "href": "https://example.com/f.pdf"
+        },
+        "innerBlocks": [],
+        "innerHTML": "\n<div class=\"wp-block-file\"><a href=\"https://example.com/f.pdf\">File link</a></div>\n",
+        "innerContent": [
+            "\n<div class=\"wp-block-file\"><a href=\"https://example.com/f.pdf\">File link</a></div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/buttons",
+        "attrs": [],
+        "innerBlocks": [
+            {
+                "blockName": "core/button",
+                "attrs": [],
+                "innerBlocks": [],
+                "innerHTML": "\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link wp-element-button\">Button label</a></div>\n",
+                "innerContent": [
+                    "\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link wp-element-button\">Button label</a></div>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<div class=\"wp-block-buttons\"></div>\n",
+        "innerContent": [
+            "\n<div class=\"wp-block-buttons\">",
+            null,
+            "</div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/spacer",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<div style=\"height:100px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n",
+        "innerContent": [
+            "\n<div style=\"height:100px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/separator",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n",
+        "innerContent": [
+            "\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/html",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<div>Raw HTML text</div>\n",
+        "innerContent": [
+            "\n<div>Raw HTML text</div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>After the media.</p>\n",
+        "innerContent": [
+            "\n<p>After the media.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n",
+        "innerContent": [
+            "\n"
+        ]
+    }
+]

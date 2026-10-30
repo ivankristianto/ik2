@@ -93,9 +93,9 @@ function post_url_by_slug( string $slug ): ?string {
 		return null;
 	}
 
-	$url = get_permalink( $post );
+	$url = (string) get_permalink( $post );
 
-	return false === $url ? null : $url;
+	return '' === $url ? null : $url;
 }
 
 /**

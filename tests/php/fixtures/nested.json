@@ -1,0 +1,267 @@
+[
+    {
+        "blockName": "core/group",
+        "attrs": {
+            "layout": {
+                "type": "constrained"
+            }
+        },
+        "innerBlocks": [
+            {
+                "blockName": "core/columns",
+                "attrs": [],
+                "innerBlocks": [
+                    {
+                        "blockName": "core/column",
+                        "attrs": [],
+                        "innerBlocks": [
+                            {
+                                "blockName": "core/paragraph",
+                                "attrs": [],
+                                "innerBlocks": [],
+                                "innerHTML": "\n<p>Intro inside a column.</p>\n",
+                                "innerContent": [
+                                    "\n<p>Intro inside a column.</p>\n"
+                                ]
+                            },
+                            {
+                                "blockName": "core/heading",
+                                "attrs": [],
+                                "innerBlocks": [],
+                                "innerHTML": "\n<h2 class=\"wp-block-heading\" id=\"inside-group\">Heading inside a group</h2>\n",
+                                "innerContent": [
+                                    "\n<h2 class=\"wp-block-heading\" id=\"inside-group\">Heading inside a group</h2>\n"
+                                ]
+                            },
+                            {
+                                "blockName": "core/paragraph",
+                                "attrs": [],
+                                "innerBlocks": [],
+                                "innerHTML": "\n<p>Column text.</p>\n",
+                                "innerContent": [
+                                    "\n<p>Column text.</p>\n"
+                                ]
+                            }
+                        ],
+                        "innerHTML": "\n<div class=\"wp-block-column\">\n\n\n\n</div>\n",
+                        "innerContent": [
+                            "\n<div class=\"wp-block-column\">",
+                            null,
+                            "\n\n",
+                            null,
+                            "\n\n",
+                            null,
+                            "</div>\n"
+                        ]
+                    }
+                ],
+                "innerHTML": "\n<div class=\"wp-block-columns\"></div>\n",
+                "innerContent": [
+                    "\n<div class=\"wp-block-columns\">",
+                    null,
+                    "</div>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<div class=\"wp-block-group\"></div>\n",
+        "innerContent": [
+            "\n<div class=\"wp-block-group\">",
+            null,
+            "</div>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/quote",
+        "attrs": [],
+        "innerBlocks": [
+            {
+                "blockName": "core/paragraph",
+                "attrs": [],
+                "innerBlocks": [],
+                "innerHTML": "\n<p>Quoted words.</p>\n",
+                "innerContent": [
+                    "\n<p>Quoted words.</p>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<blockquote class=\"wp-block-quote\"><cite>A Person</cite></blockquote>\n",
+        "innerContent": [
+            "\n<blockquote class=\"wp-block-quote\">",
+            null,
+            "<cite>A Person</cite></blockquote>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/list",
+        "attrs": [],
+        "innerBlocks": [
+            {
+                "blockName": "core/list-item",
+                "attrs": [],
+                "innerBlocks": [
+                    {
+                        "blockName": "core/list",
+                        "attrs": [],
+                        "innerBlocks": [
+                            {
+                                "blockName": "core/list-item",
+                                "attrs": [],
+                                "innerBlocks": [],
+                                "innerHTML": "\n<li>Nested item</li>\n",
+                                "innerContent": [
+                                    "\n<li>Nested item</li>\n"
+                                ]
+                            }
+                        ],
+                        "innerHTML": "\n<ul class=\"wp-block-list\"></ul>\n",
+                        "innerContent": [
+                            "\n<ul class=\"wp-block-list\">",
+                            null,
+                            "</ul>\n"
+                        ]
+                    }
+                ],
+                "innerHTML": "\n<li>First item</li>\n",
+                "innerContent": [
+                    "\n<li>First item",
+                    null,
+                    "</li>\n"
+                ]
+            },
+            {
+                "blockName": "core/list-item",
+                "attrs": [],
+                "innerBlocks": [],
+                "innerHTML": "\n<li>Second item</li>\n",
+                "innerContent": [
+                    "\n<li>Second item</li>\n"
+                ]
+            }
+        ],
+        "innerHTML": "\n<ul class=\"wp-block-list\">\n\n</ul>\n",
+        "innerContent": [
+            "\n<ul class=\"wp-block-list\">",
+            null,
+            "\n\n",
+            null,
+            "</ul>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/table",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-table\"><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>alpha</td><td>1</td></tr></tbody></table></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-table\"><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>alpha</td><td>1</td></tr></tbody></table></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/pullquote",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<figure class=\"wp-block-pullquote\"><blockquote><p>Pulled line.</p></blockquote></figure>\n",
+        "innerContent": [
+            "\n<figure class=\"wp-block-pullquote\"><blockquote><p>Pulled line.</p></blockquote></figure>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/verse",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<pre class=\"wp-block-verse\">Roses line\nViolets line</pre>\n",
+        "innerContent": [
+            "\n<pre class=\"wp-block-verse\">Roses line\nViolets line</pre>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/preformatted",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<pre class=\"wp-block-preformatted\">Preformatted text</pre>\n",
+        "innerContent": [
+            "\n<pre class=\"wp-block-preformatted\">Preformatted text</pre>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "ik2/unknown-dynamic",
+        "attrs": {
+            "foo": "bar"
+        },
+        "innerBlocks": [],
+        "innerHTML": "",
+        "innerContent": []
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n",
+        "innerContent": [
+            "\n"
+        ]
+    }
+]

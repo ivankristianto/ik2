@@ -1,0 +1,132 @@
+[
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>Opening line before any heading.</p>\n",
+        "innerContent": [
+            "\n<p>Opening line before any heading.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/heading",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<h2 class=\"wp-block-heading\" id=\"install-step\">Install the &amp; tools</h2>\n",
+        "innerContent": [
+            "\n<h2 class=\"wp-block-heading\" id=\"install-step\">Install the &amp; tools</h2>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>Run the <strong>installer</strong> first.</p>\n",
+        "innerContent": [
+            "\n<p>Run the <strong>installer</strong> first.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/heading",
+        "attrs": {
+            "level": 3
+        },
+        "innerBlocks": [],
+        "innerHTML": "\n<h3 class=\"wp-block-heading\">Configure it</h3>\n",
+        "innerContent": [
+            "\n<h3 class=\"wp-block-heading\">Configure it</h3>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>Edit the config file.</p>\n",
+        "innerContent": [
+            "\n<p>Edit the config file.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/heading",
+        "attrs": {
+            "level": 4
+        },
+        "innerBlocks": [],
+        "innerHTML": "\n<h4 class=\"wp-block-heading\" id=\"small-note\">A small note</h4>\n",
+        "innerContent": [
+            "\n<h4 class=\"wp-block-heading\" id=\"small-note\">A small note</h4>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n\n",
+        "innerContent": [
+            "\n\n"
+        ]
+    },
+    {
+        "blockName": "core/paragraph",
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n<p>Still part of Configure it.</p>\n",
+        "innerContent": [
+            "\n<p>Still part of Configure it.</p>\n"
+        ]
+    },
+    {
+        "blockName": null,
+        "attrs": [],
+        "innerBlocks": [],
+        "innerHTML": "\n",
+        "innerContent": [
+            "\n"
+        ]
+    }
+]

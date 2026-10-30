@@ -6,3 +6,7 @@
 5d7d5759f891c78dff308c51cb9140cd99389b9a:.env.example:generic-password:7
 # Local dev default (wordpress) in .env.example, first version of the file
 9021d81e772343630b89386a258b42aa51eae9ca:.env.example:generic-password:7
+# Local-only ik2_corpus MySQL password (ik2_corpus_local) for the corpus compose profile, per the corpus plan
+a66f74f888da301783a724ee04a43f0d4362a775:docker-compose.yml:generic-password:156
+# Fixture value in the embedder's config test, not a credential
+cc1dd7c2cec12d9287e8fc28d8270520f80c4c4f:services/embedder/test/config.test.mjs:generic-password:9
