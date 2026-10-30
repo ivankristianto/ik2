@@ -247,7 +247,7 @@ class Link_Images_Command {
 			$file = $this->file_name( $src );
 			$alt  = (string) $tags->get_attribute( 'alt' );
 
-			if ( isset( $this->alts[ $file ] ) && $this->needs_alt( $alt, $file ) ) {
+			if ( isset( $this->alts[ $file ] ) && $this->alts[ $file ] !== $alt && $this->needs_alt( $alt, $file ) ) {
 				$tags->set_attribute( 'alt', $this->alts[ $file ] );
 
 				if ( $count ) {
