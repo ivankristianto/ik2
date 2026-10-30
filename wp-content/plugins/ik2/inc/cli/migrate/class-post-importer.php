@@ -174,12 +174,37 @@ class Post_Importer {
 
 			update_post_meta( $post_id, '_ik2_legacy_id', $legacy_id );
 
+			// 7. Last, because every wp_update_post above stamped "now" as the modified date.
+			$this->restore_modified_dates( $post_id, $legacy_post );
+
 			$status = null === $existing ? 'created' : 'overwritten';
 
 			return new Migration_Result( $status, $slug, $note, $media_added, $media_failed );
 		} catch ( Throwable $e ) {
 			return new Migration_Result( 'failed', $slug, $e->getMessage() );
 		}
+	}
+
+	/**
+	 * Write the legacy modified dates directly; core ignores them in wp_insert_post/wp_update_post.
+	 *
+	 * @param int                   $post_id     Imported post id.
+	 * @param array<string, string> $legacy_post Legacy row.
+	 */
+	private function restore_modified_dates( int $post_id, array $legacy_post ): void {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-off write, cache cleared below.
+		$wpdb->update(
+			$wpdb->posts,
+			[
+				'post_modified'     => (string) $legacy_post['post_modified'],
+				'post_modified_gmt' => (string) $legacy_post['post_modified_gmt'],
+			],
+			[ 'ID' => $post_id ]
+		);
+
+		clean_post_cache( $post_id );
 	}
 
 	/**
