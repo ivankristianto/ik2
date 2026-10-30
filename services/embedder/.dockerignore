@@ -1,0 +1,7 @@
+node_modules
+test
+README.md
+Dockerfile
+.dockerignore
+*.log
+.DS_Store
