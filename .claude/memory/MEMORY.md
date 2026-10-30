@@ -19,3 +19,4 @@
 - [blog voice](feedback-blog-voice.md) — drafts must match his real posts (contractions, short version first, time order, code blocks over tables); run recent-posts.py first; no [Ivan: ...] placeholders in drafts, ask during research
 - [use playwright-cli](feedback-use-playwright-cli.md) — browser checks go through the playwright-cli skill; serve local HTML over http, not file://
 - [cutting-edge web APIs](feedback-cutting-edge-web-apis.md) — GDE Web: ship new platform features natively (interestfor, popover=hint, anchor positioning), never pitch the play-safe option, polyfills or JS libraries; perf, a11y and CWV come first
+- [old post refresh](project-old-post-refresh.md) — "Updated" callout + new card + Yoast on old posts; REST prepend with suffix check, file_upload via injected input, noindex field
