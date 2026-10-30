@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import {
 	CURRENT_FLOOR,
+	LIMIT,
 	allocate,
 	dcg,
 	floors,
@@ -30,6 +31,14 @@ test( 'CURRENT_FLOOR matches RELATED_MIN_SCORE in related.php', () => {
 	const match = /const RELATED_MIN_SCORE = ([0-9.]+);/.exec( php );
 	assert.ok( match, 'RELATED_MIN_SCORE not found in related.php' );
 	assert.equal( CURRENT_FLOOR, Number( match[ 1 ] ) );
+} );
+
+test( 'LIMIT matches RELATED_LIMIT and the related pattern perPage', () => {
+	const theme = new URL( '../wp-content/themes/ik2/', import.meta.url );
+	const blocks = readFileSync( new URL( 'inc/blocks.php', theme ), 'utf8' );
+	const pattern = readFileSync( new URL( 'patterns/single-article-related.php', theme ), 'utf8' );
+	assert.equal( Number( /const RELATED_LIMIT\s*= (\d+);/.exec( blocks )?.[ 1 ] ), LIMIT );
+	assert.equal( Number( /"queryId":44,"query":\{"perPage":(\d+)/.exec( pattern )?.[ 1 ] ), LIMIT );
 } );
 
 test( 'the same seed gives the same shuffle', () => {

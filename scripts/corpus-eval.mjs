@@ -16,6 +16,7 @@ const DEFAULT_OUT = join( tmpdir(), 'ik2-corpus-eval' );
 export const SEED = 20261030;
 export const FIXED_IDS = [ 503, 494, 985, 576, 536, 522, 701, 1981 ];
 export const EVAL_SIZE = 30;
+// Mirrors RELATED_LIMIT in the theme's inc/blocks.php and the pattern's perPage; a test keeps them equal.
 export const LIMIT = 4;
 // Mirrors RELATED_MIN_SCORE in wp-content/plugins/ik2/inc/corpus/related.php; a test keeps them equal.
 export const CURRENT_FLOOR = 0.65;
