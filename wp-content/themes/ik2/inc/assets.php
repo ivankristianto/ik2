@@ -15,7 +15,8 @@
  *    `wp-block-image` sheet is inlined on the front page (see
  *    optimise_core_block_style_delivery()).
  *  - Per-template section styles (`build/section-*.css`) are enqueued only on
- *    the templates that use them (see section_slugs_for_request()).
+ *    the templates that use them (see section_slugs_for_request()), and
+ *    inlined on the front page and single posts.
  *  - The command palette (JS and CSS) is not enqueued at all: `build/index.js`
  *    is a tiny loader that `import()`s the palette chunk, stylesheet included,
  *    on first use.
@@ -125,12 +126,12 @@ function enqueue_frontend_styles(): void {
 	// styles position (after core block styles) and keeps the cascade intact.
 	$inline = read_build_css( $build_dir . '/critical.css' );
 
-	// On the front page — the page we optimise LCP for — the section styles are
-	// inlined alongside the critical CSS too. That leaves the home page with no
-	// render-blocking theme stylesheet at all, so the preloaded hero image no
-	// longer waits behind a VeryHigh-priority CSS request on the wire. Other
-	// templates keep their section styles as cacheable external files.
-	$inline_sections = is_front_page();
+	// The front page and single posts (where search visitors land, usually on a
+	// cold cache) inline their section styles alongside the critical CSS. That
+	// leaves them with no render-blocking theme stylesheet at all, so first paint
+	// doesn't wait on a VeryHigh-priority CSS request. Other templates keep their
+	// section styles as cacheable external files.
+	$inline_sections = is_front_page() || is_singular( 'post' );
 	$section_slugs   = section_slugs_for_request();
 
 	if ( $inline_sections ) {

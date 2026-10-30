@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Default social card (wp-content/themes/ik2/assets/images/social-card.png) for pages whose og:image is under 1200px wide.
+     Rebuild: python3 -I .claude/skills/blog-feature-image/tokens.py <dir>, copy this file in, then render.sh <dir>/social-card.html 1200 630. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+html, body { height: 630px; }
+.mark { position: absolute; left: 64px; top: 112px; display: flex; align-items: baseline; gap: 0.4ch; font-family: var(--font-mono); font-size: 132px; font-weight: 600; letter-spacing: -0.03em; white-space: nowrap; }
+.mark span { color: var(--graphite); font-weight: 500; }
+.mark::after { content: ''; display: inline-block; width: 0.55ch; height: 1em; background: var(--signal); transform: translateY(0.15em); }
+.lede { position: absolute; left: 64px; top: 306px; width: 1000px; font-size: 40px; font-weight: 600; line-height: 1.22; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+.lede em { font-style: normal; color: var(--signal); }
+.rule { position: absolute; left: 0; right: 0; bottom: 128px; border-top: 1px solid var(--line); }
+
+</style></head><body>
+<div class="mark"><span>~ $</span>Ivan</div>
+<p class="lede">Tutorials, notes and experiments on <em>WordPress, web performance, AI agents</em> and developer tooling.</p>
+<div class="rule"></div>
+<div class="sig"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Authorship and entity signals: the byline, the updated date, Person and About schema.
+ * Authorship and entity signals: the byline, the updated date, Person and About schema, the default social card.
  *
  * @package IK2
  */
@@ -14,6 +14,17 @@ defined( 'ABSPATH' ) || exit;
 const ABOUT_PAGE_SLUG = 'about';
 
 const WORDMARK_TEXT = 'Ivan';
+
+// Source in design-system/social-card/.
+const SOCIAL_CARD = [
+	'path'   => 'assets/images/social-card.png',
+	'width'  => 2400,
+	'height' => 1260,
+	'type'   => 'image/png',
+];
+
+// Link previews crop or shrink anything narrower.
+const SOCIAL_CARD_MIN_WIDTH = 1200;
 
 const EXTRA_PROFILES = [
 	'github'        => 'GitHub profile URL',
@@ -33,6 +44,7 @@ function bootstrap(): void {
 	add_filter( 'wpseo_schema_person_social_profiles', __NAMESPACE__ . '\\add_schema_profiles' );
 	add_filter( 'wpseo_schema_webpage', __NAMESPACE__ . '\\mark_about_as_profile_page', 10, 2 );
 	add_action( 'template_redirect', __NAMESPACE__ . '\\redirect_author_archive' );
+	add_filter( 'wpseo_frontend_presentation', __NAMESPACE__ . '\\use_default_social_card' );
 }
 
 /**
@@ -226,4 +238,35 @@ function redirect_author_archive(): void {
 
 	wp_safe_redirect( about_url(), 301 );
 	exit;
+}
+
+/**
+ * Use the default social card when the page has no og:image or one under 1200px wide.
+ *
+ * @param object $presentation Yoast Indexable_Presentation; Twitter falls back to its Open Graph images.
+ */
+function use_default_social_card( $presentation ): object {
+	if ( empty( $presentation->context->open_graph_enabled ) ) {
+		return $presentation;
+	}
+
+	$images = (array) $presentation->open_graph_images;
+	$first  = reset( $images );
+
+	if ( is_array( $first ) && (int) ( $first['width'] ?? 0 ) >= SOCIAL_CARD_MIN_WIDTH ) {
+		return $presentation;
+	}
+
+	$url = get_theme_file_uri( SOCIAL_CARD['path'] );
+
+	$presentation->open_graph_images = [
+		$url => [
+			'url'    => $url,
+			'width'  => SOCIAL_CARD['width'],
+			'height' => SOCIAL_CARD['height'],
+			'type'   => SOCIAL_CARD['type'],
+		],
+	];
+
+	return $presentation;
 }

@@ -60,7 +60,7 @@ Brand/social icons are inline SVG in `design-system/assets/icons/` and `samples/
 
 The theme's front-end CSS is split for load performance — there is **no monolithic stylesheet**. Do not reintroduce one.
 
-- **Critical CSS** — `src/critical.scss` (reset, typography, layout, skip link, wordmark, header nav, footer) compiles to `build/critical.css` and is **inlined into `<head>` on every page** by `inc/assets.php`. On the front page the home section styles are inlined alongside it, so the LCP page ships no render-blocking theme stylesheet.
+- **Critical CSS** — `src/critical.scss` (reset, typography, layout, skip link, wordmark, header nav, footer) compiles to `build/critical.css` and is **inlined into `<head>` on every page** by `inc/assets.php`. On the front page and single posts the section styles are inlined alongside it, so those pages ship no render-blocking theme stylesheet.
 - **Block styles** — each theme block owns a plain (hand-authored, no build step) `blocks/<name>/style.css` referenced from its `block.json` `style` field, so WordPress loads it only when the block is on the page. The plugin's `project-card` block works the same way. This is the pattern to follow for any new block.
 - **Section styles** — page/template compositions that aren't blocks live in `src/styles/_*.scss`, are bundled by `src/sections/*.scss` (or compiled per-partial) to `build/section-*.css`, and are enqueued per template by `section_slugs_for_request()` in `inc/assets.php`.
 - **Command palette** — `build/palette.css` loads asynchronously (never render-blocking).
