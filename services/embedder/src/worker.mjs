@@ -12,12 +12,8 @@ async function embedOne( db, embed, level, ownerId, row ) {
 }
 
 /**
- * One Run over an open CorpusDb.
- * @param {object}   deps
- * @param {import('./db.mjs').CorpusDb} deps.db
- * @param {() => Promise<{embed:Function}>} deps.loadEmbedder called only when there is something to embed
- * @param {(line:string) => void} deps.log
- * @return {Promise<object>} summary, `skipped` when another Run holds the lock
+ * One Run over an open CorpusDb. loadEmbedder is called only when there is something to embed.
+ * Resolves to the counts, `{ noWork: true }`, or `{ skipped: true }` when another Run holds the lock.
  */
 export async function runOnce( { db, loadEmbedder, log } ) {
 	const startMs = performance.now();

@@ -44,10 +44,8 @@ export function seededShuffle( items, rng ) {
 }
 
 /**
- * Split `total` slots over categories in proportion to their size (largest
- * remainder, at least one each), then subtract what the fixed Articles cover.
- *
- * @return {Object<string,number>} extra picks per category, summing to total - fixed.
+ * Extra picks per category, summing to total minus fixed: `total` split by category size
+ * (largest remainder, at least one each), less what the fixed Articles already cover.
  */
 export function allocate( counts, total, fixedCounts = {} ) {
 	const names = Object.keys( counts ).sort();
@@ -105,11 +103,7 @@ export function allocate( counts, total, fixedCounts = {} ) {
 	return need;
 }
 
-/**
- * The fixed Articles plus seeded picks per first category.
- *
- * @param {Array<{id:number,category:string}>} catalog Every Article with its first category.
- */
+/** The fixed Articles plus seeded picks per first category, from a catalog of `{ id, category }`. */
 export function selectEvalSet( catalog, fixedIds, total, seed ) {
 	const eligible = catalog.filter(
 		( a ) => ! EXCLUDED_CATEGORIES.includes( a.category )
@@ -140,10 +134,8 @@ export function selectEvalSet( catalog, fixedIds, total, seed ) {
 }
 
 /**
- * Replay get_related() and the theme's category top-up for one Article.
- *
- * @param {Array<{position:number,related_id:number,score:number}>} rows   All stored rows.
- * @param {number[]}                                                newest Newest posts in the first category, self excluded.
+ * Replay get_related() over all stored rows, then the theme's top-up from `newest`
+ * (the newest posts in the first category, self excluded) for one Article.
  */
 export function simulateBlock( selfId, rows, newest, floor, limit = LIMIT ) {
 	const picks = [ ...rows ]
@@ -214,12 +206,7 @@ export function summarise( grades ) {
 	};
 }
 
-/**
- * One row per floor over the graded NEW picks.
- *
- * @param {Array<{score:number,grade:number}>} picks
- * @param {Array<{id:number,rows:Array}>}      articles Articles to count fallbacks over.
- */
+/** One row per floor over the graded NEW picks, counting fallbacks over `articles`. */
 export function floorSweep( picks, articles, floorList = floors() ) {
 	const zeros = picks.filter( ( p ) => p.grade === 0 ).length;
 	const twos = picks.filter( ( p ) => p.grade === 2 ).length;

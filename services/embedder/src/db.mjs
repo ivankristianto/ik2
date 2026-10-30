@@ -165,9 +165,8 @@ export class CorpusDb {
 	}
 
 	/**
-	 * Inserts the Run row and replaces every related list in one commit, so a
-	 * reader never sees the new Run ID with the old lists.
-	 * @return {Promise<number>} the Run ID
+	 * Inserts the Run row and replaces every related list in one commit, so a reader
+	 * never sees the new Run ID with the old lists. Resolves to the Run ID.
 	 */
 	async writeRun( { startedAt, model, counts, related } ) {
 		const t = this.tables;

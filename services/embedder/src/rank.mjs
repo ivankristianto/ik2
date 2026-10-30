@@ -24,10 +24,8 @@ export function bm25Query( title, tags ) {
 }
 
 /**
- * Orders fused candidates and keeps the first `keep`.
+ * Keeps the first `keep` of the fused candidates (id to RRF score), scored by cosineOf.
  * Ties fall back to cosine, then the lower id, so output is stable.
- * @param {Map<number, number>} fused     id to RRF score
- * @param {Map<number, number>} cosineOf  id to cosine with the source Article
  */
 export function cut( fused, cosineOf, keep = KEEP ) {
 	return [ ...fused.keys() ]

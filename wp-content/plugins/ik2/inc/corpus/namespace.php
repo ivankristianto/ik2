@@ -52,8 +52,7 @@ function on_transition_post_status( string $new_status, string $old_status, \WP_
 }
 
 /**
- * Mark a deleted post for removal by ID: the object cache can still hold it
- * as published at this point, so sync() would queue it again.
+ * Mark a deleted post for removal by ID.
  *
  * @param int      $post_id Deleted post ID.
  * @param \WP_Post $post    Deleted post, passed so revisions and attachments skip the query.
@@ -63,6 +62,7 @@ function on_deleted_post( int $post_id, \WP_Post $post ): void {
 		return;
 	}
 
+	// Not sync(): the object cache can still hold the post as published here, so it would queue it again.
 	mark_remove( $post_id );
 }
 

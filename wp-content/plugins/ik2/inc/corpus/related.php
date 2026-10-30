@@ -37,6 +37,7 @@ function get_related( int $post_id, int $limit ): array {
 
 	$ids = [];
 
+	// The floor applies after the cache, so a new RELATED_MIN_SCORE takes effect on deploy, not after the next Run.
 	foreach ( related_rows( $post_id, $run_id ) as [ $related_id, $score ] ) {
 		if ( $score >= RELATED_MIN_SCORE && $related_id !== $post_id ) {
 			$ids[] = $related_id;
@@ -48,9 +49,6 @@ function get_related( int $post_id, int $limit ): array {
 
 /**
  * Every stored pick for a post as [ related_id, score ], cached under the Run ID.
- *
- * The score floor is applied after the cache so a new RELATED_MIN_SCORE takes
- * effect on deploy instead of after the next Run.
  *
  * @param int $post_id Article ID.
  * @param int $run_id  Latest Run ID, part of the cache key.
@@ -90,12 +88,11 @@ function related_rows( int $post_id, int $run_id ): array {
 
 /**
  * ID of the newest Run, or 0 when the worker has never written one.
- *
- * Read once per request: a new Run changes every cache key without a flush.
  */
 function last_run_id(): int {
 	global $wpdb;
 
+	// Read once per request: a new Run changes every cache key without a flush.
 	static $run_id = null;
 
 	if ( null === $run_id ) {

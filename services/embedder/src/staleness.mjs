@@ -9,15 +9,8 @@ function vectorKey( level, ownerId ) {
 }
 
 /**
- * Decides what a Run has to do from row metadata alone (no text, no blobs).
- * Parked rows and rows at MAX_ATTEMPTS are left alone, so a broken Article
- * can't make every hourly Run load the model.
- *
- * @param {object}   rows
- * @param {{id:number, status:string, attempts:number, embedHash:string, contentHash:string}[]} rows.documents
- * @param {{id:number, documentId:number, contentHash:string}[]} rows.chunks
- * @param {{id:number, level:string, ownerId:number, model:string, contentHash:string}[]} rows.vectors
- * @param {string}   model
+ * Decides what a Run has to do from the rows loadMetadata() returns, without text or blobs.
+ * Parked rows and rows at MAX_ATTEMPTS are left alone, so a broken Article can't make every hourly Run load the model.
  */
 export function findWork( { documents, chunks, vectors }, model ) {
 	const vectorOf = new Map( vectors.map( ( v ) => [ vectorKey( v.level, v.ownerId ), v ] ) );

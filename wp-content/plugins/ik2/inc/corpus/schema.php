@@ -33,11 +33,9 @@ function table( string $name ): string {
 
 /**
  * Create or upgrade the tables when the stored version is behind.
- *
- * Runs on every request rather than on activation: the plugin is already
- * active in production and a redeploy never fires the activation hook.
  */
 function maybe_upgrade(): void {
+	// Every request, not activation: the plugin is already active in production and a redeploy never fires the hook.
 	if ( CORPUS_DB_VERSION === get_option( DB_VERSION_OPTION ) ) {
 		return;
 	}
@@ -74,14 +72,15 @@ function tables_exist(): bool {
 }
 
 /**
- * CREATE TABLE statements in the layout dbDelta parses: one column per line,
- * two spaces after PRIMARY KEY, no backticks. Column names avoid `rank` and
- * `vector`, which are reserved in MySQL 8 and MariaDB 11.7+.
+ * CREATE TABLE statements for dbDelta.
  *
  * @return list<string>
  */
 function schema(): array {
 	global $wpdb;
+
+	// dbDelta's parser wants one column per line, two spaces after PRIMARY KEY and no backticks.
+	// Column names avoid `rank` and `vector`, reserved in MySQL 8 and MariaDB 11.7+.
 
 	$collate = $wpdb->get_charset_collate();
 

@@ -73,10 +73,6 @@ function sync_post( int $post_id, bool $force = false ): string {
 /**
  * The enqueue() work, reporting what happened for WP-CLI.
  *
- * Chunks are upserted on (document_id, chunk_index) so their IDs stay stable
- * and the worker re-embeds only the ones whose text changed. One transaction
- * keeps a Run from reading the new Document hash beside half-written Chunks.
- *
  * @param int  $post_id Post ID.
  * @param bool $force   Queue even when the content hash is unchanged.
  * @return string queued, unchanged, skipped or failed.
@@ -102,6 +98,7 @@ function queue_post( int $post_id, bool $force = false ): string {
 		return 'unchanged';
 	}
 
+	// A Run must never read the new Document hash beside half-written Chunks.
 	$wpdb->query( 'START TRANSACTION' );
 
 	$ok = false !== $wpdb->query(
@@ -126,6 +123,7 @@ function queue_post( int $post_id, bool $force = false ): string {
 
 	$document_id = (int) $wpdb->insert_id;
 
+	// Upserting keeps Chunk IDs stable, so the worker re-embeds only Chunks whose text changed.
 	foreach ( $document['chunks'] as $chunk ) {
 		$ok = $ok && false !== $wpdb->query(
 			$wpdb->prepare(
@@ -170,15 +168,13 @@ function queue_post( int $post_id, bool $force = false ): string {
 /**
  * Mark an Article's Document for removal by the next Run.
  *
- * Attempts go back to 0 because the worker skips rows at 3, which would
- * leave a parked Document in the Corpus forever.
- *
  * @param int $post_id Post ID.
  * @return bool Whether a Document row changed.
  */
 function mark_remove( int $post_id ): bool {
 	global $wpdb;
 
+	// Attempts go back to 0: the worker skips rows at 3, which would keep a parked Document forever.
 	$changed = $wpdb->query(
 		$wpdb->prepare(
 			"UPDATE %i SET status = 'remove', attempts = 0, queued_at = %s
@@ -218,9 +214,6 @@ function find_document( int $post_id ): ?array {
 /**
  * Clean, chunk and hash an Article without writing anything.
  *
- * The content hash covers every stored field (title, URL, anchors too) so a
- * change to any of them re-queues the Document.
- *
  * @param \WP_Post $post Article.
  * @return array{title:string, url:string, embed_text:string, embed_hash:string, content_hash:string, chunks:list<array{chunk_index:int, heading:string, anchor:string, text:string, token_estimate:int}>}
  */
@@ -236,6 +229,7 @@ function build_document( \WP_Post $post ): array {
 		'url'          => $url,
 		'embed_text'   => $text,
 		'embed_hash'   => hash( 'sha256', $text ),
+		// Covers every stored field, title, URL and anchors too, so a change to any of them re-queues.
 		'content_hash' => hash( 'sha256', (string) wp_json_encode( [ $title, $url, $text, $chunks ] ) ),
 		'chunks'       => $chunks,
 	];
