@@ -1,11 +1,15 @@
 @use 'tokens' as *;
 
+// Shared by every row grid; the scroll spine sits in the gap after it.
+$resume-date-col: 11rem;
+
 /* ===========================================================================
    Resume page (templates/page-resume.html)
    "The terminal title card": an ink-drenched masthead on paper, then a
    decisive document — a chronological spine, a receipts ledger, a skills grid.
    Bold via scale, weight, and the single accent used decisively. No gradients,
-   no shadows, no entrance motion — the hierarchy is type, line, and ink.
+   no shadows, no entrance motion — the hierarchy is type, line, and ink. The
+   only motion is scroll-linked line drawing and accent marks (end of file).
    =========================================================================== */
 
 .ik-resume {
@@ -298,7 +302,7 @@
 
 .ik-resume__exp-row {
 	display: grid;
-	grid-template-columns: 11rem minmax(0, 1fr);
+	grid-template-columns: $resume-date-col minmax(0, 1fr);
 	gap: $space-7;
 	padding: $space-6 0;
 	border-bottom: 1px solid $color-line;
@@ -415,7 +419,7 @@
 .ik-resume__comm-row,
 .ik-resume__cert-row {
 	display: grid;
-	grid-template-columns: 11rem minmax(0, 1fr);
+	grid-template-columns: $resume-date-col minmax(0, 1fr);
 	gap: $space-7;
 	padding: $space-5 0;
 	border-bottom: 1px solid $color-line;
@@ -538,7 +542,7 @@
 
 .ik-resume__contact a {
 	display: grid;
-	grid-template-columns: 11rem minmax(0, 1fr);
+	grid-template-columns: $resume-date-col minmax(0, 1fr);
 	align-items: baseline;
 	gap: $space-7;
 	padding: $space-5 0;
@@ -576,7 +580,7 @@
 
 .ik-resume__skill {
 	display: grid;
-	grid-template-columns: 11rem minmax(0, 1fr);
+	grid-template-columns: $resume-date-col minmax(0, 1fr);
 	gap: $space-7;
 	min-width: 0;
 	padding: $space-5 0;
@@ -618,4 +622,119 @@
 	line-height: $leading-normal;
 	color: $color-ink;
 	max-width: 56ch;
+}
+
+/* ---- Scroll-linked emphasis -------------------------------------------- */
+
+/* Lines draw and marks recolor against a mid-viewport reading line; content
+   never moves. Anything outside the gate below gets the static document. */
+
+// From the subject's top reaching mid-viewport to its bottom leaving it.
+$resume-reading-line: exit-crossing -50vh exit-crossing calc(100% - 50vh);
+
+@keyframes ik-resume-draw-x {
+
+	from {
+		scale: 0 1;
+	}
+}
+
+@keyframes ik-resume-draw-y {
+
+	from {
+		scale: 1 0;
+	}
+}
+
+// No 0%/100% keyframes, so both ends fall back to the element's own color.
+@keyframes ik-resume-mark {
+
+	10%,
+	90% {
+		color: $color-signal;
+	}
+}
+
+// Forced colors repaint the drawn bars as Canvas over the real border, hiding it.
+@media screen and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+
+	// The animation-range check filters out engines with only partial support.
+	@supports ((animation-timeline: view()) and (animation-range: entry)) {
+
+		.ik-resume .ik-resume__section {
+			view-timeline: --ik-resume-section;
+		}
+
+		.ik-resume .ik-resume__section-title::before {
+			animation: ik-resume-mark auto linear;
+			animation-timeline: --ik-resume-section;
+			animation-range: $resume-reading-line;
+		}
+
+		// Experience can sit in the first viewport, where a half-drawn rule would
+		// greet the reader, so its rule stays static. The rest draw over a short,
+		// capped distance: tall screens can't scroll the last title far, and the
+		// shorter the draw, the less likely a title loads mid-draw.
+		.ik-resume .ik-resume__section ~ .ik-resume__section > .ik-resume__section-title {
+			position: relative;
+			border-bottom-color: transparent;
+			view-timeline: --ik-resume-title;
+
+			&::after {
+				content: '';
+				position: absolute;
+				inset-inline: 0;
+				bottom: -2px;
+				height: 2px;
+				background: $color-ink;
+				transform-origin: left;
+				animation: ik-resume-draw-x auto linear both;
+				animation-timeline: --ik-resume-title;
+				animation-range: cover 0% cover min(40vh, 16rem);
+			}
+		}
+
+		// The spine runs down the column gap, so it only exists in two-column rows.
+		@media (min-width: 43.8125em) {
+
+			.ik-resume__exp {
+				position: relative;
+				view-timeline: --ik-resume-exp;
+
+				&::before,
+				&::after {
+					content: '';
+					position: absolute;
+					inset-block: 0;
+					inset-inline-start: calc(#{$resume-date-col} + #{$space-7} / 2);
+					width: 1px;
+					background: $color-line;
+				}
+
+				// exit-crossing offset by half the viewport puts the fill's tip on the reading line.
+				&::after {
+					background: $color-signal;
+					transform-origin: top;
+					animation: ik-resume-draw-y auto linear both;
+					animation-timeline: --ik-resume-exp;
+					animation-range: $resume-reading-line;
+				}
+			}
+		}
+
+		.ik-resume__exp-row,
+		.ik-resume__cert-row,
+		.ik-resume__comm-row {
+			view-timeline: --ik-resume-row;
+		}
+
+		// Rows are flush, so exactly one row straddles the reading line at a time.
+		.ik-resume__exp-from,
+		.ik-resume__cert-when,
+		.ik-resume__comm-when {
+			animation: ik-resume-mark auto linear;
+			animation-timeline: --ik-resume-row;
+			animation-range: $resume-reading-line;
+		}
+	}
 }
