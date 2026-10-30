@@ -94,6 +94,56 @@
 	scroll-margin-top: $space-7;
 }
 
+/* ---- Related posts (patterns/single-article-related.php) ---------------- */
+
+.ik-related {
+	margin-block-start: $space-7;
+}
+
+.ik-related__title {
+	margin: 0 0 $space-4;
+	font-size: $size-medium;
+	font-weight: $weight-semibold;
+	line-height: $leading-snug;
+}
+
+.ik-related__list {
+	display: grid;
+	gap: $space-4;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	// The grid gap spaces items; drop the flow layout's sibling margins.
+	> * {
+		margin-block: 0;
+	}
+}
+
+.ik-related__name {
+	margin: 0;
+	font-size: $size-base;
+	font-weight: $weight-medium;
+	line-height: $leading-snug;
+
+	a {
+		color: $color-ink;
+		text-decoration: none;
+		transition: color $transition-base;
+	}
+
+	a:hover,
+	a:focus-visible {
+		color: $color-signal-deep;
+	}
+}
+
+.ik-related__date {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-dust;
+}
+
 /* ---- Featured image (post-featured-image block, alignwide) -------------- */
 
 .ik-article__featured {
