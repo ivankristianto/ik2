@@ -140,6 +140,29 @@ services:
         stdin_open: true
         restart: unless-stopped
 
+    # One-shot corpus worker: `composer dev:corpus` grants its MySQL user, then
+    # runs it once. Production runs the same image from an hourly Dokploy
+    # Server schedule with the same 1g cap.
+    embedder:
+        build:
+            context: services/embedder
+        image: ik2-embedder:local
+        # Rebuild on every run so worker edits are picked up; layers are cached.
+        pull_policy: build
+        environment:
+            CORPUS_DB_HOST: db
+            CORPUS_DB_PORT: 3306
+            CORPUS_DB_USER: ik2_corpus
+            CORPUS_DB_PASSWORD: ik2_corpus_local
+            CORPUS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
+            CORPUS_TABLE_PREFIX: wp_
+        mem_limit: 1g
+        depends_on:
+            db:
+                condition: service_healthy
+        restart: 'no'
+        profiles: ['corpus']
+
     composer:
         image: composer:2
         working_dir: /app

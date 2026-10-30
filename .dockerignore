@@ -34,6 +34,9 @@ design-system/preview
 design-system/ui_kits
 samples
 
+# The corpus worker builds from its own context (services/embedder)
+services
+
 # CI
 .github
 

@@ -16,7 +16,7 @@ concurrency:
 # Quality to pass on its parent, so linting it again is wasted time.
 jobs:
     php:
-        name: PHP (PHPCS + PHPStan)
+        name: PHP (PHPCS + PHPStan + PHPUnit)
         if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
         runs-on: ubuntu-latest
         steps:
@@ -40,6 +40,9 @@ jobs:
 
             - name: Install composer dependencies
               run: composer install --prefer-dist --no-progress --no-interaction
+
+            - name: PHPUnit
+              run: composer test
 
             - name: PHPCS — WordPress Coding Standards
               run: composer lint -- --report=checkstyle -q | cs2pr
@@ -74,6 +77,30 @@ jobs:
 
             - name: Design tokens in sync with theme.json
               run: pnpm tokens:check
+
+    # Its own package and lockfile, outside the root pnpm workspace.
+    embedder:
+        name: Embedder (node --test)
+        if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: services/embedder
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24'
+                  cache: npm
+                  cache-dependency-path: services/embedder/package-lock.json
+
+            - name: Install embedder dependencies
+              run: npm ci
+
+            - name: node --test
+              run: npm test
 
     # No release-commit skip: every pushed range gets scanned. See docs/secret-scanning.md.
     secrets:
