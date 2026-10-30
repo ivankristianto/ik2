@@ -241,6 +241,7 @@ The `Dockerfile` has two final targets: `development` (with Xdebug, used by `doc
 
 -   `WP_HOME`, `WP_SITEURL`
 -   `WORDPRESS_DB_HOST`, `WORDPRESS_DB_USER`, `WORDPRESS_DB_PASSWORD`, `WORDPRESS_DB_NAME`
+-   `CORPUS_DB_PASSWORD`: the `ik2_corpus` MySQL user's password, for the `embedder` service. Setup steps are in `wp-content/plugins/ik2/README.md`.
 -   8 × WordPress salts (generate via `curl https://api.wordpress.org/secret-key/1.1/salt/`)
 -   `IMAGE_TAG` (optional): pin or roll back to a release version such as `1.4.0`. Defaults to `latest`, which moves on each release.
 

@@ -59,8 +59,8 @@ save / term change / unpublish / wp ik2 corpus enqueue
         ▼
 PHP (ik2 plugin)  ── clean, chunk, hash ──▶  documents + chunks (status = queued | remove)
                                                    │
-          hourly Dokploy Server schedule           │
-          docker run --rm ik2-embedder  ◀──────────┘
+          hourly Dokploy Compose schedule          │
+          docker exec embedder (idle)  ◀───────────┘
                     │
                     ├─ embed changed Documents and Chunks ──▶ vectors
                     ├─ BM25 + cosine, fused with RRF ───────▶ related (top 8 per Article)
@@ -427,17 +427,16 @@ Mockups: https://claude.ai/artifact/SSEb1dpkqXej6R2MVwWxAR
   `CREATE USER IF NOT EXISTS`, so it is safe to repeat and grant mistakes show
   up locally first. It is not an initdb script: table-level grants fail until
   the plugin has created the tables.
-- **Production.** A Dokploy Server schedule, hourly (`0 * * * *`):
-
-  ```
-  docker run --rm --pull=always --memory=1g --network dokploy-network \
-    --env-file /etc/ik2/corpus.env ghcr.io/ivankristianto/ik2-embedder:latest
-  ```
-
-  `--pull=always` picks up a new release on the next hour. `--memory=1g`
-  stops a bad Run from starving WordPress. Dokploy compose and application
-  schedules run through `docker exec` into a running container, which is why
-  this one is a Server schedule.
+- **Production.** An `embedder` service in `docker-compose.prod.yml`, on
+  `dokploy-network`, at the same `IMAGE_TAG` as the app, with
+  `mem_limit: 1g`. It idles on `tail -f /dev/null` (about 1 MB). An hourly
+  Dokploy Compose schedule (`0 * * * *`) runs `node src/run.mjs` in it with
+  `docker exec`; the model loads only during that Run. Its credentials come
+  from the Dokploy environment: host, database and prefix from the
+  `WORDPRESS_DB_*` values, `CORPUS_DB_USER` (default `ik2_corpus`) and
+  `CORPUS_DB_PASSWORD`. `build.yml`'s deploy job waits for the embedder image,
+  since the redeploy pulls it. Dokploy pulls with its own registry login, so
+  the package can stay private.
 
 ## Testing
 
@@ -460,31 +459,31 @@ Mockups: https://claude.ai/artifact/SSEb1dpkqXej6R2MVwWxAR
 
 ## Rollout
 
-1. Merge, then cut a release (`pnpm release minor`). Merging alone deploys
-   nothing. The release deploys the plugin, which creates the tables, and
-   pushes the `ik2-embedder` image. Nothing is queued yet, so the block keeps
-   rendering today's picks through the fallback.
-2. Create the `ik2_corpus` MySQL user with its grants (the tables now exist)
-   and `/etc/ik2/corpus.env` on the host. Make the new
-   `ghcr.io/ivankristianto/ik2-embedder` package public (a first push starts
-   private, and the host's `docker run` doesn't use Dokploy's registry
-   login), then `docker pull` it once by hand.
-3. `wp ik2 corpus enqueue --all` on production.
-4. Run the `docker run` command once by hand, watch its peak memory, and
-   check `wp ik2 corpus status`.
-5. Add the hourly Dokploy Server schedule.
-6. Delete the "Hello world!" sample post (2026-10-06) on production.
+Step by step, with commands: `wp-content/plugins/ik2/README.md`.
 
-Later schema changes: the worker image moves `latest` on every release,
-independently of the app deploy. A change that adds a column the worker reads
-ships the plugin migration in one release and the worker change in the next,
-or the worker tolerates both shapes.
+1. Generate the worker's password and add it to the Dokploy environment as
+   `CORPUS_DB_PASSWORD`, before the release, so the first deploy starts the
+   service with it.
+2. Merge, then cut a release (`pnpm release minor`). Merging alone deploys
+   nothing. The release builds the images, deploys the plugin (which creates
+   the tables) and starts the idle `embedder` service. Nothing is queued yet,
+   so the block keeps rendering today's picks through the fallback.
+3. Create the `ik2_corpus` MySQL user with that password and its grants (the
+   tables now exist).
+4. `wp ik2 corpus enqueue --all` on production.
+5. Run `node src/run.mjs` in the `embedder` container once by hand, watch its
+   peak memory, and check `wp ik2 corpus status`.
+6. Add the hourly Dokploy Compose schedule.
+
+Later schema changes ship the plugin and the worker in the same release: both
+run at one `IMAGE_TAG`, and the tables are migrated on the first request
+after the deploy, normally well before the next hourly Run.
 
 ## Risks
 
 - **Server memory.** 575 MB measured on a Mac at about 600 tokens per input.
   The 512-token Chunk cap and the 1,024-token Document cap, both enforced
-  by the tokenizer in the worker, keep inputs bounded, and `--memory=1g` caps the container. Check the first Run's peak
+  by the tokenizer in the worker, keep inputs bounded, and the service's `mem_limit: 1g` caps the container. Check the first Run's peak
   in Dokploy before enabling the schedule.
 - **Image size.** `node_modules` for transformers.js was 377 MB on macOS,
   including binaries for other platforms. Prune to linux-x64 in the
