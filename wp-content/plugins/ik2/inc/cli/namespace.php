@@ -38,31 +38,7 @@ function bootstrap(): void {
 	require_once __DIR__ . '/setup/class-object-cache-step.php';
 	require_once __DIR__ . '/setup/class-sample-content-step.php';
 	require_once __DIR__ . '/class-setup-command.php';
-	require_once __DIR__ . '/migrate/class-migration-config.php';
-	require_once __DIR__ . '/migrate/class-migration-result.php';
-	require_once __DIR__ . '/migrate/class-content-rewriter.php';
-	require_once __DIR__ . '/migrate/class-legacy-db.php';
-	require_once __DIR__ . '/migrate/class-media-sideloader.php';
-	require_once __DIR__ . '/migrate/class-post-importer.php';
-	require_once __DIR__ . '/class-migrate-articles-command.php';
-	require_once __DIR__ . '/class-attachment-resolver.php';
-	require_once __DIR__ . '/class-fix-image-ids-command.php';
-	require_once __DIR__ . '/class-link-images-command.php';
-	require_once __DIR__ . '/class-set-descriptions-command.php';
-	require_once __DIR__ . '/class-code-language-detector.php';
-	require_once __DIR__ . '/class-code-languages-command.php';
-	require_once __DIR__ . '/class-reset-modified-dates-command.php';
-	require_once __DIR__ . '/class-remove-dead-images-command.php';
-	require_once __DIR__ . '/class-noindex-posts-command.php';
 
 	\WP_CLI::add_command( 'ik2 stats', Stats_Command::class );
 	\WP_CLI::add_command( 'ik2 setup', Setup_Command::class );
-	\WP_CLI::add_command( 'ik2 migrate-articles', Migrate_Articles_Command::class );
-	\WP_CLI::add_command( 'ik2 fix-image-ids', Fix_Image_Ids_Command::class );
-	\WP_CLI::add_command( 'ik2 code-languages', Code_Languages_Command::class );
-	\WP_CLI::add_command( 'ik2 reset-modified-dates', Reset_Modified_Dates_Command::class );
-	\WP_CLI::add_command( 'ik2 remove-dead-images', Remove_Dead_Images_Command::class );
-	\WP_CLI::add_command( 'ik2 noindex-posts', Noindex_Posts_Command::class );
-	\WP_CLI::add_command( 'ik2 link-images', Link_Images_Command::class );
-	\WP_CLI::add_command( 'ik2 set-descriptions', Set_Descriptions_Command::class );
 }
