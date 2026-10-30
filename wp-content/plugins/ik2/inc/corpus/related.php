@@ -11,8 +11,8 @@ namespace IK2\Plugin\Corpus;
 
 defined( 'ABSPATH' ) || exit;
 
-// Placeholder until the eval task tunes it on the 8-Article test set.
-const RELATED_MIN_SCORE = 0.6;
+// A safety net, not a filter: the 2026-10-30 eval (docs/evals) showed higher floors trade weak picks for category fallbacks, which grade worse.
+const RELATED_MIN_SCORE = 0.65;
 
 const CACHE_GROUP = 'ik2-corpus';
 

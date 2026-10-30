@@ -291,8 +291,10 @@ cached with `wp_cache_*` in group `ik2-corpus` under
 flushing Redis.
 
 `RELATED_MIN_SCORE` is a PHP constant so it can be tuned without a worker
-release. It starts at the value tuned on the test set (see Testing), with a
-one-line comment saying where it came from.
+release. The 2026-10-30 eval (`docs/evals/2026-10-30-corpus-relevance.md`)
+found no floor that keeps unrelated picks out without dropping good ones, and
+the category fallback grades worse than a weak pick, so it is 0.65: a safety
+net that sends no current Article to the fallback.
 
 ## Worker: `services/embedder/`
 
