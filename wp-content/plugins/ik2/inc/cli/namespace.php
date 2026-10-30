@@ -45,8 +45,6 @@ function bootstrap(): void {
 	require_once __DIR__ . '/migrate/class-media-sideloader.php';
 	require_once __DIR__ . '/migrate/class-post-importer.php';
 	require_once __DIR__ . '/class-migrate-articles-command.php';
-	require_once __DIR__ . '/class-code-language-detector.php';
-	require_once __DIR__ . '/class-code-languages-command.php';
 	require_once __DIR__ . '/class-reset-modified-dates-command.php';
 	require_once __DIR__ . '/class-remove-dead-images-command.php';
 	require_once __DIR__ . '/class-noindex-posts-command.php';
@@ -54,7 +52,6 @@ function bootstrap(): void {
 	\WP_CLI::add_command( 'ik2 stats', Stats_Command::class );
 	\WP_CLI::add_command( 'ik2 setup', Setup_Command::class );
 	\WP_CLI::add_command( 'ik2 migrate-articles', Migrate_Articles_Command::class );
-	\WP_CLI::add_command( 'ik2 code-languages', Code_Languages_Command::class );
 	\WP_CLI::add_command( 'ik2 reset-modified-dates', Reset_Modified_Dates_Command::class );
 	\WP_CLI::add_command( 'ik2 remove-dead-images', Remove_Dead_Images_Command::class );
 	\WP_CLI::add_command( 'ik2 noindex-posts', Noindex_Posts_Command::class );
