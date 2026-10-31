@@ -11,8 +11,8 @@ of the root pnpm workspace, so use npm here, not pnpm.
 
 | Variable | Default | |
 | --- | --- | --- |
-| `CORPUS_DB_HOST` | | required |
-| `CORPUS_DB_PORT` | `3306` | |
+| `CORPUS_DB_HOST` | | required; `host:port` and `[ipv6]:port` work, as in `DB_HOST` |
+| `CORPUS_DB_PORT` | `3306` | wins over a port in the host |
 | `CORPUS_DB_USER` | | required, `ik2_corpus` |
 | `CORPUS_DB_PASSWORD` | | required |
 | `CORPUS_DB_NAME` | | required |

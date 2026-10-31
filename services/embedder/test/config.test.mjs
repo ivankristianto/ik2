@@ -34,3 +34,21 @@ test( 'a prefix that could break out of an identifier is refused', () => {
 test( 'a bad port is refused', () => {
 	assert.throws( () => readConfig( { ...ENV, CORPUS_DB_PORT: 'abc' } ), /CORPUS_DB_PORT/ );
 } );
+
+test( 'a port in the host is split off, as WordPress allows in DB_HOST', () => {
+	const config = readConfig( { ...ENV, CORPUS_DB_HOST: 'ik2-db:3307' } );
+	assert.equal( config.host, 'ik2-db' );
+	assert.equal( config.port, 3307 );
+} );
+
+test( 'a bracketed IPv6 host keeps its address and gives up its port', () => {
+	const config = readConfig( { ...ENV, CORPUS_DB_HOST: '[::1]:3307' } );
+	assert.equal( config.host, '::1' );
+	assert.equal( config.port, 3307 );
+} );
+
+test( 'CORPUS_DB_PORT wins over a port in the host', () => {
+	const config = readConfig( { ...ENV, CORPUS_DB_HOST: 'ik2-db:3307', CORPUS_DB_PORT: '3308' } );
+	assert.equal( config.host, 'ik2-db' );
+	assert.equal( config.port, 3308 );
+} );
