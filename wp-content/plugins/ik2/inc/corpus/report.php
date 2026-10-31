@@ -74,3 +74,38 @@ function recent_runs( int $limit ): array {
 		ARRAY_A
 	);
 }
+
+/**
+ * Status, attempts and indexed time of the Documents for the given posts.
+ *
+ * @param int[] $post_ids Post IDs.
+ * @return array<int, array{status:string, attempts:string, indexed_at:?string, last_error:?string}>
+ */
+function document_statuses( array $post_ids ): array {
+	global $wpdb;
+
+	$post_ids = array_values( array_filter( array_map( 'intval', $post_ids ) ) );
+
+	if ( [] === $post_ids ) {
+		return [];
+	}
+
+	$rows = (array) $wpdb->get_results(
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- One %d per ID, built from count( $post_ids ).
+		$wpdb->prepare(
+			'SELECT object_id, status, attempts, indexed_at, last_error FROM %i WHERE object_type = %s AND object_id IN (' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')',
+			table( 'documents' ),
+			OBJECT_TYPE,
+			...$post_ids
+		),
+		ARRAY_A
+	);
+
+	$statuses = [];
+
+	foreach ( $rows as $row ) {
+		$statuses[ (int) $row['object_id'] ] = $row;
+	}
+
+	return $statuses;
+}

@@ -326,3 +326,48 @@ function remove_missing( array $published ): int {
 
 	return $removed;
 }
+
+/**
+ * Sync the next $size published Articles after the ID cursor; the last batch also runs remove_missing().
+ *
+ * @param int $after Last Article ID already synced, 0 to start.
+ * @param int $size  Articles per batch.
+ * @return array{counts:array<string,int>, processed:int, after:int, done:bool, total:int}
+ */
+function queue_batch( int $after, int $size ): array {
+	global $wpdb;
+
+	// An ID cursor, not an offset: an Article published mid-way can't shift the batches.
+	$ids = array_map(
+		'intval',
+		(array) $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status = 'publish' AND ID > %d ORDER BY ID ASC LIMIT %d",
+				OBJECT_TYPE,
+				$after,
+				$size
+			)
+		)
+	);
+
+	$results = [];
+
+	foreach ( $ids as $post_id ) {
+		$results[] = sync_post( $post_id );
+	}
+
+	$counts = Batch\tally( $results );
+	$cursor = Batch\next_cursor( $ids, $after, $size );
+
+	if ( $cursor['done'] ) {
+		$counts['removed'] += remove_missing( published_article_ids() );
+	}
+
+	return [
+		'counts'    => $counts,
+		'processed' => count( $ids ),
+		'after'     => $cursor['after'],
+		'done'      => $cursor['done'],
+		'total'     => (int) wp_count_posts( OBJECT_TYPE )->publish,
+	];
+}
