@@ -78,7 +78,7 @@ Numbered citations are optional. If you use them, write `[n]` right after the se
    wc -w <draft>
    ```
    Also confirm every code block was run, every URL resolves (`curl -sI`), and every number matches the research file.
-5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, image ideas with alt text), and the draft path as a `file:///` link. Flags live in the chat reply only, never in the draft file. Ask for edits. Publishing is Ivan's call, and a WordPress draft is created only when he asks for it.
+5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, image ideas with alt text), and the draft path as a `file:///` link. Flags live in the chat reply only, never in the draft file. Ask for edits. Publishing is Ivan's call. A WordPress draft is created only when he asks for it, with `blog-wp-draft`.
 
 ## Images
 
