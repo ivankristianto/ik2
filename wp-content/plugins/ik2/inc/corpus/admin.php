@@ -50,7 +50,7 @@ function register_page(): void {
 }
 
 /**
- * The queue-all script and a few layout rules, on the Corpus screen only.
+ * The queue-all script and the screen's styles, on the Corpus screen only.
  *
  * @param string $hook_suffix Current admin page.
  */
@@ -67,7 +67,12 @@ function enqueue_assets( string $hook_suffix ): void {
 		true
 	);
 
-	wp_add_inline_style( 'common', '.ik2-corpus .ik2-corpus__narrow{width:auto;min-width:22rem}.ik2-corpus progress{width:22rem;vertical-align:middle}' );
+	wp_enqueue_style(
+		'ik2-corpus-admin',
+		plugins_url( 'assets/corpus-admin.css', PLUGIN_FILE ),
+		[],
+		(string) filemtime( PLUGIN_DIR . '/assets/corpus-admin.css' )
+	);
 }
 
 /**
@@ -375,127 +380,196 @@ function add_row_action( array $actions, \WP_Post $post ): array {
  * Tools → Corpus.
  */
 function render_page(): void {
-	$related = Corpus\related_enabled();
-	$runs    = Corpus\recent_runs( 10 );
-	$parked  = Corpus\parked_documents();
+	$runs     = Corpus\recent_runs( 10 );
+	$statuses = [];
+
+	foreach ( Corpus\status_counts() as $row ) {
+		$statuses[ $row['status'] ] = (int) $row['documents'];
+	}
 
 	echo '<div class="wrap ik2-corpus">';
 	echo '<h1>' . esc_html__( 'Corpus', 'ik2' ) . '</h1>';
-	echo '<p>' . esc_html__( 'Published Articles, cleaned, chunked and embedded by the worker. Queueing here only marks Articles; the worker embeds them on its next Run.', 'ik2' ) . '</p>';
+	echo '<p class="ik2-corpus__lede">' . esc_html__( 'Published Articles, cleaned, chunked and embedded by the worker. Queueing here only marks Articles; the worker embeds them on its next Run.', 'ik2' ) . '</p>';
+	echo '<hr class="wp-header-end">';
 
 	if ( ! Corpus\tables_exist() ) {
 		echo '<div class="notice notice-warning inline"><p>' . esc_html__( "The Corpus tables aren't in the database yet. They are created on the next page load; if this stays, the CREATE TABLE error is in the PHP error log.", 'ik2' ) . '</p></div>';
 	}
 
-	render_related_section( $related );
-	render_runs_section( $runs );
-	render_documents_section();
-	render_parked_section( $parked );
-	render_queue_section();
+	render_facts( $runs[0] ?? null, $statuses );
+
+	echo '<div class="ik2-corpus__grid">';
+	echo '<div class="ik2-corpus__main">';
+	render_parked_panel( Corpus\parked_documents() );
+	render_runs_panel( $runs );
+	render_documents_panel( $statuses );
+	echo '</div>';
+	echo '<div class="ik2-corpus__side">';
+	render_related_panel( Corpus\related_enabled() );
+	render_queue_panel();
+	echo '</div>';
+	echo '</div>';
 
 	echo '</div>';
 }
 
 /**
- * The related switch and its toggle.
+ * One fact in the summary strip.
  *
- * @param bool $related Whether the picks are on.
+ * @param string $label Term.
+ * @param string $value Main value, already escaped.
+ * @param string $note  Secondary line, already escaped.
  */
-function render_related_section( bool $related ): void {
-	echo '<h2>' . esc_html__( 'Related picks', 'ik2' ) . '</h2>';
-	echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
-	echo '<p>';
-	echo $related
-		? esc_html__( 'On: Keep reading shows the closest Articles from the Corpus.', 'ik2' )
-		: esc_html__( 'Off: Keep reading shows the newest posts from the Article\'s first category.', 'ik2' );
-	echo '</p>';
-	echo '<input type="hidden" name="action" value="ik2_corpus_related">';
-	echo '<input type="hidden" name="state" value="' . esc_attr( $related ? 'off' : 'on' ) . '">';
-	wp_nonce_field( 'ik2_corpus_related' );
-	submit_button( $related ? __( 'Turn off', 'ik2' ) : __( 'Turn on', 'ik2' ), $related ? 'secondary' : 'primary', 'submit', false );
-	echo '</form>';
+function render_fact( string $label, string $value, string $note = '' ): void {
+	echo '<div class="ik2-corpus__fact">';
+	echo '<dt>' . esc_html( $label ) . '</dt>';
+	echo '<dd>' . $value . ( '' === $note ? '' : '<span class="ik2-corpus__note">' . $note . '</span>' ) . '</dd>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Both parts are escaped by the callers.
+	echo '</div>';
 }
 
 /**
- * The last Runs and when the next one is expected.
+ * A status dot and its word, so the state never rests on color alone.
  *
- * @param list<array<string, string>> $runs Newest first.
+ * @param string $tone  ok, wait, bad or off.
+ * @param string $label Visible state.
  */
-function render_runs_section( array $runs ): void {
-	echo '<h2>' . esc_html__( 'Runs', 'ik2' ) . '</h2>';
+function state( string $tone, string $label ): string {
+	return '<span class="ik2-corpus__state is-' . esc_attr( $tone ) . '">' . esc_html( $label ) . '</span>';
+}
 
-	$last = $runs[0] ?? null;
+/**
+ * The summary strip: picks, last and next Run, coverage, parked.
+ *
+ * @param array<string, string>|null $last     Newest Run.
+ * @param array<string, int>         $statuses Document counts by status.
+ */
+function render_facts( ?array $last, array $statuses ): void {
+	$published = (int) wp_count_posts( Corpus\OBJECT_TYPE )->publish;
+	$indexed   = $statuses[ Corpus\STATUS_INDEXED ] ?? 0;
+	$queued    = $statuses[ Corpus\STATUS_QUEUED ] ?? 0;
+	$parked    = $statuses[ Corpus\STATUS_PARKED ] ?? 0;
+	$related   = Corpus\related_enabled();
+
+	echo '<dl class="ik2-corpus__facts">';
+
+	render_fact(
+		__( 'Related picks', 'ik2' ),
+		$related ? state( 'ok', __( 'On', 'ik2' ) ) : state( 'off', __( 'Off', 'ik2' ) ),
+		$related ? esc_html__( 'Keep reading uses the Corpus', 'ik2' ) : esc_html__( 'Keep reading uses the category', 'ik2' )
+	);
 
 	if ( null === $last ) {
-		echo '<p>' . esc_html__( 'No Run yet.', 'ik2' ) . ' ';
+		render_fact( __( 'Last Run', 'ik2' ), esc_html__( 'None yet', 'ik2' ) );
 	} else {
-		printf(
-			/* translators: 1: time of the last Run, 2: how long ago */
-			'<p>' . esc_html__( 'Last Run %1$s (%2$s ago).', 'ik2' ) . ' ',
-			esc_html( local_time( $last['finished_at'] ) ),
-			esc_html( human_time_diff( (int) strtotime( $last['finished_at'] . ' UTC' ) ) )
+		render_fact(
+			__( 'Last Run', 'ik2' ),
+			/* translators: %s: how long ago */
+			esc_html( sprintf( __( '%s ago', 'ik2' ), human_time_diff( (int) strtotime( $last['finished_at'] . ' UTC' ) ) ) ),
+			'<time class="ik2-corpus__mono">' . esc_html( local_time( $last['finished_at'] ) ) . '</time>'
 		);
 	}
 
-	printf(
-		/* translators: %s: time of the next Run */
-		esc_html__( 'Next Run expected around %s, on the hourly schedule in the plugin README.', 'ik2' ) . '</p>',
-		esc_html( next_run_label() )
+	render_fact(
+		__( 'Next Run', 'ik2' ),
+		'<span class="ik2-corpus__mono">' . esc_html( next_run_label() ) . '</span>',
+		esc_html__( 'expected, hourly schedule', 'ik2' )
 	);
 
+	render_fact(
+		__( 'Indexed', 'ik2' ),
+		/* translators: 1: indexed Articles, 2: published Articles */
+		esc_html( sprintf( __( '%1$s of %2$s', 'ik2' ), number_format_i18n( $indexed ), number_format_i18n( $published ) ) ),
+		/* translators: %s: queued Articles */
+		$queued > 0 ? esc_html( sprintf( _n( '%s queued for the next Run', '%s queued for the next Run', $queued, 'ik2' ), number_format_i18n( $queued ) ) ) : esc_html__( 'nothing waiting', 'ik2' )
+	);
+
+	render_fact(
+		__( 'Parked', 'ik2' ),
+		$parked > 0 ? state( 'bad', number_format_i18n( $parked ) ) : state( 'ok', '0' ),
+		$parked > 0 ? esc_html__( 'failed 3 times, see below', 'ik2' ) : esc_html__( 'no failures', 'ik2' )
+	);
+
+	echo '</dl>';
+}
+
+/**
+ * Open a panel with its heading.
+ *
+ * @param string $title Heading.
+ * @param string $modifier Extra class.
+ */
+function open_panel( string $title, string $modifier = '' ): void {
+	echo '<section class="ik2-corpus__panel ' . esc_attr( $modifier ) . '">';
+	echo '<h2>' . esc_html( $title ) . '</h2>';
+}
+
+/**
+ * The last Runs, newest first.
+ *
+ * @param list<array<string, string>> $runs Newest first.
+ */
+function render_runs_panel( array $runs ): void {
+	open_panel( __( 'Runs', 'ik2' ) );
+
 	if ( [] === $runs ) {
+		echo '<p class="ik2-corpus__empty">' . esc_html__( 'No Run yet. Queue all Articles, then run the worker once by hand (step 5 in the plugin README). After that the hourly schedule takes over.', 'ik2' ) . '</p>';
+		echo '</section>';
 		return;
 	}
 
-	$headings = [ __( 'Run', 'ik2' ), __( 'Started', 'ik2' ), __( 'Took', 'ik2' ), __( 'Documents', 'ik2' ), __( 'Chunks', 'ik2' ), __( 'Removed', 'ik2' ), __( 'Failed', 'ik2' ) ];
-
-	echo '<table class="widefat striped"><thead><tr>';
-	foreach ( $headings as $heading ) {
-		echo '<th scope="col">' . esc_html( $heading ) . '</th>';
-	}
+	echo '<div class="ik2-corpus__scroll"><table class="ik2-corpus__table"><thead><tr>';
+	echo '<th scope="col">' . esc_html__( 'Run', 'ik2' ) . '</th>';
+	echo '<th scope="col">' . esc_html__( 'Started', 'ik2' ) . '</th>';
+	echo '<th scope="col" class="is-num">' . esc_html__( 'Took', 'ik2' ) . '</th>';
+	echo '<th scope="col" class="is-num">' . esc_html__( 'Documents', 'ik2' ) . '</th>';
+	echo '<th scope="col" class="is-num">' . esc_html__( 'Chunks', 'ik2' ) . '</th>';
+	echo '<th scope="col" class="is-num">' . esc_html__( 'Removed', 'ik2' ) . '</th>';
+	echo '<th scope="col" class="is-num">' . esc_html__( 'Failed', 'ik2' ) . '</th>';
 	echo '</tr></thead><tbody>';
 
 	foreach ( $runs as $run ) {
 		$took = max( 0, (int) strtotime( $run['finished_at'] . ' UTC' ) - (int) strtotime( $run['started_at'] . ' UTC' ) );
 
 		echo '<tr>';
-		echo '<td>' . esc_html( $run['id'] ) . '</td>';
-		echo '<td>' . esc_html( local_time( $run['started_at'] ) ) . '</td>';
-		/* translators: %d: seconds */
-		echo '<td>' . esc_html( sprintf( _n( '%d second', '%d seconds', $took, 'ik2' ), $took ) ) . '</td>';
-		echo '<td>' . esc_html( $run['documents_embedded'] ) . '</td>';
-		echo '<td>' . esc_html( $run['chunks_embedded'] ) . '</td>';
-		echo '<td>' . esc_html( $run['removed'] ) . '</td>';
-		echo '<td>' . esc_html( $run['failed'] ) . '</td>';
+		echo '<td class="ik2-corpus__mono">' . esc_html( $run['id'] ) . '</td>';
+		echo '<td class="ik2-corpus__mono">' . esc_html( local_time( $run['started_at'] ) ) . '</td>';
+		echo '<td class="is-num">' . esc_html( duration( $took ) ) . '</td>';
+		echo count_cell( (int) $run['documents_embedded'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- count_cell() escapes.
+		echo count_cell( (int) $run['chunks_embedded'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- As above.
+		echo count_cell( (int) $run['removed'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- As above.
+		echo count_cell( (int) $run['failed'], 'is-bad' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- As above.
 		echo '</tr>';
 	}
 
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
+	echo '</section>';
 }
 
 /**
- * Documents by status and the row counts.
+ * A numeric cell that fades zeros so the Runs that did work stand out.
+ *
+ * @param int    $count   Value.
+ * @param string $nonzero Class for a non-zero value.
  */
-function render_documents_section(): void {
-	echo '<h2>' . esc_html__( 'Documents', 'ik2' ) . '</h2>';
+function count_cell( int $count, string $nonzero = '' ): string {
+	$class = 0 === $count ? 'is-num is-zero' : trim( 'is-num ' . $nonzero );
 
-	$rows = [];
+	return '<td class="' . esc_attr( $class ) . '">' . esc_html( number_format_i18n( $count ) ) . '</td>';
+}
 
-	foreach ( Corpus\status_counts() as $status ) {
-		$rows[ $status['status'] ] = (int) $status['documents'];
+/**
+ * Seconds as 42 s or 2 min 51 s.
+ *
+ * @param int $seconds Duration.
+ */
+function duration( int $seconds ): string {
+	if ( $seconds < 60 ) {
+		/* translators: %d: seconds */
+		return sprintf( __( '%d s', 'ik2' ), $seconds );
 	}
 
-	if ( [] === $rows ) {
-		echo '<p>' . esc_html__( 'None yet. Queue all Articles below.', 'ik2' ) . '</p>';
-	}
-
-	echo '<table class="widefat striped ik2-corpus__narrow"><tbody>';
-
-	foreach ( $rows + Corpus\table_counts() as $label => $count ) {
-		echo '<tr><th scope="row">' . esc_html( ucfirst( (string) $label ) ) . '</th><td>' . esc_html( number_format_i18n( $count ) ) . '</td></tr>';
-	}
-
-	echo '</tbody></table>';
+	/* translators: 1: minutes, 2: seconds */
+	return sprintf( __( '%1$d min %2$d s', 'ik2' ), intdiv( $seconds, 60 ), $seconds % 60 );
 }
 
 /**
@@ -503,49 +577,110 @@ function render_documents_section(): void {
  *
  * @param list<array{post_id:string, title:string, attempts:string, last_error:?string}> $parked Parked rows.
  */
-function render_parked_section( array $parked ): void {
+function render_parked_panel( array $parked ): void {
 	if ( [] === $parked ) {
 		return;
 	}
 
-	echo '<h2>' . esc_html__( 'Parked', 'ik2' ) . '</h2>';
-	echo '<p>' . esc_html__( 'These failed 3 times and the worker skips them. Fix the cause, then retry.', 'ik2' ) . '</p>';
-	echo '<table class="widefat striped"><thead><tr>';
-	echo '<th scope="col">' . esc_html__( 'Article', 'ik2' ) . '</th>';
-	echo '<th scope="col">' . esc_html__( 'Error', 'ik2' ) . '</th>';
-	echo '<th scope="col"><span class="screen-reader-text">' . esc_html__( 'Actions', 'ik2' ) . '</span></th>';
-	echo '</tr></thead><tbody>';
+	open_panel( __( 'Parked', 'ik2' ), 'is-alert' );
+	echo '<p class="ik2-corpus__help">' . esc_html__( 'These failed 3 times, so the worker skips them. Fix the cause, then retry.', 'ik2' ) . '</p>';
+	echo '<ul class="ik2-corpus__parked">';
 
 	foreach ( $parked as $row ) {
 		$post_id = (int) $row['post_id'];
 
-		echo '<tr>';
-		echo '<td><a href="' . esc_url( (string) get_edit_post_link( $post_id ) ) . '">' . esc_html( $row['title'] ) . '</a></td>';
-		echo '<td><code>' . esc_html( (string) $row['last_error'] ) . '</code></td>';
-		echo '<td><a class="button" href="' . esc_url( reembed_url( $post_id ) ) . '">' . esc_html__( 'Retry', 'ik2' ) . '</a></td>';
-		echo '</tr>';
+		echo '<li>';
+		echo '<div><a href="' . esc_url( (string) get_edit_post_link( $post_id ) ) . '">' . esc_html( $row['title'] ) . '</a>';
+		echo '<code>' . esc_html( (string) $row['last_error'] ) . '</code></div>';
+		echo '<a class="button" href="' . esc_url( reembed_url( $post_id ) ) . '">' . esc_html__( 'Retry', 'ik2' ) . '</a>';
+		echo '</li>';
 	}
 
-	echo '</tbody></table>';
+	echo '</ul>';
+	echo '</section>';
+}
+
+/**
+ * The related switch and its toggle.
+ *
+ * @param bool $related Whether the picks are on.
+ */
+function render_related_panel( bool $related ): void {
+	open_panel( __( 'Related picks', 'ik2' ) );
+	echo '<p class="ik2-corpus__help">';
+	echo $related
+		? esc_html__( 'Keep reading shows the closest Articles from the Corpus.', 'ik2' )
+		: esc_html__( "Keep reading shows the newest posts from the Article's first category.", 'ik2' );
+	echo '</p>';
+	echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+	echo '<input type="hidden" name="action" value="ik2_corpus_related">';
+	echo '<input type="hidden" name="state" value="' . esc_attr( $related ? 'off' : 'on' ) . '">';
+	wp_nonce_field( 'ik2_corpus_related' );
+	submit_button( $related ? __( 'Turn off', 'ik2' ) : __( 'Turn on', 'ik2' ), $related ? 'secondary' : 'primary', 'submit', false );
+	echo '</form>';
+	echo '</section>';
 }
 
 /**
  * Re-queue one Article by ID, or every published Article in batches.
  */
-function render_queue_section(): void {
-	echo '<h2>' . esc_html__( 'Queue', 'ik2' ) . '</h2>';
+function render_queue_panel(): void {
+	open_panel( __( 'Queue', 'ik2' ) );
 
-	echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
-	echo '<p><label for="ik2-corpus-post">' . esc_html__( 'Article ID', 'ik2' ) . '</label> ';
-	echo '<input type="number" min="1" id="ik2-corpus-post" name="post" class="small-text" required> ';
+	echo '<form class="ik2-corpus__action" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+	echo '<label for="ik2-corpus-post">' . esc_html__( 'Re-embed one Article', 'ik2' ) . '</label>';
+	echo '<div class="ik2-corpus__inline">';
+	echo '<input type="number" min="1" id="ik2-corpus-post" name="post" class="small-text" placeholder="' . esc_attr__( 'Post ID', 'ik2' ) . '" aria-describedby="ik2-corpus-post-help" required>';
 	echo '<input type="hidden" name="action" value="ik2_corpus_reembed">';
 	wp_nonce_field( 'ik2_corpus_reembed' );
 	submit_button( __( 'Re-embed', 'ik2' ), 'secondary', 'submit', false );
-	echo '</p>';
-	echo '<p class="description">' . esc_html__( 'Rebuilds the Article\'s Document from the post as it is now and queues it, which also retries a parked Article. The worker skips the embedding when nothing changed, since the vectors would come out the same. The Posts list has the same action under each Article.', 'ik2' ) . '</p>';
+	echo '</div>';
+	echo '<p id="ik2-corpus-post-help" class="ik2-corpus__help">' . esc_html__( 'Rebuilds the Document from the post as it is now, which also retries a parked Article. The worker embeds only what changed. The Posts list has the same link under each Article.', 'ik2' ) . '</p>';
 	echo '</form>';
 
-	echo '<p><button type="button" class="button" id="ik2-corpus-queue-all">' . esc_html__( 'Queue all Articles', 'ik2' ) . '</button> ';
-	echo '<progress id="ik2-corpus-queue-all-progress" value="0" max="1" hidden></progress></p>';
-	echo '<p id="ik2-corpus-queue-all-status" class="description" role="status">' . esc_html__( 'Checks every published Article and queues the ones that changed, and marks Documents whose Article is gone for removal.', 'ik2' ) . '</p>';
+	echo '<div class="ik2-corpus__action">';
+	echo '<span class="ik2-corpus__label">' . esc_html__( 'Every Article', 'ik2' ) . '</span>';
+	echo '<div class="ik2-corpus__inline">';
+	echo '<button type="button" class="button" id="ik2-corpus-queue-all" aria-describedby="ik2-corpus-queue-all-status">' . esc_html__( 'Queue all Articles', 'ik2' ) . '</button>';
+	echo '<progress id="ik2-corpus-queue-all-progress" value="0" max="1" hidden></progress>';
+	echo '</div>';
+	echo '<p id="ik2-corpus-queue-all-status" class="ik2-corpus__help" role="status">' . esc_html__( 'Queues the Articles that changed and marks Documents whose Article is gone for removal, 50 at a time.', 'ik2' ) . '</p>';
+	echo '</div>';
+
+	echo '</section>';
+}
+
+/**
+ * Documents by status and the row counts behind them.
+ *
+ * @param array<string, int> $statuses Document counts by status.
+ */
+function render_documents_panel( array $statuses ): void {
+	$tones = [
+		Corpus\STATUS_INDEXED => [ 'ok', __( 'Indexed', 'ik2' ) ],
+		Corpus\STATUS_QUEUED  => [ 'wait', __( 'Queued', 'ik2' ) ],
+		Corpus\STATUS_PARKED  => [ 'bad', __( 'Parked', 'ik2' ) ],
+		Corpus\STATUS_REMOVE  => [ 'off', __( 'Being removed', 'ik2' ) ],
+	];
+
+	open_panel( __( 'Documents', 'ik2' ) );
+	echo '<div class="ik2-corpus__split">';
+	echo '<table class="ik2-corpus__counts"><caption class="screen-reader-text">' . esc_html__( 'Documents by status', 'ik2' ) . '</caption><tbody>';
+
+	foreach ( $tones as $status => [ $tone, $label ] ) {
+		$count = $statuses[ $status ] ?? 0;
+
+		echo '<tr' . ( 0 === $count ? ' class="is-zero"' : '' ) . '><th scope="row">' . state( $tone, $label ) . '</th><td class="is-num">' . esc_html( number_format_i18n( $count ) ) . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- state() escapes.
+	}
+
+	echo '</tbody></table>';
+	echo '<table class="ik2-corpus__counts is-store"><caption class="screen-reader-text">' . esc_html__( 'Stored rows', 'ik2' ) . '</caption><tbody>';
+
+	foreach ( Corpus\table_counts() as $label => $count ) {
+		echo '<tr><th scope="row">' . esc_html( ucfirst( (string) $label ) ) . '</th><td class="is-num">' . esc_html( number_format_i18n( $count ) ) . '</td></tr>';
+	}
+
+	echo '</tbody></table>';
+	echo '</div>';
+	echo '</section>';
 }
