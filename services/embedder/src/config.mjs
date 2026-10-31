@@ -5,9 +5,12 @@ export function readConfig( env = process.env ) {
 	if ( missing.length ) {
 		throw new Error( `Missing environment: ${ missing.join( ', ' ) }` );
 	}
-	const port = Number( env.CORPUS_DB_PORT || 3306 );
+	// The host comes from WORDPRESS_DB_HOST, which WordPress lets carry a port: db:3306 or [::1]:3306.
+	const hostPort = /^(?:\[([^\]]+)\]|([^:]+)):(\d+)$/.exec( env.CORPUS_DB_HOST );
+	const host = hostPort ? hostPort[ 1 ] ?? hostPort[ 2 ] : env.CORPUS_DB_HOST;
+	const port = Number( env.CORPUS_DB_PORT || hostPort?.[ 3 ] || 3306 );
 	if ( ! Number.isInteger( port ) || port < 1 || port > 65535 ) {
-		throw new Error( `CORPUS_DB_PORT is not a port: ${ env.CORPUS_DB_PORT }` );
+		throw new Error( `CORPUS_DB_PORT is not a port: ${ env.CORPUS_DB_PORT || env.CORPUS_DB_HOST }` );
 	}
 	const prefix = env.CORPUS_TABLE_PREFIX || 'wp_';
 	// The prefix is spliced into table names, so it can't be a bound parameter.
@@ -15,7 +18,7 @@ export function readConfig( env = process.env ) {
 		throw new Error( `CORPUS_TABLE_PREFIX has characters outside [A-Za-z0-9_]: ${ prefix }` );
 	}
 	return {
-		host: env.CORPUS_DB_HOST,
+		host,
 		port,
 		user: env.CORPUS_DB_USER,
 		password: env.CORPUS_DB_PASSWORD,
