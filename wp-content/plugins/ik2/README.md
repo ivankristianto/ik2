@@ -25,9 +25,17 @@ wp ik2 corpus preview <id>        # the text and Chunks an Article would send
 wp ik2 corpus enqueue <id>...     # queue Articles by hand
 wp ik2 corpus enqueue --all       # queue every published Article
 wp ik2 corpus enqueue <id> --force  # re-queue even if unchanged, retries a parked row
+wp ik2 corpus related off         # Keep reading goes back to category picks
+wp ik2 corpus related on          # and back to the Corpus picks
 ```
 
 A Document is parked after 3 failed embeds. `status` lists it with its error.
+
+`related off` is the kill switch. Keep reading shows the newest posts from the
+Article's category, as it did before the Corpus, and the setting lives in the
+database, so no redeploy is needed. Saves still queue and Runs still run, so
+`related on` takes effect at once. Pages already in the page cache keep their
+list until they expire.
 
 ### Local
 
@@ -123,8 +131,9 @@ results in one transaction, and the next hour redoes the work.
 
 ### When something looks wrong
 
-- **Keep reading still shows category picks:** the Article has no Run yet, or
-  the cached page predates the Run. Check `wp ik2 corpus status`.
+- **Keep reading still shows category picks:** the Article has no Run yet, the
+  cached page predates the Run, or `related` is off. Check `wp ik2 corpus status`.
+- **The picks look wrong:** `wp ik2 corpus related off` while you look into it.
 - **A row is parked:** read its error in `status`, fix the cause, then
   `wp ik2 corpus enqueue <id> --force`.
 - **Run exits 1:** the database was unreachable or the model failed to load.
