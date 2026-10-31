@@ -36,6 +36,7 @@ require_once __DIR__ . '/inc/corpus/text.php';
 require_once __DIR__ . '/inc/corpus/schema.php';
 require_once __DIR__ . '/inc/corpus/queue.php';
 require_once __DIR__ . '/inc/corpus/related.php';
+require_once __DIR__ . '/inc/corpus/report.php';
 require_once __DIR__ . '/inc/corpus/namespace.php';
 require_once __DIR__ . '/inc/post-types/project.php';
 require_once __DIR__ . '/inc/post-types/project-data.php';
