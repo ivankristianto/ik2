@@ -1,6 +1,6 @@
 ---
 name: blog-feature-image
-description: Make the featured image for an ivankristianto.com post, a 1200x628 card with a big punch line and real material from the post, in the site's design system, rendered at 2x from HTML. Makes the image files and alt text only; uploading is left to Ivan. Use when Ivan asks for a feature image, featured image, cover image, OG or social image, or post header image, says the current one "is not right", or types /blog-feature-image. Optional last step of the blog-ideas, blog-research, blog-draft chain.
+description: Make the featured image for an ivankristianto.com post, a 1200x628 card with a big punch line and real material from the post, in the site's design system, rendered at 2x from HTML. Renders three or four punch-line options for Ivan to pick from. Makes the image files and alt text only; blog-wp-draft uploads them. Use when Ivan asks for a feature image, featured image, cover image, OG or social image, or post header image, says the current one "is not right", or types /blog-feature-image. Optional last step of the blog-ideas, blog-research, blog-draft chain.
 user-invocable: true
 ---
 
@@ -19,7 +19,20 @@ The biggest thing on the card, and Ivan likes it that way. Pattern C is the one 
 - True to the post. Every number, name and claim comes from the post. No hype words, no exclamation marks, straight quotes, Ivan's first person where it fits ("my blog").
 - One phrase may go accent green (`<em>` inside `.punch`), usually the payoff.
 
-Examples that worked: "Ask your AI agent for a modal. Count the lines." / "AI agents can read my blog now. They can't touch it." / "Why is the word "injection" slow to draw?"
+Examples that worked: "Ask your AI agent for a modal. Count the lines." / "AI agents can read my blog now. They can't touch it." / "Why is the word "injection" slow to draw?" / "The agent runs the command. It never sees the secret."
+
+### Offer Ivan options
+
+Ivan picks the punch line from rendered cards, not from text. The first line on the 1Password post missed, and seeing four side by side settled it in one round. So in an interactive run:
+
+1. Build the card once with your best line as `feature.html`.
+2. Write three more lines that each take a different angle on the post: the surprise, the question it answers, the payoff, the cost.
+3. Copy the card to `option-a.html` to `option-d.html` in the same folder (they share `card.css` and `tokens.css`), changing only the punch line. Option A is your recommendation.
+4. Render each one with `render.sh`.
+5. Show the cards in chat first: the four `file:///` PNG links, each with its line. The question dialog can hide earlier text and its links may not be clickable. Then ask with `AskUserQuestion`, using labels "A" to "D" plus a few words and the full line in each description.
+6. Copy his pick into `feature.html` and render it. Keep the option files; they're cheap, and nothing uploads them.
+
+Skip the options when Ivan already gave the line, or when he's asking to fix a card he already chose. Eval and other unattended runs build one card only: the grader counts every PNG in `outputs/` as the image.
 
 ## The evidence
 
@@ -68,7 +81,7 @@ One sentence under about 250 characters that says what is on the card, literally
 
 ## Stop at the files
 
-Don't upload, set the featured image or edit the post; Ivan does that. In the report:
+Don't upload, set the featured image or edit the post. blog-wp-draft uploads `feature.webp` or `feature.png` with `alt.txt` when Ivan asks for the WordPress draft. In the report:
 
 - What the card shows and where its material came from, flagging anything sketched rather than real.
 - The alt text.
