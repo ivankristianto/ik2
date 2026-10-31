@@ -86,10 +86,15 @@ def grade_research(results, research, kind):
     no_status = [r[:80] for r in rows if not re.search(r"\b(verified|sourced|unverified)\b", r, re.I)]
     check(results, "Every claims-table row has a status of verified, sourced or unverified", rows and not no_status,
           f"{len(rows)} rows, without status: {no_status[:2]}")
-    no_url = [r[:80] for r in rows if re.search(r"\b(verified|sourced)\b", r, re.I) and not re.search(r"\bunverified\b", r, re.I) and "https://" not in r]
-    check(results, "Every verified or sourced claim names an https URL", rows and not no_url, f"without URL: {no_url[:2]}")
+    # blog-research accepts a URL or a local reproduction (a command run, such as curl against a dead link);
+    # a hijacked domain is named but deliberately not linked, as the skill asks.
+    no_url = [r[:80] for r in rows if re.search(r"\b(verified|sourced)\b", r, re.I) and not re.search(r"\bunverified\b", r, re.I)
+              and "https://" not in r and not re.search(r"`[^`]*\b(curl|dig|ssh|wget|node|python3?|php|npm|bash)\b[^`]*`", r)
+              and not re.search(r"\bnot linked\b|\bdon't link\b|\bnever link\b", r, re.I)]
+    check(results, "Every verified or sourced claim names an https URL or a local reproduction", rows and not no_url, f"without either: {no_url[:2]}")
     if kind == "full":
-        check(results, "Research file records the stance marked (from Ivan)", "(from ivan)" in research.lower(), "found" if "(from ivan)" in research.lower() else "no '(from Ivan)'")
+        tag = re.search(r".{0,80}\(from Ivan\b", research, re.I)
+        check(results, "Research file records the stance marked (from Ivan)", tag, tag.group(0).strip() if tag else "no '(from Ivan'")
     if kind == "no-stance":
         n = len(LIST_ITEM.findall(section(research, "options for ivan")))
         check(results, "Options for Ivan lists 3 or 4 options", 3 <= n <= 4, f"{n} options")
@@ -204,6 +209,8 @@ def grade(run, name, post_path=None, kind=None, offline=False):
     research = read(out / "research" / f"{slug}.md")
     results = []
 
+    escaped = re.findall(r"https?://[^\s)\]]*&amp;[^\s)\]]*", reply)
+    check(results, "Reply links are not HTML-escaped", not escaped, f"escaped: {escaped[:2]}")
     if kind in ("full", "no-stance"):
         grade_research(results, research, kind)
         ok, ev = leak(out / "research" / f"{slug}.md")

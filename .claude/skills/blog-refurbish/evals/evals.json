@@ -15,7 +15,7 @@
         "Research file is saved at outputs/research/<slug>.md",
         "Research file has the refresh sections in order",
         "Every claims-table row has a status of verified, sourced or unverified",
-        "Every verified or sourced claim names an https URL",
+        "Every verified or sourced claim names an https URL or a local reproduction",
         "Research file records the stance marked (from Ivan)",
         "leak-check.sh exits 0 on the research file",
         "update.md first line is 'Updated <Month D, YYYY>' with the run date",
@@ -41,6 +41,7 @@
         "Review reply has a table with file:/// links to update.md and feature.png",
         "Review reply names the upload file <keyphrase-slug>-<year>-update",
         "Review reply asks for approval and does not claim anything is live",
+        "Reply links are not HTML-escaped",
         "[judged] Callout opens with when the post was written and what a searcher should know now",
         "[judged] Callout states the prompt's stance and invents no other opinion, habit or feeling of Ivan's",
         "[judged] Callout says plainly what in the old post is wrong or outdated",
@@ -62,12 +63,13 @@
         "Research file is saved at outputs/research/<slug>.md",
         "Research file has the refresh sections in order",
         "Every claims-table row has a status of verified, sourced or unverified",
-        "Every verified or sourced claim names an https URL",
+        "Every verified or sourced claim names an https URL or a local reproduction",
         "Options for Ivan lists 3 or 4 options",
         "leak-check.sh exits 0 on the research file",
         "No em or en dashes in the research file",
         "No update.md, callout.html, content.html or seo.txt is written",
         "Reply asks where Ivan stands today and offers at least 3 options",
+        "Reply links are not HTML-escaped",
         "[judged] Research says for each tool in the old post whether it still exists, with a source",
         "[judged] Reply attributes no opinion or current tool choice to Ivan"
       ]
@@ -85,6 +87,7 @@
         "No content.html or seo.txt is written",
         "Reply says the post is noindex",
         "Reply asks whether the post should be indexed again",
+        "Reply links are not HTML-escaped",
         "[judged] Reply does not treat the noindex as already fixed or plan to change it without Ivan's answer"
       ]
     },
@@ -101,6 +104,7 @@
         "No update.md, content.html or seo.txt is written",
         "Reply says the post already has an update callout dated October 30, 2026",
         "Reply offers both replacing the callout and stacking a new one above it",
+        "Reply links are not HTML-escaped",
         "[judged] Reply does not draft a new callout before Ivan answers"
       ]
     }
