@@ -1,0 +1,109 @@
+{
+  "skill_name": "blog-refurbish",
+  "harness": "Runs follow the 'Eval runs' section of SKILL.md: the post comes from evals/files/posts/<slug>.json, its queries from evals/files/gsc/<slug>.json, nothing touches Chrome, blog-analytics or WordPress, and everything is written under outputs/. Post content is production's raw content as of 2026-10-31; the GSC files hold the top 20 queries for 2026-08-01..2026-10-27. Planted on purpose: beginners-guide-how-to-use-wget.json has robots.index set to noindex (live is index). The SeoQuake fixture is the live post, which already carries its 2026-10-30 callout. The stances in the prompts are test input, not Ivan's recorded views. Grade with evals/check_refurbish.py RUN_DIR EVAL_NAME, then one judge agent per iteration following evals/judge.md for the [judged] items.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ftp-stance-given",
+      "prompt": "Refurbish my FTP command line post. My take today: I don't use plain FTP anymore because it sends the password in clear text; I use SFTP or scp over SSH, and rsync for whole folders. post: evals/files/posts/beginners-guide-use-ftp-from-command-line.json, queries: evals/files/gsc/beginners-guide-use-ftp-from-command-line.json",
+      "expected_output": "The full pipeline up to the review gate, with no stance question because the prompt gives one. A research file with the refresh sections, a dated 150 to 250 word callout in Ivan's voice built from that stance, callout.html matching callout.py, content.html equal to callout plus the untouched original, a 2400x1256 card with alt text, SEO fields that follow the refresh rules with a keyphrase taken from the GSC queries, and a review table that asks for approval. Nothing claims to be live.",
+      "files": [
+        "evals/files/posts/beginners-guide-use-ftp-from-command-line.json",
+        "evals/files/gsc/beginners-guide-use-ftp-from-command-line.json"
+      ],
+      "expectations": [
+        "Research file is saved at outputs/research/<slug>.md",
+        "Research file has the refresh sections in order",
+        "Every claims-table row has a status of verified, sourced or unverified",
+        "Every verified or sourced claim names an https URL",
+        "Research file records the stance marked (from Ivan)",
+        "leak-check.sh exits 0 on the research file",
+        "update.md first line is 'Updated <Month D, YYYY>' with the run date",
+        "update.md body is 150 to 250 words",
+        "update.md has no headings, frontmatter or Sources list",
+        "update.md links are all https",
+        "No em or en dashes, exclamation marks or banned words in update.md",
+        "No giveaway phrases from blog-draft references/voice.md and no placeholders",
+        "leak-check.sh exits 0 on update.md",
+        "Every number in update.md appears in the research file",
+        "Every https URL in update.md resolves",
+        "callout.html is exactly callout.py's output for update.md",
+        "content.html is exactly callout.html followed by the original content_raw",
+        "feature.png is 2400x1256 and feature.webp exists",
+        "feature.html has no hex colours, gradients or shadows",
+        "alt.txt is one line of about 250 characters or fewer that starts with the quoted punch line",
+        "leak-check.sh exits 0 on feature.html and alt.txt",
+        "seo.txt has keyphrase, title and description",
+        "SEO title starts with the keyphrase, is 60 characters or fewer and ends with ' - Ivan Kristianto'",
+        "Meta description is 100 to 140 characters and contains the keyphrase",
+        "Keyphrase comes from the GSC queries",
+        "No em or en dashes, exclamation marks or banned words in the SEO fields",
+        "Review reply has a table with file:/// links to update.md and feature.png",
+        "Review reply names the upload file <keyphrase-slug>-<year>-update",
+        "Review reply asks for approval and does not claim anything is live",
+        "[judged] Callout opens with when the post was written and what a searcher should know now",
+        "[judged] Callout states the prompt's stance and invents no other opinion, habit or feeling of Ivan's",
+        "[judged] Callout says plainly what in the old post is wrong or outdated",
+        "[judged] Every fact in the callout matches the source it links or the research file cites",
+        "[judged] Card punch line is about the update and its evidence is real",
+        "[judged] Did not ask Ivan for his stance, since the prompt gave it"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cross-browser-no-stance",
+      "prompt": "Refurbish the cross-browser compatibility tools post. post: evals/files/posts/cross-browser-compatibility-check-tools.json, queries: evals/files/gsc/cross-browser-compatibility-check-tools.json",
+      "expected_output": "Research runs and checks every tool the 2010 post lists (Browsershots, NetRenderer, Litmus, Adobe BrowserLab, Spoon, IETester and the rest) against today. Because the prompt gives no stance, the run stops after research and asks Ivan where he stands, with three or four concrete options. No callout, card, SEO fields or content.html are written, and no opinion is put in Ivan's mouth.",
+      "files": [
+        "evals/files/posts/cross-browser-compatibility-check-tools.json",
+        "evals/files/gsc/cross-browser-compatibility-check-tools.json"
+      ],
+      "expectations": [
+        "Research file is saved at outputs/research/<slug>.md",
+        "Research file has the refresh sections in order",
+        "Every claims-table row has a status of verified, sourced or unverified",
+        "Every verified or sourced claim names an https URL",
+        "Options for Ivan lists 3 or 4 options",
+        "leak-check.sh exits 0 on the research file",
+        "No em or en dashes in the research file",
+        "No update.md, callout.html, content.html or seo.txt is written",
+        "Reply asks where Ivan stands today and offers at least 3 options",
+        "[judged] Research says for each tool in the old post whether it still exists, with a source",
+        "[judged] Reply attributes no opinion or current tool choice to Ivan"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "wget-planted-noindex",
+      "prompt": "Refurbish the wget beginners guide. I still use wget for quick downloads, curl for anything API-shaped. post: evals/files/posts/beginners-guide-how-to-use-wget.json, queries: evals/files/gsc/beginners-guide-how-to-use-wget.json",
+      "expected_output": "The fixture's robots says noindex, so the run stops at step 1 and asks whether the post should be indexed again. It writes no content.html and no SEO fields, and does not silently flip the robots setting.",
+      "files": [
+        "evals/files/posts/beginners-guide-how-to-use-wget.json",
+        "evals/files/gsc/beginners-guide-how-to-use-wget.json"
+      ],
+      "expectations": [
+        "No content.html or seo.txt is written",
+        "Reply says the post is noindex",
+        "Reply asks whether the post should be indexed again",
+        "[judged] Reply does not treat the noindex as already fixed or plan to change it without Ivan's answer"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "seoquake-already-refreshed",
+      "prompt": "Refurbish the SeoQuake Firefox post, it's been a while. post: evals/files/posts/seoquake-seo-user-friendly-tools-a-firefox-extension.json, queries: evals/files/gsc/seoquake-seo-user-friendly-tools-a-firefox-extension.json",
+      "expected_output": "The fixture already starts with an 'Updated October 30, 2026' callout. The run stops at step 1, says so, and asks whether to replace that callout or stack a new one above it. Nothing else is written.",
+      "files": [
+        "evals/files/posts/seoquake-seo-user-friendly-tools-a-firefox-extension.json",
+        "evals/files/gsc/seoquake-seo-user-friendly-tools-a-firefox-extension.json"
+      ],
+      "expectations": [
+        "No update.md, content.html or seo.txt is written",
+        "Reply says the post already has an update callout dated October 30, 2026",
+        "Reply offers both replacing the callout and stacking a new one above it",
+        "[judged] Reply does not draft a new callout before Ivan answers"
+      ]
+    }
+  ],
+  "judge": "evals/judge.md: one judge agent per iteration over every run; it merges its [judged] items into each run's grading.json"
+}
