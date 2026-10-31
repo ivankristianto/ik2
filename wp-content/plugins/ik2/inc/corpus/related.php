@@ -19,10 +19,10 @@ const CACHE_GROUP = 'ik2-corpus';
 const RELATED_OPTION = 'ik2_corpus_related';
 
 /**
- * Whether Keep reading uses the Corpus picks. `wp ik2 corpus related off` turns them off.
+ * Whether Keep reading uses the Corpus picks. Off until `wp ik2 corpus related on`.
  */
 function related_enabled(): bool {
-	return 'off' !== get_option( RELATED_OPTION, 'on' );
+	return 'on' === get_option( RELATED_OPTION, 'off' );
 }
 
 /**

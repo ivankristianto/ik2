@@ -169,8 +169,8 @@ class Corpus_Command {
 	/**
 	 * Turns the Corpus picks in Keep reading on or off.
 	 *
-	 * Off, Keep reading shows the newest posts from the Article's category. Saves still
-	 * queue and Runs still run, so turning it back on takes effect at once.
+	 * Off is the default. Off, Keep reading shows the newest posts from the Article's first
+	 * category. Saves still queue and Runs still run, so turning it on takes effect at once.
 	 *
 	 * ## OPTIONS
 	 *
