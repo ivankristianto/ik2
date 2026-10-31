@@ -15,6 +15,7 @@ Write from the research file. Do not reopen client sessions or repos for more de
 - No client names, private repos, ticket keys, hostnames, colleague names or client-specific numbers. Name public products, open-source projects and standards freely.
 - Describe the setting generically ("a multisite WordPress install on a managed host") and keep the finding.
 - Screenshots and logs from client work are out. Offer a local reproduction or a described figure instead.
+- Ivan's own live setup stays private too: a token's expiry date, vault or item IDs, account names or emails, Keychain item contents. Write the generic version ("the token runs out after 90 days"). The date the story happened stays.
 - `bash .claude/skills/blog-ideas/leak-check.sh <draft>` must exit 0 before you report.
 
 ## When the research looks wrong

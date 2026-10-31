@@ -13,7 +13,7 @@ Ivan's test: a year from now, he opens this post and remembers what he did and w
 
 - **R1 When.** A date, or a time he can place ("On October 21, 2026", "that night", "after the v0.12.2 release"). The post date in WordPress doesn't count. Partial: only a vague "recently".
 - **R2 Why.** What prompted it, or why he's writing it down ("This post is largely for my own use", "the PHP team posted an advisory"). Fail when the post starts on the reader's problem with no trace of his.
-- **R3 Setting.** What he was working on and the environment that matters to the result: project (generic for client work), browser or PHP version, host, stack. Partial: setting without the versions that change the answer.
+- **R3 Setting.** What he was working on and the environment that matters to the result: project (generic for client work), browser or PHP version, host, stack. Partial: setting without the versions that change the answer. Also partial when it publishes details of his live setup that a reader can't use: a token's expiry date, vault or item IDs, account names or emails, Keychain item contents. The fix is the generic version ("the token runs out after 90 days"). The date of the story itself stays.
 - **R4 What he did.** Commands, steps or code he actually ran, with what came back. Instructions in the second person with no sign he ran them are partial at best. "The examples here were checked" with no who, where or output is a fail.
 - **R5 Choices.** What he picked over what, and why, including what didn't work. Fail when the post only lists options.
 - **R6 Outcome.** What worked, what it fixed, a number if there is one.
