@@ -46,7 +46,7 @@ Hallucinations show up as specifics that look right: a menu label one word off, 
 - **S1** The answer, or what the post settles, is in the first three paragraphs.
 - **S2** Order follows time (what he saw, assumed, found, chose) or the steps a reader takes. Fail when sections could be shuffled without loss.
 - **S3** Headings name things from this story. "Why I couldn't just update" passes; "Change response headers with DevTools overrides" is a doc label, partial.
-- **S4** Steps a reader will follow are numbered, one action each, with code in tagged fences. Pass when there are no steps to follow.
+- **S4** Steps a reader will follow are numbered, one action each, with code in tagged fences. A post that says he ran a tool, a command or a config must show how: the install and run commands (and the config, if one mattered) in fenced code a reader can copy. Ivan rereads these posts to redo the work, so prose that names a tool without the command fails. Pass only when the post genuinely involves nothing to run.
 - **S5** No punchline, moral or recap closing a section.
 - **S6** Ends with a nudge or "If you ..." list and a Sources list, not a summary.
 - **S7** Length matches the idea (short 600, medium 1,000, long 1,500 words, from `blog-draft`). Partial when padding or missing context is visible.
