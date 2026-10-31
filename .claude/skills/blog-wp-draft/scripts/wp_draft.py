@@ -4,9 +4,10 @@ Usage, from the repo root (credentials come from 1Password, never from a file):
   op run --env-file=.env.op.local -- python3 -I <this> preflight
   op run --env-file=.env.op.local -- python3 -I <this> push <draft.md> --report <out.json> [--apply]
   op run --env-file=.env.op.local -- python3 -I <this> seo <post-id> <seo.txt> --report <out.json> [--apply]
+  op run --env-file=.env.op.local -- python3 -I <this> feature <post-id> <assets-dir> --report <out.json> [--name <file-base>] [--apply]
 
-Without --apply both are dry runs: they read WordPress and report what would change.
-seo only sets the three Yoast fields and works on any status; on a published post they go live.
+Without --apply all three are dry runs: they read WordPress and report what would change.
+seo only sets the three Yoast fields and feature only the featured image; both work on any status and go live on a published post.
 op run masks "ivan" in stdout (it's part of the username), so links only go to the --report file.
 """
 import base64
@@ -222,6 +223,61 @@ def seo(post_id, seo_file, apply):
     return report
 
 
+def og_image(post_id):
+    head = call("GET", f"/wp/v2/posts/{post_id}?context=edit&_fields=yoast_head_json.og_image").get("yoast_head_json") or {}
+    return (head.get("og_image") or [{}])[0].get("url")
+
+
+def feature(post_id, assets, apply, name=None):
+    """Set the card in <assets> as one post's featured image, whatever its status, and make og:image follow it."""
+    image = feature_file(assets)
+    alt = (assets / "alt.txt").read_text().strip() if (assets / "alt.txt").exists() else ""
+    if not image:
+        raise Fail(f"no feature.webp or feature.png in {assets}")
+    if not alt:
+        raise Fail(f"{image.name} has no alt.txt beside it")
+    preflight()
+    query = "?context=edit&_fields=id,status,link,featured_media"
+    post = call("GET", f"/wp/v2/posts/{post_id}{query}")
+    changes = []
+    media_id = resolve_media(image, alt, name or assets.name, post, apply, changes)
+    if post["featured_media"] != media_id:
+        changes.append(f"set featured_media {post['featured_media']} -> {media_id or 'the upload'}")
+    before = og_image(post_id)
+    report = {"mode": "apply" if apply else "dry-run", "post_id": post["id"], "status": post["status"],
+              "live": post["status"] == "publish", "image": str(image), "media_id": media_id,
+              "changes": changes, "og_image_before": before}
+    if media_id and not apply and post["featured_media"] == media_id:
+        url = call("GET", f"/wp/v2/media/{media_id}?_fields=source_url")["source_url"]
+        if before != url:
+            changes.append("re-save so Yoast's og:image picks up the featured image")
+    if apply:
+        if post["featured_media"] != media_id:
+            call("POST", f"/wp/v2/posts/{post_id}", {"featured_media": media_id})
+        media = call("GET", f"/wp/v2/media/{media_id}?context=edit&_fields=source_url,alt_text,post")
+        if not media.get("post"):
+            changes.append(f"attach media {media_id} to post {post_id}")
+            call("POST", f"/wp/v2/media/{media_id}", {"post": post_id})
+        # REST sets the thumbnail after wp_insert_post, where Yoast rebuilds og:image, so a second save is needed.
+        report["resaved"] = og_image(post_id) != media["source_url"]
+        if report["resaved"]:
+            call("POST", f"/wp/v2/posts/{post_id}", {"featured_media": media_id})
+        got = call("GET", f"/wp/v2/posts/{post_id}{query}")
+        report["og_image"] = og_image(post_id)
+        report["checks"] = {
+            "featured_media": got["featured_media"] == media_id,
+            "alt_text": media["alt_text"] == alt,
+            "og_image": report["og_image"] == media["source_url"],
+            "status_unchanged": got["status"] == post["status"],
+        }
+        report["ok"] = all(report["checks"].values())
+    else:
+        report["ok"] = True
+    report["link"] = post["link"]
+    report["edit_url"] = f"{SITE}/wp-admin/post.php?post={post['id']}&action=edit"
+    return report
+
+
 def push(draft, apply):
     meta, blocks, seo, alt, image, warnings = plan(draft)
     user_id = preflight()
@@ -270,10 +326,13 @@ def main(argv):
         if args == ["preflight"]:
             print(f"preflight ok, user {preflight()} can edit posts")
             return 0
-        if len(args) >= 4 and args[0] in ("push", "seo") and "--report" in args:
+        if len(args) >= 4 and args[0] in ("push", "seo", "feature") and "--report" in args:
             out = Path(args[args.index("--report") + 1])
             if args[0] == "push":
                 report = push(Path(args[1]), "--apply" in args)
+            elif args[0] == "feature":
+                name = args[args.index("--name") + 1] if "--name" in args else None
+                report = feature(int(args[1]), Path(args[2]), "--apply" in args, name)
             else:
                 report = seo(int(args[1]), Path(args[2]), "--apply" in args)
             out.write_text(json.dumps(report, indent=2) + "\n")

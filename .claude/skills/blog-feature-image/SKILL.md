@@ -81,7 +81,7 @@ One sentence under about 250 characters that says what is on the card, literally
 
 ## Stop at the files
 
-Don't upload, set the featured image or edit the post. blog-wp-draft uploads `feature.webp` or `feature.png` with `alt.txt` when Ivan asks for the WordPress draft. In the report:
+Don't upload, set the featured image or edit the post. blog-wp-draft uploads `feature.webp` or `feature.png` with `alt.txt` when Ivan asks for the WordPress draft. When he asks to set the card on a post that's already published, use blog-wp-draft's `feature` command (see "Featured image on its own" there). In the report:
 
 - What the card shows and where its material came from, flagging anything sketched rather than real.
 - The alt text.

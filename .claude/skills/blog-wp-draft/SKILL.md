@@ -69,6 +69,18 @@ op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-wp-draft/scrip
 
 It changes nothing else, and it checks the status didn't move. On a published post (`"live": true` in the report) the new fields go live on apply, so say so before running it.
 
+## Featured image on its own
+
+To set or swap the card on any post, draft or published, without touching its content:
+
+```bash
+op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-wp-draft/scripts/wp_draft.py feature <post-id> .claude/blog/drafts/<slug> --report <scratchpad>/feature-apply.json [--name <file-base>] [--apply]
+```
+
+It uploads `feature.webp` or `feature.png` (or reuses the same file already in the library), sets the alt text, attaches the media to the post and sets `featured_media`. The upload is named after the folder unless `--name` says otherwise. On a published post the new card goes live on apply.
+
+It then checks Yoast's `og:image` matches the card and saves the post a second time if it doesn't. REST sets the thumbnail after `wp_insert_post`, which is where Yoast rebuilds `og:image`, so after one save link previews still show the old image or the first image in the body. Every value in `checks` must be `true`, `og_image` included.
+
 ## Report
 
 - Post ID, status (draft), and the full edit and preview links from the report file.

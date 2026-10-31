@@ -5,7 +5,7 @@ All of this runs with the claude-in-chrome `javascript_tool` in a logged-in tab 
 ## Gotchas
 
 - **Query-string URLs block output.** The Chrome tool refuses to return text that contains a URL with a query string, so you usually can't read `content.raw` back out. Keep the backup in `window.__ik2bk` and rely on the byte-for-byte checks, which return booleans.
-- **Helpers don't survive a reload.** `window.__ik2*` lives only as long as the page. Navigating the tab to an edit screen wipes it, so finish the content and media steps before the Yoast step.
+- **Helpers don't survive a reload.** `window.__ik2*` lives only as long as the page. Navigating the tab to an edit screen wipes it, so finish the content step before the Yoast step.
 - **Failed calls can be transient.** One callout save failed once on 2026-10-30 and went through on retry. Before retrying, check whether the post changed: compare it with the backup and look for `callout-updated`.
 - **Use JSON strings for the callout.** Pass each callout as a JSON string literal (`json.dumps` of `callout.html`), so quotes and newlines come through exactly.
 
@@ -49,40 +49,7 @@ To replace an existing callout (also only when Ivan asked in step 1), cut `cur` 
 
 ## 3. Upload the card and set it as featured
 
-Inject a file input:
-
-```js
-let inp = document.getElementById('ik2-upload');
-if (!inp) { inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.id = 'ik2-upload';
-  inp.setAttribute('aria-label', 'ik2 card upload'); inp.style.cssText = 'position:fixed;top:0;left:0;z-index:999999;';
-  document.body.appendChild(inp); }
-'ok'
-```
-
-Copy each card to the scratchpad under its upload name (`<keyphrase-slug>-<year>-update.webp`). Then `file_upload` those paths onto `#ik2-upload` (find its ref with `find` or `read_page`). Then:
-
-```js
-const M = [{file: 'seoquake-2026-update.webp', post: 626, alt: "<contents of alt.txt>"}];
-const files = [...document.getElementById('ik2-upload').files];
-const out = [];
-for (const m of M) {
-  try {
-    const f = files.find(x => x.name === m.file); if (!f) { out.push({post: m.post, err: 'no file'}); continue; }
-    const media = await wp.apiFetch({path: '/wp/v2/media', method: 'POST', body: f,
-      headers: {'Content-Disposition': `attachment; filename="${m.file}"`, 'Content-Type': f.type || 'image/webp'}});
-    await wp.apiFetch({path: `/wp/v2/media/${media.id}`, method: 'POST', data: {alt_text: m.alt, post: m.post}});
-    await wp.apiFetch({path: `/wp/v2/posts/${m.post}`, method: 'POST', data: {featured_media: media.id}});
-    const chk = await wp.apiFetch({path: `/wp/v2/posts/${m.post}?context=edit&_fields=status,featured_media`});
-    const mchk = await wp.apiFetch({path: `/wp/v2/media/${media.id}?context=edit&_fields=alt_text,media_details`});
-    out.push({post: m.post, media: media.id, status: chk.status, featuredOk: chk.featured_media === media.id,
-      altOk: mchk.alt_text === m.alt, w: mchk.media_details?.width, h: mchk.media_details?.height});
-  } catch (e) { out.push({post: m.post, err: e.code || e.message}); }
-}
-document.getElementById('ik2-upload')?.remove();
-JSON.stringify(out)
-```
-
-The size should come back as 2400x1256, because the card renders at 2x. Never delete the old media.
+Not in the browser any more: use blog-wp-draft's `feature` command over REST, as SKILL.md step 3 shows. It also makes Yoast's `og:image` follow the new card, which the browser upload didn't check. Never delete the old media.
 
 ## 4. Noindex and Yoast's scores
 

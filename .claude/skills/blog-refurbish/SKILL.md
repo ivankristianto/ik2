@@ -168,7 +168,11 @@ Steps 1 to 3 and 5 run in Ivan's logged-in Chrome, in a wp-admin tab on https://
 
 1. **Back up.** Read `content.raw` for every post and keep it in the page. Also copy it to the scratchpad if the Chrome tool lets you (see the gotcha in `references/browser.md`).
 2. **Prepend the callout.** Refuse if the raw changed since the backup or already has a callout. Save `callout + old raw`, then check that the saved raw equals exactly that. Do one post per call, so a failure tells you which post failed.
-3. **Upload the card.** Inject a file input, then `file_upload` the WebP (or the PNG when it's smaller). POST the file to `/wp/v2/media` with its alt text, set `featured_media`, check both, and remove the input.
+3. **Upload the card** over REST, under the name from the review:
+   ```bash
+   op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-wp-draft/scripts/wp_draft.py feature <ID> .claude/blog/drafts/<slug> --name <keyphrase-slug>-<year>-update --report <scratchpad>/feature-<ID>.json --apply
+   ```
+   It uploads the smaller of WebP and PNG with `alt.txt`, sets `featured_media` and makes Yoast's `og:image` follow. Every value in the report's `checks` must be `true`.
 4. **Save the Yoast fields** over REST, from `seo.txt`:
    ```bash
    op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-wp-draft/scripts/wp_draft.py seo <ID> .claude/blog/drafts/<slug>/seo.txt --report <scratchpad>/seo-<ID>.json --apply
