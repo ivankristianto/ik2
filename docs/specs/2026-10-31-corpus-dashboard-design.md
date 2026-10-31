@@ -25,7 +25,7 @@ wp-content/plugins/ik2/
 ├── inc/corpus/
 │   ├── report.php       # status_counts(), parked_documents(), table_counts(), recent_runs(), document_statuses()
 │   ├── queue.php        # + published_article_ids(), remove_missing(), queue_batch()
-│   ├── batch.php        # pure: next_run_at(), merge_counts(); no WordPress, unit-tested
+│   ├── batch.php        # pure: next_cursor(), tally(), next_run_at(); no WordPress, unit-tested
 │   └── admin.php        # the screen, admin-post actions, REST route, Posts column and row action
 ├── inc/cli/class-corpus-command.php   # status and enqueue --all call the shared functions
 └── assets/corpus-admin.js             # queue-all loop over wp.apiFetch
@@ -39,9 +39,17 @@ The CLI and the screen read the same functions, so they can't disagree.
 | --- | --- | --- |
 | `ik2_corpus_reembed` | row action, Retry, ID field | `sync_post( $id, true )`, then redirects back with a notice |
 | `ik2_corpus_related` | toggle on the screen | sets `ik2_corpus_related` to on or off |
-| `POST ik2/v1/corpus/queue-all` `{ after }` | Queue all button | syncs the next 50 published Articles with ID > `after`; returns `{ counts, after, done, total }`; on `done` runs `remove_missing()` |
+| `POST ik2/v1/corpus/queue-all` `{ after }` | Queue all button | syncs the next 50 published Articles with ID > `after`; returns `{ counts, processed, after, done, total }`; on `done` runs `remove_missing()` |
 
 Every action checks `manage_options` and a nonce.
+
+## Re-embed doesn't force an embedding
+
+The worker re-embeds a Document or Chunk only when its content hash or the
+model changed. Re-embed and Queue all rebuild Documents from the posts as they
+are now, which catches edits the save hooks miss, such as a renamed tag, and
+retries parked Articles. An unchanged Article keeps its vectors, because they
+would come out identical, so there is no "re-embed even if unchanged" option.
 
 ## Failure behaviour
 
