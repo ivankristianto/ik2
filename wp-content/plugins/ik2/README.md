@@ -25,9 +25,19 @@ wp ik2 corpus preview <id>        # the text and Chunks an Article would send
 wp ik2 corpus enqueue <id>...     # queue Articles by hand
 wp ik2 corpus enqueue --all       # queue every published Article
 wp ik2 corpus enqueue <id> --force  # re-queue even if unchanged, retries a parked row
+wp ik2 corpus related on          # Keep reading uses the Corpus picks
+wp ik2 corpus related off         # back to category picks (the default)
 ```
 
 A Document is parked after 3 failed embeds. `status` lists it with its error.
+
+The Corpus picks stay off until `related on`, and `related off` is the kill
+switch. Off, Keep reading shows the newest posts from the Article's first
+category, as it did before the Corpus. The setting lives in the database, so no
+redeploy is needed. Saves still queue and Runs still run while it is off, so
+`related on` takes effect at once. With WP Super Cache on, cached pages keep
+their list for up to an hour; Settings → WP Super Cache → Delete Cache clears
+them now. The cache sits in the `app` container, so the command can't clear it.
 
 ### Local
 
@@ -53,7 +63,7 @@ from the same release, and Dokploy pulls it with its own registry login.
 
 ### Production setup
 
-Do this once. Steps 1 and 3 happen before the release, the rest after it.
+Do this once. Step 1 happens before the release, the rest after it.
 
 **1. Pick the worker's password and give it to Dokploy.** Generate it with
 `openssl rand -base64 24 | tr -d '/+='` and add it to the Dokploy environment
@@ -104,11 +114,19 @@ docker exec "$EMB" node src/run.mjs
 
 It ends with one summary line, for example
 `ik2-embedder: run 1, 490 documents and 777 chunks embedded, 0 removed, 0 failed, ... peak rss 605 MB`.
-Watch `docker stats "$EMB"` in a second shell the first time. Then check
-`docker exec "$CLI" wp ik2 corpus status` and open an Article: "Keep reading"
-shows the new picks once its cached page expires.
+Watch `docker stats "$EMB"` in a second shell the first time, then check
+`docker exec "$CLI" wp ik2 corpus status`.
 
-**6. Schedule it hourly.** In Dokploy, add a Schedule Job of type **Compose**
+**6. Turn the picks on.** Until now Keep reading has shown category picks.
+
+```bash
+docker exec "$CLI" wp ik2 corpus related on
+```
+
+Open an Article: "Keep reading" shows the new picks once its cached page
+expires.
+
+**7. Schedule it hourly.** In Dokploy, add a Schedule Job of type **Compose**
 on this compose app, service `embedder`, cron `0 * * * *`, command
 `node src/run.mjs`. An hour with nothing queued logs `ik2-embedder: no work`
 and exits in under a second.
@@ -123,8 +141,9 @@ results in one transaction, and the next hour redoes the work.
 
 ### When something looks wrong
 
-- **Keep reading still shows category picks:** the Article has no Run yet, or
-  the cached page predates the Run. Check `wp ik2 corpus status`.
+- **Keep reading still shows category picks:** `related` is off (the default),
+  the Article has no Run yet, or the cached page predates the Run. Check `wp ik2 corpus status`.
+- **The picks look wrong:** `wp ik2 corpus related off` while you look into it.
 - **A row is parked:** read its error in `status`, fix the cause, then
   `wp ik2 corpus enqueue <id> --force`.
 - **Run exits 1:** the database was unreachable or the model failed to load.

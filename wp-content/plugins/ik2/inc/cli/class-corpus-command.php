@@ -137,6 +137,9 @@ class Corpus_Command {
 		];
 		$run      = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i ORDER BY id DESC LIMIT 1', Corpus\table( 'runs' ) ), ARRAY_A );
 
+		WP_CLI::log( 'Related picks: ' . ( Corpus\related_enabled() ? 'on' : 'off' ) );
+		WP_CLI::log( '' );
+
 		WP_CLI::log( 'Documents' );
 		if ( [] === $statuses ) {
 			WP_CLI::log( '  None yet. Run `wp ik2 corpus enqueue --all`.' );
@@ -161,6 +164,43 @@ class Corpus_Command {
 		}
 
 		WP_CLI\Utils\format_items( 'table', $this->rows( $run ), [ 'metric', 'value' ] );
+	}
+
+	/**
+	 * Turns the Corpus picks in Keep reading on or off.
+	 *
+	 * Off is the default. Off, Keep reading shows the newest posts from the Article's first
+	 * category. Saves still queue and Runs still run, so turning it on takes effect at once.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<state>]
+	 * : on or off. Leave out to print the current state.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     $ wp ik2 corpus related off
+	 *
+	 * @param array<int, string> $args The new state, if any.
+	 */
+	public function related( array $args ): void {
+		if ( [] === $args ) {
+			WP_CLI::log( 'Related picks are ' . ( Corpus\related_enabled() ? 'on' : 'off' ) . '.' );
+			return;
+		}
+
+		if ( ! in_array( $args[0], [ 'on', 'off' ], true ) ) {
+			WP_CLI::error( "Expected on or off, got '{$args[0]}'." );
+		}
+
+		update_option( Corpus\RELATED_OPTION, $args[0], true );
+
+		// update_option() returns false for both a failed write and an unchanged value, so read it back.
+		if ( Corpus\related_enabled() !== ( 'on' === $args[0] ) ) {
+			WP_CLI::error( "Could not save the setting: {$GLOBALS['wpdb']->last_error}" );
+		}
+
+		WP_CLI::success( "Related picks are {$args[0]}. Cached pages keep their list until they expire." );
 	}
 
 	/**
