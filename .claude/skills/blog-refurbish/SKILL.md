@@ -137,6 +137,7 @@ Follow blog-feature-image completely: the punch line, real evidence, patterns A/
   - an old command struck out next to the current one;
   - old version vs current version;
   - three current numbers.
+- Every command, version and number on the card appears in `update.md` exactly as written there. If a line is too long for the card, shorten the callout's line to match, or pick another one. Never trim it on the card alone.
 - Keep the files as `feature.html`, `feature.png` and `feature.webp`.
 - Upload under the name `<keyphrase-slug>-<year>-update.<ext>`, for example `seoquake-2026-update.webp`. That becomes the media filename, so name it in the review.
 - Unlike blog-feature-image, this skill uploads, but only in step 8.
