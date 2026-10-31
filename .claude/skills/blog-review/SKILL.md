@@ -17,8 +17,12 @@ Work in `<scratchpad>/review/`. Save the post as Markdown at `<slug>.md`, starti
 Try these in order and use the first that works:
 
 1. **Local draft.** Copy the file. Skip ahead to step 2.
-2. **REST.** `python3 -I .claude/skills/blog-review/fetch.py <input> <scratchpad>/review/<slug>.md`. This works for anything published. It also works for drafts when `.env` has `IK2_PROD_USER` and `IK2_PROD_APP_PASSWORD`, an application password from Users > Profile. Exit 3 means REST can't read it, so go to Chrome.
-3. **Chrome** (load the `claude-in-chrome` skill first, and open a new tab). Ivan's logged-in session reads drafts.
+2. **REST.** Run it under `op run` so drafts are readable too. The app password comes from `op://Agents/ik2 prod`:
+   ```bash
+   op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-review/fetch.py <input> <scratchpad>/review/<slug>.md
+   ```
+   `op run` masks the username in stdout, so links in the printed metadata look mangled. Read `<slug>.meta.json` beside the Markdown instead. Exit 3 means REST can't read it: a 401 means the app password is stale, so ask Ivan to refresh it. Use Chrome only when he says to.
+3. **Chrome**, only when Ivan says to (load the `claude-in-chrome` skill first, and open a new tab). Ivan's logged-in session reads drafts.
    - On the edit link, run `wp.apiFetch({path: '/wp/v2/posts/<ID>?context=edit&_fields=status,title,slug,modified,categories,tags'})`. Also read `wp.data.select('core/editor').isEditedPostDirty()`. If it's dirty, the review covers the last saved version, not the open tab. Say so in the report.
    - Open `https://www.ivankristianto.com/?p=<ID>&preview=true`. Take the text from `get_page_text` and the structure from running `outline.js` with `javascript_tool`.
    - Rebuild the Markdown from both. Paste the `get_page_text` text verbatim and only add structure: `##` headings, code fences, `1.` and `-` list markers, and `[n]` markers. The theme renders citations as bare superscript digits ("fixture.7", "1,3"), so turn them back into `[7]` and `[1][3]`. Don't fix a word, a quote or a dash while you do it.

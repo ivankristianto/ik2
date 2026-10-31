@@ -1,12 +1,13 @@
 """Fetch one ivankristianto.com post over REST and save it as Markdown for review.
 
 Usage: python3 -I fetch.py <edit link | ?p= link | post URL | slug | ID> <out.md>
-Drafts need IK2_PROD_USER and IK2_PROD_APP_PASSWORD in the repo's .env. Exit 3 means
-the post isn't readable this way; read it through Chrome instead (SKILL.md, step 1).
+Drafts need IK2_PROD_USER and IK2_PROD_APP_PASSWORD, from op run --env-file=.env.op.local
+(or the repo's .env). Exit 3 means the post isn't readable this way; see SKILL.md, step 1.
 """
 import base64
 import html
 import json
+import os
 import re
 import sys
 import urllib.error
@@ -20,6 +21,8 @@ FIELDS = "id,status,date,modified,link,slug,title,excerpt,content,categories,tag
 
 
 def env():
+    if os.environ.get("IK2_PROD_APP_PASSWORD"):
+        return {k: os.environ.get(k, "") for k in ("IK2_PROD_USER", "IK2_PROD_APP_PASSWORD")}
     path = REPO / ".env"
     if not path.exists():
         return {}
@@ -75,11 +78,11 @@ def main():
             found = get(f"/wp-json/wp/v2/posts?slug={urllib.parse.quote(value)}&status=any&_fields={FIELDS}{context}" if auth
                         else f"/wp-json/wp/v2/posts?slug={urllib.parse.quote(value)}&_fields={FIELDS}", auth)
             if not found:
-                print(f"no post with slug {value!r} visible over REST" + ("" if auth else "; a draft needs Chrome or an app password in .env"), file=sys.stderr)
+                print(f"no post with slug {value!r} visible over REST" + ("" if auth else "; a draft needs the app password (op run --env-file=.env.op.local)"), file=sys.stderr)
                 sys.exit(3)
             post = found[0]
     except urllib.error.HTTPError as err:
-        print(f"REST said {err.code} for {kind} {value}; " + ("check the app password" if auth else "a draft needs Chrome or an app password in .env"), file=sys.stderr)
+        print(f"REST said {err.code} for {kind} {value}; " + ("check the app password" if auth else "a draft needs the app password (op run --env-file=.env.op.local)"), file=sys.stderr)
         sys.exit(3)
 
     title = html.unescape(post["title"].get("raw") or post["title"]["rendered"])
