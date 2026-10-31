@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e650a1fbe39633b7d638033cee5af4ba",
+    "content-hash": "de4bd06096ede2550028b92176438675",
     "packages": [
         {
             "name": "automattic/jetpack-autoloader",
@@ -352,6 +352,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/ai/"
+        },
+        {
+            "name": "wpackagist-plugin/biometric-authentication",
+            "version": "0.5.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/biometric-authentication/",
+                "reference": "tags/0.5.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/biometric-authentication.0.5.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/biometric-authentication/"
         },
         {
             "name": "wpackagist-plugin/create-block-theme",
