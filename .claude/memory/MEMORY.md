@@ -20,4 +20,5 @@
 - [cutting-edge web APIs](feedback-cutting-edge-web-apis.md): GDE Web: ship new platform features natively (interestfor, popover=hint, anchor positioning), never pitch the play-safe option, polyfills or JS libraries; perf, a11y and CWV come first
 - [old post refresh](project-old-post-refresh.md): "Updated" callout + new card + Yoast on old posts, now the /blog-refurbish skill; posts done so far + gotchas
 - [No personal ops details in posts](feedback-no-personal-ops-details.md): token expiry dates, vault IDs and account names stay out of posts; say "the token expires"
+- [Yoast og:image after REST featured_media](reference-yoast-og-image-after-rest-featured-media.md): REST sets the thumbnail after Yoast rebuilds; use wp_draft.py feature, which re-saves and checks og:image
 - [never run unscoped write tools](feedback-never-run-unscoped-write-tools.md): confirm formatters/--fix touch only the intended files; never run the :fix scripts or wp-scripts format unscoped

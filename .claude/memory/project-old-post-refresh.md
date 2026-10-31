@@ -13,7 +13,7 @@ Refreshed so far: 655 (obfuscator, 2026-10-28), and on 2026-10-30 626 SeoQuake, 
 - Callout is a `core/group` with `className: is-style-callout-updated`, first paragraph `ik-callout__title`. Prepend it to `content.raw` over `wp.apiFetch` from a logged-in wp-admin tab, then check the saved raw equals callout + old raw.
 - Ask Ivan's current stance per post before drafting (one AskUserQuestion batch); the note is his opinion.
 - The Chrome tool refuses to return text containing query-string URLs, so raw content can't be read back out; the byte-for-byte suffix check is the backup.
-- Upload images by injecting `<input type=file>` into the page, `file_upload` from the scratchpad, then POST each File to `/wp/v2/media` and set `featured_media`.
+- Cards are uploaded with `wp_draft.py feature` over REST now, not through the browser (see [[reference-yoast-og-image-after-rest-featured-media]]).
 - Yoast counts the post date in the meta description, so keep descriptions under about 135 chars on dated posts. `introductionKeyword` stays amber on every refreshed post; the likely cause (unconfirmed) is Yoast reading the callout title paragraph as the intro.
 - A post can have zero GSC queries (621: 1 impression in 16 months, query anonymised). Then the keyphrase comes from the title's specific pairing, and the review says it has no recorded demand.
 - The Chrome tool blocks returning `content.raw` even without query-string URLs in it ("Cookie/query string data"), so expect the scratchpad copy of the backup to fail every time.
