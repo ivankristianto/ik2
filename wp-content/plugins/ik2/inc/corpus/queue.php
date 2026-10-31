@@ -332,7 +332,7 @@ function remove_missing( array $published ): int {
  *
  * @param int $after Last Article ID already synced, 0 to start.
  * @param int $size  Articles per batch.
- * @return array{counts:array<string,int>, processed:int, after:int, done:bool, total:int}
+ * @return array{counts:array<string,int>, errors:list<array{post:int, error:string}>, processed:int, after:int, done:bool, total:int}
  */
 function queue_batch( int $after, int $size ): array {
 	global $wpdb;
@@ -351,9 +351,17 @@ function queue_batch( int $after, int $size ): array {
 	);
 
 	$results = [];
+	$errors  = [];
 
 	foreach ( $ids as $post_id ) {
 		$results[] = sync_post( $post_id );
+
+		if ( 'failed' === end( $results ) ) {
+			$errors[] = [
+				'post'  => $post_id,
+				'error' => $wpdb->last_error,
+			];
+		}
 	}
 
 	$counts = Batch\tally( $results );
@@ -365,6 +373,7 @@ function queue_batch( int $after, int $size ): array {
 
 	return [
 		'counts'    => $counts,
+		'errors'    => $errors,
 		'processed' => count( $ids ),
 		'after'     => $cursor['after'],
 		'done'      => $cursor['done'],

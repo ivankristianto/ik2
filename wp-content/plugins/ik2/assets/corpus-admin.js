@@ -19,6 +19,7 @@
 			skipped: 0,
 			failed: 0,
 		};
+		const errors = [];
 		let after = 0;
 		let checked = 0;
 		let done = false;
@@ -38,6 +39,7 @@
 				Object.keys( totals ).forEach( ( key ) => {
 					totals[ key ] += batch.counts[ key ] || 0;
 				} );
+				errors.push( ...batch.errors );
 				checked += batch.processed;
 				after = batch.after;
 				done = batch.done;
@@ -47,10 +49,16 @@
 			}
 
 			status.textContent =
-				`Done: ${ totals.queued } queued, ${ totals.unchanged } unchanged, ${ totals.removed } marked for removal, ${ totals.failed } failed.` +
+				`Done: ${ totals.queued } queued, ${ totals.unchanged } unchanged, ${ totals.skipped } skipped (noindex, password or excluded), ${ totals.removed } marked for removal, ${ totals.failed } failed.` +
 				( totals.queued + totals.removed > 0
 					? ' The next Run picks them up.'
 					: '' );
+
+			if ( errors.length ) {
+				status.textContent += ` Failed: ${ errors
+					.map( ( { post, error } ) => `${ post } (${ error })` )
+					.join( ', ' ) }`;
+			}
 		} catch ( error ) {
 			// Batches already sent stay queued, so running it again carries on safely.
 			status.textContent = `Stopped after ${ checked } Articles: ${ error.message }. Run it again to finish.`;

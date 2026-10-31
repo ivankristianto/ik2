@@ -312,7 +312,10 @@ function render_column( string $column, int $post_id ): void {
 		return;
 	}
 
-	$row = column_statuses()[ $post_id ] ?? null;
+	$statuses = column_statuses();
+
+	// Quick Edit redraws one row over admin-ajax, where the list query is empty, so look that row up alone.
+	$row = array_key_exists( $post_id, $statuses ) ? $statuses[ $post_id ] : Corpus\document_statuses( [ $post_id ] )[ $post_id ] ?? null;
 
 	if ( null === $row ) {
 		echo '<span aria-hidden="true">&mdash;</span><span class="screen-reader-text">' . esc_html__( 'Not in the Corpus', 'ik2' ) . '</span>';
@@ -340,14 +343,16 @@ function render_column( string $column, int $post_id ): void {
 /**
  * Corpus rows for every post on the current list page, fetched once.
  *
- * @return array<int, array{status:string, attempts:string, indexed_at:?string, last_error:?string}>
+ * @return array<int, array{status:string, attempts:string, indexed_at:?string, last_error:?string}|null>
  */
 function column_statuses(): array {
 	static $statuses = null;
 
 	if ( null === $statuses ) {
-		$posts    = $GLOBALS['wp_query']->posts ?? [];
-		$statuses = Corpus\document_statuses( wp_list_pluck( $posts, 'ID' ) );
+		$ids = array_map( 'intval', wp_list_pluck( $GLOBALS['wp_query']->posts ?? [], 'ID' ) );
+
+		// Null marks a post that was checked and has no Document, so it isn't looked up again.
+		$statuses = Corpus\document_statuses( $ids ) + array_fill_keys( $ids, null );
 	}
 
 	return $statuses;
@@ -478,7 +483,7 @@ function render_facts( ?array $last, array $statuses ): void {
 	render_fact(
 		__( 'Indexed', 'ik2' ),
 		/* translators: 1: indexed Articles, 2: published Articles */
-		esc_html( sprintf( __( '%1$s of %2$s', 'ik2' ), number_format_i18n( $indexed ), number_format_i18n( $published ) ) ),
+		esc_html( sprintf( __( '%1$s of %2$s published', 'ik2' ), number_format_i18n( $indexed ), number_format_i18n( $published ) ) ),
 		/* translators: %s: queued Articles */
 		$queued > 0 ? esc_html( sprintf( _n( '%s queued for the next Run', '%s queued for the next Run', $queued, 'ik2' ), number_format_i18n( $queued ) ) ) : esc_html__( 'nothing waiting', 'ik2' )
 	);
