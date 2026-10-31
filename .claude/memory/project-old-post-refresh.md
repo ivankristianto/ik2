@@ -9,7 +9,7 @@ Refreshed so far: 655 (obfuscator, 2026-10-28), and on 2026-10-30 626 SeoQuake, 
 
 **Why:** Ivan keeps the old text and adds a first-person "Updated <date>" note on what he'd do today. GSC/GA4 picks which posts (impressions with 0 clicks, or real engaged visitors).
 
-**How to apply:**
+**How to apply:** run `/blog-refurbish` (`.claude/skills/blog-refurbish/`, added 2026-10-31); it carries the steps and browser code. Gotchas kept here for context:
 - Callout is a `core/group` with `className: is-style-callout-updated`, first paragraph `ik-callout__title`. Prepend it to `content.raw` over `wp.apiFetch` from a logged-in wp-admin tab, then check the saved raw equals callout + old raw.
 - Ask Ivan's current stance per post before drafting (one AskUserQuestion batch); the note is his opinion.
 - The Chrome tool refuses to return text containing query-string URLs, so raw content can't be read back out; the byte-for-byte suffix check is the backup.
