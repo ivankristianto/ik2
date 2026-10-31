@@ -32,10 +32,11 @@ wp ik2 corpus related on          # and back to the Corpus picks
 A Document is parked after 3 failed embeds. `status` lists it with its error.
 
 `related off` is the kill switch. Keep reading shows the newest posts from the
-Article's category, as it did before the Corpus, and the setting lives in the
-database, so no redeploy is needed. Saves still queue and Runs still run, so
-`related on` takes effect at once. Pages already in the page cache keep their
-list until they expire.
+Article's first category, as it did before the Corpus, and the setting lives in
+the database, so no redeploy is needed. Saves still queue and Runs still run, so
+`related on` takes effect at once. With WP Super Cache on, cached pages keep
+their list for up to an hour; Settings → WP Super Cache → Delete Cache clears
+them now. The cache sits in the `app` container, so the command can't clear it.
 
 ### Local
 
