@@ -81,6 +81,7 @@ W1 to W3 come from `check.py` and can't be overruled. W4 to W7 have script signa
     "lost_at": ["where attention dropped or you had to reread, quoted"],
     "question_left": "the one thing you wanted to know and didn't find"
   },
+  "from_ivan": {"date": "YYYY-MM-DD", "story": "answers Ivan gave during the review, kept so re-reviews and blog-draft can use them"},
   "items": [
     {"id": "R1", "verdict": "fail", "evidence": "no date or time anywhere in the post", "ask": "When did you run into this, and what were you working on?"},
     {"id": "S3", "verdict": "partial", "evidence": "\"Change response headers\" is a doc label", "fix": "Blocking geolocation without touching nginx"}

@@ -133,7 +133,7 @@ def main():
 
     result = {"post": review.get("post", {}), "grade": grade, "score": capped, "raw_score": total, "verdict": verdict,
               "caps": [r for _, r in caps], "categories": scores, "items": items, "claims": claims,
-              "cold_read": review.get("cold_read", {}), "signals": {c["id"]: c["evidence"] for c in check["checks"] if c["kind"] == "signal" and not c["passed"]},
+              "cold_read": review.get("cold_read", {}), "from_ivan": review.get("from_ivan", {}), "signals": {c["id"]: c["evidence"] for c in check["checks"] if c["kind"] == "signal" and not c["passed"]},
               "metrics": check.get("metrics", {}), "top_fixes": fixes[:8], "questions": questions}
     base.with_suffix(".json").write_text(json.dumps(result, indent=2, ensure_ascii=False))
     base.with_suffix(".md").write_text(render(result, ask))
@@ -156,6 +156,8 @@ def render(r, ask):
         out += ["", "## Cold read", ""]
         labels = {"what_i_remember": "What I remember", "lost_at": "Where I got lost", "question_left": "The question left"}
         out += [f"- **{labels.get(k, k)}:** {v if isinstance(v, str) else '; '.join(v)}" for k, v in cold.items()]
+    if r["from_ivan"]:
+        out += ["", "## From Ivan", ""] + [f"- **{k}:** {val}" for k, val in r["from_ivan"].items()]
     if r["top_fixes"]:
         out += ["", "## Fix first", ""] + [f"{n}. {f}" for n, f in enumerate(r["top_fixes"], 1)]
     if ask or r["questions"]:
