@@ -195,6 +195,11 @@ class Corpus_Command {
 
 		update_option( Corpus\RELATED_OPTION, $args[0], true );
 
+		// update_option() returns false for both a failed write and an unchanged value, so read it back.
+		if ( Corpus\related_enabled() !== ( 'on' === $args[0] ) ) {
+			WP_CLI::error( "Could not save the setting: {$GLOBALS['wpdb']->last_error}" );
+		}
+
 		WP_CLI::success( "Related picks are {$args[0]}. Cached pages keep their list until they expire." );
 	}
 
