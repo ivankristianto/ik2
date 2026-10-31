@@ -58,11 +58,17 @@ Read from the shell environment, or from the repo's `.env` (gitignored; see `.en
 | `IK2_GSC_SITE` | The property string exactly as `check` lists it: `sc-domain:ivankristianto.com` or `https://www.ivankristianto.com/`. |
 | `IK2_GA4_PROPERTY` | The numeric property ID from `check`. |
 
+On Ivan's Mac the key is kept only in 1Password, so `.env` leaves `IK2_GOOGLE_SA_KEY` unset. Pass it per run with process substitution, a fresh one for every `node` call because the pipe can be read once. A shell value wins over `.env`.
+
+```bash
+IK2_GOOGLE_SA_KEY=<(op document get "ik2 google service account" --vault Agents --account my.1password.com) node $F check
+```
+
 Never print the key, copy it into the scratchpad or paste its contents into chat.
 
 ## Setup and errors
 
-The one-time Google Cloud setup (project, APIs, service account, key, Search Console and GA4 access) is in `README.md` next to this file. If `IK2_GOOGLE_SA_KEY` is missing, or a call fails with a 403, an "API disabled" message or a token error, find the error in the README's Troubleshooting table and tell Ivan which step to fix. The steps in the Cloud console and the Search Console and GA4 admin screens are his to click through. Don't attempt them for him.
+The one-time Google Cloud setup (project, APIs, service account, key, Search Console and GA4 access) is in `README.md` next to this file. If `IK2_GOOGLE_SA_KEY` is missing, retry with the 1Password command above before anything else. If that fails too, or a call fails with a 403, an "API disabled" message or a token error, find the error in the README's Troubleshooting table and tell Ivan which step to fix. The steps in the Cloud console and the Search Console and GA4 admin screens are his to click through. Don't attempt them for him.
 
 ## Changing the script
 
