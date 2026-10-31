@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bootstrap(): void {
 	add_action( 'plugins_loaded', __NAMESPACE__ . '\\maybe_upgrade' );
+	Admin\bootstrap();
 	add_action( 'wp_after_insert_post', __NAMESPACE__ . '\\on_after_insert_post', 10, 2 );
 	add_action( 'transition_post_status', __NAMESPACE__ . '\\on_transition_post_status', 10, 3 );
 	add_action( 'deleted_post', __NAMESPACE__ . '\\on_deleted_post', 10, 2 );

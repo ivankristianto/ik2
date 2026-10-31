@@ -1,0 +1,323 @@
+/* Tools → Corpus. Built on wp-admin's own palette so it sits with the rest of the dashboard. */
+
+.ik2-corpus {
+	--ik2-ink: #1d2327;
+	--ik2-muted: #50575e;
+	--ik2-faint: #8c8f94;
+	--ik2-line: #c3c4c7;
+	--ik2-hairline: #f0f0f1;
+	--ik2-surface: #fff;
+	--ik2-ok: #00a32a;
+	--ik2-wait: #dba617;
+	--ik2-bad: #d63638;
+	--ik2-bad-text: #b32d2e;
+	--ik2-mono: ui-monospace, sfmono-regular, menlo, consolas, "Liberation Mono", monospace;
+
+	max-width: 80rem;
+}
+
+.ik2-corpus__lede {
+	max-width: 62ch;
+	margin: 0.25rem 0 1.25rem;
+	color: var(--ik2-muted);
+	font-size: 14px;
+}
+
+.ik2-corpus__mono {
+	font-family: var(--ik2-mono);
+	font-size: 12.5px;
+}
+
+/* Summary strip */
+
+.ik2-corpus__facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	margin: 0 0 1.25rem;
+	background: var(--ik2-surface);
+	border: 1px solid var(--ik2-line);
+}
+
+.ik2-corpus__fact {
+	padding: 0.875rem 1.25rem;
+	border-left: 1px solid var(--ik2-hairline);
+}
+
+.ik2-corpus__fact:first-child {
+	border-left: 0;
+}
+
+.ik2-corpus__fact dt {
+	margin-bottom: 0.25rem;
+	color: var(--ik2-muted);
+	font-size: 12px;
+}
+
+.ik2-corpus__fact dd {
+	display: flex;
+	flex-direction: column;
+	gap: 0.125rem;
+	margin: 0;
+	color: var(--ik2-ink);
+	font-size: 16px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+.ik2-corpus__note {
+	color: var(--ik2-muted);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+/* State: a dot plus its word */
+
+.ik2-corpus__state {
+	display: inline-flex;
+	gap: 0.5em;
+	align-items: center;
+}
+
+.ik2-corpus__state::before {
+	flex: none;
+	width: 0.5rem;
+	height: 0.5rem;
+	content: "";
+	background: var(--ik2-faint);
+	border-radius: 50%;
+}
+
+.ik2-corpus__state.is-ok::before {
+	background: var(--ik2-ok);
+}
+
+.ik2-corpus__state.is-wait::before {
+	background: var(--ik2-wait);
+}
+
+.ik2-corpus__state.is-bad::before {
+	background: var(--ik2-bad);
+}
+
+/* Layout */
+
+/* minmax(0, 1fr) everywhere: an auto track grows to the Runs table and scrolls the whole page on a phone. */
+.ik2-corpus__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.25rem;
+	align-items: start;
+}
+
+.ik2-corpus__main,
+.ik2-corpus__side {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.25rem;
+	min-width: 0;
+}
+
+@media (min-width: 64em) {
+
+	.ik2-corpus__grid {
+		grid-template-columns: minmax(0, 1fr) 21rem;
+	}
+}
+
+.ik2-corpus__panel {
+	padding: 1rem 1.25rem 1.25rem;
+	background: var(--ik2-surface);
+	border: 1px solid var(--ik2-line);
+}
+
+.ik2-corpus__panel.is-alert {
+	border-color: var(--ik2-bad);
+}
+
+.ik2-corpus__panel h2 {
+	margin: 0 0 0.75rem;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.ik2-corpus__help {
+	margin: 0.5rem 0 0;
+	color: var(--ik2-muted);
+	font-size: 13px;
+}
+
+.ik2-corpus__panel > .ik2-corpus__help:first-of-type {
+	margin: 0 0 0.75rem;
+}
+
+.ik2-corpus__empty {
+	margin: 0;
+	color: var(--ik2-muted);
+}
+
+/* Runs */
+
+.ik2-corpus__scroll {
+	margin: 0 -1.25rem -1.25rem;
+	overflow-x: auto;
+}
+
+.ik2-corpus__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+.ik2-corpus__table th,
+.ik2-corpus__table td {
+	padding: 0.5rem 1.25rem;
+	text-align: left;
+	white-space: nowrap;
+	border-top: 1px solid var(--ik2-hairline);
+}
+
+.ik2-corpus__table thead th {
+	color: var(--ik2-muted);
+	font-size: 12px;
+	font-weight: 400;
+	border-top: 0;
+}
+
+.ik2-corpus__table .is-num,
+.ik2-corpus__counts .is-num {
+	text-align: right;
+}
+
+.ik2-corpus__table .is-zero {
+	color: var(--ik2-faint);
+}
+
+.ik2-corpus__table .is-bad {
+	color: var(--ik2-bad-text);
+	font-weight: 600;
+}
+
+/* Parked */
+
+.ik2-corpus__parked {
+	margin: 0;
+}
+
+.ik2-corpus__parked li {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	padding: 0.75rem 0;
+	border-top: 1px solid var(--ik2-hairline);
+}
+
+.ik2-corpus__parked a:not(.button) {
+	font-weight: 600;
+}
+
+.ik2-corpus__parked code {
+	display: block;
+	margin-top: 0.25rem;
+	padding: 0;
+	color: var(--ik2-bad-text);
+	background: none;
+	font-size: 12px;
+}
+
+/* Queue */
+
+.ik2-corpus__action + .ik2-corpus__action {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--ik2-hairline);
+}
+
+.ik2-corpus__action label,
+.ik2-corpus__label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+}
+
+.ik2-corpus__inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.ik2-corpus__inline input[type="number"] {
+	width: 7rem;
+	margin: 0;
+}
+
+.ik2-corpus progress {
+	flex: 1 1 8rem;
+	height: 0.5rem;
+	accent-color: var(--wp-admin-theme-color, #2271b1);
+}
+
+/* Documents */
+
+.ik2-corpus__split {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: 0.5rem 2.5rem;
+}
+
+.ik2-corpus__counts {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+.ik2-corpus__counts th,
+.ik2-corpus__counts td {
+	padding: 0.375rem 0;
+	text-align: left;
+	border-top: 1px solid var(--ik2-hairline);
+}
+
+.ik2-corpus__counts tr:first-child th,
+.ik2-corpus__counts tr:first-child td {
+	border-top: 0;
+}
+
+.ik2-corpus__counts th {
+	font-weight: 400;
+}
+
+.ik2-corpus__counts td {
+	font-weight: 600;
+}
+
+.ik2-corpus__counts tr.is-zero {
+	color: var(--ik2-faint);
+}
+
+.ik2-corpus__counts tr.is-zero td {
+	font-weight: 400;
+}
+
+.ik2-corpus__counts.is-store {
+	color: var(--ik2-muted);
+}
+
+@media (max-width: 48em) {
+
+	.ik2-corpus__facts {
+		grid-template-columns: 1fr;
+	}
+
+	.ik2-corpus__fact {
+		border-top: 1px solid var(--ik2-hairline);
+		border-left: 0;
+	}
+
+	.ik2-corpus__fact:first-child {
+		border-top: 0;
+	}
+}

@@ -54,7 +54,7 @@ class Corpus_Command {
 			WP_CLI::error( 'Pass Article IDs or --all, but not both.' );
 		}
 
-		$ids    = $all ? $this->published_article_ids() : array_map( 'intval', $args );
+		$ids    = $all ? Corpus\published_article_ids() : array_map( 'intval', $args );
 		$counts = [
 			'queued'    => 0,
 			'unchanged' => 0,
@@ -88,7 +88,7 @@ class Corpus_Command {
 		$progress->finish();
 
 		if ( $all ) {
-			$counts['removed'] += $this->remove_missing( $ids );
+			$counts['removed'] += Corpus\remove_missing( $ids );
 		}
 
 		$message = sprintf(
@@ -115,27 +115,10 @@ class Corpus_Command {
 	 *     $ wp ik2 corpus status
 	 */
 	public function status(): void {
-		global $wpdb;
-
-		$statuses = $wpdb->get_results(
-			$wpdb->prepare( 'SELECT status, COUNT(*) AS documents FROM %i GROUP BY status ORDER BY status', Corpus\table( 'documents' ) ),
-			ARRAY_A
-		);
-		$parked   = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT object_id AS post_id, title, attempts, last_error FROM %i WHERE status = %s ORDER BY object_id',
-				Corpus\table( 'documents' ),
-				Corpus\STATUS_PARKED
-			),
-			ARRAY_A
-		);
-		$counts   = [
-			'chunks'           => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', Corpus\table( 'chunks' ) ) ),
-			'document vectors' => (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE level = 'document'", Corpus\table( 'vectors' ) ) ),
-			'chunk vectors'    => (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE level = 'chunk'", Corpus\table( 'vectors' ) ) ),
-			'related rows'     => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', Corpus\table( 'related' ) ) ),
-		];
-		$run      = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i ORDER BY id DESC LIMIT 1', Corpus\table( 'runs' ) ), ARRAY_A );
+		$statuses = Corpus\status_counts();
+		$parked   = Corpus\parked_documents();
+		$counts   = Corpus\table_counts();
+		$run      = Corpus\recent_runs( 1 )[0] ?? null;
 
 		WP_CLI::log( 'Related picks: ' . ( Corpus\related_enabled() ? 'on' : 'off' ) );
 		WP_CLI::log( '' );
@@ -254,56 +237,6 @@ class Corpus_Command {
 
 		WP_CLI::log( '' );
 		WP_CLI::log( sprintf( '%d chunks, ~%d tokens, content hash %s', count( $document['chunks'] ), $tokens, $document['content_hash'] ) );
-	}
-
-	/**
-	 * IDs of every published Article, oldest first.
-	 *
-	 * @return list<int>
-	 */
-	private function published_article_ids(): array {
-		return array_map(
-			'intval',
-			get_posts(
-				[
-					'post_type'        => Corpus\OBJECT_TYPE,
-					'post_status'      => 'publish',
-					'posts_per_page'   => -1,
-					'fields'           => 'ids',
-					'orderby'          => 'ID',
-					'order'            => 'ASC',
-					'suppress_filters' => true,
-				]
-			)
-		);
-	}
-
-	/**
-	 * Mark Documents whose Article is no longer published, such as one deleted
-	 * while the plugin was off.
-	 *
-	 * @param int[] $published Published Article IDs.
-	 * @return int Documents marked for removal.
-	 */
-	private function remove_missing( array $published ): int {
-		global $wpdb;
-
-		$stored = $wpdb->get_col(
-			$wpdb->prepare(
-				'SELECT object_id FROM %i WHERE object_type = %s AND status <> %s',
-				Corpus\table( 'documents' ),
-				Corpus\OBJECT_TYPE,
-				Corpus\STATUS_REMOVE
-			)
-		);
-
-		$removed = 0;
-
-		foreach ( array_diff( array_map( 'intval', $stored ), $published ) as $post_id ) {
-			$removed += (int) Corpus\mark_remove( $post_id );
-		}
-
-		return $removed;
 	}
 
 	/**

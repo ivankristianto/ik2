@@ -277,3 +277,106 @@ function term_name( \WP_Term $term ): string {
 function plain_text( string $text ): string {
 	return trim( html_entity_decode( wp_strip_all_tags( $text ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 }
+
+/**
+ * IDs of every published Article, oldest first.
+ *
+ * @return list<int>
+ */
+function published_article_ids(): array {
+	return array_map(
+		'intval',
+		get_posts(
+			[
+				'post_type'        => OBJECT_TYPE,
+				'post_status'      => 'publish',
+				'posts_per_page'   => -1,
+				'fields'           => 'ids',
+				'orderby'          => 'ID',
+				'order'            => 'ASC',
+				'suppress_filters' => true,
+			]
+		)
+	);
+}
+
+/**
+ * Mark Documents whose Article is no longer published for removal, such as one deleted while the plugin was off.
+ *
+ * @param int[] $published Published Article IDs.
+ * @return int Documents marked for removal.
+ */
+function remove_missing( array $published ): int {
+	global $wpdb;
+
+	$stored = (array) $wpdb->get_col(
+		$wpdb->prepare(
+			'SELECT object_id FROM %i WHERE object_type = %s AND status <> %s',
+			table( 'documents' ),
+			OBJECT_TYPE,
+			STATUS_REMOVE
+		)
+	);
+
+	$removed = 0;
+
+	foreach ( array_diff( array_map( 'intval', $stored ), $published ) as $post_id ) {
+		$removed += (int) mark_remove( $post_id );
+	}
+
+	return $removed;
+}
+
+/**
+ * Sync the next $size published Articles after the ID cursor; the last batch also runs remove_missing().
+ *
+ * @param int $after Last Article ID already synced, 0 to start.
+ * @param int $size  Articles per batch.
+ * @return array{counts:array<string,int>, errors:list<array{post:int, error:string}>, processed:int, after:int, done:bool, total:int}
+ */
+function queue_batch( int $after, int $size ): array {
+	global $wpdb;
+
+	// An ID cursor, not an offset: an Article published mid-way can't shift the batches.
+	$ids = array_map(
+		'intval',
+		(array) $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status = 'publish' AND ID > %d ORDER BY ID ASC LIMIT %d",
+				OBJECT_TYPE,
+				$after,
+				$size
+			)
+		)
+	);
+
+	$results = [];
+	$errors  = [];
+
+	foreach ( $ids as $post_id ) {
+		$results[] = sync_post( $post_id );
+
+		if ( 'failed' === end( $results ) ) {
+			$errors[] = [
+				'post'  => $post_id,
+				'error' => $wpdb->last_error,
+			];
+		}
+	}
+
+	$counts = Batch\tally( $results );
+	$cursor = Batch\next_cursor( $ids, $after, $size );
+
+	if ( $cursor['done'] ) {
+		$counts['removed'] += remove_missing( published_article_ids() );
+	}
+
+	return [
+		'counts'    => $counts,
+		'errors'    => $errors,
+		'processed' => count( $ids ),
+		'after'     => $cursor['after'],
+		'done'      => $cursor['done'],
+		'total'     => (int) wp_count_posts( OBJECT_TYPE )->publish,
+	];
+}

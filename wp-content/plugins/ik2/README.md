@@ -39,6 +39,23 @@ redeploy is needed. Saves still queue and Runs still run while it is off, so
 their list for up to an hour; Settings → WP Super Cache → Delete Cache clears
 them now. The cache sits in the `app` container, so the command can't clear it.
 
+### Dashboard
+
+Tools → Corpus (admins only) shows the same as `status`: the related switch
+with a toggle, the last 10 Runs, Documents by status, the row counts, and
+parked Documents with a Retry button. It also queues work:
+
+- **Re-embed** one Article by ID, from the Retry button, or from the link
+  under each Article on the Posts list. Like `enqueue <id> --force`, it
+  rebuilds the Document from the post as it is now. The worker then embeds
+  only what changed; an unchanged Article keeps its vectors, since they would
+  come out the same.
+- **Queue all Articles** does what `enqueue --all` does, 50 Articles per
+  request with a progress bar.
+
+Nothing embeds until the next Run. The Posts list also gets a Corpus column
+with each Article's status.
+
 ### Local
 
 ```bash
