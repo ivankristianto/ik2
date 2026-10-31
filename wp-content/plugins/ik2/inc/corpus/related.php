@@ -16,6 +16,15 @@ const RELATED_MIN_SCORE = 0.65;
 
 const CACHE_GROUP = 'ik2-corpus';
 
+const RELATED_OPTION = 'ik2_corpus_related';
+
+/**
+ * Whether Keep reading uses the Corpus picks. `wp ik2 corpus related off` turns them off.
+ */
+function related_enabled(): bool {
+	return 'off' !== get_option( RELATED_OPTION, 'on' );
+}
+
 /**
  * Related post IDs for an Article, best first, with score >= RELATED_MIN_SCORE.
  *
@@ -24,7 +33,8 @@ const CACHE_GROUP = 'ik2-corpus';
  * @return list<int>
  */
 function get_related( int $post_id, int $limit ): array {
-	if ( $post_id <= 0 || $limit <= 0 ) {
+	// Off returns nothing, so the theme falls back to the newest posts in the category.
+	if ( $post_id <= 0 || $limit <= 0 || ! related_enabled() ) {
 		return [];
 	}
 
