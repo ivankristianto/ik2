@@ -84,9 +84,11 @@ JSON.stringify(out)
 
 The size should come back as 2400x1256, because the card renders at 2x. Never delete the old media.
 
-## 4. Yoast fields
+## 4. Noindex and Yoast's scores
 
-Navigate the tab to `https://www.ivankristianto.com/wp-admin/post.php?post=<ID>&action=edit` after step 3 and wait for the editor. Never reuse an edit tab opened before the callout went in: saving it writes the old content back. Run this guard before touching Yoast, and stop unless `ok` is `true`:
+The Yoast fields themselves go over REST (SKILL step 8.4). This tab is only for reading Yoast's scores (blog-seo step 6) and, where Ivan approved it, removing noindex.
+
+Navigate the tab to `https://www.ivankristianto.com/wp-admin/post.php?post=<ID>&action=edit` after step 3 and wait for the editor. Never reuse an edit tab opened before the callout went in: saving it writes the old content back. Run this guard first, and stop unless `ok` is `true`:
 
 ```js
 await new Promise(r => setTimeout(r, 3000));
@@ -96,7 +98,16 @@ const g = {dirty: ed.isEditedPostDirty(), hasCallout: ed.getEditedPostContent().
 JSON.stringify({...g, ok: !g.dirty && g.hasCallout && g.featured === <new media ID>})
 ```
 
-The apply, score and save code is in blog-seo steps 5 and 6.
+To make a `noindex` post indexable again, set it and save:
 
-- To make a `noindex` post indexable again, call `wp.data.dispatch('yoast-seo/editor').setNoIndex('0')`. Also set `#yoast_wpseo_meta-robots-noindex` to `'0'` before the save.
-- After saving, read `yoast_wpseo_focuskw` and `yoast_wpseo_meta-robots-noindex` from the edit page HTML (`fetch` + `DOMParser`). REST doesn't expose either one.
+```js
+wp.data.dispatch('yoast-seo/editor').setNoIndex('0');
+document.getElementById('yoast_wpseo_meta-robots-noindex').value = '0';
+await wp.data.dispatch('core/editor').savePost();
+// Yoast's fields ride on the meta box save; wait for it, not only for the post.
+await new Promise(r => { const t = () => (wp.data.select('core/editor').isSavingPost() ||
+  wp.data.select('core/edit-post').isSavingMetaBoxes()) ? setTimeout(t, 300) : r(); setTimeout(t, 800); });
+'saved'
+```
+
+After saving, read `yoast_wpseo_meta-robots-noindex` from the edit page HTML (`fetch` + `DOMParser`). REST doesn't expose it.

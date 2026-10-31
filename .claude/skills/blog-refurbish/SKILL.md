@@ -164,18 +164,22 @@ Under the table, flag anything sourced from only one place, or anything you doub
 
 ## 8. Apply
 
-Do this in Ivan's logged-in Chrome, in a wp-admin tab on https://www.ivankristianto.com/wp-admin/. The code is in `references/browser.md`. Do these steps in order, and stop on any check that fails:
+Steps 1 to 3 and 5 run in Ivan's logged-in Chrome, in a wp-admin tab on https://www.ivankristianto.com/wp-admin/, with the code in `references/browser.md`. Step 4 runs over REST. Do these steps in order, and stop on any check that fails:
 
 1. **Back up.** Read `content.raw` for every post and keep it in the page. Also copy it to the scratchpad if the Chrome tool lets you (see the gotcha in `references/browser.md`).
 2. **Prepend the callout.** Refuse if the raw changed since the backup or already has a callout. Save `callout + old raw`, then check that the saved raw equals exactly that. Do one post per call, so a failure tells you which post failed.
 3. **Upload the card.** Inject a file input, then `file_upload` the WebP (or the PNG when it's smaller). POST the file to `/wp/v2/media` with its alt text, set `featured_media`, check both, and remove the input.
-4. **Save the Yoast fields.** Load each post's edit screen fresh, after step 3. An edit tab opened earlier (blog-seo step 1 opens one) still holds the old content, and saving it would write that content back over the callout. Before touching Yoast, confirm three things:
+4. **Save the Yoast fields** over REST, from `seo.txt`:
+   ```bash
+   op run --env-file=.env.op.local -- python3 -I .claude/skills/blog-wp-draft/scripts/wp_draft.py seo <ID> .claude/blog/drafts/<slug>/seo.txt --report <scratchpad>/seo-<ID>.json --apply
+   ```
+   It writes only the three Yoast meta keys, so no editor save can put old content back over the callout. Every value in the report's `checks` must be `true`. Then read Yoast's scores in a fresh edit tab, as blog-seo step 6 describes, without saving. Fix field-level items in `seo.txt` and run the command again.
+5. **Remove noindex,** only where Ivan approved it in step 1. This one needs an editor save, because REST doesn't expose the noindex meta. Load the post's edit screen fresh, after steps 2 to 4; an edit tab opened earlier still holds the old content, and saving it would write that content back over the callout. Before saving, confirm three things, and stop if any fails:
    - the editor isn't dirty;
    - `getEditedPostContent()` contains `callout-updated`;
    - `featured_media` is the new media ID.
 
-   Stop if any fails. Otherwise follow blog-seo steps 5 and 6, fix every field-level item that isn't green, and save.
-5. **Remove noindex,** only where Ivan approved it in step 1: `setNoIndex('0')` in the same save.
+   Then `setNoIndex('0')` and save, with the code in `references/browser.md` section 4.
 
 ## 9. Verify live and report
 
