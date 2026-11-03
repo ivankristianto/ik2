@@ -18,10 +18,6 @@
 // (.wp-container-* > *, :root :where(.is-layout-*) > *) after this stylesheet
 // at (0,1,0), so single-class margins on direct children of the hero's layout
 // groups would silently compute to 0 or 24px.
-.ik-hero .ik-hero__eyebrow {
-	margin-bottom: $space-4;
-}
-
 .ik-hero .ik-hero__title {
 	max-width: 18ch;
 	margin: 0 0 $space-5;
@@ -34,14 +30,6 @@
 	color: $color-graphite;
 	font-size: $size-base;
 	margin: 0;
-}
-
-.ik-hero .ik-hero__sub {
-	max-width: $width-content;
-	margin: $space-5 0 0;
-	color: $color-graphite;
-	font-size: $size-small;
-	line-height: $leading-relaxed;
 }
 
 .ik-hero .ik-hero__actions {
@@ -108,15 +96,6 @@
 			text-underline-offset: 0.2em;
 		}
 	}
-
-	> span { color: $color-dust; }
-}
-
-.ik-hero .ik-hero__quicklinks {
-	margin-top: $space-7;
-	font-family: $font-mono;
-	font-size: $size-x-small;
-	color: $color-graphite;
 
 	> span { color: $color-dust; }
 }
@@ -259,17 +238,7 @@
 		padding-block: $space-7 $space-6;
 	}
 
-	.ik-hero .ik-hero__eyebrow {
-		margin-bottom: $space-3;
-	}
-
 	.ik-hero .ik-hero__blurb {
-		line-height: $leading-comfortable;
-	}
-
-	.ik-hero .ik-hero__sub {
-		margin-top: $space-4;
-		font-size: $size-x-small;
 		line-height: $leading-comfortable;
 	}
 
@@ -282,12 +251,7 @@
 		font-size: $size-x-large;
 	}
 
-	.ik-hero .ik-hero__secondary,
-	.ik-hero .ik-hero__quicklinks {
+	.ik-hero .ik-hero__secondary {
 		font-size: $size-x-small;
-	}
-
-	.ik-hero .ik-hero__quicklinks {
-		margin-top: $space-5;
 	}
 }
