@@ -19,7 +19,8 @@ const RELATED_LIMIT      = 4;
 const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
 const REWRITE_VERSION    = 2;
 
-const COVER_LABEL_CLASSES = [ 'ik-article-card__cover-label', 'ik-related__cover-label' ];
+const COVER_LABEL_CLASSES  = [ 'ik-related__cover-label' ];
+const CATEGORY_PILLS_CLASS = 'ik-article-card__category';
 
 /**
  * Register hooks owned by this module.
@@ -30,6 +31,7 @@ function bootstrap(): void {
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_related_query', 10, 2 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\hide_empty_related_query', 10, 2 );
 	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\unlink_cover_label', 10, 2 );
+	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\render_category_pills', 10, 3 );
 	add_filter( 'render_block_core/post-time-to-read', __NAMESPACE__ . '\\shorten_related_reading_time', 10, 2 );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
 	add_action( 'parse_request', __NAMESPACE__ . '\\stash_archive_context' );
@@ -180,6 +182,57 @@ function unlink_cover_label( string $html, array $block ): string {
 	}
 
 	return (string) preg_replace( '#</?a\b[^>]*>#i', '', $html );
+}
+
+/**
+ * Rebuild an article row's categories as pills that carry their slug, so each pill gets its own category wash.
+ *
+ * @param string              $html     Rendered post-terms block.
+ * @param array<string,mixed> $block    Parsed block.
+ * @param \WP_Block           $instance Block instance, for the post ID in context.
+ */
+function render_category_pills( string $html, array $block, \WP_Block $instance ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( '' === $html || ! in_array( CATEGORY_PILLS_CLASS, $classes, true ) ) {
+		return $html;
+	}
+
+	$categories = get_the_terms( (int) ( $instance->context['postId'] ?? 0 ), 'category' );
+
+	if ( ! is_array( $categories ) ) {
+		return $html;
+	}
+
+	$pills = '';
+
+	foreach ( $categories as $category ) {
+		// On a category archive every row would repeat the archive's own name.
+		if ( is_category( $category->term_id ) ) {
+			continue;
+		}
+
+		$pills .= sprintf(
+			'<a class="ik-category-pill ik-category-pill--%s" href="%s" rel="tag">%s</a>',
+			esc_attr( $category->slug ),
+			esc_url( (string) get_term_link( $category ) ),
+			esc_html( $category->name )
+		);
+	}
+
+	if ( '' === $pills ) {
+		return '';
+	}
+
+	$wrapper = new \WP_HTML_Tag_Processor( $html );
+
+	if ( ! $wrapper->next_tag() ) {
+		return $html;
+	}
+
+	$opening = $wrapper->get_updated_html();
+
+	return substr( $opening, 0, (int) strpos( $opening, '>' ) + 1 ) . $pills . '</div>';
 }
 
 /**

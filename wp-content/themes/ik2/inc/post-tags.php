@@ -51,7 +51,7 @@ function render_tag_line( string $block_content, array $block, \WP_Block $instan
 		return $block_content;
 	}
 
-	// The card cover already names the category, so a tag that repeats it is noise there.
+	// The card's category pill already names the category, so a tag that repeats it is noise there.
 	if ( $is_card ) {
 		$tags = drop_category_echoes( $tags, $post_id );
 	}
