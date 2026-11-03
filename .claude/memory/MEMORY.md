@@ -10,7 +10,7 @@
 - [verify the literal request](feedback-verify-literal-request.md): check the diff meets the exact ask before saying done; for CI trigger changes read the `on:` block
 - [prod page content via REST](project-prod-page-content-via-rest.md): releases never touch pattern-backed page content; write over REST with `op run --env-file=.env.op.local` (Agents vault app password), set a User-Agent, curl -o to dodge op masking; Yoast fields are REST meta; never run regen on prod
 - [browser verification + tests/ state](reference-browser-verification.md): Playwright from scratchpad for Chromium/WebKit (Firefox blocked); fixture posts 503/1981/494/716; tests/ not in CI, 2 pre-existing failures
-- [recolor 2026-10](project-recolor-2026-10.md): shipped; keep prompt wordmark + portrait frame, never cream, eyebrow `//` hidden by CSS, copy items still Ivan's call
+- [recolor 2026-10](project-recolor-2026-10.md): shipped; keep prompt wordmark + portrait frame, never cream, eyebrow `//` hidden by CSS, hero title is "I'm Ivan." (no surname), no location on the site
 - [type scale 2026-10](project-type-scale-2026-10.md): 8 fluid steps (x-small..xxx-large), em breakpoints; never reuse old slugs (stored `!important` preset classes)
 - [accessibility page](project-accessibility-page.md): /accessibility is a dynamic block fed by report.php; update statuses + date there after each test
 - [release guard vs untracked files](project-release-untracked-guard.md): bypass the clean-tree check with a status.showUntrackedFiles=no env var, never move the audit dirs

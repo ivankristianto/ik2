@@ -10,11 +10,6 @@
 	grid-template-columns: minmax(0, 1fr) 340px;
 	gap: clamp($space-6, 6vw, $space-8);
 	align-items: center;
-
-	@media (max-width: 56.25em) {
-		grid-template-columns: 1fr;
-		gap: $space-7;
-	}
 }
 
 .ik-hero__main { min-width: 0; }
@@ -126,6 +121,29 @@
 	> span { color: $color-dust; }
 }
 
+.ik-hero .ik-hero__receipts {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	align-items: baseline;
+	gap: $space-3 $space-5;
+	max-width: $width-measure;
+	margin: $space-7 0 0;
+	padding: $space-5 0 0;
+	border-top: 1px solid $color-line;
+
+	dt {
+		font-family: $font-mono;
+		font-size: $size-x-small;
+		color: $color-dust;
+	}
+
+	dd {
+		margin: 0;
+		font-size: $size-small;
+		color: $color-ink;
+	}
+}
+
 .ik-hero__portrait {
 	margin: 0;
 	display: flex;
@@ -136,11 +154,6 @@
 	overflow: clip;
 	max-width: 340px;
 	justify-self: end;
-
-	@media (max-width: 56.25em) {
-		justify-self: start;
-		max-width: 280px;
-	}
 }
 
 .ik-hero__portrait-bar {
@@ -199,23 +212,55 @@
 	line-height: $leading-normal;
 }
 
+// Below 900px the face sits beside the title so it lands in the first screen.
+// display: contents lifts the copy into the layout grid next to the portrait.
+@media (max-width: 56.25em) {
+
+	.ik-hero__layout {
+		grid-template-columns: 5.5rem minmax(0, 1fr);
+		gap: 0 $space-4;
+	}
+
+	.ik-hero__main { display: contents; }
+
+	.ik-hero__portrait {
+		grid-column: 1;
+		grid-row: 1;
+		align-self: center;
+		justify-self: start;
+		max-width: 5.5rem;
+	}
+
+	.ik-hero .ik-hero__title {
+		grid-column: 2;
+		grid-row: 1;
+		align-self: center;
+		max-width: none;
+		margin: 0;
+	}
+
+	.ik-hero .ik-hero__blurb,
+	.ik-hero .ik-hero__actions,
+	.ik-hero .ik-hero__receipts {
+		grid-column: 1 / -1;
+	}
+
+	.ik-hero .ik-hero__blurb { margin-top: $space-5; }
+
+	.ik-hero__portrait-bar,
+	.ik-hero__portrait-frame figcaption {
+		display: none;
+	}
+}
+
 @media (max-width: 40em) {
 
 	.ik-hero {
 		padding-block: $space-7 $space-6;
 	}
 
-	.ik-hero__layout {
-		gap: $space-5;
-	}
-
 	.ik-hero .ik-hero__eyebrow {
 		margin-bottom: $space-3;
-	}
-
-	.ik-hero .ik-hero__title {
-		max-width: 10ch;
-		margin-bottom: $space-4;
 	}
 
 	.ik-hero .ik-hero__blurb {
@@ -244,9 +289,5 @@
 
 	.ik-hero .ik-hero__quicklinks {
 		margin-top: $space-5;
-	}
-
-	.ik-hero__portrait {
-		max-width: 220px;
 	}
 }
