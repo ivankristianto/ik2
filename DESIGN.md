@@ -239,7 +239,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 - **Subtitle** (bold, `medium`, snug, tight): article H3 on phones, lead paragraphs, project names.
 - **Body** (regular, `base`, relaxed): the page default, article prose and card titles. It runs from 18px on phones to 20px on desktop, capped at the 960px content width.
 - **UI** (regular, `small`): nav-adjacent copy, excerpts, the hero sub copy, buttons, code blocks.
-- **Label** (mono, `x-small`, normal leading): article-card meta, filter pills, cover labels, tags, status badges, keyboard hints, captions, the footer.
+- **Label** (mono, `x-small`, normal leading): article-row dates and category pills, filter pills, related-post cover labels, tags, status badges, keyboard hints, captions, the footer.
 - **Eyebrow** (mono, `x-small`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
 
 **The 14px Floor Rule.** Nothing a reader is meant to read is set below `x-small` (14px, 15px on wide screens). The only smaller text is inline code inside `x-small` copy, at 0.9em.
@@ -296,7 +296,7 @@ Core's default shadow presets are disabled, so these two are the only shadows th
 Corners are gently rounded and small. Radius presets live in `border.radiusSizes`:
 
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
-- **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
+- **Medium** (`md`): the default. Buttons, cards, related-post covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
 - **Pill** (`pill`): filter pills, the category chip in the post header, the category pills on article rows, project status badges. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
@@ -381,7 +381,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Don't** put a colored side stripe (a `border-left` thicker than 1px) on cards, callouts, list items, or alerts. Use a full 1px border, a background tint, or a mono label.
 - **Don't** use gradient text.
 - **Don't** build the SaaS hero-metric block (big number, small label, supporting stats).
-- **Don't** repeat identical icon-heading-text card grids. Article rows lead with the date, guides have numbers, notes lead with the date.
+- **Don't** repeat identical icon-heading-text card grids. Article rows sit in a dated list, guides have numbers, notes lead with the date.
 - **Don't** reach for a modal first. Inline disclosure, an expanded section, or a new page come before it.
 - **Don't** animate layout properties, bounce, scale, or add entrance and scroll animations. The `/resume` scroll-linked lines and marks are the one exception.
 - **Don't** put emoji in chrome (nav, footer, buttons, headings, eyebrows).
