@@ -321,7 +321,7 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 ### Chips
 
-- **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Cards show at most three, drop any tag that repeats the post's category, and end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
+- **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Article rows show up to eight, drop any tag that repeats the post's category, and only past eight end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
 - **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses Bookcloth Wash with Deep Bookcloth text.
 - **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
 

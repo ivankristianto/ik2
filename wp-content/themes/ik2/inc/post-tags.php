@@ -16,7 +16,8 @@ defined( 'ABSPATH' ) || exit;
 
 const CARD_CLASS = 'ik-article-card__tags';
 const POST_CLASS = 'ik-article__tagged';
-const CARD_LIMIT = 3;
+// Covers 95% of posts; a few old posts carry 24 to 43 tags, which would swamp a row.
+const CARD_LIMIT = 8;
 
 /**
  * Register hooks owned by this module.
