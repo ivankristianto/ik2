@@ -4,7 +4,7 @@
  * Slug: ik2/single-article-header
  * Categories: ik2-page
  * Inserter: no
- * Description: Title and meta line (date · categories · byline · updated date) for the single post template. Depends on the current post — hidden from the manual inserter.
+ * Description: Title and meta line (date · reading time · categories · byline · updated date) for the single post template. Depends on the current post, so it is hidden from the manual inserter.
  *
  * @package IK2
  */
@@ -17,6 +17,8 @@
 	<!-- wp:group {"className":"ik-article__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
 	<div class="wp-block-group ik-article__meta">
 		<!-- wp:post-date {"className":"ik-article__date"} /-->
+
+		<!-- wp:post-time-to-read {"displayAsRange":false,"className":"ik-article__reading"} /-->
 
 		<!-- wp:post-terms {"term":"category","separator":" ","className":"ik-article__tags"} /-->
 
