@@ -26,6 +26,7 @@ function bootstrap(): void {
 	Corpus\bootstrap();
 	PostTypes\Project\bootstrap();
 	PostTypes\TalkMeta\bootstrap();
+	Activity\bootstrap();
 
 	register_activation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_activate' );
 	register_deactivation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_deactivate' );
@@ -43,5 +44,6 @@ function on_activate(): void {
  * Deactivation hook: flush rewrite rules to remove plugin-owned routes.
  */
 function on_deactivate(): void {
+	Activity\unschedule_refresh();
 	flush_rewrite_rules();
 }
