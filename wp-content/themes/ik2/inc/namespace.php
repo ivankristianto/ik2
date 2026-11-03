@@ -28,4 +28,5 @@ function bootstrap(): void {
 	PostTags\bootstrap();
 	Footnotes\bootstrap();
 	Seo\bootstrap();
+	ReadingTime\bootstrap();
 }
