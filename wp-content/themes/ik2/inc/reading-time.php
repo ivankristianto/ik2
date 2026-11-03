@@ -1,6 +1,6 @@
 <?php
 /**
- * Reading time from Yoast: the "N min read" meta labels.
+ * Reading time from Yoast: the "N min read" meta labels and the Article's timeRequired.
  *
  * @package IK2
  */
@@ -24,6 +24,7 @@ const YOAST_WORDS_PER_MINUTE = 200;
  */
 function bootstrap(): void {
 	add_filter( 'render_block_core/post-time-to-read', __NAMESPACE__ . '\\label_reading_time', 10, 3 );
+	add_filter( 'wpseo_schema_article', __NAMESPACE__ . '\\add_time_required', 10, 2 );
 }
 
 /**
@@ -71,3 +72,20 @@ function label_reading_time( string $html, array $block, \WP_Block $instance ): 
 	return (string) preg_replace( '/>[^<]*</', '>' . esc_html( $label ) . '<', $html, 1 );
 }
 
+/**
+ * Give the Article piece the reading time as schema.org timeRequired, an ISO 8601 duration.
+ *
+ * @param array<string, mixed> $data    Article graph piece.
+ * @param object               $context Yoast meta tags context.
+ * @return array<string, mixed>
+ */
+function add_time_required( $data, $context ): array {
+	$data    = (array) $data;
+	$minutes = minutes( (int) ( $context->post->ID ?? 0 ) );
+
+	if ( $minutes > 0 ) {
+		$data['timeRequired'] = sprintf( 'PT%dM', $minutes );
+	}
+
+	return $data;
+}
