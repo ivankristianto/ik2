@@ -1,6 +1,6 @@
 <?php
 /**
- * The "lately" card, built only from GitHub push dates and the latest talk; stored /now items are ignored.
+ * The "lately" card, built only from GitHub pushes, the newest Ngobrolin WEB episode and the latest talk; stored /now items are ignored.
  *
  * @package IK2
  * @var array<string,mixed> $attributes
@@ -18,13 +18,15 @@ if ( ! function_exists( 'IK2\Plugin\Activity\recent_projects' ) ) {
 }
 
 $ik2_building = IK2\Plugin\Activity\recent_projects();
+$ik2_episode  = IK2\Plugin\Activity\latest_episode();
 $ik2_talk     = IK2\Plugin\Activity\latest_talk();
 
-if ( [] === $ik2_building && null === $ik2_talk ) {
+if ( [] === $ik2_building && null === $ik2_episode && null === $ik2_talk ) {
 	return;
 }
 
 $ik2_dates   = array_column( $ik2_building, 'pushed' );
+$ik2_dates[] = null === $ik2_episode ? 0 : $ik2_episode['date'];
 $ik2_dates[] = null === $ik2_talk ? 0 : $ik2_talk['date'];
 $ik2_newest  = (int) max( $ik2_dates );
 $ik2_is_live = IK2\Plugin\Activity\Rules\is_within_days( $ik2_newest, time(), 14 );
@@ -54,6 +56,18 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 		</div>
 	<?php endif; ?>
 
+	<?php if ( null !== $ik2_episode ) : ?>
+		<div class="ik-now__group">
+			<p class="ik-now__group-title"><?php esc_html_e( 'ngobrolin web', 'ik2' ); ?></p>
+			<ul class="ik-now__list">
+				<li>
+					<a href="<?php echo esc_url( $ik2_episode['url'] ); ?>" lang="id"><?php echo esc_html( $ik2_episode['title'] ); ?></a>
+					<time datetime="<?php echo esc_attr( wp_date( 'Y-m-d', $ik2_episode['date'] ) ); ?>"><?php echo esc_html( wp_date( 'Y-m-d', $ik2_episode['date'] ) ); ?></time>
+				</li>
+			</ul>
+		</div>
+	<?php endif; ?>
+
 	<?php if ( null !== $ik2_talk ) : ?>
 		<div class="ik-now__group">
 			<p class="ik-now__group-title"><?php esc_html_e( 'speaking', 'ik2' ); ?></p>
@@ -66,5 +80,5 @@ $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 		</div>
 	<?php endif; ?>
 
-	<p class="ik-now__foot"><?php esc_html_e( 'Last GitHub push per project and my latest talk, refreshed daily.', 'ik2' ); ?></p>
+	<p class="ik-now__foot"><?php esc_html_e( 'From GitHub, the podcast I co-host and my latest talk, refreshed daily.', 'ik2' ); ?></p>
 </section>

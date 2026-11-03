@@ -91,3 +91,58 @@ function merge_fetched( array $previous, array $fetched, array $wanted ): array 
 
 	return $out;
 }
+
+/**
+ * The newest episode in ngobrolin/landing's episodes.json, with the show name trimmed from its title.
+ *
+ * @param string $json   Raw episodes.json: a list of { title, publishedAt, slug, ... }.
+ * @param string $base   Episode URL prefix, such as https://ngobrol.in/episodes/.
+ * @param string $suffix Trailing text to drop from titles, such as " - Ngobrolin WEB".
+ * @return array{title:string,url:string,date:int}|null
+ */
+function latest_episode_from_json( string $json, string $base, string $suffix = '' ): ?array {
+	$episodes = json_decode( $json, true );
+
+	if ( ! is_array( $episodes ) ) {
+		return null;
+	}
+
+	$newest = null;
+	foreach ( $episodes as $episode ) {
+		if ( ! is_array( $episode ) ) {
+			continue;
+		}
+
+		$date  = strtotime( (string) ( $episode['publishedAt'] ?? '' ) );
+		$title = trim( (string) ( $episode['title'] ?? '' ) );
+		$slug  = trim( (string) ( $episode['slug'] ?? '' ) );
+
+		if ( false === $date || '' === $title || '' === $slug ) {
+			continue;
+		}
+
+		if ( null === $newest || $date > $newest['date'] ) {
+			$newest = [
+				'title' => strip_suffix( $title, $suffix ),
+				'url'   => $base . rawurlencode( $slug ) . '/',
+				'date'  => $date,
+			];
+		}
+	}
+
+	return $newest;
+}
+
+/**
+ * Drop $suffix from the end of $text, ignoring case, if it is there.
+ *
+ * @param string $text   Text to trim.
+ * @param string $suffix Ending to remove.
+ */
+function strip_suffix( string $text, string $suffix ): string {
+	if ( '' === $suffix || 0 !== strcasecmp( substr( $text, -strlen( $suffix ) ), $suffix ) ) {
+		return $text;
+	}
+
+	return rtrim( substr( $text, 0, -strlen( $suffix ) ) );
+}

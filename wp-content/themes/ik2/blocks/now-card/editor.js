@@ -28,7 +28,7 @@
 				'p',
 				{ className: 'ik-now__foot' },
 				__(
-					'Filled in automatically from GitHub push dates on linked projects and the latest talk. Nothing to edit here.',
+					'Filled in automatically from GitHub push dates on linked projects, the newest Ngobrolin WEB episode and the latest talk. Nothing to edit here.',
 					'ik2'
 				)
 			)

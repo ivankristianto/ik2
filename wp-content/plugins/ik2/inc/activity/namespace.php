@@ -1,7 +1,7 @@
 <?php
 /**
  * Data for the automated "lately" card: daily GitHub push times for linked
- * projects, plus the latest talk. Nothing here is edited by hand.
+ * projects, the newest Ngobrolin WEB episode, and the latest talk. Nothing here is edited by hand.
  *
  * @package IK2\Plugin
  */
@@ -16,6 +16,11 @@ defined( 'ABSPATH' ) || exit;
 
 const CRON_HOOK  = 'ik2_refresh_github_activity';
 const OPTION_KEY = 'ik2_github_activity';
+
+// The data file ngobrol.in is built from, read straight from the public repo.
+const PODCAST_DATA   = 'https://raw.githubusercontent.com/ngobrolin/landing/main/src/data/episodes.json';
+const PODCAST_BASE   = 'https://ngobrol.in/episodes/';
+const PODCAST_SUFFIX = ' - Ngobrolin WEB';
 
 /**
  * Register hooks owned by this module.
@@ -80,7 +85,7 @@ function linked_repos(): array {
 }
 
 /**
- * Cron callback: fetch each repo's last push from the public GitHub API.
+ * Cron callback: fetch each repo's last push from the public GitHub API and the newest podcast episode.
  */
 function refresh(): void {
 	$repos   = linked_repos();
@@ -93,17 +98,40 @@ function refresh(): void {
 		}
 	}
 
-	$stored = get_option( OPTION_KEY, [] );
-	$stored = is_array( $stored ) && is_array( $stored['repos'] ?? null ) ? $stored['repos'] : [];
+	$stored  = get_option( OPTION_KEY, [] );
+	$stored  = is_array( $stored ) ? $stored : [];
+	$episode = fetch_latest_episode();
 
 	update_option(
 		OPTION_KEY,
 		[
 			'fetched' => time(),
-			'repos'   => Rules\merge_fetched( $stored, $fetched, array_keys( $repos ) ),
+			'repos'   => Rules\merge_fetched( is_array( $stored['repos'] ?? null ) ? $stored['repos'] : [], $fetched, array_keys( $repos ) ),
+			'episode' => $episode ?? ( is_array( $stored['episode'] ?? null ) ? $stored['episode'] : null ),
 		],
 		false
 	);
+}
+
+/**
+ * Newest Ngobrolin WEB episode from the ngobrolin/landing repo, or null when it did not load.
+ *
+ * @return array{title:string,url:string,date:int}|null
+ */
+function fetch_latest_episode(): ?array {
+	$response = wp_remote_get(
+		PODCAST_DATA,
+		[
+			'timeout' => 10,
+			'headers' => [ 'User-Agent' => 'ivankristianto.com' ],
+		]
+	);
+
+	if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+		return null;
+	}
+
+	return Rules\latest_episode_from_json( wp_remote_retrieve_body( $response ), PODCAST_BASE, PODCAST_SUFFIX );
 }
 
 /**
@@ -184,5 +212,26 @@ function latest_talk( int $max_age_days = 365 ): ?array {
 		'title' => get_the_title( $posts[0] ),
 		'url'   => (string) get_permalink( $posts[0] ),
 		'date'  => $date,
+	];
+}
+
+/**
+ * The newest Ngobrolin WEB episode, if it aired recently.
+ *
+ * @param int $max_age_days Oldest episode to show.
+ * @return array{title:string,url:string,date:int}|null
+ */
+function latest_episode( int $max_age_days = 30 ): ?array {
+	$stored  = get_option( OPTION_KEY, [] );
+	$episode = is_array( $stored ) && is_array( $stored['episode'] ?? null ) ? $stored['episode'] : null;
+
+	if ( null === $episode || ! Rules\is_within_days( (int) ( $episode['date'] ?? 0 ), time(), $max_age_days ) ) {
+		return null;
+	}
+
+	return [
+		'title' => (string) $episode['title'],
+		'url'   => (string) $episode['url'],
+		'date'  => (int) $episode['date'],
 	];
 }

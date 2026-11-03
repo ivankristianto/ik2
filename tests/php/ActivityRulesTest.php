@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 use function IK2\Plugin\Activity\Rules\github_repo_from_url;
 use function IK2\Plugin\Activity\Rules\is_within_days;
+use function IK2\Plugin\Activity\Rules\latest_episode_from_json;
 use function IK2\Plugin\Activity\Rules\merge_fetched;
 use function IK2\Plugin\Activity\Rules\recent_repos;
 
@@ -68,6 +69,30 @@ final class ActivityRulesTest extends TestCase {
 		);
 
 		self::assertSame( [ 'o/kept' => 100, 'o/updated' => 400, 'o/new' => 500 ], $merged );
+	}
+
+	public function test_latest_episode_is_the_newest_by_date_with_the_show_name_trimmed(): void {
+		$json = json_encode(
+			[
+				[ 'title' => 'Laracon - Ngobrolin WEB', 'publishedAt' => '2026-10-14T03:06:35Z', 'slug' => 'HeA7bGiTMMA-laracon-ngobrolin-web' ],
+				[ 'title' => 'State of Devs - Ngobrolin WEB', 'publishedAt' => '2026-10-21T03:57:48Z', 'slug' => 'Nq3uKguMNCA-state-of-devs-ngobrolin-web' ],
+				[ 'title' => 'No slug yet', 'publishedAt' => '2026-10-28T03:00:00Z' ],
+			]
+		);
+
+		self::assertSame(
+			[
+				'title' => 'State of Devs',
+				'url'   => 'https://ngobrol.in/episodes/Nq3uKguMNCA-state-of-devs-ngobrolin-web/',
+				'date'  => strtotime( '2026-10-21T03:57:48Z' ),
+			],
+			latest_episode_from_json( (string) $json, 'https://ngobrol.in/episodes/', ' - Ngobrolin WEB' )
+		);
+	}
+
+	public function test_broken_or_empty_episode_data_gives_no_episode(): void {
+		self::assertNull( latest_episode_from_json( 'not json', 'https://ngobrol.in/episodes/' ) );
+		self::assertNull( latest_episode_from_json( '[]', 'https://ngobrol.in/episodes/' ) );
 	}
 
 	/**

@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Lately",
 	"category": "theme",
-	"description": "What Ivan has been building and talking about lately, filled in automatically from GitHub push dates on linked projects and the latest talk. Nothing to edit.",
+	"description": "What Ivan has been building and talking about lately, filled in automatically from GitHub push dates on linked projects, the newest Ngobrolin WEB episode and the latest talk. Nothing to edit.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
