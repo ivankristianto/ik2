@@ -16,7 +16,8 @@ defined( 'ABSPATH' ) || exit;
 
 const CARD_CLASS = 'ik-article-card__tags';
 const POST_CLASS = 'ik-article__tagged';
-const CARD_LIMIT = 3;
+// Covers 95% of articles; a few old ones carry 24 to 43 tags, which would swamp a row.
+const CARD_LIMIT = 8;
 
 /**
  * Register hooks owned by this module.
@@ -51,9 +52,9 @@ function render_tag_line( string $block_content, array $block, \WP_Block $instan
 		return $block_content;
 	}
 
-	// The card cover already names the category, so a tag that repeats it is noise there.
+	// The card's category pill already names the category, so a tag that repeats it is noise there.
 	if ( $is_card ) {
-		$tags = drop_category_echoes( $tags, $post_id );
+		$tags = drop_archive_tag( drop_category_echoes( $tags, $post_id ) );
 	}
 
 	if ( ! $tags ) {
@@ -105,6 +106,31 @@ function render_tag_line( string $block_content, array $block, \WP_Block $instan
 	$opening = $wrapper->get_updated_html();
 
 	return substr( $opening, 0, (int) strpos( $opening, '>' ) + 1 ) . $html . '</div>';
+}
+
+/**
+ * Drop the tag a tag archive is listing, which every row would otherwise repeat.
+ *
+ * @param array<\WP_Term> $tags The post's tags.
+ * @return array<\WP_Term>
+ */
+function drop_archive_tag( array $tags ): array {
+	$archive_tag = \IK2\Theme\Blocks\ik2_get_archive_context()['tag'];
+
+	if ( '' === $archive_tag ) {
+		return $tags;
+	}
+
+	return array_values( array_filter( $tags, __NAMESPACE__ . '\\is_not_archive_tag' ) );
+}
+
+/**
+ * Tell whether a tag differs from the one in the URL.
+ *
+ * @param \WP_Term $tag Tag to test.
+ */
+function is_not_archive_tag( \WP_Term $tag ): bool {
+	return $tag->slug !== \IK2\Theme\Blocks\ik2_get_archive_context()['tag'];
 }
 
 /**

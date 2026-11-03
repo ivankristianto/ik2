@@ -113,11 +113,11 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "24px 32px"
-  article-card-cover:
+  category-pill:
     backgroundColor: "{colors.soft-paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
-    padding: "16px"
+    textColor: "{colors.graphite}"
+    rounded: "{rounded.pill}"
+    padding: "0 12px"
     typography: "{typography.label}"
   tag:
     textColor: "{colors.graphite}"
@@ -209,7 +209,7 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 These live in `settings.custom.color`, outside the palette, so they never appear in the editor's color picker.
 
 - **Syntax** (`syntax.*`): code block highlighting. Comments in Graphite, keywords and tags in Deep Bookcloth, strings and numbers in walnut `#7A4E1C` (5.8:1 on Code Paper); everything else stays Ink.
-- **Category washes** (`categoryWash.*`): article-card covers, one per category (WordPress, AI, performance, web APIs, tooling, guide, note, talk). Written in OKLCH at 92% lightness and 0.03 chroma with only the hue changing, so every cover carries the same weight and the Graphite label keeps 6.97 to 7.13:1 on all of them. Misc and uncategorized posts stay on Soft Paper. Palette presets stay hex because the block editor cannot parse `oklch()`; these never reach its color picker.
+- **Category washes** (`categoryWash.*`): the category pills on article rows and the related-post covers, one per category (WordPress, AI, performance, web APIs, tooling, guide, note, talk). Written in OKLCH at 92% lightness and 0.03 chroma with only the hue changing, so every pill and cover carries the same weight and the Graphite label keeps 6.97 to 7.13:1 on all of them. Misc and uncategorized posts stay on Soft Paper. Palette presets stay hex because the block editor cannot parse `oklch()`; these never reach its color picker.
 - **Scrim** (`scrim`): Ink at 30%, behind the command palette and the mobile nav drawer.
 
 ### Named Rules
@@ -239,7 +239,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 - **Subtitle** (bold, `medium`, snug, tight): article H3 on phones, lead paragraphs, project names.
 - **Body** (regular, `base`, relaxed): the page default, article prose and card titles. It runs from 18px on phones to 20px on desktop, capped at the 960px content width.
 - **UI** (regular, `small`): nav-adjacent copy, excerpts, the hero sub copy, buttons, code blocks.
-- **Label** (mono, `x-small`, normal leading): article-card meta, filter pills, cover labels, tags, status badges, keyboard hints, captions, the footer.
+- **Label** (mono, `x-small`, normal leading): article-row dates and category pills, filter pills, related-post cover labels, tags, status badges, keyboard hints, captions, the footer.
 - **Eyebrow** (mono, `x-small`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
 
 **The 14px Floor Rule.** Nothing a reader is meant to read is set below `x-small` (14px, 15px on wide screens). The only smaller text is inline code inside `x-small` copy, at 0.9em.
@@ -296,9 +296,9 @@ Core's default shadow presets are disabled, so these two are the only shadows th
 Corners are gently rounded and small. Radius presets live in `border.radiusSizes`:
 
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
-- **Medium** (`md`): the default. Buttons, cards, article-card covers, featured images, `<pre>` blocks, the header search trigger.
+- **Medium** (`md`): the default. Buttons, cards, related-post covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
-- **Pill** (`pill`): filter pills, the category chip in the post header, project status badges. Pills always mean "this is a label".
+- **Pill** (`pill`): filter pills, the category chip in the post header, the category pills on article rows, project status badges. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
@@ -321,14 +321,14 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 ### Chips
 
-- **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Cards show at most three, drop any tag that repeats the post's category, and end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
+- **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Article rows show up to eight, drop any tag that repeats the post's category or, on a tag archive, the archived tag, and only past eight end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
 - **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses Bookcloth Wash with Deep Bookcloth text.
 - **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
 
 ### Cards
 
 - **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
-- **Article card:** no frame. A 16:9 cover (the category wash, medium radius, a mono label centered in Graphite), then mono meta in Dust, the card title, a Graphite excerpt, and the tag line pinned to the bottom. The cover gives the card its edge; a border would double it.
+- **Article row:** the archive is a dated list, not a grid. Each row has a 10rem margin column with the mono ISO date in Dust and the category pills (one category wash per pill, linked to the category, left out on that category's own archive), then the title at `medium`, a Graphite excerpt capped at `measure`, and the tag line. Rows are split by 1px Line rules, with no frame and no cover. On phones the margin column folds into one line above the title. `render_category_pills()` in `inc/blocks.php` builds the pills.
 
 ### Inputs / Fields
 
@@ -381,7 +381,7 @@ The site has no boxed form fields. The two inputs sit flush inside a row:
 - **Don't** put a colored side stripe (a `border-left` thicker than 1px) on cards, callouts, list items, or alerts. Use a full 1px border, a background tint, or a mono label.
 - **Don't** use gradient text.
 - **Don't** build the SaaS hero-metric block (big number, small label, supporting stats).
-- **Don't** repeat identical icon-heading-text card grids. Article cards have covers, guides have numbers, notes lead with the date.
+- **Don't** repeat identical icon-heading-text card grids. Article rows sit in a dated list, guides have numbers, notes lead with the date.
 - **Don't** reach for a modal first. Inline disclosure, an expanded section, or a new page come before it.
 - **Don't** animate layout properties, bounce, scale, or add entrance and scroll animations. The `/resume` scroll-linked lines and marks are the one exception.
 - **Don't** put emoji in chrome (nav, footer, buttons, headings, eyebrows).
