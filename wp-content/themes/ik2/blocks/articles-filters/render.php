@@ -87,6 +87,15 @@ if ( $ik2_show_count ) {
 		'fields'         => 'ids',
 	];
 
+	// detect_context() has no date kind, so without this a date archive counts every post.
+	if ( is_date() ) {
+		foreach ( [ 'year', 'monthnum', 'day', 'm' ] as $ik2_date_var ) {
+			if ( get_query_var( $ik2_date_var ) ) {
+				$ik2_count_args[ $ik2_date_var ] = get_query_var( $ik2_date_var );
+			}
+		}
+	}
+
 	$ik2_tax_query = [];
 
 	$ik2_topic_slug = $ik2_context['topic'];
