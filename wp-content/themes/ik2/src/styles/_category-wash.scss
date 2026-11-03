@@ -13,7 +13,7 @@ $categories: wordpress, ai, performance, web-apis, tooling, guide, note, talk;
 	}
 }
 
-/* Pills carry their own category slug, so a post in two categories gets two washes. */
+/* Pills carry their own category slug, so an article in two categories gets two washes. */
 @mixin pills($pill) {
 
 	@each $category in $categories {

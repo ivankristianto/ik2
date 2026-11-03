@@ -69,6 +69,9 @@
 	gap: $space-2 $space-6;
 	padding-block: $space-6;
 
+	/* Lines the date up with the first line of the title. */
+	align-items: baseline;
+
 	/* Long URLs in old excerpts must wrap; `anywhere` also shrinks min-content. */
 	overflow-wrap: anywhere;
 
@@ -84,15 +87,11 @@
 	align-items: flex-start;
 	gap: $space-2;
 
-	/* Line the date up with the first line of the title. */
-	padding-top: 0.3em;
-
 	@media (max-width: 40em) {
 		flex-direction: row;
 		flex-wrap: wrap;
 		align-items: baseline;
 		gap: $space-3;
-		padding-top: 0;
 	}
 }
 
@@ -120,7 +119,7 @@
 	color: $color-graphite;
 	background: $color-soft-paper;
 	border-radius: $radius-pill;
-	padding: 1px $space-3;
+	padding-inline: $space-3;
 	text-decoration: none;
 	white-space: nowrap;
 	transition: color $transition-base;
@@ -132,13 +131,13 @@
 	display: grid;
 	gap: $space-3;
 	min-width: 0;
+	max-width: $width-content;
 }
 
 .ik-article-card__title {
 	font-size: $size-medium;
 	line-height: $leading-snug;
 	letter-spacing: $tracking-tight;
-	max-width: 44ch;
 
 	a {
 		color: $color-ink;
@@ -171,10 +170,9 @@
 
 /* ---- Pagination -------------------------------------------------------- */
 
+/* The list's bottom rule closes it, so the pagination needs no rule of its own. */
 .wp-block-query-pagination.ik-articles-pagination {
 	margin-top: $space-7;
-	padding-top: $space-5;
-	border-top: 1px solid $color-line;
 	font-family: $font-mono;
 	font-size: $size-x-small;
 

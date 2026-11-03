@@ -117,7 +117,7 @@ components:
     backgroundColor: "{colors.soft-paper}"
     textColor: "{colors.graphite}"
     rounded: "{rounded.pill}"
-    padding: "1px 12px"
+    padding: "0 12px"
     typography: "{typography.label}"
   tag:
     textColor: "{colors.graphite}"
