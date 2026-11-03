@@ -30,7 +30,7 @@
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-resume__location"} -->
-				<p class="ik-resume__location">Jakarta, Indonesia &middot; remote</p>
+				<p class="ik-resume__location">Remote</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
