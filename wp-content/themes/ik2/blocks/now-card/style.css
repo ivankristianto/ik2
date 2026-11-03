@@ -1,4 +1,4 @@
-/* Now card block (ik2/now-card + ik2/now-item). */
+/* Lately card (ik2/now-card): rows are rendered from GitHub and talk data. */
 .ik-now {
   background: var(--wp--preset--color--surface);
   border: 1px solid var(--wp--preset--color--line);
@@ -67,16 +67,39 @@
   margin-bottom: var(--wp--preset--spacing--1);
 }
 
-.ik-now__item {
-  color: var(--wp--preset--color--ink);
-  line-height: var(--wp--custom--line-height--comfortable);
+.ik-now__list {
+  display: grid;
+  gap: var(--wp--preset--spacing--2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.ik-now__item code {
-  font-size: 0.9em;
-  background: var(--wp--preset--color--code-paper);
-  padding: 0 var(--wp--preset--spacing--1);
-  border-radius: var(--wp--preset--border-radius--sm);
+.ik-now__list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--3);
+  line-height: var(--wp--custom--line-height--snug);
+}
+
+.ik-now__list a {
+  min-width: 0;
+  color: var(--wp--preset--color--ink);
+  text-decoration-color: var(--wp--preset--color--rule);
+  text-underline-offset: 0.2em;
+  transition: color var(--wp--custom--transition--base), text-decoration-color var(--wp--custom--transition--base);
+}
+
+.ik-now__list a:hover {
+  color: var(--wp--preset--color--signal-deep);
+  text-decoration-color: currentcolor;
+}
+
+.ik-now__list time {
+  flex: none;
+  font-family: var(--wp--preset--font-family--mono);
+  color: var(--wp--preset--color--dust);
 }
 
 .ik-now__foot {
@@ -85,10 +108,6 @@
   border-top: 1px solid var(--wp--preset--color--line);
   font-size: var(--wp--preset--font-size--x-small);
   color: var(--wp--preset--color--dust);
-}
-
-.ik-now__foot a {
-  color: var(--wp--preset--color--graphite);
 }
 
 @media (max-width: 40em) {

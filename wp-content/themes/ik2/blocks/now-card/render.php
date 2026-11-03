@@ -1,11 +1,6 @@
 <?php
 /**
- * Server render for ik2/now-card.
- *
- * Outputs the /now card chrome — pulsing dot, `// /now` label, last-updated
- * date, and the footer note — around the inner ik2/now-item blocks. The date
- * and footer are block attributes so both stay editable in the editor; an
- * emptied attribute drops the element entirely.
+ * The "lately" card, built only from GitHub pushes, the newest Ngobrolin WEB episode and the latest talk; stored /now items are ignored.
  *
  * @package IK2
  * @var array<string,mixed> $attributes
@@ -17,33 +12,73 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-$ik2_now_date = isset( $attributes['date'] ) ? trim( (string) $attributes['date'] ) : '';
-$ik2_now_foot = isset( $attributes['foot'] ) ? trim( (string) $attributes['foot'] ) : '';
+// The data lives in the ik2 plugin; without it there is nothing to show.
+if ( ! function_exists( 'IK2\Plugin\Activity\recent_projects' ) ) {
+	return;
+}
 
-$ik2_now_foot_tags = [
-	'a'      => [
-		'href'       => true,
-		'target'     => true,
-		'rel'        => true,
-		'aria-label' => true,
-	],
-	'em'     => [],
-	'strong' => [],
-	'code'   => [],
-];
+$ik2_building = IK2\Plugin\Activity\recent_projects();
+$ik2_episode  = IK2\Plugin\Activity\latest_episode();
+$ik2_talk     = IK2\Plugin\Activity\latest_talk();
+
+if ( [] === $ik2_building && null === $ik2_episode && null === $ik2_talk ) {
+	return;
+}
+
+$ik2_dates   = array_column( $ik2_building, 'pushed' );
+$ik2_dates[] = null === $ik2_episode ? 0 : $ik2_episode['date'];
+$ik2_dates[] = null === $ik2_talk ? 0 : $ik2_talk['date'];
+$ik2_newest  = (int) max( $ik2_dates );
+$ik2_is_live = IK2\Plugin\Activity\Rules\is_within_days( $ik2_newest, time(), 14 );
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes( [ 'class' => 'ik-now' ] );
 ?>
-<section aria-label="Now" <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section aria-labelledby="ik-now-label" <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<p class="ik-now__head">
-		<span class="ik-now__dot" aria-hidden="true"></span>
-		<span class="ik-now__label">/now</span>
-		<?php if ( '' !== $ik2_now_date ) : ?>
-			<span class="ik-now__date"><?php echo esc_html( $ik2_now_date ); ?></span>
+		<?php if ( $ik2_is_live ) : ?>
+			<span class="ik-now__dot" aria-hidden="true"></span>
 		<?php endif; ?>
+		<span class="ik-now__label" id="ik-now-label"><?php esc_html_e( 'lately', 'ik2' ); ?></span>
+		<time class="ik-now__date" datetime="<?php echo esc_attr( wp_date( 'Y-m-d', $ik2_newest ) ); ?>"><?php echo esc_html( wp_date( 'Y-m-d', $ik2_newest ) ); ?></time>
 	</p>
-	<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- inner ik2/now-item blocks; each escapes its own fields. ?>
-	<?php if ( '' !== $ik2_now_foot ) : ?>
-		<p class="ik-now__foot"><?php echo wp_kses( $ik2_now_foot, $ik2_now_foot_tags ); ?></p>
+
+	<?php if ( [] !== $ik2_building ) : ?>
+		<div class="ik-now__group">
+			<p class="ik-now__group-title"><?php esc_html_e( 'building', 'ik2' ); ?></p>
+			<ul class="ik-now__list">
+				<?php foreach ( $ik2_building as $ik2_repo ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $ik2_repo['url'] ); ?>"><?php echo esc_html( $ik2_repo['name'] ); ?></a>
+						<time datetime="<?php echo esc_attr( wp_date( 'Y-m-d', $ik2_repo['pushed'] ) ); ?>"><?php echo esc_html( wp_date( 'Y-m-d', $ik2_repo['pushed'] ) ); ?></time>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
 	<?php endif; ?>
+
+	<?php if ( null !== $ik2_episode ) : ?>
+		<div class="ik-now__group">
+			<p class="ik-now__group-title"><?php esc_html_e( 'ngobrolin web', 'ik2' ); ?></p>
+			<ul class="ik-now__list">
+				<li>
+					<a href="<?php echo esc_url( $ik2_episode['url'] ); ?>" lang="id"><?php echo esc_html( $ik2_episode['title'] ); ?></a>
+					<time datetime="<?php echo esc_attr( wp_date( 'Y-m-d', $ik2_episode['date'] ) ); ?>"><?php echo esc_html( wp_date( 'Y-m-d', $ik2_episode['date'] ) ); ?></time>
+				</li>
+			</ul>
+		</div>
+	<?php endif; ?>
+
+	<?php if ( null !== $ik2_talk ) : ?>
+		<div class="ik-now__group">
+			<p class="ik-now__group-title"><?php esc_html_e( 'speaking', 'ik2' ); ?></p>
+			<ul class="ik-now__list">
+				<li>
+					<a href="<?php echo esc_url( $ik2_talk['url'] ); ?>"><?php echo esc_html( $ik2_talk['title'] ); ?></a>
+					<time datetime="<?php echo esc_attr( wp_date( 'Y-m-d', $ik2_talk['date'] ) ); ?>"><?php echo esc_html( wp_date( 'Y-m-d', $ik2_talk['date'] ) ); ?></time>
+				</li>
+			</ul>
+		</div>
+	<?php endif; ?>
+
+	<p class="ik-now__foot"><?php esc_html_e( 'From GitHub, the podcast I co-host and my latest talk, refreshed daily.', 'ik2' ); ?></p>
 </section>

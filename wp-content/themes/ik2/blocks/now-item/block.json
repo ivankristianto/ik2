@@ -5,12 +5,13 @@
 	"version": "1.0.0",
 	"title": "Now Item",
 	"category": "theme",
-	"description": "One entry in the /now card: a small mono label plus a line of text.",
+	"description": "Retired. Kept registered so stored /now entries still parse; renders nothing. Remove once no content uses it.",
 	"textdomain": "ik2",
 	"parent": [ "ik2/now-card" ],
 	"supports": {
 		"html": false,
-		"reusable": false
+		"reusable": false,
+		"inserter": false
 	},
 	"attributes": {
 		"label": {
