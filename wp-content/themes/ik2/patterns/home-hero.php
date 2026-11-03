@@ -4,7 +4,7 @@
  * Slug: ik2/home-hero
  * Categories: ik2-home
  * Viewport Width: 1400
- * Description: Homepage hero — eyebrow, title, blurbs, CTA links, and the terminal-framed portrait.
+ * Description: Homepage hero: title, blurb, CTA links, dated facts, and the terminal-framed portrait.
  *
  * @package IK2
  */
@@ -16,20 +16,12 @@
 	<div class="wp-block-group ik-hero__layout">
 		<!-- wp:group {"className":"ik-hero__main","layout":{"type":"default"}} -->
 		<div class="wp-block-group ik-hero__main">
-			<!-- wp:paragraph {"className":"ik-section__eyebrow ik-hero__eyebrow"} -->
-			<p class="ik-section__eyebrow ik-hero__eyebrow">Web engineer · WordPress · AI · Performance · Tooling</p>
-			<!-- /wp:paragraph -->
-
 			<!-- wp:heading {"level":1,"className":"ik-hero__title"} -->
 			<h1 class="wp-block-heading ik-hero__title">I'm Ivan.</h1>
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph {"className":"ik-hero__blurb"} -->
-			<p class="ik-hero__blurb">I explore WordPress, AI, performance, and developer tooling to build better experiences on the web.</p>
-			<!-- /wp:paragraph -->
-
-			<!-- wp:paragraph {"className":"ik-hero__sub"} -->
-			<p class="ik-hero__sub">This site is my public notebook: deep technical tutorials, short notes, experiments, talks, and links from years of building for the web.</p>
+			<p class="ik-hero__blurb">I've spent over a decade building publishing platforms. This site is my public notebook: what I learn about WordPress, performance, AI, and the tools I build along the way.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:group {"className":"ik-hero__actions","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
@@ -37,16 +29,29 @@
 				<!-- wp:buttons -->
 				<div class="wp-block-buttons">
 					<!-- wp:button {"className":"is-style-hero-cta"} -->
-					<div class="wp-block-button is-style-hero-cta"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Browse the guides</a></div>
+					<div class="wp-block-button is-style-hero-cta"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/about/' ) ); ?>">More about me</a></div>
 					<!-- /wp:button -->
 				</div>
 				<!-- /wp:buttons -->
 
 				<!-- wp:paragraph {"className":"ik-hero__secondary"} -->
-				<p class="ik-hero__secondary"><a href="<?php echo esc_url( home_url( '/resume/' ) ); ?>">Read resume</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Latest articles</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Get in touch</a></p>
+				<p class="ik-hero__secondary"><a href="<?php echo esc_url( home_url( '/articles/' ) ); ?>">Read the articles</a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Get in touch</a></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
+
+			<!-- wp:html -->
+			<dl class="ik-hero__receipts">
+				<dt>now</dt>
+				<dd>Senior web engineer at Human Made</dd>
+				<dt>2026</dt>
+				<dd>Advanced Professional WordPress Developer, Automattic</dd>
+				<dt>since 2018</dt>
+				<dd>Google Developer Expert, web technologies</dd>
+				<dt>since 2015</dt>
+				<dd>Organising WordPress meetups and WordCamps</dd>
+			</dl>
+			<!-- /wp:html -->
 		</div>
 		<!-- /wp:group -->
 
@@ -66,9 +71,5 @@
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
-
-	<!-- wp:paragraph {"className":"ik-hero__quicklinks"} -->
-	<p class="ik-hero__quicklinks"><span><span aria-hidden="true">//</span> Exploring WordPress, AI, performance, and developer tooling.</span></p>
-	<!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->
