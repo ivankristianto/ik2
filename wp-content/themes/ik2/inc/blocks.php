@@ -204,11 +204,14 @@ function render_category_pills( string $html, array $block, \WP_Block $instance 
 		return $html;
 	}
 
-	$pills = '';
+	// Read the URL's category, not the queried object: the format filter shifts that to the format term.
+	$archive_path = ik2_get_archive_context()['category'];
+	$archive_slug = '' === $archive_path ? '' : basename( $archive_path );
+	$pills        = '';
 
 	foreach ( $categories as $category ) {
 		// On a category archive every row would repeat the archive's own name.
-		if ( is_category( $category->term_id ) ) {
+		if ( $category->slug === $archive_slug ) {
 			continue;
 		}
 
