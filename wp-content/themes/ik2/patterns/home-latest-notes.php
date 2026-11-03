@@ -4,7 +4,7 @@
  * Slug: ik2/home-latest-notes
  * Categories: ik2-home
  * Viewport Width: 1400
- * Description: Two-column section — a Query Loop of the latest posts tagged experiments beside the /now card.
+ * Description: Two-column section — a Query Loop of the latest posts tagged experiments beside the automated "lately" card.
  *
  * @package IK2
  */
@@ -75,15 +75,7 @@ $ik2_experiments_id  = $ik2_experiments_tag instanceof WP_Term ? (int) $ik2_expe
 
 		<!-- wp:column {"className":"ik-notes-layout__aside"} -->
 		<div class="wp-block-column ik-notes-layout__aside">
-			<!-- wp:ik2/now-card {"date":"May 12, 2026"} -->
-			<!-- wp:ik2/now-item {"label":"Currently building","text":"\u003ccode\u003eivankristianto-theme\u003c/code\u003e — rebuilding this site as a block theme."} /-->
-
-			<!-- wp:ik2/now-item {"label":"Currently reading","text":"\u003cem\u003eDesigning Data-Intensive Applications\u003c/em\u003e, Kleppmann — for the third time."} /-->
-
-			<!-- wp:ik2/now-item {"label":"Currently learning","text":"The WordPress Interactivity API — instant search + a real command palette."} /-->
-
-			<!-- wp:ik2/now-item {"label":"Listening","text":"The Changelog · Syntax.fm · WP Tavern Jukebox"} /-->
-			<!-- /wp:ik2/now-card -->
+			<!-- wp:ik2/now-card /-->
 		</div>
 		<!-- /wp:column -->
 	</div>
