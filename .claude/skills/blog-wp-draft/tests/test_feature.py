@@ -91,5 +91,59 @@ class Feature(unittest.TestCase):
             self.run_feature(FakeWordPress(), apply=False)
 
 
+class FakePage(FakeWordPress):
+    """A page: Yoast's og:image follows its own social image meta, and featured_media is never touched."""
+
+    def __init__(self, meta=None, media=None):
+        super().__init__(media=media)
+        self.post["meta"] = meta or {}
+        self.page_saves = 0
+
+    def __call__(self, method, path, data=None, raw=None, headers=None):
+        if path.split("?")[0] != "/wp/v2/pages/7":
+            return super().__call__(method, path, data, raw, headers)
+        if method == "POST":
+            self.page_saves += 1
+            if "featured_media" in data:
+                raise AssertionError("pages get Yoast's social image, not a featured image")
+            self.post["meta"].update(data["meta"])
+        meta = self.post["meta"]
+        og = [{"url": meta[wp_draft.OG_IMAGE], "width": 2400}] if meta.get(wp_draft.OG_IMAGE_ID) else []
+        return {**self.post, "yoast_head_json": {"og_image": og}}
+
+
+class PageFeature(Feature):
+    def run_feature(self, wp, apply):
+        with mock.patch.object(wp_draft, "call", wp):
+            return wp_draft.feature(7, self.assets, apply, base="pages")
+
+    def test_second_save_fixes_stale_og_image(self):
+        self.skipTest("posts only")
+
+    def test_dry_run_flags_stale_og_image_without_writing(self):
+        self.skipTest("posts only")
+
+    def test_rerun_with_same_card_writes_nothing(self):
+        self.skipTest("posts only")
+
+    def test_sets_yoast_social_image(self):
+        wp = FakePage()
+        report = self.run_feature(wp, apply=True)
+        self.assertTrue(report["ok"], report["checks"])
+        self.assertEqual(wp.post["meta"], {wp_draft.OG_IMAGE: "https://example.test/card.webp", wp_draft.OG_IMAGE_ID: "50"})
+        self.assertEqual((wp.page_saves, wp.post["featured_media"], wp.media[50]["post"]), (1, 0, 7))
+
+    def test_page_rerun_writes_nothing(self):
+        card = {"id": 50, "alt_text": "A card.", "post": 7, "source_url": "https://example.test/card.webp",
+                "media_details": {"filesize": len(CARD)}}
+        meta = {wp_draft.OG_IMAGE: card["source_url"], wp_draft.OG_IMAGE_ID: "50"}
+        wp = FakePage(meta=meta, media={50: card})
+        with mock.patch.object(wp_draft, "call", wp), mock.patch.object(
+                wp_draft, "resolve_media", lambda *a: 50):
+            report = wp_draft.feature(7, self.assets, True, base="pages")
+        self.assertEqual((report["changes"], wp.page_saves), ([], 0))
+        self.assertTrue(report["ok"], report["checks"])
+
+
 if __name__ == "__main__":
     unittest.main()

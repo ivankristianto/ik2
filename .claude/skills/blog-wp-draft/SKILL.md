@@ -97,3 +97,7 @@ python3 -I -m unittest discover -s .claude/skills/blog-wp-draft/tests
 Change `md2blocks.py` only with these passing. When a published post shows the converter got some markup wrong, add the case to `tests/fixtures/sample.md` and regenerate `sample.blocks.html` after checking the diff by eye.
 
 To try the write path without touching production, point the script at the local stack. Set `IK2_WP_SITE=http://localhost:8080`, plus a throwaway local application password in `IK2_PROD_APP_PASSWORD`. Local application passwords need a temporary mu-plugin that returns true from `wp_is_application_passwords_available`, because the stack is plain http. Delete the test post, media, tags, app password and mu-plugin afterwards.
+
+## Static pages
+
+Add `--page` to `seo` or `feature` to target a page (home, about, resume and so on) instead of a post. `seo` then writes the same three Yoast fields on the page. `feature` sets Yoast's social image (`_yoast_wpseo_opengraph-image` and `-id`) instead of the featured image, because page templates never print one. Both need the ik2 plugin's `inc/yoast-page-meta.php` on the site, since Yoast exposes these fields over REST for posts only. Page card sources live in `.claude/blog/pages/<slug>/` (`build.py` writes them).

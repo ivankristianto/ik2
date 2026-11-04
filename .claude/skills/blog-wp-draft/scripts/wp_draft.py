@@ -3,11 +3,12 @@
 Usage, from the repo root (credentials come from 1Password, never from a file):
   op run --env-file=.env.op.local -- python3 -I <this> preflight
   op run --env-file=.env.op.local -- python3 -I <this> push <draft.md> --report <out.json> [--apply]
-  op run --env-file=.env.op.local -- python3 -I <this> seo <post-id> <seo.txt> --report <out.json> [--apply]
-  op run --env-file=.env.op.local -- python3 -I <this> feature <post-id> <assets-dir> --report <out.json> [--name <file-base>] [--apply]
+  op run --env-file=.env.op.local -- python3 -I <this> seo <post-id> <seo.txt> --report <out.json> [--page] [--apply]
+  op run --env-file=.env.op.local -- python3 -I <this> feature <post-id> <assets-dir> --report <out.json> [--name <file-base>] [--page] [--apply]
 
 Without --apply all three are dry runs: they read WordPress and report what would change.
 seo only sets the three Yoast fields and feature only the featured image; both work on any status and go live on a published post.
+--page targets a page: feature then sets Yoast's social image instead of the featured image, which page templates never show.
 op run masks "ivan" in stdout (it's part of the username), so links only go to the --report file.
 """
 import base64
@@ -30,6 +31,8 @@ SITE = os.environ.get("IK2_WP_SITE", SITE).rstrip("/")
 API = SITE + "/wp-json"
 UA = "Mozilla/5.0 blog-wp-draft"
 YOAST = {"keyphrase": "_yoast_wpseo_focuskw", "title": "_yoast_wpseo_title", "description": "_yoast_wpseo_metadesc"}
+# Registered for pages by the ik2 plugin (inc/yoast-page-meta.php); the ID is what gives og:image its width.
+OG_IMAGE, OG_IMAGE_ID = "_yoast_wpseo_opengraph-image", "_yoast_wpseo_opengraph-image-id"
 
 
 class Fail(Exception):
@@ -197,13 +200,13 @@ def yoast_head_checks(got, meta):
     return checks
 
 
-def seo(post_id, seo_file, apply):
+def seo(post_id, seo_file, apply, base="posts"):
     fields = read_seo(seo_file)
     if not fields:
         raise Fail(f"{seo_file} has no keyphrase, title or description lines")
     preflight()
     query = "?context=edit&_fields=id,status,link,meta,yoast_head_json.title,yoast_head_json.description"
-    post = call("GET", f"/wp/v2/posts/{post_id}{query}")
+    post = call("GET", f"/wp/v2/{base}/{post_id}{query}")
     wanted = {YOAST[k]: v for k, v in fields.items()}
     update = {k: v for k, v in wanted.items() if post["meta"].get(k, "") != v}
     report = {"mode": "apply" if apply else "dry-run", "post_id": post["id"], "status": post["status"],
@@ -211,8 +214,8 @@ def seo(post_id, seo_file, apply):
               "before": {k: post["meta"].get(k, "") for k in wanted}}
     if apply:
         if update:
-            call("POST", f"/wp/v2/posts/{post['id']}", {"meta": update})
-        got = call("GET", f"/wp/v2/posts/{post['id']}{query}")
+            call("POST", f"/wp/v2/{base}/{post['id']}", {"meta": update})
+        got = call("GET", f"/wp/v2/{base}/{post['id']}{query}")
         report["checks"] = {k: got["meta"].get(k) == v for k, v in wanted.items()}
         report["checks"].update(yoast_head_checks(got, wanted))
         report["checks"]["status_unchanged"] = got["status"] == post["status"]
@@ -223,12 +226,12 @@ def seo(post_id, seo_file, apply):
     return report
 
 
-def og_image(post_id):
-    head = call("GET", f"/wp/v2/posts/{post_id}?context=edit&_fields=yoast_head_json.og_image").get("yoast_head_json") or {}
+def og_image(post_id, base="posts"):
+    head = call("GET", f"/wp/v2/{base}/{post_id}?context=edit&_fields=yoast_head_json.og_image").get("yoast_head_json") or {}
     return (head.get("og_image") or [{}])[0].get("url")
 
 
-def feature(post_id, assets, apply, name=None):
+def feature(post_id, assets, apply, name=None, base="posts"):
     """Set the card in <assets> as one post's featured image, whatever its status, and make og:image follow it."""
     image = feature_file(assets)
     alt = (assets / "alt.txt").read_text().strip() if (assets / "alt.txt").exists() else ""
@@ -237,10 +240,12 @@ def feature(post_id, assets, apply, name=None):
     if not alt:
         raise Fail(f"{image.name} has no alt.txt beside it")
     preflight()
-    query = "?context=edit&_fields=id,status,link,featured_media"
-    post = call("GET", f"/wp/v2/posts/{post_id}{query}")
+    query = "?context=edit&_fields=id,status,link,featured_media,meta"
+    post = call("GET", f"/wp/v2/{base}/{post_id}{query}")
     changes = []
     media_id = resolve_media(image, alt, name or assets.name, post, apply, changes)
+    if base == "pages":
+        return page_social_image(post, media_id, alt, image, apply, changes)
     if post["featured_media"] != media_id:
         changes.append(f"set featured_media {post['featured_media']} -> {media_id or 'the upload'}")
     before = og_image(post_id)
@@ -275,6 +280,41 @@ def feature(post_id, assets, apply, name=None):
         report["ok"] = True
     report["link"] = post["link"]
     report["edit_url"] = f"{SITE}/wp-admin/post.php?post={post['id']}&action=edit"
+    return report
+
+
+def page_social_image(page, media_id, alt, image, apply, changes):
+    """Point Yoast's social image on a page at the card; the theme's default card covers pages without one."""
+    page_id = page["id"]
+    before = og_image(page_id, "pages")
+    if page["meta"].get(OG_IMAGE_ID) != str(media_id or ""):
+        changes.append(f"set {OG_IMAGE_ID} {page['meta'].get(OG_IMAGE_ID) or '(none)'} -> {media_id or 'the upload'}")
+    report = {"mode": "apply" if apply else "dry-run", "post_id": page_id, "status": page["status"],
+              "live": page["status"] == "publish", "image": str(image), "media_id": media_id,
+              "changes": changes, "og_image_before": before}
+    if apply:
+        media = call("GET", f"/wp/v2/media/{media_id}?context=edit&_fields=source_url,alt_text,post")
+        wanted = {OG_IMAGE: media["source_url"], OG_IMAGE_ID: str(media_id)}
+        if any(page["meta"].get(k) != v for k, v in wanted.items()):
+            call("POST", f"/wp/v2/pages/{page_id}", {"meta": wanted})
+        if not media.get("post"):
+            changes.append(f"attach media {media_id} to page {page_id}")
+            call("POST", f"/wp/v2/media/{media_id}", {"post": page_id})
+        got = call("GET", f"/wp/v2/pages/{page_id}?context=edit&_fields=status,meta,yoast_head_json.og_image")
+        head = ((got.get("yoast_head_json") or {}).get("og_image") or [{}])[0]
+        report["og_image"] = head.get("url")
+        report["checks"] = {
+            **{k: got["meta"].get(k) == v for k, v in wanted.items()},
+            "alt_text": media["alt_text"] == alt,
+            "og_image": head.get("url") == media["source_url"],
+            "og_image_width": int(head.get("width") or 0) >= 1200,
+            "status_unchanged": got["status"] == page["status"],
+        }
+        report["ok"] = all(report["checks"].values())
+    else:
+        report["ok"] = True
+    report["link"] = page["link"]
+    report["edit_url"] = f"{SITE}/wp-admin/post.php?post={page_id}&action=edit"
     return report
 
 
@@ -328,13 +368,14 @@ def main(argv):
             return 0
         if len(args) >= 4 and args[0] in ("push", "seo", "feature") and "--report" in args:
             out = Path(args[args.index("--report") + 1])
+            base = "pages" if "--page" in args else "posts"
             if args[0] == "push":
                 report = push(Path(args[1]), "--apply" in args)
             elif args[0] == "feature":
                 name = args[args.index("--name") + 1] if "--name" in args else None
-                report = feature(int(args[1]), Path(args[2]), "--apply" in args, name)
+                report = feature(int(args[1]), Path(args[2]), "--apply" in args, name, base)
             else:
-                report = seo(int(args[1]), Path(args[2]), "--apply" in args)
+                report = seo(int(args[1]), Path(args[2]), "--apply" in args, base)
             out.write_text(json.dumps(report, indent=2) + "\n")
             failed = [k for k, v in report.get("checks", {}).items() if not v]
             print(f"{report['mode']} {'ok' if report['ok'] else 'FAILED'}: post {report['post_id']}, "

@@ -23,6 +23,7 @@ function bootstrap(): void {
 	CodeHighlight\bootstrap();
 	LegacyRedirects\bootstrap();
 	LlmsTxt\bootstrap();
+	YoastPageMeta\bootstrap();
 	CLI\bootstrap();
 	Corpus\bootstrap();
 	PostTypes\Project\bootstrap();
