@@ -49,10 +49,10 @@ assert.doesNotMatch(
 
 const sectionOrder = [
 	'ik2/home-hero',
+	'ik2/home-projects',
 	'ik2/home-featured-topics',
 	'ik2/home-evergreen-guides',
 	'ik2/home-latest-notes',
-	'ik2/home-projects',
 	'ik2/home-speaking',
 ];
 

@@ -4,10 +4,23 @@
 // The topics grid, projects grid, and speaking timeline are theme blocks and
 // load their own styles on demand.
 
+@use '../styles/tokens' as *;
 @use '../styles/hero';
 @use '../styles/guides';
 @use '../styles/notes';
 @use '../styles/speaking-layout';
+
+// Sections carry their own padding. Core's 24px block gap would show as a
+// page-coloured strip above a muted section.
+.ik-section + .ik-section {
+	margin-block-start: 0;
+}
+
+// Two plain sections in a row have no background change to tell them apart.
+// The hero already draws its own bottom rule.
+.ik-section:not(.ik-section--muted, .ik-hero) + .ik-section:not(.ik-section--muted) {
+	border-top: 1px solid $color-line;
+}
 
 // Skip layout and paint for sections two or more past the hero until they near
 // the viewport. The one right after the hero can peek above the fold, so it
