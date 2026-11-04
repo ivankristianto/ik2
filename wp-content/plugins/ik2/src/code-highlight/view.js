@@ -1,6 +1,6 @@
 /**
- * Runs on the front end and in the editor canvas, where RichText swaps text
- * nodes per keystroke. Watches <html> because the canvas replaces its <body>.
+ * Editor canvas only. RichText swaps text nodes per keystroke, so repaint on
+ * mutation, watching <html> because the canvas replaces its <body>.
  */
 import { isSupported, paint } from './paint';
 
@@ -20,20 +20,9 @@ function watch() {
 	} );
 }
 
-// The canvas iframe is a blob: document whose body classes arrive after this
-// runs; a non-iframed editor renders blocks straight into wp-admin.
-function isEditor() {
-	return (
-		location.protocol === 'blob:' ||
-		document.body.classList.contains( 'wp-admin' )
-	);
-}
-
 function init() {
 	paint( document );
-	if ( isEditor() ) {
-		watch();
-	}
+	watch();
 }
 
 if ( isSupported() ) {

@@ -13,6 +13,7 @@ module.exports = {
 	entry: {
 		'code-highlight': src( 'code-highlight/view.js' ),
 		'code-highlight-editor': src( 'code-highlight/editor.js' ),
+		'code-highlight-loader': src( 'code-highlight/loader.js' ),
 	},
 	output: {
 		...defaultConfig.output,
