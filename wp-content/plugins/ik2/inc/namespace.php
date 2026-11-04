@@ -19,6 +19,7 @@ function bootstrap(): void {
 	Setup\bootstrap();
 	Assets\bootstrap();
 	Blocks\bootstrap();
+	CloudflarePurge\bootstrap();
 	CodeHighlight\bootstrap();
 	LegacyRedirects\bootstrap();
 	LlmsTxt\bootstrap();
