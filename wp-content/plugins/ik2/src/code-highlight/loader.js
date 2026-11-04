@@ -1,27 +1,33 @@
 /**
- * Front end only: imports the painter (Prism, ~60KB) after `load`, once a code
- * block nears the viewport, so it never competes with the article's LCP image.
- * Highlights only recolor text, so painting late shifts nothing.
+ * Front end: imports the painter (Prism, ~60KB raw) after `load` and only once
+ * a code block nears the viewport, so it never competes with the LCP image.
  */
 const BLOCKS = 'pre.wp-block-code[data-language]';
 
-function paintAll() {
-	import( /* webpackChunkName: "code-highlight-paint" */ './paint' ).then(
-		( { paint } ) => paint( document )
-	);
-}
-
-function observe() {
+function paintWhenNear() {
 	const blocks = document.querySelectorAll( BLOCKS );
 	if ( ! blocks.length ) {
 		return;
 	}
+	let pending = false;
 	const observer = new IntersectionObserver(
 		( entries ) => {
-			if ( entries.some( ( entry ) => entry.isIntersecting ) ) {
-				observer.disconnect();
-				paintAll();
+			if (
+				pending ||
+				! entries.some( ( entry ) => entry.isIntersecting )
+			) {
+				return;
 			}
+			pending = true;
+			import( /* webpackChunkName: "code-highlight-paint" */ './paint' )
+				.then( ( { paint } ) => {
+					observer.disconnect();
+					paint( document );
+				} )
+				// A failed chunk load retries the next time a block scrolls into range.
+				.catch( () => {
+					pending = false;
+				} );
 		},
 		{ rootMargin: '100% 0px' }
 	);
@@ -30,8 +36,8 @@ function observe() {
 
 if ( typeof CSS !== 'undefined' && 'highlights' in CSS ) {
 	if ( document.readyState === 'complete' ) {
-		observe();
+		paintWhenNear();
 	} else {
-		window.addEventListener( 'load', observe, { once: true } );
+		window.addEventListener( 'load', paintWhenNear, { once: true } );
 	}
 }

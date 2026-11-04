@@ -1,7 +1,6 @@
 /**
- * Editor canvas only (the front end uses loader.js). RichText swaps text nodes
- * per keystroke, so repaint on mutation. Watches <html> because the canvas
- * replaces its <body>.
+ * Editor canvas only. RichText swaps text nodes per keystroke, so repaint on
+ * mutation, watching <html> because the canvas replaces its <body>.
  */
 import { isSupported, paint } from './paint';
 

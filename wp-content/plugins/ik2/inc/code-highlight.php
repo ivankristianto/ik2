@@ -129,7 +129,10 @@ function render_code_block( string $block_content, array $block ): string {
 	}
 
 	$tags->set_attribute( 'data-language', $language );
-	wp_enqueue_script( LOADER_HANDLE );
+	// Admin gets the canvas painter instead; two webpack runtimes would share one Prism global.
+	if ( ! is_admin() ) {
+		wp_enqueue_script( LOADER_HANDLE );
+	}
 
 	return $tags->get_updated_html();
 }
