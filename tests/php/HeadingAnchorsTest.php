@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the heading anchors module.
+ * Tests for the heading anchor slugs. The Tag Processor walk needs WordPress, so it isn't covered here.
  *
  * @package IK2\Tests
  */
@@ -11,45 +11,24 @@ namespace IK2\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function IK2\Theme\HeadingAnchors\anchor_headings;
 use function IK2\Theme\HeadingAnchors\heading_slug;
+use function IK2\Theme\HeadingAnchors\unique_id;
 
 final class HeadingAnchorsTest extends TestCase {
 
-	public function test_adds_ids_to_h2_and_h3(): void {
-		$html = '<h2 class="wp-block-heading">Why it broke</h2><p>x</p><h3>The fix</h3>';
-
-		self::assertSame(
-			'<h2 id="why-it-broke" class="wp-block-heading">Why it broke</h2><p>x</p><h3 id="the-fix">The fix</h3>',
-			anchor_headings( $html )
-		);
-	}
-
-	public function test_leaves_other_levels_alone(): void {
-		$html = '<h1>Title</h1><h4>Small</h4>';
-
-		self::assertSame( $html, anchor_headings( $html ) );
-	}
-
-	public function test_keeps_an_existing_id_and_avoids_reusing_it(): void {
-		$html = '<h2 id="setup">Setup</h2><h2>Setup</h2><p id="notes">n</p><h3>Notes</h3>';
-
-		self::assertSame(
-			'<h2 id="setup">Setup</h2><h2 id="setup-2">Setup</h2><p id="notes">n</p><h3 id="notes-2">Notes</h3>',
-			anchor_headings( $html )
-		);
-	}
-
-	public function test_skips_headings_with_no_text(): void {
-		$html = '<h2><img src="a.png" alt=""></h2>';
-
-		self::assertSame( $html, anchor_headings( $html ) );
-	}
-
-	public function test_slug_strips_markup_and_entities(): void {
-		self::assertSame( 'use-wp-cli-code-not-ftp', heading_slug( 'Use <code>WP-CLI&nbsp;code</code>, &amp; not FTP' ) );
+	public function test_slug_hyphenates_punctuation_and_spaces(): void {
+		self::assertSame( 'use-wp-cli-not-ftp', heading_slug( "Use WP-CLI\u{00A0}& not FTP" ) );
 		self::assertSame( 'step-2-run-it', heading_slug( 'Step 2: run it!' ) );
 		self::assertSame( 'café-setup', heading_slug( 'Café setup' ) );
+	}
+
+	public function test_slug_drops_apostrophes_like_the_stored_ids(): void {
+		self::assertSame( 'where-ive-used-it', heading_slug( "Where I\u{2019}ve used it" ) );
+		self::assertSame( 'dont-panic', heading_slug( "Don't panic" ) );
+	}
+
+	public function test_slug_is_empty_for_text_without_letters(): void {
+		self::assertSame( '', heading_slug( " \u{2014} " ) );
 	}
 
 	public function test_slug_is_capped_at_a_word_boundary(): void {
@@ -57,5 +36,10 @@ final class HeadingAnchorsTest extends TestCase {
 
 		self::assertLessThanOrEqual( 60, strlen( $slug ) );
 		self::assertStringEndsWith( 'word', $slug );
+	}
+
+	public function test_unique_id_skips_taken_ids(): void {
+		self::assertSame( 'setup', unique_id( 'setup', [] ) );
+		self::assertSame( 'setup-3', unique_id( 'setup', [ 'setup' => true, 'setup-2' => true ] ) );
 	}
 }

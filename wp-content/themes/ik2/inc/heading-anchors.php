@@ -2,8 +2,7 @@
 /**
  * Give post headings stable ids so readers, search results and AI answers can link to a section.
  *
- * PHPUnit loads this file directly, so there is no ABSPATH guard; only the hook
- * functions call WordPress.
+ * PHPUnit loads this file to test the pure slug helpers, so there is no ABSPATH guard.
  *
  * @package IK2
  */
@@ -12,8 +11,11 @@ declare(strict_types=1);
 
 namespace IK2\Theme\HeadingAnchors;
 
-const HEADING_PATTERN = '/<h([23])\b([^>]*)>(.*?)<\/h\1>/is';
-const ID_PATTERN      = '/\sid\s*=\s*["\']?([^"\'\s>]+)/i';
+const HEADING_TAGS = [ 'H2', 'H3' ];
+
+// Cheap bail-out before parsing: an h2 or h3 whose attributes don't include an id.
+const BARE_HEADING_PATTERN = '/<h[23](?![^>]*\sid\s*=)[\s>]/i';
+
 const MAX_SLUG_LENGTH = 60;
 
 /**
@@ -29,7 +31,11 @@ function bootstrap(): void {
  * @param string $block_content Rendered post-content HTML.
  */
 function add_heading_ids( string $block_content ): string {
-	return is_singular( 'post' ) ? anchor_headings( $block_content ) : $block_content;
+	if ( ! is_singular( 'post' ) || ! preg_match( BARE_HEADING_PATTERN, $block_content ) ) {
+		return $block_content;
+	}
+
+	return anchor_headings( $block_content );
 }
 
 /**
@@ -38,47 +44,85 @@ function add_heading_ids( string $block_content ): string {
  * @param string $html Rendered post content.
  */
 function anchor_headings( string $html ): string {
-	if ( ! preg_match_all( HEADING_PATTERN, $html, $headings, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) ) {
-		return $html;
-	}
+	$taken = existing_ids( $html );
+	$tags  = new \WP_HTML_Tag_Processor( $html );
 
-	preg_match_all( ID_PATTERN, $html, $ids );
-	$taken  = array_fill_keys( $ids[1], true );
-	$out    = '';
-	$cursor = 0;
-
-	foreach ( $headings as $heading ) {
-		[ $match, $start ] = $heading[0];
-
-		if ( preg_match( ID_PATTERN, $heading[2][0] ) ) {
+	while ( $tags->next_tag() ) {
+		if ( ! in_array( $tags->get_tag(), HEADING_TAGS, true ) || $tags->get_attribute( 'id' ) !== null ) {
 			continue;
 		}
 
-		$slug = heading_slug( $heading[3][0] );
+		$tags->set_bookmark( 'heading' );
+		$slug = heading_slug( text_until_closer( $tags, (string) $tags->get_tag() ) );
+		$tags->seek( 'heading' );
 
 		if ( $slug === '' ) {
 			continue;
 		}
 
-		$id = unique_id( $slug, $taken );
-
+		$id           = unique_id( $slug, $taken );
 		$taken[ $id ] = true;
-		$tag_end      = $start + 3;
-		$out         .= substr( $html, $cursor, $tag_end - $cursor ) . ' id="' . $id . '"';
-		$cursor       = $tag_end;
+		$tags->set_attribute( 'id', $id );
 	}
 
-	return $out . substr( $html, $cursor );
+	$tags->release_bookmark( 'heading' );
+
+	return $tags->get_updated_html();
+}
+
+/**
+ * Every id already in the content, so a new one can't collide with an element further down.
+ *
+ * @param string $html Rendered post content.
+ * @return array<string,true>
+ */
+function existing_ids( string $html ): array {
+	$ids  = [];
+	$tags = new \WP_HTML_Tag_Processor( $html );
+
+	while ( $tags->next_tag() ) {
+		$id = $tags->get_attribute( 'id' );
+
+		if ( is_string( $id ) ) {
+			$ids[ $id ] = true;
+		}
+	}
+
+	return $ids;
+}
+
+/**
+ * Decoded text from the current tag up to its closer, markup dropped.
+ *
+ * @param \WP_HTML_Tag_Processor $tags Processor paused on the opening tag.
+ * @param string                 $tag  Tag name to stop at.
+ */
+function text_until_closer( \WP_HTML_Tag_Processor $tags, string $tag ): string {
+	$text = '';
+
+	while ( $tags->next_token() ) {
+		if ( $tags->get_token_type() === '#tag' && $tags->is_tag_closer() && $tags->get_tag() === $tag ) {
+			break;
+		}
+
+		if ( $tags->get_token_type() === '#text' ) {
+			$text .= $tags->get_modifiable_text();
+		}
+	}
+
+	return $text;
 }
 
 /**
  * Lowercase, hyphenated heading text, cut at a word boundary.
  *
- * @param string $inner_html Heading inner HTML.
+ * Apostrophes go without a hyphen, as in the ids the drafting pipeline stores.
+ *
+ * @param string $text Decoded heading text.
  */
-function heading_slug( string $inner_html ): string {
-	$text = html_entity_decode( strip_tags( $inner_html ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags -- loaded by PHPUnit without WordPress.
-	$slug = trim( (string) preg_replace( '/[^\p{L}\p{N}]+/u', '-', mb_strtolower( $text ) ), '-' );
+function heading_slug( string $text ): string {
+	$text = str_replace( [ "'", "\u{2019}" ], '', mb_strtolower( $text ) );
+	$slug = trim( (string) preg_replace( '/[^\p{L}\p{N}]+/u', '-', $text ), '-' );
 
 	if ( strlen( $slug ) <= MAX_SLUG_LENGTH ) {
 		return $slug;
