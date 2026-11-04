@@ -63,6 +63,7 @@ function bootstrap(): void {
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_styles' );
 	add_action( 'wp_head', __NAMESPACE__ . '\\preload_hero_portrait', 1 );
+	add_action( 'wp_head', __NAMESPACE__ . '\\preload_article_featured_image', 1 );
 	add_filter( 'style_loader_tag', __NAMESPACE__ . '\\optimise_core_block_style_delivery', 10, 3 );
 	add_filter( 'get_site_icon_url', __NAMESPACE__ . '\\fallback_site_icon_url' );
 	add_filter( 'wp_content_img_tag', __NAMESPACE__ . '\\prioritize_hero_portrait' );
@@ -397,9 +398,49 @@ function size_article_featured_image( array $attr, \WP_Post $attachment ): array
 		return $attr;
 	}
 
-	$attr['sizes'] = sprintf( '(max-width: %1$dpx) 100vw, %1$dpx', ARTICLE_WIDE_PX );
+	$attr['sizes'] = article_featured_image_sizes();
 
 	return $attr;
+}
+
+/**
+ * `sizes` for the featured image, shared by the `<img>` and its preload.
+ */
+function article_featured_image_sizes(): string {
+	return sprintf( '(max-width: %1$dpx) 100vw, %1$dpx', ARTICLE_WIDE_PX );
+}
+
+/**
+ * Preload the single-post featured image, the article's LCP element.
+ *
+ * The `<img>` sits after ~100KB of inlined CSS, so the preload scanner finds it
+ * late on slow connections. Mirrors the `large` size single.html renders.
+ */
+function preload_article_featured_image(): void {
+	if ( ! is_singular( 'post' ) || ! has_post_thumbnail() ) {
+		return;
+	}
+
+	$id  = (int) get_post_thumbnail_id();
+	$src = wp_get_attachment_image_src( $id, 'large' );
+
+	if ( ! $src ) {
+		return;
+	}
+
+	$srcset = wp_get_attachment_image_srcset( $id, 'large' );
+
+	if ( $srcset ) {
+		printf(
+			'<link rel="preload" as="image" imagesrcset="%s" imagesizes="%s" href="%s" fetchpriority="high">' . "\n",
+			esc_attr( $srcset ),
+			esc_attr( article_featured_image_sizes() ),
+			esc_url( $src[0] )
+		);
+		return;
+	}
+
+	printf( '<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n", esc_url( $src[0] ) );
 }
 
 /**
