@@ -1,8 +1,8 @@
 <?php
 /**
  * Syntax highlighting for core/code. The language lives in the block comment,
- * so saved markup is unchanged; one script paints it on the front end and in
- * the editor canvas.
+ * so saved markup is unchanged. The same painter colors the editor canvas and,
+ * through a loader that waits for `load`, the front end.
  *
  * @package IK2\Plugin
  */
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 const VIEW_HANDLE   = 'ik2-code-highlight';
 const EDITOR_HANDLE = 'ik2-code-highlight-editor';
+const LOADER_HANDLE = 'ik2-code-highlight-loader';
 
 /**
  * Register hooks owned by this module.
@@ -75,11 +76,12 @@ function add_language_attribute( array $args, string $name ): array {
 }
 
 /**
- * Register the canvas/front-end painter and the editor picker from their build manifests.
+ * Register the canvas painter, the front-end loader and the editor picker from their build manifests.
  */
 function register_scripts(): void {
 	register_built_script( VIEW_HANDLE, 'code-highlight', [ 'strategy' => 'defer' ] );
 	register_built_script( EDITOR_HANDLE, 'code-highlight-editor', [] );
+	register_built_script( LOADER_HANDLE, 'code-highlight-loader', [ 'strategy' => 'defer' ] );
 }
 
 /**
@@ -127,7 +129,7 @@ function render_code_block( string $block_content, array $block ): string {
 	}
 
 	$tags->set_attribute( 'data-language', $language );
-	wp_enqueue_script( VIEW_HANDLE );
+	wp_enqueue_script( LOADER_HANDLE );
 
 	return $tags->get_updated_html();
 }
