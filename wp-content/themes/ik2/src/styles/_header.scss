@@ -126,7 +126,7 @@
 	}
 
 	// Resume sits before the hamburger on mobile so the menu trigger reaches the
-	// right edge (thumb zone) and the primary CTA reads first.
+	// right edge (thumb zone).
 	.ik-header__resume-wrap {
 		order: -1;
 	}
@@ -184,9 +184,30 @@
 		display: none;
 	}
 
+	// Outlined like the menu button so it doesn't outweigh the hero's "More about me".
 	.ik-header__resume .wp-block-button__link {
 		min-height: 44px;
 		padding-inline: $space-3;
+		border: 1px solid $color-line;
+		background: $color-surface;
+		color: $color-ink;
+		transition: border-color $transition-base, background-color $transition-base, color $transition-base;
+
+		&:hover {
+			border-color: $color-rule;
+			background: $color-soft-paper;
+		}
+
+		&.is-current,
+		&[aria-current='page'] {
+			border-color: $color-signal;
+			background: $color-surface;
+			color: $color-signal-deep;
+
+			&:hover {
+				background: $color-soft-paper;
+			}
+		}
 	}
 
 	.ik-header .wp-block-navigation__responsive-container {

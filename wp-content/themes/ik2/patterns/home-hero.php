@@ -45,7 +45,7 @@
 				<dt>now</dt>
 				<dd>Senior web engineer at Human Made</dd>
 				<dt>2026</dt>
-				<dd>Advanced Professional WordPress Developer, Automattic</dd>
+				<dd>Advanced Professional WordPress Developer certification, Automattic</dd>
 				<dt>since 2018</dt>
 				<dd>Google Developer Expert, web technologies</dd>
 				<dt>since 2015</dt>
