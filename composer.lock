@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ba6c50653ce0fbd3aa3153418e15814",
+    "content-hash": "967de7bb5ac7a220bf6abc57e188c199",
     "packages": [
         {
             "name": "automattic/jetpack-autoloader",
@@ -370,6 +370,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/biometric-authentication/"
+        },
+        {
+            "name": "wpackagist-plugin/cloudflare",
+            "version": "4.14.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/cloudflare/",
+                "reference": "tags/4.14.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/cloudflare.4.14.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/cloudflare/"
         },
         {
             "name": "wpackagist-plugin/create-block-theme",

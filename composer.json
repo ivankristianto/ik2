@@ -9,6 +9,7 @@
 		"wordpress/mcp-adapter": "^0.7",
 		"wpackagist-plugin/ai": "^1.0",
 		"wpackagist-plugin/biometric-authentication": "^0.5.1",
+		"wpackagist-plugin/cloudflare": "^4.14",
 		"wpackagist-plugin/create-block-theme": "^2.9",
 		"wpackagist-plugin/google-site-kit": "^1.183",
 		"wpackagist-plugin/performance-lab": "^4.1",
