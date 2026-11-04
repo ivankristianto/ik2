@@ -22,3 +22,4 @@
 - [No personal ops details in posts](feedback-no-personal-ops-details.md): token expiry dates, vault IDs and account names stay out of posts; say "the token expires"
 - [Yoast og:image after REST featured_media](reference-yoast-og-image-after-rest-featured-media.md): REST sets the thumbnail after Yoast rebuilds; use wp_draft.py feature, which re-saves and checks og:image
 - [never run unscoped write tools](feedback-never-run-unscoped-write-tools.md): confirm formatters/--fix touch only the intended files; never run the :fix scripts or wp-scripts format unscoped
+- [page SEO + cards](project-page-seo-cards.md): static pages get Yoast fields + social cards via wp_draft.py --page (v0.26.0); sources in .claude/blog/pages/
