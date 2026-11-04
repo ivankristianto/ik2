@@ -32,6 +32,7 @@ require_once __DIR__ . '/inc/cloudflare-purge.php';
 require_once __DIR__ . '/inc/code-highlight.php';
 require_once __DIR__ . '/inc/legacy-redirects.php';
 require_once __DIR__ . '/inc/llms-txt.php';
+require_once __DIR__ . '/inc/yoast-page-meta.php';
 require_once __DIR__ . '/inc/cli/namespace.php';
 require_once __DIR__ . '/inc/corpus/text.php';
 require_once __DIR__ . '/inc/corpus/batch.php';
