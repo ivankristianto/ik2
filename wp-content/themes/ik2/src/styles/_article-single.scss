@@ -372,6 +372,7 @@
 		letter-spacing: $tracking-tighter;
 		margin-top: 2.4em;
 		margin-bottom: 0;
+		scroll-margin-top: $space-7;
 	}
 
 	h3.wp-block-heading,
@@ -381,6 +382,7 @@
 		letter-spacing: $tracking-tight;
 		margin-top: 2em;
 		margin-bottom: 0;
+		scroll-margin-top: $space-7;
 
 		// subtitle bottoms out at 22px near 900px, under the desktop h4.
 		@media (min-width: 56.25em) {
