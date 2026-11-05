@@ -53,3 +53,6 @@
 
 # One-off migration inputs (old DB dump + uploads copy). Never committed.
 /legacy/
+
+# Python bytecode from the blog skill scripts
+__pycache__/
