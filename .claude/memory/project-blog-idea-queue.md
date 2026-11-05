@@ -11,6 +11,8 @@ Blog skills live in `.claude/skills/blog-*`. Outputs go to `.claude/blog/{ideas,
 
 **Queued:** an accessibility audit of this blog against WCAG 2.2 AA. First test found 31 images without alt text in 14 old posts, six Flash embeds, one table without header cells, and 50 posts that skip from the title to h3. Ten criteria still untested. The report page has to pass what it claims. Source: `wp-content/themes/ik2/blocks/accessibility-report/report.php`, live at https://www.ivankristianto.com/accessibility/.
 
+**WordPress draft 2098 (2026-11-05):** free embeddings / related posts (slug `free-embeddings-in-mysql`, title says MariaDB, prod and local both MariaDB). Local files: `drafts/free-embeddings-in-mysql*`, research, review. Not yet published.
+
 Published from this queue: the webfont split post (2026-10-26), WebMCP tools (2026-10-28), PHP compatibility scan (2026-10-31).
 
 **Why:** Ivan picked these from the ideas lists in `.claude/blog/ideas/`.
