@@ -24,6 +24,7 @@ Find the sessions behind the idea (the ideas file says which project). Read what
 - Numbers, versions and error messages worth keeping, with identifying parts removed.
 - What Ivan chose and why. A decision with a reason is the part readers value most.
 - What was never tested. Say so in the file, and later in the post.
+- What's left to do, from the places that record it: a spec's out-of-scope list, an eval's follow-ups, TODOs in the code, open issues, and anything Ivan said he'd do later. One line each, with its source. Ivan rereads these posts to pick the work back up, so this list is part of the story.
 
 ## 2. Verify
 
@@ -47,6 +48,7 @@ The draft step never asks Ivan anything in the post itself, so research collects
 - When it happened and what he was doing (a rough date and the situation, no client names).
 - What it cost him or what he suspected first, if the session does not show it.
 - Anything the outcome depends on: did it ship, did the numbers move, what he is allowed to say.
+- When step 1 found things left to do, which of them he actually plans (multi-select), in place of whichever question above the session already answers. A follow-up in a spec is not a plan of his until he picks it.
 
 Offer concrete options drawn from the session so he can answer with a click, and let him type his own. Write his answers into the Story, marked `(from Ivan)`. If he skips one, record it as not answered; the draft then leaves that part out rather than guessing.
 
@@ -56,7 +58,7 @@ Sections, in this order:
 
 1. **Thesis**: the one thing a reader should leave knowing, in two sentences.
 2. **Audience**: who gets value, and what they already know.
-3. **Story**: the firsthand sequence, sanitized.
+3. **Story**: the firsthand sequence, sanitized, ending with what was never tested and what's left to do. Each next step carries its source, and the ones Ivan picked are marked `(from Ivan)`.
 4. **Claims table**: claim, status, how verified, source URL.
 5. **Snippets**: runnable examples that are safe to publish, each tested, with the command and output.
 6. **Related**: existing posts on the blog and the best outside articles, as full URLs, each with a line on how it differs.

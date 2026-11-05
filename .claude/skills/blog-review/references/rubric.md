@@ -17,7 +17,7 @@ Ivan's test: a year from now, he opens this post and remembers what he did and w
 - **R4 What he did.** Commands, steps or code he actually ran, with what came back. Instructions in the second person with no sign he ran them are partial at best. "The examples here were checked" with no who, where or output is a fail.
 - **R5 Choices.** What he picked over what, and why, including what didn't work. Fail when the post only lists options.
 - **R6 Outcome.** What worked, what it fixed, a number if there is one.
-- **R7 Open ends.** What he hasn't tested or doesn't know yet, said in his voice inside the story. A passive disclaimer ("it hasn't had an end-to-end UI check for these notes") is partial.
+- **R7 Open ends.** What he hasn't tested or doesn't know yet, said in his voice inside the story, and what he'd do next when the research records it. A passive disclaimer ("it hasn't had an end-to-end UI check for these notes") is partial. A next step that no spec, eval, issue or answer from Ivan backs is an `ask-ivan` claim, not a pass.
 - **R8 The 30-second test.** Read only the title and first paragraph (skip a dated "Updated ..." correction note at the top; that's his convention, so judge the first paragraph after it). Can you say what this post records about Ivan's work, not just what topic it covers? Pass, or fail.
 
 ## F: Facts and sources (25)
