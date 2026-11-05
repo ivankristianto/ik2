@@ -20,7 +20,8 @@
 		"release": "node scripts/release.mjs",
 		"tokens": "node scripts/sync-tokens.mjs",
 		"tokens:check": "node scripts/sync-tokens.mjs --check",
-		"test:webmcp": "node scripts/webmcp-smoke.mjs"
+		"test:webmcp": "node scripts/webmcp-smoke.mjs",
+		"test:csp": "node scripts/csp-smoke.mjs"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^27.1.0",
