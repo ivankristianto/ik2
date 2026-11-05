@@ -30,6 +30,7 @@ function bootstrap(): void {
 	PostTypes\TalkMeta\bootstrap();
 	Activity\bootstrap();
 	Csp\bootstrap();
+	Email\bootstrap();
 
 	register_activation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_activate' );
 	register_deactivation_hook( PLUGIN_FILE, __NAMESPACE__ . '\\on_deactivate' );

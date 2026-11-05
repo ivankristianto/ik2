@@ -49,5 +49,7 @@ require_once __DIR__ . '/inc/activity/rules.php';
 require_once __DIR__ . '/inc/activity/namespace.php';
 require_once __DIR__ . '/inc/csp/rules.php';
 require_once __DIR__ . '/inc/csp/namespace.php';
+require_once __DIR__ . '/inc/email/rules.php';
+require_once __DIR__ . '/inc/email/namespace.php';
 
 bootstrap();
