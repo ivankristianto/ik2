@@ -82,6 +82,7 @@
   --wp--custom--transition--drawer: 280ms cubic-bezier(0.22, 1, 0.36, 1);
   --wp--custom--width--full: 80rem;
   --wp--custom--width--measure: 60ch;
+  --wp--custom--target--size: 1.5rem;
   --wp--style--global--content-size: 60rem;
   --wp--style--global--wide-size: 75rem;
 }

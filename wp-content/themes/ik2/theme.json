@@ -178,6 +178,9 @@
 			"width": {
 				"full": "80rem",
 				"measure": "60ch"
+			},
+			"target": {
+				"size": "1.5rem"
 			}
 		},
 		"layout": {
