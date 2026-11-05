@@ -133,6 +133,11 @@ def main():
     heads = re.findall(r"^#{2,4}\s+(.+)$", body, re.M)
     generic = [h for h in heads if re.fullmatch(TEMPLATE_HEADINGS, h.strip().rstrip(".:").lower())]
     add("S3m", "signal", "Headings aren't template labels", not generic, generic or f"{len(heads)} headings, none generic")
+    sections = re.split(r"^#{2,4}\s+.+$", re.sub(r"```.*?```", "", body, flags=re.S), flags=re.M)
+    per_head = len(body_prose.split()) // len(heads) if heads else None
+    thin = [f"{h} ({len(s.split())}w)" for h, s in zip(heads, sections[1:]) if len(s.split()) < 200]
+    add("S7m", "signal", "About one heading per 300 words or more, no section under 200 words",
+        (per_head is None or per_head >= 250) and not thin, f"{len(heads)} headings, {per_head} words per heading, thin: {thin or 'none'}")
 
     if LEAK_CHECK.exists():
         leak = subprocess.run(["bash", str(LEAK_CHECK), str(path)], capture_output=True, text=True)

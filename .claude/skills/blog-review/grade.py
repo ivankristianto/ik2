@@ -37,7 +37,7 @@ ITEMS = {
     "S4": "Steps are numbered and a reader could follow them",
     "S5": "Sections stop when the content stops",
     "S6": "The close hands over to the reader, and Sources come last",
-    "S7": "Length fits what the post has to say",
+    "S7": "Length fits what the post has to say, in sections that carry their weight",
     "V1": "Opens in a real situation, not a thesis or a hypothetical",
     "V2": "First person: his experience, not a generic tutorial",
     "V3": "Plain talk and contractions, like he'd say it to a colleague",
