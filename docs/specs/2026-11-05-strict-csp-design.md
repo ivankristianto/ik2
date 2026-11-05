@@ -144,8 +144,8 @@ real browser load. curl with a custom User-Agent misses these.
 
 | Injection | State | Handling |
 | --- | --- | --- |
-| Web Analytics beacon, `https://static.cloudflareinsights.com/beacon.min.js` | Injected at the edge for browsers | **Open, Ivan to pick before enforcement.** The edge inserts it as a parser-inserted script with no nonce, so `'strict-dynamic'` blocks it. Some reports say Cloudflare copies the nonce from the CSP header onto its own injected scripts, but that is undocumented, so don't rely on it. Preferred fix: turn off automatic injection in the Cloudflare dashboard and enqueue the beacon through `wp_enqueue_script` with its site token, so it gets the nonce like everything else. Alternative: keep auto-injection and confirm in Report-Only whether it gets stamped. |
-| Email Address Obfuscation | On | When a page contains an email address, Cloudflare rewrites it and injects `/cdn-cgi/scripts/.../email-decode.min.js`, which has no nonce. **Deferred.** Report-Only doesn't block it, so it can wait, but it must be settled before enforcement: turn it off, or confirm no published page shows an address. |
+| Web Analytics beacon, `https://static.cloudflareinsights.com/beacon.min.js` | Injected at the edge for browsers | **Open, Ivan to pick before enforcement.** The edge inserts it as a parser-inserted script with no nonce, so `'strict-dynamic'` blocks it. Some reports say Cloudflare copies the nonce from the CSP header onto its own injected scripts, but that is undocumented, so don't rely on it. Preferred fix: turn off automatic injection in the Cloudflare dashboard and enqueue the beacon through `wp_enqueue_script` with its site token, so it gets the nonce like everything else. Alternative: keep auto-injection and confirm in Report-Only whether it gets stamped. Checked on prod after v0.29.0 (2026-11-05): the beacon is injected for browser loads only (not in `fetch()` or curl HTML), it carries the header's nonce, and the crawl saw no violation. So auto-injection works today, on undocumented behaviour. |
+| Email Address Obfuscation | On | When a page contains an email address, Cloudflare rewrites it and injects `/cdn-cgi/scripts/.../email-decode.min.js`, which has no nonce. **Deferred.** Report-Only doesn't block it, so it can wait, but it must be settled before enforcement: turn it off, or confirm no published page shows an address. Checked on prod after v0.29.0 (2026-11-05): `/contact/` and `/resume/` show an address and get `email-decode.min.js` with no nonce, and Cloudflare does not stamp it. `pnpm test:csp` crawls `/contact/` to catch it. |
 | Rocket Loader | Off | Must stay off: it rewrites every script tag and breaks nonce matching. |
 | Zaraz (Cloudflare's edge tag manager) | Unknown (token lacks scope) | Check in the dashboard. If it's on, it injects a loader script, and Cloudflare's docs say it edits the origin's CSP header to allow it. GA runs through Site Kit, so it's most likely off. |
 
@@ -200,6 +200,7 @@ data changes.
     the Issues tab after it activates. The crawl still checks the
     `speculationrules` script's nonce on the source page.)
   - 404
+  - `/contact/` (has an email address, so Cloudflare's email obfuscation runs there)
   - `/projects/` (projects are non-public with no rewrite, so there is no single project page)
   - the logged-in front end with the admin bar
 - Site Kit / GA4 events still arrive in GA4 Realtime from a test visit.
