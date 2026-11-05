@@ -1,7 +1,6 @@
 <?php
 /**
- * Strict Content-Security-Policy for front-end HTML: a per-render nonce on every
- * script WordPress prints, and a header that blocks scripts without it.
+ * Strict CSP for front-end HTML: a per-render nonce on every script WordPress prints.
  * Design: docs/specs/2026-11-05-strict-csp-design.md.
  *
  * @package IK2\Plugin
@@ -67,5 +66,7 @@ function nonce(): string {
  * @return array<string,mixed>
  */
 function add_nonce( array $attributes ): array {
-	return Rules\with_nonce( $attributes, nonce() );
+	$attributes['nonce'] = nonce();
+
+	return $attributes;
 }

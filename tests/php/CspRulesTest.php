@@ -12,7 +12,6 @@ namespace IK2\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function IK2\Plugin\Csp\Rules\build_policy;
-use function IK2\Plugin\Csp\Rules\with_nonce;
 
 final class CspRulesTest extends TestCase {
 
@@ -54,23 +53,6 @@ final class CspRulesTest extends TestCase {
 	public function test_empty_nonce_is_refused(): void {
 		$this->expectException( \InvalidArgumentException::class );
 		build_policy( '', true );
-	}
-
-	public function test_nonce_is_added_and_other_attributes_kept(): void {
-		self::assertSame(
-			[
-				'src'   => 'https://example.com/a.js',
-				'defer' => true,
-				'nonce' => self::NONCE,
-			],
-			with_nonce(
-				[
-					'src'   => 'https://example.com/a.js',
-					'defer' => true,
-				],
-				self::NONCE
-			)
-		);
 	}
 
 	/**
