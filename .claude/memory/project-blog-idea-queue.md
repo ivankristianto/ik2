@@ -13,9 +13,9 @@ Blog skills live in `.claude/skills/blog-*`. Outputs go to `.claude/blog/{ideas,
 
 **WordPress draft 2098 (2026-11-05):** free embeddings / related posts (slug `free-embeddings-in-mysql`, title says MariaDB, prod and local both MariaDB). Local files: `drafts/free-embeddings-in-mysql*`, research, review. Not yet published.
 
-**WordPress draft 2105 (2026-11-05):** strict CSP behind Cloudflare (slug `strict-csp-wordpress-cloudflare`), written while the CSP is Report-Only. When `ENFORCE` flips, add a dated "Updated" note. Local files: `drafts/strict-csp-wordpress-cloudflare*`, research, review. Not yet published.
+**Post 2105, scheduled 2026-11-07 21:00:** strict CSP behind Cloudflare (slug `strict-csp-wordpress-cloudflare`), written while the CSP is Report-Only. It covers the email fix through v0.29.2 and the router `eval` violation. When `ENFORCE` flips, add a dated "Updated" note. Local files: `drafts/strict-csp-wordpress-cloudflare*`, research, review. Later edits go over REST, since blog-wp-draft refuses scheduled posts.
 
-**WordPress draft 2109 (2026-11-05):** Modern Web Guidance long-task test (slug `testing-modern-web-guidance`, card option C). Experiment lives in `research/testing-modern-web-guidance/` (protocol, harness, 34 agent transcripts, results). A sanitized public copy is at `~/Works/Personal/mwg-longtasks-eval` (local git, one commit, no remote): Ivan pushes it, then adds one line with the repo URL to the post before publishing. Not yet published.
+**Post 2109, scheduled 2026-11-10 21:00:** Modern Web Guidance long-task test (slug `testing-modern-web-guidance`, card option C). Experiment lives in `research/testing-modern-web-guidance/` (protocol, harness, 34 agent transcripts, results). Public copy: https://github.com/ivankristianto/mwg-longtasks-eval (MIT, local clone at `~/Works/Personal/mwg-longtasks-eval`), live demo https://ivankristianto.github.io/mwg-longtasks-eval/demo/ (GitHub Pages from `main`); the post links both. blog-wp-draft refuses scheduled posts, so later edits go over REST with a `modified` guard.
 
 Published from this queue: the webfont split post (2026-10-26), WebMCP tools (2026-10-28), PHP compatibility scan (2026-10-31).
 
