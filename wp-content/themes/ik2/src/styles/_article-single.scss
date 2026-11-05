@@ -370,7 +370,7 @@
 		font-size: $size-x-large;
 		line-height: $leading-tight;
 		letter-spacing: $tracking-tighter;
-		margin-top: 2.4em;
+		margin-top: $space-7;
 		margin-bottom: 0;
 		scroll-margin-top: $space-7;
 	}
@@ -380,7 +380,7 @@
 		font-size: $size-medium;
 		line-height: $leading-snug;
 		letter-spacing: $tracking-tight;
-		margin-top: 2em;
+		margin-top: $space-6;
 		margin-bottom: 0;
 		scroll-margin-top: $space-7;
 
@@ -395,7 +395,7 @@
 		font-size: $size-base;
 		line-height: $leading-snug;
 		letter-spacing: $tracking-tight;
-		margin-top: 1.8em;
+		margin-top: $space-6;
 		margin-bottom: 0;
 
 		@media (min-width: 56.25em) {
@@ -407,7 +407,7 @@
 	h5 {
 		font-size: $size-small;
 		line-height: $leading-normal;
-		margin-top: 1.6em;
+		margin-top: $space-6;
 		margin-bottom: 0;
 		font-weight: $weight-bold;
 
@@ -1383,7 +1383,22 @@
 
 	.ik-article__body h2.wp-block-heading,
 	.ik-article__body h2 {
-		margin-top: 2em;
+		margin-top: $space-6;
+	}
+
+	.ik-article__body h3.wp-block-heading,
+	.ik-article__body h3 {
+		margin-top: $space-5;
+	}
+
+	.ik-article__body h4.wp-block-heading,
+	.ik-article__body h4 {
+		margin-top: $space-5;
+	}
+
+	.ik-article__body h5.wp-block-heading,
+	.ik-article__body h5 {
+		margin-top: $space-5;
 	}
 
 	/* Floats become full-width on mobile — text wrap looks cramped at 390px. */
