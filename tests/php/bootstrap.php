@@ -12,4 +12,5 @@ require_once dirname( __DIR__, 2 ) . '/wp-content/plugins/ik2/inc/corpus/text.ph
 require_once dirname( __DIR__, 2 ) . '/wp-content/plugins/ik2/inc/corpus/batch.php';
 require_once dirname( __DIR__, 2 ) . '/wp-content/plugins/ik2/inc/activity/rules.php';
 require_once dirname( __DIR__, 2 ) . '/wp-content/plugins/ik2/inc/csp/rules.php';
+require_once dirname( __DIR__, 2 ) . '/wp-content/plugins/ik2/inc/email/rules.php';
 require_once dirname( __DIR__, 2 ) . '/wp-content/themes/ik2/inc/heading-anchors.php';

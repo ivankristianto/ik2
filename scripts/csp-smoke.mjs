@@ -312,10 +312,22 @@ const FLOWS = [
 		name: 'projects',
 		run: ({ page }) => navigate(page, '/projects/'),
 	},
+	// The pages below show an email address. If one reaches the HTML unencoded, Cloudflare's email obfuscation injects a script without the nonce.
 	{
-		// Has an email address, so on prod Cloudflare's email obfuscation injects a script without the nonce.
 		name: 'contact',
 		run: ({ page }) => navigate(page, '/contact/'),
+	},
+	{
+		name: 'resume',
+		run: ({ page }) => navigate(page, '/resume/'),
+	},
+	{
+		name: 'accessibility',
+		run: ({ page }) => navigate(page, '/accessibility/'),
+	},
+	{
+		name: 'old post with addresses in code',
+		run: ({ page }) => navigate(page, '/send-bulk-email-with-php/'),
 	},
 ];
 
