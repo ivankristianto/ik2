@@ -229,3 +229,7 @@ Tables for the Changes section:
 4. Don't merge. Hand the PR link back to the user with a two-line summary: how many packages moved, and anything held back. Remind them that merging doesn't deploy: production only picks up the update after a release (`pnpm release patch`, see **Releasing** in `CLAUDE.md`). Don't cut the release yourself unless they ask.
 
 Remove the `ik2-app:maint` / `ik2-cli:maint` images when done (`docker rmi`).
+
+## 8. Optional: prune old images
+
+When Ivan asks to cut the release, offer to run the `image-cleanup` skill (`/image-cleanup`) once the deploy is confirmed. It keeps `latest`, the last 5 releases and prod's `IMAGE_TAG` on GHCR, and asks before deleting anything. Its `local` step also removes the `:maint` images.
