@@ -15,10 +15,28 @@ use function IK2\Plugin\Email\Rules\encode_addresses;
 
 final class EmailRulesTest extends TestCase {
 
-	public function test_link_text_and_mailto_href_are_both_encoded(): void {
-		$html = '<a href="mailto:hello@ivankristianto.com">hello@ivankristianto.com</a>';
+	public function test_mailto_link_is_encoded_and_wrapped_in_email_off(): void {
+		$html = '<p>Email me at <a href="mailto:hello@ivankristianto.com">hello@ivankristianto.com</a>.</p>';
 
-		self::assertSame( '<a href="mailto:[hello@ivankristianto.com]">[hello@ivankristianto.com]</a>', encode_addresses( $html, $this->marker() ) );
+		self::assertSame(
+			'<p>Email me at <!--email_off--><a href="mailto:[hello@ivankristianto.com]">[hello@ivankristianto.com]</a><!--/email_off-->.</p>',
+			encode_addresses( $html, $this->marker() )
+		);
+	}
+
+	public function test_mailto_link_with_nested_markup_is_wrapped_whole(): void {
+		$html = "<li><a class='x' HREF='MAILTO:hello@ivankristianto.com'><span>Email</span><span>hello@ivankristianto.com</span></a></li>";
+
+		self::assertSame(
+			"<li><!--email_off--><a class='x' HREF='MAILTO:[hello@ivankristianto.com]'><span>Email</span><span>[hello@ivankristianto.com]</span></a><!--/email_off--></li>",
+			encode_addresses( $html, $this->marker() )
+		);
+	}
+
+	public function test_other_links_are_not_wrapped(): void {
+		$html = '<a href="https://github.com/ivankristianto">user@example.com</a>';
+
+		self::assertSame( '<a href="https://github.com/ivankristianto">[user@example.com]</a>', encode_addresses( $html, $this->marker() ) );
 	}
 
 	public function test_addresses_in_code_samples_are_encoded(): void {
