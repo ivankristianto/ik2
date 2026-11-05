@@ -1,8 +1,7 @@
 <?php
 /**
- * Encode email addresses in post content with antispambot(), so Cloudflare's
- * Email Address Obfuscation finds nothing to rewrite and never injects its
- * decode script, which carries no CSP nonce and is blocked under enforcement.
+ * Encode email addresses in post content, so Cloudflare's Email Address Obfuscation
+ * injects no decode script: it carries no CSP nonce and is blocked under enforcement.
  *
  * @package IK2\Plugin
  */
@@ -22,19 +21,10 @@ function bootstrap(): void {
 }
 
 /**
- * Filter callback for the_content.
+ * Filter callback for the_content. antispambot() writes each address as a random mix of entities.
  *
  * @param string $content Rendered post content.
  */
 function encode_content( $content ): string {
-	return Rules\encode_addresses( (string) $content, __NAMESPACE__ . '\\encode_address' );
-}
-
-/**
- * One address as a random mix of decimal and hex entities. The browser shows it unchanged.
- *
- * @param string $address Plain email address.
- */
-function encode_address( string $address ): string {
-	return antispambot( $address );
+	return Rules\encode_addresses( (string) $content, 'antispambot' );
 }

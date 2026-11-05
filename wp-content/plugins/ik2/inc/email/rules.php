@@ -9,10 +9,8 @@ declare(strict_types=1);
 
 namespace IK2\Plugin\Email\Rules;
 
-const ADDRESS = '/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/';
-
-// Encoding inside these would change what the code or styles see, not just what scrapers see.
-const RAW_TEXT = '#(<(script|style|textarea)\b[^>]*>.*?</\2\s*>)#is';
+// A script, style or textarea element is matched whole and kept as is: encoding inside it would change what scripts and styles read.
+const PATTERN = '#(?<raw><(script|style|textarea)\b[^>]*>.*?</\2\s*>)|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}#is';
 
 /**
  * Run every email address in the HTML through $encode, leaving script, style and textarea contents alone.
@@ -25,20 +23,12 @@ function encode_addresses( string $html, callable $encode ): string {
 		return $html;
 	}
 
-	$parts = preg_split( RAW_TEXT, $html, -1, PREG_SPLIT_DELIM_CAPTURE );
-	if ( false === $parts ) {
-		return $html;
-	}
+	$out = preg_replace_callback(
+		PATTERN,
+		static fn( array $m ): string => '' !== ( $m['raw'] ?? '' ) ? $m[0] : $encode( $m[0] ),
+		$html
+	);
 
-	$out = '';
-	foreach ( $parts as $i => $part ) {
-		// preg_split with two capture groups yields text, whole raw element, tag name, text, ...
-		$position = $i % 3;
-		if ( 2 === $position ) {
-			continue;
-		}
-		$out .= 1 === $position ? $part : (string) preg_replace_callback( ADDRESS, static fn( array $m ): string => $encode( $m[0] ), $part );
-	}
-
-	return $out;
+	// On a PCRE failure, unencoded content beats losing the content.
+	return $out ?? $html;
 }
