@@ -14,7 +14,8 @@ const CHROME =
 	process.env.CHROME_PATH ??
 	'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const PORT = 9334;
-const SINGLE_POST = '/?p=1981'; // Code blocks and images linked to their media file.
+// A slug, not an ID: local and prod IDs differ. Code blocks and images linked to their media file.
+const SINGLE_POST = '/chrome-modern-web-guidance/';
 const SETTLE_MS = 1500;
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 
