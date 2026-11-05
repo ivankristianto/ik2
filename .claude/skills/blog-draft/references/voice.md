@@ -48,7 +48,7 @@ Built from his posts on https://www.ivankristianto.com/ (2010 to 2026). Read thi
 
 **Headings name what happened in this story.** "Why I couldn't just update", "The stopgap", "The next morning: the real fix", "Challenge #2: We don't have enough speakers". You could not paste them into a different post.
 
-**Sources go in a plain list at the end** when there are several, and corrections go at the top with a date ("Updated October 25, 2026").
+**Sources go in a numbered `## Sources` list at the end** (`- [1] https://...`), cited in the text as `[1]` right after the sentence, so the theme links them both ways. The 1Password post does this with nine sources. Corrections go at the top with a date ("Updated October 25, 2026").
 
 ## What made earlier drafts read as generated
 
@@ -61,6 +61,7 @@ These came from test drafts of this skill. Each one is a pattern, so a near copy
 | "The fix has two parts:" / "Two things to watch:" / "The same endpoint has one more catch." | Counting announcements. They set up a list instead of saying the thing. | Say the first thing. Then the second. |
 | "Odds are it names the wrong domain." / "That's the extent of it." / "Readers who only need the fix can stop here." | A tidy punchline closing a section. Ivan's sections stop when the content stops. | Cut it. |
 | "I should be honest about one thing." | Announces honesty instead of being honest. | Just say it: "I still don't know why WordPress answered as me." |
+| Eight H2s in 1,300 words: "Three ways I didn't want to do it", "The vectors are just blobs", "What it picks now", "Where it still gets it wrong", each 100 to 150 words. | A structure to scan, not a story to read. Each section restarts, so nothing connects. | Three sections that each carry one thread ("Keeping it inside the database I already had"), no heading on the opening or the close. His 2013 to 2016 posts had none. |
 | Bold lead-in bullets (`- **Subdirectory install.** ...`) for every list. | Reads like documentation. | Plain bullets, or a short paragraph each. |
 | Every snippet introduced with "It runs in X, tested on Y version Z." | Precision as a ritual. | Give versions once, where they matter, the way he does: "I run PHP 8.5 on FPM, so this is the one I cared about most." |
 | No "you" anywhere, no reason he cared, no time or place. | Information without a person. | Use the time, the cost and the worry that the research file records, and give the reader one line. |

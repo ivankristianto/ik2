@@ -50,9 +50,11 @@ A post has jobs to do. They are not headings, and the order can bend to the stor
 - **What he has not tested**: said plainly where it comes up, or in one short paragraph near the end. No disclaimer block.
 - **The close**: stop when the content stops. A nudge to the reader ("If you run PHP...") or an invitation beats a summary or a punchline.
 
-Paragraphs run one to four sentences. Use a list only for steps or parallel items, a table only for comparing things on the same axes. Link public sources with full `https://` URLs on first mention, to the exact doc section or source file; several sources can also go in a plain list at the end. Link related posts on the blog.
+Headings are for a reader skimming back, not a frame to fill. About one per 300 to 400 words, none on the opening or the close, never one per job above. A section under 200 words merges into its neighbour. Ivan's own posts from 2013 to 2016 ran 200 to 400 words with no headings at all; the first pipeline drafts had one every 150 words and read like docs.
 
-Numbered citations are optional. If you use them, write `[n]` right after the sentence (`[9][10]` for several) and start each item in the closing Sources list with the same `[n]`. The theme (`wp-content/themes/ik2/inc/footnotes.php`) turns them into superscript links with back links only when both sides match, so never cite a number the list doesn't have.
+Paragraphs run two to five sentences that follow from each other: join them with the reason ("so", "because", "but") instead of starting each one over. A short list of titles or names reads better as one sentence. Use a list only for steps or parallel items, a table only for comparing things on the same axes. Link related posts on the blog inline. Cite every outside source (docs, specs, changelogs, source files, the repo) with a numbered citation pointing at the exact doc section or file, not with an inline link.
+
+Numbered citations are required whenever the post uses an outside source. Write `[n]` right after the sentence it supports (`[9][10]` for several), number them in order of first use, and end the post with a `## Sources` heading and one `- [n] https://...` line per number. The theme (`wp-content/themes/ik2/inc/footnotes.php`) turns them into superscript links with back links and hover previews, but only when both sides match, so never cite a number the list doesn't have. Inline outside links or an unnumbered Sources list skip that feature.
 
 ## Process
 

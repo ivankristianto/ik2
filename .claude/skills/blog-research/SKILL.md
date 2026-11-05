@@ -60,7 +60,7 @@ Sections, in this order:
 4. **Claims table**: claim, status, how verified, source URL.
 5. **Snippets**: runnable examples that are safe to publish, each tested, with the command and output.
 6. **Related**: existing posts on the blog and the best outside articles, as full URLs, each with a line on how it differs.
-7. **Suggested outline**: five to eight headings in sentence case, shortest path from problem to answer. Include a title and a 150-character excerpt candidate.
+7. **Suggested outline**: the story in order as three to five beats, one line each, shortest path from problem to answer. Mark the two or three beats that earn a heading (about one per 300 to 400 words of post); the opening and the close never get one. Every outline line turns into an H2 in the draft otherwise, and eight thin sections read like documentation. Include a title and a 150-character excerpt candidate.
 8. **Questions for Ivan**: each question asked in step 4, with his answer or "not answered". Only things the transcripts cannot answer (why he is writing, when, what it cost, what the client outcome allows him to say).
 9. **Leave out**: details cut for confidentiality or because they do not carry the point, described without naming them.
 

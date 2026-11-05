@@ -102,7 +102,7 @@ JSON.stringify({ dirty: wp.data.select('core/editor').isEditedPostDirty(),
 
 Aim for an SEO score of 70 or more (green), and fix every field-level item that isn't green: title length or keyphrase position, description length or keyphrase, keyphrase length. Fix those in `seo.txt` and re-run step 5; don't type into the editor. If `dirty` is true, Ivan has unsaved edits in that tab: touch nothing.
 
-Body-level items are Ivan's writing: keyphrase in a subheading, in the intro, density, competing links, image alt in the body. List them in the report as suggestions with the exact wording you'd use, for example renaming "Three tools over the articles I already publish" to "Three WebMCP tools over the articles I already publish". Don't edit the body unless he says yes. `imageKeyphrase` only reads images in the content, so it stays amber for posts whose only image is the featured one. `functionWordsInKeyphrase:0` is a placeholder; ignore it.
+Body-level items are Ivan's writing: keyphrase in a subheading, in the intro, density, competing links, image alt in the body. List them in the report as suggestions with the exact wording you'd use, for example renaming "Three tools over the articles I already publish" to "Three WebMCP tools over the articles I already publish". Don't edit the body unless he says yes. For the keyphrase in a subheading, rename a heading the post already has; never add one. Yoast's readability check wants a subheading every 300 words: treat that as an upper limit Ivan may ignore, not a target, since short sections cut up the story. `imageKeyphrase` only reads images in the content, so it stays amber for posts whose only image is the featured one. `functionWordsInKeyphrase:0` is a placeholder; ignore it.
 
 ## 7. Report
 
