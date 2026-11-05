@@ -25,6 +25,8 @@ const EDGE_INJECTIONS = [
 	/\/cdn-cgi\/scripts\/[^/]+\/cloudflare-static\/email-decode\.min\.js/,
 ];
 const ALLOW_EDGE = process.env.CSP_ALLOW_EDGE === '1';
+const isAllowedEdge = (url) =>
+	ALLOW_EDGE && EDGE_INJECTIONS.some((re) => re.test(url));
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -142,22 +144,29 @@ async function checkHeaderAndNonces(url, cookie) {
 		res.headers.get('content-security-policy') ??
 		res.headers.get('content-security-policy-report-only');
 	if (!header) {
-		return [`${url}: no Content-Security-Policy header`];
+		return {
+			failures: [`${url}: no Content-Security-Policy header`],
+			warnings: [],
+		};
 	}
 	const nonce = header.match(/'nonce-([^']+)'/)?.[1];
 	if (!nonce) {
-		return [`${url}: header has no nonce`];
+		return { failures: [`${url}: header has no nonce`], warnings: [] };
 	}
 	const html = await res.text();
 	const failures = [];
+	const warnings = [];
 	for (const tag of html.match(/<script\b[^>]*>/gi) ?? []) {
 		const type = tag.match(/\btype=["']?([^"'\s>]+)/i)?.[1]?.toLowerCase();
 		// JSON data blocks never execute; importmap and speculationrules do need the nonce.
 		if (!/json$/.test(type ?? '') && !tag.includes(`nonce="${nonce}"`)) {
-			failures.push(`${url}: script without the nonce: ${tag.slice(0, 120)}`);
+			const src = new URL(tag.match(/\bsrc="([^"]+)"/)?.[1] ?? '', url).href;
+			(isAllowedEdge(src) ? warnings : failures).push(
+				`${url}: script without the nonce: ${tag.slice(0, 120)}`,
+			);
 		}
 	}
-	return failures;
+	return { failures, warnings };
 }
 
 async function openPage(session) {
@@ -303,6 +312,11 @@ const FLOWS = [
 		name: 'projects',
 		run: ({ page }) => navigate(page, '/projects/'),
 	},
+	{
+		// Has an email address, so on prod Cloudflare's email obfuscation injects a script without the nonce.
+		name: 'contact',
+		run: ({ page }) => navigate(page, '/contact/'),
+	},
 ];
 
 async function browserUserAgent() {
@@ -363,15 +377,14 @@ async function runPass(session) {
 		}
 		for (const v of tab.violations) {
 			const line = `${session.label} ${flow.name}: ${describe(v)}`;
-			const edge =
-				ALLOW_EDGE && EDGE_INJECTIONS.some((re) => re.test(v.blocked));
-			(edge ? warnings : failures).push(line);
+			(isAllowedEdge(v.blocked) ? warnings : failures).push(line);
 		}
 		await tab.close();
 	}
 	for (const url of visited) {
 		const found = await checkHeaderAndNonces(url, session.cookie);
-		failures.push(...found.map((f) => `${session.label} ${f}`));
+		failures.push(...found.failures.map((f) => `${session.label} ${f}`));
+		warnings.push(...found.warnings.map((w) => `${session.label} ${w}`));
 	}
 	return {
 		...session,
