@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 /**
- * Crawl the site's main flows in headless Chrome and fail on any CSP violation,
- * or on a page whose raw HTML has a script without the header's nonce.
- * Usage: pnpm test:csp [url]   (default http://localhost:8080/)
- * Env: CHROME_PATH overrides the binary; CSP_COOKIE="name=value" adds a logged-in pass.
+ * Crawl the main flows in headless Chrome; fail on CSP violations or scripts without the header's nonce.
+ * Usage: pnpm test:csp [url]. Env: CHROME_PATH, CSP_COOKIE="name=value", CSP_ALLOW_EDGE=1 (see EDGE_INJECTIONS).
  */
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const SITE = new URL(process.argv[2] ?? 'http://localhost:8080/');
 const CHROME =
@@ -17,9 +16,14 @@ const CHROME =
 const PORT = 9334;
 const SINGLE_POST = '/?p=1981'; // Code blocks and images linked to their media file.
 const SETTLE_MS = 1500;
+const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-// Injected by Cloudflare at the edge without a nonce. Open items in the spec, reported but not failed.
-const KNOWN = [/static\.cloudflareinsights\.com/, /\/cdn-cgi\//];
+// Cloudflare injects these without a nonce. Until the spec's open rows are settled, CSP_ALLOW_EDGE=1 reports them as warnings.
+const EDGE_INJECTIONS = [
+	/^https:\/\/static\.cloudflareinsights\.com\//,
+	/\/cdn-cgi\/scripts\/[^/]+\/cloudflare-static\/email-decode\.min\.js/,
+];
+const ALLOW_EDGE = process.env.CSP_ALLOW_EDGE === '1';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -68,13 +72,12 @@ class Cdp {
 		this.listeners.set(method, [...(this.listeners.get(method) ?? []), fn]);
 	}
 
-	once(method, timeout = 30000) {
+	once(method) {
 		return new Promise((resolve, reject) => {
 			const timer = setTimeout(
 				() => reject(new Error(`timed out waiting for ${method}`)),
-				timeout,
+				30000,
 			);
-			const fns = this.listeners.get(method) ?? [];
 			const fn = (params) => {
 				clearTimeout(timer);
 				this.listeners.set(
@@ -83,7 +86,7 @@ class Cdp {
 				);
 				resolve(params);
 			};
-			this.listeners.set(method, [...fns, fn]);
+			this.on(method, fn);
 		});
 	}
 
@@ -113,13 +116,12 @@ const COLLECTOR = `document.addEventListener( 'securitypolicyviolation', ( e ) =
 		blocked: e.blockedURI,
 		source: e.sourceFile ? e.sourceFile + ':' + e.lineNumber : '',
 		sample: e.sample,
-		disposition: e.disposition,
 	} ) );
 } );`;
 
-function waitFor(page, expression, label, timeout = 10000) {
+function waitFor(page, expression, label) {
 	return page.evaluate(`new Promise( ( resolve, reject ) => {
-		const end = Date.now() + ${timeout};
+		const end = Date.now() + 10000;
 		const tick = () => {
 			const value = ( () => ${expression} )();
 			if ( value ) return resolve( value );
@@ -130,8 +132,7 @@ function waitFor(page, expression, label, timeout = 10000) {
 	} )`);
 }
 
-// Report-Only must be on (or enforced), and every executable script in the raw response must carry its nonce.
-async function checkRawHtml(url, cookie) {
+async function checkHeaderAndNonces(url, cookie) {
 	const res = await fetch(url, {
 		headers: cookie ? { cookie } : {},
 		redirect: 'follow',
@@ -158,7 +159,7 @@ async function checkRawHtml(url, cookie) {
 	return failures;
 }
 
-async function openPage(userAgent, cookie) {
+async function openPage(session) {
 	const res = await fetch(`http://localhost:${PORT}/json/new?about:blank`, {
 		method: 'PUT',
 	});
@@ -172,29 +173,36 @@ async function openPage(userAgent, cookie) {
 	});
 	await page.send('Page.enable');
 	await page.send('Runtime.enable');
-	await page.send('Network.enable');
 	await page.send('Runtime.addBinding', { name: '__cspReport' });
 	await page.send('Page.addScriptToEvaluateOnNewDocument', {
 		source: COLLECTOR,
 	});
-	await page.send('Network.setUserAgentOverride', { userAgent });
+	await page.send('Network.enable');
+	await page.send('Network.setUserAgentOverride', {
+		userAgent: session.userAgent,
+	});
 	await page.send('Emulation.setDeviceMetricsOverride', {
 		width: 1920,
 		height: 1200,
 		deviceScaleFactor: 1,
 		mobile: false,
 	});
-	if (cookie) {
-		const [name, ...rest] = cookie.split('=');
+	if (session.cookie) {
+		const [name, ...rest] = session.cookie.split('=');
 		await page.send('Network.setCookie', {
 			name,
 			value: rest.join('='),
 			url: SITE.origin,
 		});
 	}
-	page.violations = violations;
-	page.targetId = target.id;
-	return page;
+	return {
+		page,
+		violations,
+		close: async () => {
+			page.close();
+			await fetch(`http://localhost:${PORT}/json/close/${target.id}`);
+		},
+	};
 }
 
 async function navigate(page, path) {
@@ -209,11 +217,11 @@ async function navigate(page, path) {
 const FLOWS = [
 	{
 		name: 'home',
-		run: (page) => navigate(page, '/'),
+		run: ({ page }) => navigate(page, '/'),
 	},
 	{
 		name: 'single post, highlighter and lightbox',
-		run: async (page) => {
+		run: async ({ page }) => {
 			const url = await navigate(page, SINGLE_POST);
 			await waitFor(
 				page,
@@ -234,7 +242,7 @@ const FLOWS = [
 	},
 	{
 		name: 'command palette searched',
-		run: async (page) => {
+		run: async ({ page }) => {
 			const url = await navigate(page, '/');
 			await page.evaluate(
 				`document.querySelector( '.ik-header__cmd' ).click()`,
@@ -255,8 +263,15 @@ const FLOWS = [
 	},
 	{
 		name: 'articles, filters through the router',
-		run: async (page) => {
+		run: async ({ page }) => {
 			const url = await navigate(page, '/articles/');
+			// Under enforcement a refused preload never fetches, so it has no resource entry.
+			const unfetched = await page.evaluate(
+				`[ ...document.querySelectorAll( 'link[rel=modulepreload]' ) ].map( ( l ) => l.href ).filter( ( h ) => ! performance.getEntriesByName( h ).length )`,
+			);
+			if (unfetched.length) {
+				throw new Error(`modulepreload never fetched: ${unfetched.join(', ')}`);
+			}
 			// A full reload would also change the URL; the marker only survives client navigation.
 			await page.evaluate('window.__ikSmoke = true');
 			for (let i = 0; i < 2; i++) {
@@ -281,27 +296,13 @@ const FLOWS = [
 	},
 	{
 		name: '404',
-		run: (page) => navigate(page, '/csp-smoke-missing-page/'),
+		run: ({ page }) => navigate(page, '/csp-smoke-missing-page/'),
 	},
 	{
-		// Projects are non-public with no rewrite, so there is no single project page.
 		name: 'projects',
-		run: (page) => navigate(page, '/projects/'),
+		run: ({ page }) => navigate(page, '/projects/'),
 	},
 ];
-
-const profile = mkdtempSync(join(tmpdir(), 'ik2-csp-'));
-const chrome = spawn(
-	CHROME,
-	[
-		'--headless=new',
-		`--remote-debugging-port=${PORT}`,
-		`--user-data-dir=${profile}`,
-		'--no-first-run',
-		'about:blank',
-	],
-	{ stdio: 'ignore' },
-);
 
 async function browserUserAgent() {
 	for (let attempt = 0; attempt < 20; attempt++) {
@@ -317,51 +318,101 @@ async function browserUserAgent() {
 	throw new Error(`Chrome did not open a DevTools port at ${CHROME}`);
 }
 
-async function runPass(label, userAgent, cookie) {
+// On the local stack, a short-lived admin cookie from wp-cli, so the logged-in pass always runs.
+function localLoginCookie() {
+	if (!['localhost', '127.0.0.1'].includes(SITE.hostname)) {
+		return null;
+	}
+	try {
+		const cookie = execFileSync(
+			'docker',
+			[
+				'compose',
+				'exec',
+				'-T',
+				'wp-cli',
+				'wp',
+				'eval',
+				'echo LOGGED_IN_COOKIE . "=" . wp_generate_auth_cookie( 1, time() + 900, "logged_in" );',
+			],
+			{ cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
+		).trim();
+		return cookie.includes('=') ? cookie : null;
+	} catch {
+		return null;
+	}
+}
+
+function describe(v) {
+	const source = v.source ? ` from ${v.source}` : '';
+	const sample = v.sample ? ` "${v.sample}"` : '';
+	return `${v.directive} blocked ${v.blocked || '(inline)'} on ${v.page}${source}${sample}`;
+}
+
+async function runPass(session) {
 	const failures = [];
-	const known = [];
+	const warnings = [];
 	const visited = new Set();
 	for (const flow of FLOWS) {
-		const page = await openPage(userAgent, cookie);
+		const tab = await openPage(session);
 		try {
-			visited.add(await flow.run(page));
+			visited.add(await flow.run(tab));
 		} catch (err) {
-			failures.push(`${label} ${flow.name}: ${err.message}`);
+			failures.push(`${session.label} ${flow.name}: ${err.message}`);
 		}
-		for (const v of page.violations) {
-			const line = `${label} ${flow.name}: ${v.directive} blocked ${v.blocked || '(inline)'} on ${v.page}${v.source ? ` from ${v.source}` : ''}${v.sample ? ` "${v.sample}"` : ''}`;
-			(KNOWN.some((re) => re.test(v.blocked)) ? known : failures).push(line);
+		for (const v of tab.violations) {
+			const line = `${session.label} ${flow.name}: ${describe(v)}`;
+			const edge =
+				ALLOW_EDGE && EDGE_INJECTIONS.some((re) => re.test(v.blocked));
+			(edge ? warnings : failures).push(line);
 		}
-		page.close();
-		await fetch(`http://localhost:${PORT}/json/close/${page.targetId}`);
+		await tab.close();
 	}
 	for (const url of visited) {
-		failures.push(
-			...(await checkRawHtml(url, cookie)).map((f) => `${label} ${f}`),
-		);
+		const found = await checkHeaderAndNonces(url, session.cookie);
+		failures.push(...found.map((f) => `${session.label} ${f}`));
 	}
-	return { label, failures, known, pages: visited.size };
+	return {
+		...session,
+		failures,
+		warnings,
+		flows: FLOWS.length,
+		pages: visited.size,
+	};
 }
+
+const profile = mkdtempSync(join(tmpdir(), 'ik2-csp-'));
+const chrome = spawn(
+	CHROME,
+	[
+		'--headless=new',
+		`--remote-debugging-port=${PORT}`,
+		`--user-data-dir=${profile}`,
+		'--no-first-run',
+		'about:blank',
+	],
+	{ stdio: 'ignore' },
+);
 
 let exitCode = 0;
 try {
 	const userAgent = await browserUserAgent();
-	const passes = [await runPass('anonymous', userAgent)];
-	if (process.env.CSP_COOKIE) {
-		passes.push(await runPass('logged-in', userAgent, process.env.CSP_COOKIE));
+	const cookie = process.env.CSP_COOKIE || localLoginCookie();
+	const passes = [await runPass({ label: 'anonymous', userAgent })];
+	if (cookie) {
+		passes.push(await runPass({ label: 'logged-in', userAgent, cookie }));
 	} else {
-		console.log(
-			'- logged-in pass skipped: set CSP_COOKIE="name=value" to run it',
-		);
+		exitCode = 1;
+		console.error('✖ logged-in pass skipped: set CSP_COOKIE="name=value"');
 	}
-	for (const { label, failures, known, pages } of passes) {
-		known.forEach((k) => console.warn(`! known Cloudflare injection: ${k}`));
+	for (const { label, failures, warnings, flows, pages } of passes) {
+		warnings.forEach((w) => console.warn(`! Cloudflare edge injection: ${w}`));
 		failures.forEach((f) => console.error(`✖ ${f}`));
 		if (failures.length) {
 			exitCode = 1;
 		}
 		console.log(
-			`${failures.length ? '✖' : '✔'} ${label}: ${FLOWS.length} flows, ${pages} pages, ${failures.length} failures on ${SITE.origin}`,
+			`${failures.length ? '✖' : '✔'} ${label}: ${flows} flows, ${pages} pages, ${failures.length} failures on ${SITE.origin}`,
 		);
 	}
 } catch (err) {
