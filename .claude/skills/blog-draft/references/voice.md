@@ -48,7 +48,7 @@ Built from his posts on https://www.ivankristianto.com/ (2010 to 2026). Read thi
 
 **Headings name what happened in this story.** "Why I couldn't just update", "The stopgap", "The next morning: the real fix", "Challenge #2: We don't have enough speakers". You could not paste them into a different post.
 
-**Sources go in a plain list at the end** when there are several, and corrections go at the top with a date ("Updated October 25, 2026").
+**Sources go in a numbered `## Sources` list at the end** (`- [1] https://...`), cited in the text as `[1]` right after the sentence, so the theme links them both ways. The 1Password post does this with nine sources. Corrections go at the top with a date ("Updated October 25, 2026").
 
 ## What made earlier drafts read as generated
 

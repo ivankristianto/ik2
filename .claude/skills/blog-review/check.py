@@ -143,6 +143,12 @@ def main():
         problems, in_order, first_seen = notes
         add("F7", "gate", "Every [n] citation has a Sources entry and every entry is cited", not problems, problems or "intact")
         add("F7b", "signal", "Sources are numbered in order of first citation", in_order, f"first citations: {first_seen}")
+    else:
+        # Uncited outside links mean the theme's [n] footnotes never render, so this fails instead of skipping.
+        outside = sorted({u.rstrip(").,;") for u in re.findall(r"https?://[^\s)>\]`'\"“”]+", re.sub(r"```.*?```", "", text, flags=re.S))
+                          if "ivankristianto.com" not in u})
+        add("F7", "gate", "Outside sources are cited with [n] and listed in a numbered Sources list", not outside,
+            f"no [n] citations, outside links: {outside[:5]}" if outside else "no outside sources")
 
     urls = sorted({u.rstrip(").,;") for u in re.findall(r"https?://[^\s)>\]`'\"“”]+", re.sub(r"```.*?```", "", text, flags=re.S))})
     urls = [u for u in urls if not re.search(r"//(?:[\w-]+\.)?example\.|//localhost|//127\.0\.0\.1", u)]
