@@ -78,6 +78,7 @@
   --wp--custom--line-height--normal: 1.4;
   --wp--custom--line-height--comfortable: 1.55;
   --wp--custom--line-height--relaxed: 1.7;
+  --wp--custom--target--size: 1.5rem;
   --wp--custom--transition--base: 200ms ease;
   --wp--custom--transition--drawer: 280ms cubic-bezier(0.22, 1, 0.36, 1);
   --wp--custom--width--full: 80rem;

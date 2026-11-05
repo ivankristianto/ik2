@@ -171,6 +171,9 @@
 				"comfortable": "1.55",
 				"relaxed": "1.7"
 			},
+			"target": {
+				"size": "1.5rem"
+			},
 			"transition": {
 				"base": "200ms ease",
 				"drawer": "280ms cubic-bezier(0.22, 1, 0.36, 1)"
