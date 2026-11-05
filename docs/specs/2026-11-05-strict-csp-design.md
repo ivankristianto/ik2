@@ -4,9 +4,9 @@
 
 Send a strict `Content-Security-Policy` on every front-end HTML page, so a
 script that gets into the markup without WordPress printing it does not run.
-That clears the PSI "Ensure CSP is effective against XSS attacks" finding with
-a policy that actually blocks injected scripts, not one written only to turn
-the audit green.
+That clears the PSI "Ensure CSP is effective against XSS attacks" finding, and
+the policy has to block injected scripts for real. A header that only turns
+the audit green doesn't count.
 
 PSI run that prompted this:
 <https://pagespeed.web.dev/analysis/https-www-ivankristianto-com/mtj7d01avv?form_factor=mobile>.
@@ -19,9 +19,9 @@ only.
 | # | Decision |
 | --- | --- |
 | Q1 | Nonce, added as WordPress prints each script, and cached by APO along with the header. Not hashes, and not an edge Worker for now. See **Why a nonce on a cached site**. |
-| Q2 | A new ik2 plugin module, `IK2\Plugin\Csp`, with a `bootstrap()`. Security headers are site behaviour, not theme presentation. A pure policy builder sits beside it with no WordPress calls, and PHPUnit covers it. |
+| Q2 | A new ik2 plugin module, `IK2\Plugin\Csp`, with a `bootstrap()`. Security headers are site behaviour, so they belong in the plugin, and the theme stays presentation. A pure policy builder sits beside it with no WordPress calls, and PHPUnit covers it. |
 | Q3 | Front-end HTML only. The header is sent from `template_redirect`, so wp-admin, `wp-login.php` and REST never get it (none of them reach that hook). Skip feeds, `robots.txt`, the Customizer preview and the Yoast sitemaps. |
-| Q4 | Policy: `script-src 'nonce-{n}' 'strict-dynamic' https: 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'self'`. `https:` and `'unsafe-inline'` are fallbacks for browsers without `strict-dynamic`. Browsers that understand nonces ignore both. `frame-ancestors 'self'` matches the `X-Frame-Options: SAMEORIGIN` nginx already sends, and both stay. No `report-to` or `Reporting-Endpoints` (Q7). If a collector is added later, add `'report-sample'` with it. |
+| Q4 | Policy: `script-src 'nonce-{n}' 'strict-dynamic' https: 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'self'`. `https:` and `'unsafe-inline'` are fallbacks for older browsers. A browser with `strict-dynamic` ignores both. A browser with nonces but no `strict-dynamic` ignores `'unsafe-inline'` and falls back to `https:`. `frame-ancestors 'self'` matches the `X-Frame-Options: SAMEORIGIN` nginx already sends, and both stay. No `report-to` or `Reporting-Endpoints` (Q7). If a collector is added later, add `'report-sample'` with it. |
 | Q5 | `style-src` is out of scope. Pages print 13 to 24 inline `<style>` blocks (critical CSS, block styles, section styles). Lighthouse's CSP audit checks only `script-src`, `object-src` and `base-uri`. |
 | Q6 | Trusted Types is out of scope, and the PSI Trusted Types item stays flagged. It has been Baseline since 2026-02-24 (Firefox 148, Safari 26), so it's worth a follow-up spec. Known sinks: `wp-content/themes/ik2/src/lightbox.js:33` and `wp-content/themes/ik2/src/palette.js:474` (`innerHTML`), plus whatever gtag and the Interactivity router do. The lightbox one is a static SVG string and can become `createElementNS` calls. The palette one wraps search matches and can use `setHTML()` or built nodes. The follow-up starts with `require-trusted-types-for 'script'` in Report-Only to find the rest. A pass-through `default` policy doesn't count as a fix. |
 | Q7 | No live report collection. Report-Only violations are found by a Playwright crawl of the local stack and of prod that listens for `securitypolicyviolation`, plus the DevTools Issues tab. Rejected: a REST collector in the ik2 plugin (a public write endpoint to guard) and a third-party collector (another service holding visitor data). |
@@ -59,7 +59,7 @@ nonce). Third-party code (gtag, Site Kit) is not audited.
 | Option | What it costs | Verdict |
 | --- | --- | --- |
 | A. Nonce at print time (this spec) | A filter on two core hooks and one header. External scripts keep `defer`, `async`, `type="module"`, `fetchpriority` and preload-scanner discovery. | Chosen. |
-| B. Hashes | Inline scripts are easy to hash at print time. External scripts are the problem: under `'strict-dynamic'` a parser-inserted `<script src>` needs a nonce, or a hash matched through its `integrity` attribute. Browser support for that hash matching outside Chrome is unverified. The fallback is a hashed inline loader that creates each script element, which loses `defer` ordering and hides every script from the preload scanner. | Rejected on the loader's cost to load order and LCP, not on browser support. |
+| B. Hashes | Inline scripts are easy to hash at print time. External scripts are the problem: under `'strict-dynamic'` a parser-inserted `<script src>` needs a nonce, or a hash matched through its `integrity` attribute. Browser support for that hash matching outside Chrome is unverified. The fallback is a hashed inline loader that creates each script element, which loses `defer` ordering and hides every script from the preload scanner. | Rejected for the loader's cost to load order and LCP. Browser support was never the deciding factor. |
 | C. Edge Worker | Origin prints a per-render placeholder nonce, and a Cloudflare Worker swaps that exact value for a fresh one on every response, in the HTML and the header. It closes the cached-nonce gap above. It needs a Worker on the APO route, a deploy outside the two Docker images, and a check that APO and the Worker cooperate. | Upgrade path if third-party code ever gets a DOM sink, or the threat model changes (comments, user accounts). |
 
 Option B only becomes attractive if the external scripts go away. Option A's
@@ -94,7 +94,7 @@ attributes are planned.
 
 ## Mechanism
 
-WordPress 7.1 builds every enqueued script tag through two functions in
+WordPress 7.1 builds every enqueued `<script>` tag through two functions in
 `wp-includes/script-loader.php`. External tags go through `wp_get_script_tag()`
 (filter `wp_script_attributes`), including script modules and the plain
 `WP_Scripts` output at `wp-includes/class-wp-scripts.php:484`. Inline tags go
@@ -118,6 +118,15 @@ no nonce: webpack chunks (palette, lightbox, highlighter, WebMCP), gtag's own
 loads, and `import()` calls from modules, including the Interactivity router's
 modules on client navigation.
 
+One core tag skips both filters: `WP_Script_Modules::print_script_module_preloads()`
+prints `<link rel="modulepreload">` with a bare `printf`
+(`wp-includes/class-wp-script-modules.php:600`), so it gets no nonce. Under
+`'strict-dynamic'` the preload may be refused. The module still loads when a
+trusted module imports it, so only the preload
+is lost and the feature still works. The Report-Only crawl on `/articles/` (which preloads the
+Interactivity modules) settles it. If it does fire, unhook core's printer and
+print the same tags with the nonce from the module.
+
 Anything printed as a raw `<script>` outside these two functions has no nonce
 and is blocked under enforcement. Today that's only the three legacy posts in
 Q10. Yoast's JSON-LD is a data block and is unaffected.
@@ -135,28 +144,33 @@ real browser load. curl with a custom User-Agent misses these.
 | Web Analytics beacon, `https://static.cloudflareinsights.com/beacon.min.js` | Injected at the edge for browsers | **Open, Ivan to pick before enforcement.** The edge inserts it as a parser-inserted script with no nonce, so `'strict-dynamic'` blocks it. Some reports say Cloudflare copies the nonce from the CSP header onto its own injected scripts, but that is undocumented, so don't rely on it. Preferred fix: turn off automatic injection in the Cloudflare dashboard and enqueue the beacon through `wp_enqueue_script` with its site token, so it gets the nonce like everything else. Alternative: keep auto-injection and confirm in Report-Only whether it gets stamped. |
 | Email Address Obfuscation | On | When a page contains an email address, Cloudflare rewrites it and injects `/cdn-cgi/scripts/.../email-decode.min.js`, which has no nonce. **Deferred.** Report-Only doesn't block it, so it can wait, but it must be settled before enforcement: turn it off, or confirm no published page shows an address. |
 | Rocket Loader | Off | Must stay off: it rewrites every script tag and breaks nonce matching. |
-| Zaraz (Cloudflare's edge tag manager) | Unknown (token lacks scope) | Check in the dashboard. If it's on, it injects a loader script too. GA runs through Site Kit, so it's most likely off. |
+| Zaraz (Cloudflare's edge tag manager) | Unknown (token lacks scope) | Check in the dashboard. If it's on, it injects a loader script, and Cloudflare's docs say it edits the origin's CSP header to allow it. GA runs through Site Kit, so it's most likely off. |
 
 ## Shape
 
 ```
 wp-content/plugins/ik2/
-├── inc/csp.php           # bootstrap(), template_redirect handler, attribute filters, scope check
-└── inc/csp/rules.php     # pure: build_policy( string $nonce, bool $enforce ): array{name, value}
+├── plugin.php                # + require_once inc/csp/rules.php, inc/csp/namespace.php
+└── inc/csp/
+    ├── namespace.php         # IK2\Plugin\Csp: bootstrap(), template_redirect handler, attribute filters, scope check
+    └── rules.php             # IK2\Plugin\Csp\Rules, pure: build_policy( string $nonce, bool $enforce ): array{name, value}
 tests/php/CspRulesTest.php
-tests/csp.test.mjs        # host-run Playwright crawl (see Acceptance)
+scripts/csp-smoke.mjs         # host-run headless Chrome crawl behind `pnpm test:csp`, like scripts/webmcp-smoke.mjs
 ```
 
+This follows `inc/activity/` (a `namespace.php` plus a pure `rules.php`).
 `IK2\Plugin\bootstrap()` in `inc/namespace.php` gains one `Csp\bootstrap()`
-call, next to `CloudflarePurge\bootstrap()`.
+call, next to `Activity\bootstrap()`.
 
 ## Rollout
 
 1. Release N ships `Content-Security-Policy-Report-Only`. Report-Only does not
    clear the PSI finding. That's expected for this release.
-2. On prod, after a purge, `curl -sI` the homepage twice. The second request
-   must be `cf-cache-status: HIT`, and its header nonce must equal the `nonce`
-   in its HTML. If APO strips or regenerates the header, stop: option A
+2. On prod, after a purge, fetch the homepage twice with
+   `curl -s -D headers.txt -o page.html https://www.ivankristianto.com/` (a GET,
+   since `-I` sends HEAD and returns no body). The second response must be
+   `cf-cache-status: HIT`, and the nonce in `headers.txt` must equal the
+   `nonce` attributes in `page.html`. If APO strips or regenerates the header, stop: option A
    doesn't work under APO, and option C is the path.
 3. Run the Q7 crawl against prod, and browse the site for a week with the
    DevTools Issues tab open. Fix each violation at its source (enqueue it
@@ -169,7 +183,9 @@ data changes.
 
 ## Acceptance
 
-- No violations on these flows, locally and on prod in Report-Only:
+- No violations on these flows, locally and on prod in Report-Only. On prod
+  this applies once the beacon and email obfuscation rows in **Cloudflare
+  injections** are settled, since both inject scripts without a nonce:
   - home
   - a single post with code blocks and images (highlighter, lightbox)
   - the command palette opened and searched
@@ -181,14 +197,14 @@ data changes.
   - the logged-in front end with the admin bar
 - Site Kit / GA4 events still arrive in GA4 Realtime from a test visit.
 - Every executable `<script>` in the **raw HTML response** carries the
-  header's nonce. Check the response text, not the DOM: after parsing, the
+  header's nonce. Check the response text. After parsing, the
   browser hides the value, and `getAttribute('nonce')` returns `""`.
 - With enforcement on, Lighthouse's `csp-xss` audit reports no findings on the
   homepage and a single post.
-- `docker compose --profile tools run --rm composer quality` passes, and the
-  PHPUnit test covers: the nonce appears once in `script-src`, and the
+- `docker compose --profile tools run --rm composer quality` (PHPCS and
+  PHPStan) and `... composer test` (PHPUnit) pass, and the PHPUnit test covers: the nonce appears once in `script-src`, and the
   Report-Only and enforce header names.
-- The Playwright crawl (`tests/csp.test.mjs`) reports zero
+- `pnpm test:csp` (`scripts/csp-smoke.mjs`) reports zero
   `securitypolicyviolation` events on the flows above.
 
 ## Out of scope
