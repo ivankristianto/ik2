@@ -47,5 +47,7 @@ require_once __DIR__ . '/inc/post-types/project-data.php';
 require_once __DIR__ . '/inc/post-types/talk-meta.php';
 require_once __DIR__ . '/inc/activity/rules.php';
 require_once __DIR__ . '/inc/activity/namespace.php';
+require_once __DIR__ . '/inc/csp/rules.php';
+require_once __DIR__ . '/inc/csp/namespace.php';
 
 bootstrap();
