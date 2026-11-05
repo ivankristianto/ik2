@@ -83,11 +83,10 @@
   line-height: var(--wp--custom--line-height--snug);
 }
 
-/* Small text leaves the link under WCAG 2.5.8's 24px target, so the box is sized up instead. */
+/* Small text puts the link under WCAG 2.5.8's 24px target, so give the box a minimum size. */
 .ik-now__list a {
   display: inline-flex;
   align-items: center;
-  min-width: 0;
   min-block-size: var(--wp--custom--target--size);
   min-inline-size: var(--wp--custom--target--size);
   color: var(--wp--preset--color--ink);
