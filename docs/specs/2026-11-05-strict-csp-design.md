@@ -125,7 +125,10 @@ prints `<link rel="modulepreload">` with a bare `printf`
 trusted module imports it, so only the preload
 is lost and the feature still works. The Report-Only crawl on `/articles/` (which preloads the
 Interactivity modules) settles it. If it does fire, unhook core's printer and
-print the same tags with the nonce from the module.
+print the same tags with the nonce from the module. Settled on 2026-11-05: with
+the policy enforced locally, `/articles/` raised no violation and every preload
+was fetched. `pnpm test:csp` keeps checking that each `modulepreload` has a
+resource timing entry.
 
 Anything printed as a raw `<script>` outside these two functions has no nonce
 and is blocked under enforcement. Today that's only the three legacy posts in
@@ -191,7 +194,11 @@ data changes.
   - the command palette opened and searched
   - `/articles/` with filters clicked, so the Interactivity router does client
     navigation (the riskiest flow)
-  - a speculation-rules prerender of an article link
+  - a speculation-rules prerender of an article link (manual: Chrome reports
+    `PrerenderingDisabledByDevTools` for any tab a DevTools client drives, so the
+    crawl can't prerender. Hover an article link with DevTools closed, then check
+    the Issues tab after it activates. The crawl still checks the
+    `speculationrules` script's nonce on the source page.)
   - 404
   - `/projects/` (projects are non-public with no rewrite, so there is no single project page)
   - the logged-in front end with the admin bar
@@ -205,7 +212,10 @@ data changes.
   PHPStan) and `... composer test` (PHPUnit) pass, and the PHPUnit test covers: the nonce appears once in `script-src`, and the
   Report-Only and enforce header names.
 - `pnpm test:csp` (`scripts/csp-smoke.mjs`) reports zero
-  `securitypolicyviolation` events on the flows above.
+  `securitypolicyviolation` events on the flows above, except the manual
+  prerender check. Locally it fetches a logged-in cookie from wp-cli; elsewhere
+  pass `CSP_COOKIE`. `CSP_ALLOW_EDGE=1` downgrades the two Cloudflare injections
+  to warnings until their rows are settled.
 
 ## Out of scope
 
