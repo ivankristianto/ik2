@@ -416,7 +416,7 @@ The `settings.custom` groups:
 | `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |
 | `width`              | `--wp--custom--width--`                 | full 80rem (1280px)                                                                        |
 | `fontSize`           | `--wp--custom--font-size--`             | numeral, the 404 page number only                                                          |
-| `target`             | `--wp--custom--target--`                | size 1.5rem (24px), the WCAG 2.5.8 minimum for links and buttons set in small text        |
+| `target`             | `--wp--custom--target--`                | size 1.5rem (24px), the WCAG 2.5.8 minimum for links and buttons set in small text         |
 
 How code references them:
 
