@@ -48,9 +48,13 @@ function defer_gtag(): void {
 }
 
 /**
- * Load the beacon after load, unless Cloudflare's edge injection already added one.
+ * Load the beacon after load in production, unless Cloudflare's edge injection already added one.
  */
 function enqueue_beacon(): void {
+	if ( wp_get_environment_type() !== 'production' ) {
+		return;
+	}
+
 	$attributes = [
 		'type'           => 'module',
 		'data-cf-beacon' => wp_json_encode( [ 'token' => BEACON_TOKEN ] ),
