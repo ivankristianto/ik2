@@ -131,6 +131,8 @@
 	border: 1px solid $color-line;
 	border-radius: $radius-md;
 	overflow: clip;
+	// A definite width keeps the card from sizing to its caption until the image loads.
+	width: 100%;
 	max-width: 340px;
 	justify-self: end;
 }

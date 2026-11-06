@@ -30,6 +30,7 @@ require_once __DIR__ . '/inc/assets.php';
 require_once __DIR__ . '/inc/blocks.php';
 require_once __DIR__ . '/inc/cloudflare-purge.php';
 require_once __DIR__ . '/inc/code-highlight.php';
+require_once __DIR__ . '/inc/deferred-analytics.php';
 require_once __DIR__ . '/inc/legacy-redirects.php';
 require_once __DIR__ . '/inc/llms-txt.php';
 require_once __DIR__ . '/inc/yoast-page-meta.php';

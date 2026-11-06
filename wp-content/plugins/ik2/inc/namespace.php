@@ -21,6 +21,7 @@ function bootstrap(): void {
 	Blocks\bootstrap();
 	CloudflarePurge\bootstrap();
 	CodeHighlight\bootstrap();
+	DeferredAnalytics\bootstrap();
 	LegacyRedirects\bootstrap();
 	LlmsTxt\bootstrap();
 	YoastPageMeta\bootstrap();
