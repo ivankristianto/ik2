@@ -46,7 +46,7 @@ RUN --mount=type=cache,target=/tmp/cache \
 # ---------------------------------------------------------------------------
 FROM node:24-alpine AS node-build
 
-RUN corepack enable && corepack prepare pnpm@12.10.1 --activate
+RUN corepack enable && corepack prepare pnpm@12.18.0 --activate
 
 WORKDIR /app
 
