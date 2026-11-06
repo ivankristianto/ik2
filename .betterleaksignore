@@ -10,3 +10,5 @@
 a66f74f888da301783a724ee04a43f0d4362a775:docker-compose.yml:generic-password:156
 # Fixture value in the embedder's config test, not a credential
 cc1dd7c2cec12d9287e8fc28d8270520f80c4c4f:services/embedder/test/config.test.mjs:generic-password:9
+# Cloudflare Web Analytics site tag: public, Cloudflare prints it in every page it serves
+8ffa18350d0e28cbe40af250957edaf2afb943a6:wp-content/plugins/ik2/inc/deferred-analytics.php:generic-api-key:22
