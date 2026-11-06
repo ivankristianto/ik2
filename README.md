@@ -24,7 +24,7 @@ WordPress core itself is **not** managed in this repo — point your local WordP
 ## Requirements
 
 -   **Docker** + **Docker Compose v2** (the only hard requirement for local dev)
--   Optional, if running PHP/Node directly on the host: **PHP 8.4**, **Node 24+**, **pnpm 9+** (`corepack enable && corepack prepare pnpm@latest --activate`), **Composer 2+**
+-   Optional, if running PHP/Node directly on the host: **PHP 8.4**, **Node 24+**, **pnpm 12+** (`corepack enable` picks up the version pinned in `packageManager`), **Composer 2+**
 
 ## Local development
 
@@ -214,26 +214,28 @@ They land in `wp-content/plugins/{name}/` (routed by `composer/installers`) and 
 
 ## Deployment
 
-This project deploys to [Dokploy](https://dokploy.com/) as **two Docker images**, built by GitHub Actions and deployed when a release is cut (`pnpm release`, see CLAUDE.md → Releasing):
+This project deploys to [Dokploy](https://dokploy.com/) as **four Docker images**, built by GitHub Actions and deployed when a release is cut (`pnpm release`, see CLAUDE.md → Releasing):
 
-| Image                                 | Contents                                                  | Base                          |
-| :------------------------------------ | :-------------------------------------------------------- | :---------------------------- |
-| `ghcr.io/ivankristianto/ik2org-app`   | PHP-FPM + WP core + `wp-content` + `vendor` + theme build | `wordpress:php8.4-fpm-alpine` |
-| `ghcr.io/ivankristianto/ik2org-nginx` | nginx + the same public files (for static asset serving)  | `nginx:1.27-alpine`           |
+| Image                                   | Contents                                                     | Base                                |
+| :-------------------------------------- | :----------------------------------------------------------- | :---------------------------------- |
+| `ghcr.io/ivankristianto/ik2-app`        | PHP-FPM + WP core + `wp-content` + `vendor` + theme build    | `wordpress:7.1.4-php8.5-fpm-alpine` |
+| `ghcr.io/ivankristianto/ik2-nginx`      | nginx + the same public files (for static asset serving)     | `nginx:1.27-alpine`                 |
+| `ghcr.io/ivankristianto/ik2-cli`        | wp-cli + the same core, theme, plugins and `wp-config.php`   | `wordpress:cli-php8.5`              |
+| `ghcr.io/ivankristianto/ik2-embedder`   | The Corpus worker from `services/embedder`                   | `node:24-slim`                      |
 
 ### Image build pipeline
 
 ```
-composer install (no-dev) ─┐
-pnpm build                 ├─► production app image ─► nginx image
-wordpress:php8.4-fpm-alpine┘
+composer install (no-dev) ───────────┐
+pnpm build                           ├─► production app image ─► nginx image
+wordpress:7.1.4-php8.5-fpm-alpine ───┘
 ```
 
-The `Dockerfile` has two final targets: `development` (with Xdebug, used by `docker-compose.yml`) and `production` (locked-down, used by GH Actions).
+The `Dockerfile` has three final targets: `development` (with Xdebug, used by `docker-compose.yml`), `production` (locked-down, used by GH Actions) and `cli` (the wp-cli image).
 
 ### GitHub Actions
 
-`.github/workflows/build.yml` builds and pushes the images on push to `main` (tagged `main` and `sha-*`), on a `v*` release tag (tagged `X.Y.Z`, `X.Y`, and `latest`), and on manual dispatch. Only a release tag triggers the Dokploy redeploy, via repo secret **`DOKPLOY_WEBHOOK_URL`**.
+`.github/workflows/build.yml` builds and pushes the images on a `v*` release tag (tagged `X.Y.Z`, `X.Y`, `sha-*` and `latest`) and on manual dispatch (tagged `<branch>` and `sha-*`). Pushes to `main` and pull requests don't build images. Only a release tag triggers the Dokploy redeploy, via repo secret **`DOKPLOY_WEBHOOK_URL`**.
 
 ### Dokploy
 
