@@ -57,7 +57,7 @@ function enqueue_beacon(): void {
 	wp_register_script( BEACON_HANDLE, false, [], null, [ 'in_footer' => true ] ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- No file to version.
 	wp_add_inline_script(
 		BEACON_HANDLE,
-		after_load( 'if(!document.querySelector(\'script[src*="static.cloudflareinsights.com/beacon"]\')){var s=document.createElement("script");s.src=' . wp_json_encode( BEACON_SRC ) . ';s.defer=true;s.dataset.cfBeacon=' . wp_json_encode( $config ) . ';document.body.appendChild(s);}' )
+		after_load( 'if(!document.querySelector(\'script[src*="static.cloudflareinsights.com/beacon"]\')){var s=document.createElement("script");s.src=' . wp_json_encode( BEACON_SRC ) . ';s.type="module";s.dataset.cfBeacon=' . wp_json_encode( $config ) . ';document.body.appendChild(s);}' )
 	);
 	wp_enqueue_script( BEACON_HANDLE );
 }
