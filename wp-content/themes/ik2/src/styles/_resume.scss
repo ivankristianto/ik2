@@ -853,4 +853,8 @@ $resume-reading-line: exit-crossing -50vh exit-crossing calc(100% - 50vh);
 		justify-self: start;
 		font-size: $size-base;
 	}
+
+	.ik-resume .ik-resume__section--contact {
+		break-inside: avoid;
+	}
 }
