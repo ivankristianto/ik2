@@ -90,6 +90,18 @@
 			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
 			<div class="wp-block-group ik-about__timeline-row">
 				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
+				<p class="ik-about__timeline-when">2019</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
+				<p class="ik-about__timeline-what">Volunteer, WordCamp US in St. Louis</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"ik-about__timeline-row","layout":{"type":"default"}} -->
+			<div class="wp-block-group ik-about__timeline-row">
+				<!-- wp:paragraph {"className":"ik-about__timeline-when"} -->
 				<p class="ik-about__timeline-when">2018</p>
 				<!-- /wp:paragraph -->
 
