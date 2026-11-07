@@ -18,7 +18,7 @@ $ik2_facts = [
 		'label' => __( 'WordPress core releases', 'ik2' ),
 	],
 	[
-		'value' => '5',
+		'value' => '6',
 		'label' => __( 'WordCamps organised', 'ik2' ),
 	],
 	[

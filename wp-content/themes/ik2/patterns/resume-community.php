@@ -28,10 +28,22 @@ $ik2_community = [
 		'note' => __( 'Monthly meetup — talks, workshops, and a community that ships.', 'ik2' ),
 	],
 	[
-		'when' => '2016 & 2019',
+		'when' => '2017 & 2019',
 		'role' => __( 'Lead Organiser', 'ik2' ),
 		'org'  => __( 'WordCamp Jakarta', 'ik2' ),
 		'note' => __( "Lead organiser for Indonesia's flagship WordCamp.", 'ik2' ),
+	],
+	[
+		'when' => '2017',
+		'role' => __( 'Organiser', 'ik2' ),
+		'org'  => 'WordCamp Ubud',
+		'note' => __( 'On the organising team, and gave a talk.', 'ik2' ),
+	],
+	[
+		'when' => '2016',
+		'role' => __( 'Organiser', 'ik2' ),
+		'org'  => 'WordCamp Denpasar',
+		'note' => __( 'On the organising team.', 'ik2' ),
 	],
 ];
 

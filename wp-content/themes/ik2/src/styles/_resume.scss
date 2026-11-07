@@ -738,3 +738,119 @@ $resume-reading-line: exit-crossing -50vh exit-crossing calc(100% - 50vh);
 		}
 	}
 }
+
+/* ---- Print ------------------------------------------------------------- */
+
+/* A plain document on paper: no site chrome, the ink card inverted to ink on
+   white (backgrounds are off by default), tighter rhythm so the first job
+   lands on page one, and rows that never split across pages. This file only
+   loads on the resume, so hiding the header and footer here touches no other page. */
+
+@media print {
+
+	.wp-site-blocks > header,
+	.wp-site-blocks > footer {
+		display: none;
+	}
+
+	.ik-resume {
+		padding-block: 0;
+	}
+
+	.ik-resume .ik-resume__head {
+		margin-bottom: $space-5;
+	}
+
+	.ik-resume .ik-resume__card {
+		margin-inline: 0;
+		padding: 0;
+		background: none;
+		color: $color-ink;
+	}
+
+	.ik-resume .ik-resume__eyebrow {
+		margin-bottom: $space-4;
+		color: $color-graphite;
+	}
+
+	.ik-resume .ik-resume__eyebrow-tag {
+		padding: 0;
+		background: none;
+		color: $color-signal;
+	}
+
+	.ik-resume .ik-resume__masthead {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: $space-6;
+	}
+
+	.ik-resume .ik-resume__name {
+		font-size: $size-xx-large;
+		color: $color-ink;
+	}
+
+	.ik-resume .ik-resume__meta {
+		padding-left: $space-5;
+		border-left: 1px solid $color-line;
+	}
+
+	.ik-resume .ik-resume__title {
+		color: $color-ink;
+	}
+
+	.ik-resume .ik-resume__title span,
+	.ik-resume .ik-resume__location {
+		color: $color-graphite;
+	}
+
+	.ik-resume .ik-resume__summary {
+		max-width: none;
+		margin-top: $space-4;
+		font-size: $size-base;
+		line-height: $leading-normal;
+	}
+
+	.ik-resume .ik-resume__facts {
+		margin-top: $space-4;
+		break-inside: avoid;
+	}
+
+	.ik-resume .ik-resume__fact {
+		padding-block: $space-3;
+	}
+
+	.ik-resume .ik-resume__fact-value {
+		font-size: $size-large;
+	}
+
+	.ik-resume .ik-resume__section {
+		margin-top: $space-6;
+	}
+
+	// Print has no viewport to defer against, so render every section in full.
+	.ik-resume .ik-resume__section ~ .ik-resume__section > .ik-resume__section-title ~ * {
+		content-visibility: visible;
+	}
+
+	.ik-resume .ik-resume__section-title {
+		margin-bottom: $space-2;
+		padding-bottom: $space-2;
+		font-size: $size-large;
+		break-after: avoid;
+	}
+
+	.ik-resume .ik-resume__exp-row,
+	.ik-resume .ik-resume__comm-row,
+	.ik-resume .ik-resume__cert-row,
+	.ik-resume .ik-resume__skill,
+	.ik-resume .ik-resume__contact a {
+		gap: $space-5;
+		padding-block: $space-3;
+		break-inside: avoid;
+	}
+
+	.ik-resume .ik-resume__contact-value {
+		justify-self: start;
+		font-size: $size-base;
+	}
+}

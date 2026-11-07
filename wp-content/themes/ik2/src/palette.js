@@ -94,6 +94,14 @@ function filteredNav( q ) {
 	);
 }
 
+// The search endpoint returns escaped titles. A DOMParser document runs no scripts, and the result is only ever set as textContent.
+function decodeEntities( text ) {
+	return (
+		new window.DOMParser().parseFromString( text, 'text/html' )
+			.documentElement.textContent ?? ''
+	);
+}
+
 /**
  * @param {string} q Trimmed, non-empty query.
  * @return {Promise<?{items: Array<Object>, failed: boolean}>} Null when a newer search aborted this one.
@@ -118,7 +126,7 @@ async function searchPosts( q ) {
 				c.toUpperCase()
 			),
 			glyph: '·',
-			label: String( item.title || '' ),
+			label: decodeEntities( String( item.title || '' ) ),
 			href: String( item.url || '#' ),
 		} ) );
 		return { items, failed: false };

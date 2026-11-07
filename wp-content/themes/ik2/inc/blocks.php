@@ -11,13 +11,14 @@ namespace IK2\Theme\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
-const ARTICLES_PAGE_SLUG = 'articles';
-const ARTICLES_QUERY_ID  = 42;
-const ARCHIVE_QUERY_ID   = 43;
-const RELATED_QUERY_ID   = 44;
-const RELATED_LIMIT      = 4;
-const FORMAT_SLUGS       = [ 'guide', 'note', 'experiment' ];
-const REWRITE_VERSION    = 2;
+const ARTICLES_PAGE_SLUG    = 'articles';
+const ARTICLES_QUERY_ID     = 42;
+const ARCHIVE_QUERY_ID      = 43;
+const RELATED_QUERY_ID      = 44;
+const RELATED_LIMIT         = 4;
+const RELATED_ARCHIVE_YEARS = 5;
+const FORMAT_SLUGS          = [ 'guide', 'note', 'experiment' ];
+const REWRITE_VERSION       = 2;
 
 const COVER_LABEL_CLASSES  = [ 'ik-related__cover-label' ];
 const CATEGORY_PILLS_CLASS = 'ik-article-card__category';
@@ -30,6 +31,7 @@ function bootstrap(): void {
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_query_loop_format', 10, 2 );
 	add_filter( 'query_loop_block_query_vars', __NAMESPACE__ . '\\filter_related_query', 10, 2 );
 	add_filter( 'render_block_core/query', __NAMESPACE__ . '\\hide_empty_related_query', 10, 2 );
+	add_filter( 'render_block_core/post-date', __NAMESPACE__ . '\\label_archive_related_pick', 10, 3 );
 	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\unlink_cover_label', 10, 2 );
 	add_filter( 'render_block_core/post-terms', __NAMESPACE__ . '\\render_category_pills', 10, 3 );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\\narrow_archive_query_by_format' );
@@ -165,6 +167,29 @@ function hide_empty_related_query( string $html, array $block ): string {
 	}
 
 	return str_contains( $html, 'wp-block-post ' ) ? $html : '';
+}
+
+/**
+ * Mark a related pick older than RELATED_ARCHIVE_YEARS as archive, so readers know its advice may be dated.
+ *
+ * @param string              $html     Rendered post-date block.
+ * @param array<string,mixed> $block    Parsed block.
+ * @param \WP_Block           $instance Block instance, for the post ID in context.
+ */
+function label_archive_related_pick( string $html, array $block, \WP_Block $instance ): string {
+	$classes = explode( ' ', (string) ( $block['attrs']['className'] ?? '' ) );
+
+	if ( '' === $html || ! in_array( 'ik-related__date', $classes, true ) ) {
+		return $html;
+	}
+
+	$published = (int) get_post_time( 'U', true, (int) ( $instance->context['postId'] ?? 0 ) );
+
+	if ( 0 === $published || $published > time() - RELATED_ARCHIVE_YEARS * YEAR_IN_SECONDS ) {
+		return $html;
+	}
+
+	return $html . '<p class="ik-related__archive">' . esc_html__( 'archive', 'ik2' ) . '</p>';
 }
 
 /**

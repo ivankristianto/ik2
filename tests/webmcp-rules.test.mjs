@@ -231,3 +231,7 @@ test('a caller that was cancelled before asking never waits', async () => {
 		untilAborted(Promise.resolve('ids'), AbortSignal.abort())
 	);
 });
+
+test('a caller without a signal just waits for the value', async () => {
+	assert.equal(await untilAborted(Promise.resolve('ids'), undefined), 'ids');
+});

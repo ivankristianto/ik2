@@ -191,7 +191,11 @@ export function toResults( posts, total, page, toText ) {
 }
 
 // Lets one call stop waiting on a shared promise without cancelling it for the others.
+// Some WebMCP builds call execute() without a client, so there may be no signal.
 export function untilAborted( promise, signal ) {
+	if ( ! signal ) {
+		return promise;
+	}
 	return new Promise( ( resolve, reject ) => {
 		signal.throwIfAborted();
 		const onAbort = () => reject( signal.reason );
