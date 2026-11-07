@@ -104,7 +104,7 @@ async function withAgentErrors( signal, work ) {
 	try {
 		return await work();
 	} catch ( err ) {
-		if ( signal.aborted ) {
+		if ( signal?.aborted ) {
 			throw err;
 		}
 		return { error: err instanceof Error ? err.message : String( err ) };
@@ -116,7 +116,7 @@ async function fetchResults( url, page, signal ) {
 	return res.error ? res : toResults( res.data, res.total, page, htmlToText );
 }
 
-async function searchArticles( input, { signal } ) {
+async function searchArticles( input, { signal } = {} ) {
 	const args = readSearchInput( input );
 	if ( args.error ) {
 		return args;
@@ -126,7 +126,7 @@ async function searchArticles( input, { signal } ) {
 	);
 }
 
-async function listArticles( input, { signal } ) {
+async function listArticles( input, { signal } = {} ) {
 	const args = readListInput( input );
 	if ( args.error ) {
 		return args;
@@ -142,7 +142,7 @@ async function listArticles( input, { signal } ) {
 	} );
 }
 
-async function getArticle( input, { signal } ) {
+async function getArticle( input, { signal } = {} ) {
 	const ref = readArticleRef( input?.article, window.location.origin );
 	if ( ! ref ) {
 		return {
