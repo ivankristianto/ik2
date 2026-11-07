@@ -18,6 +18,72 @@ const CACHE_GROUP = 'ik2-corpus';
 
 const RELATED_OPTION = 'ik2_corpus_related';
 
+const PINS_META = 'ik2_related_pins';
+
+/**
+ * Register the hand-picked follow-ups meta, editable over REST.
+ */
+function register_pins_meta(): void {
+	register_post_meta(
+		OBJECT_TYPE,
+		PINS_META,
+		[
+			'type'              => 'array',
+			'single'            => true,
+			'default'           => [],
+			'show_in_rest'      => [
+				'schema' => [
+					'type'  => 'array',
+					'items' => [ 'type' => 'integer' ],
+				],
+			],
+			'sanitize_callback' => __NAMESPACE__ . '\\sanitize_pins',
+			'auth_callback'     => __NAMESPACE__ . '\\can_edit_pins',
+		]
+	);
+}
+
+/**
+ * Keep positive, unique post IDs in the order given.
+ *
+ * @param mixed $value Raw meta value.
+ * @return list<int>
+ */
+function sanitize_pins( $value ): array {
+	$ids = array_filter( array_map( 'absint', (array) $value ) );
+
+	return array_values( array_unique( $ids ) );
+}
+
+/**
+ * Only someone who can edit the Article may change its pins.
+ *
+ * @param bool   $allowed  Default from WordPress, ignored.
+ * @param string $meta_key Meta key.
+ * @param int    $post_id  Article ID.
+ */
+function can_edit_pins( bool $allowed, string $meta_key, int $post_id ): bool {
+	return current_user_can( 'edit_post', $post_id );
+}
+
+/**
+ * Published posts pinned as an Article's follow-ups, in the order they were set.
+ *
+ * @param int $post_id Article ID.
+ * @return list<int>
+ */
+function pinned_ids( int $post_id ): array {
+	$ids = [];
+
+	foreach ( sanitize_pins( get_post_meta( $post_id, PINS_META, true ) ) as $id ) {
+		if ( $id !== $post_id && 'publish' === get_post_status( $id ) ) {
+			$ids[] = $id;
+		}
+	}
+
+	return $ids;
+}
+
 /**
  * Whether Keep reading uses the Corpus picks. Off until `wp ik2 corpus related on`.
  */
@@ -26,31 +92,28 @@ function related_enabled(): bool {
 }
 
 /**
- * Related post IDs for an Article, best first, with score >= RELATED_MIN_SCORE.
+ * Related post IDs for an Article, best first: hand-picked pins, then Corpus picks with score >= RELATED_MIN_SCORE.
  *
  * @param int $post_id Article ID.
  * @param int $limit   Maximum number of IDs.
  * @return list<int>
  */
 function get_related( int $post_id, int $limit ): array {
-	// Off returns nothing, so the theme falls back to the newest posts in the category.
-	if ( $post_id <= 0 || $limit <= 0 || ! related_enabled() ) {
+	if ( $post_id <= 0 || $limit <= 0 ) {
 		return [];
 	}
 
-	$run_id = last_run_id();
+	$ids = pinned_ids( $post_id );
 
-	// The worker commits the Run row and its lists together, so no Run means no lists.
-	if ( 0 === $run_id ) {
-		return [];
-	}
+	// With the Corpus off or never run, only the pins come back and the theme tops up from the category.
+	$run_id = related_enabled() ? last_run_id() : 0;
 
-	$ids = [];
-
-	// The floor applies after the cache, so a new RELATED_MIN_SCORE takes effect on deploy, not after the next Run.
-	foreach ( related_rows( $post_id, $run_id ) as [ $related_id, $score ] ) {
-		if ( $score >= RELATED_MIN_SCORE && $related_id !== $post_id ) {
-			$ids[] = $related_id;
+	if ( 0 !== $run_id ) {
+		// The floor applies after the cache, so a new RELATED_MIN_SCORE takes effect on deploy, not after the next Run.
+		foreach ( related_rows( $post_id, $run_id ) as [ $related_id, $score ] ) {
+			if ( $score >= RELATED_MIN_SCORE && $related_id !== $post_id && ! in_array( $related_id, $ids, true ) ) {
+				$ids[] = $related_id;
+			}
 		}
 	}
 

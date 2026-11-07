@@ -13,6 +13,8 @@ whatever is queued with nomic-embed-text, ranks related Articles, writes the
 results to the `wp_ik2_corpus_*` tables, and exits. "Keep reading" on single
 posts reads those results through `IK2\Plugin\Corpus\get_related()` and falls
 back to the newest posts in the category when an Article has none yet.
+Post IDs in an Article's `ik2_related_pins` meta (an integer array, editable
+over REST) come first, in the order given; the Corpus picks fill the rest.
 
 Saving, unpublishing, changing noindex or editing an Article's tags queues it.
 Nothing is embedded during a page view.
