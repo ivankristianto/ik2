@@ -34,6 +34,12 @@ $ik2_community = [
 		'note' => __( "Lead organiser for Indonesia's flagship WordCamp.", 'ik2' ),
 	],
 	[
+		'when' => '2019',
+		'role' => __( 'Volunteer', 'ik2' ),
+		'org'  => 'WordCamp US',
+		'note' => __( 'On the volunteer team in St. Louis.', 'ik2' ),
+	],
+	[
 		'when' => '2017',
 		'role' => __( 'Organiser', 'ik2' ),
 		'org'  => 'WordCamp Ubud',
