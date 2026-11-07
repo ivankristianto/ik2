@@ -37,7 +37,7 @@ $ik2_community = [
 		'when' => '2019',
 		'role' => __( 'Volunteer', 'ik2' ),
 		'org'  => 'WordCamp US',
-		'note' => __( 'On the volunteer team in St. Louis.', 'ik2' ),
+		'note' => __( 'On the volunteer team in St. Louis, Missouri.', 'ik2' ),
 	],
 	[
 		'when' => '2017',
