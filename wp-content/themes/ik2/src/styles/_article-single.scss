@@ -203,11 +203,16 @@
 	}
 }
 
+.ik-related__archive::before,
 .ik-related__reading::before,
 .ik-related__category::before {
 	content: "·" / "";
 	margin-inline-end: $space-2;
 	color: $color-rule;
+}
+
+.ik-related__meta .ik-related__archive {
+	color: $color-graphite;
 }
 
 .ik-related__name {
