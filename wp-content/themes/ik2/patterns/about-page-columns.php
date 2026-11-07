@@ -94,7 +94,7 @@
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"className":"ik-about__timeline-what"} -->
-				<p class="ik-about__timeline-what">Volunteer, WordCamp US in St. Louis</p>
+				<p class="ik-about__timeline-what">Volunteer, WordCamp US in St. Louis, Missouri</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
