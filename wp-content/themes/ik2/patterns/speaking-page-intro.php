@@ -20,7 +20,7 @@
 	<!-- /wp:heading -->
 
 	<!-- wp:paragraph {"className":"ik-speaking-archive__lede"} -->
-	<p class="ik-speaking-archive__lede">I speak about WordPress, web performance, browser technology, and practical engineering workflows. I've also helped organise WordPress community events in Indonesia since 2015. The Jakarta WordPress Meetup runs monthly, and I was lead organiser for WordCamp Jakarta 2017.</p>
+	<p class="ik-speaking-archive__lede">I speak about WordPress, web performance, browser technology, and practical engineering workflows. I've also helped organise WordPress community events in Indonesia since 2015. The Jakarta WordPress Meetup runs monthly, and I was lead organiser for WordCamp Jakarta in 2017 and 2019.</p>
 	<!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
