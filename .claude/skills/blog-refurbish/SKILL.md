@@ -113,14 +113,13 @@ Read `.claude/skills/blog-draft/references/voice.md` and run `recent-posts.py`, 
 - Say flatly what in the old text is wrong ("The word "anonymously" below is wrong"), without apologising.
 - Every number has to be in the research file. Write volatile facts as "as I write this" or with the month.
 
-Run blog-draft's checks on `update.md`, which must all come back empty except `wc -w`:
+Run blog-review's checks on `update.md`:
 
-- the dash grep
-- the banned-word grep
-- the giveaway-phrase grep
-- the placeholder grep
-- `leak-check.sh`
-- `wc -w`
+```bash
+python3 -I .claude/skills/blog-review/check.py update.md
+```
+
+Every `gate` line must say PASS except F7, which fails by design: the callout links inline, with no `[n]` citations. Ignore the heading and section signals, since a callout has no headings. Keep it short (`words` in the output).
 
 Then:
 

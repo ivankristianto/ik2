@@ -5,6 +5,7 @@ Usage: check_draft.py RUN_DIR EVAL_NAME [--offline]
 RUN_DIR is <iteration>/eval-N-<name>/<config>/run-1; the draft sits in RUN_DIR/outputs/.
 Writes RUN_DIR/grading.json; judgment checks are appended by hand or by a grader agent.
 """
+import importlib.util
 import json
 import re
 import subprocess
@@ -15,10 +16,13 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[4]
 LEAK_CHECK = REPO / ".claude/skills/blog-ideas/leak-check.sh"
 VOICE = REPO / ".claude/skills/blog-draft/references/voice.md"
-TEMPLATE_HEADINGS = r"(the )?short answer|what i have(n't| not) (yet )?(verified|tested)|where this stops applying|introduction|overview|background|conclusion|summary|final thoughts|wrapping up|the fix|the problem|the solution"
+# The reviewer's lists, so a draft that passes here passes blog-review too.
+_spec = importlib.util.spec_from_file_location("review_check", REPO / ".claude/skills/blog-review/check.py")
+review_check = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(review_check)
+BANNED, TEMPLATE_HEADINGS = review_check.BANNED, review_check.TEMPLATE_HEADINGS
 # Live slugs from https://www.ivankristianto.com/wp-json/wp/v2/categories, minus uncategorized.
 CATEGORIES = {"ai", "guide", "misc", "note", "performance", "talk", "tooling", "web-apis", "wordpress"}
-BANNED = r"delve|seamless|robust|leverage|crucial|pivotal|comprehensive|powerful|showcase|landscape|unlock|elevate|game-changing|cutting-edge|transformative|tapestry|underscore|realm|moreover|furthermore|in conclusion"
 HEDGE = r"unverified|not verified|(?:haven't|have not|didn't|did not) (?:verified|confirmed|checked|tested|verify|confirm|check|test)|not (?:yet )?(?:confirmed|checked)|I think|I believe|unconfirmed"
 BANDS = {"webmcp-happy-path": (750, 1250), "multisite-planted-leak": (450, 750)}
 
@@ -102,6 +106,12 @@ def grade_draft(run, name, offline, results):
     heads = re.findall(r"^#{2,}\s+(.+)$", body, re.M)
     generic = [h for h in heads if re.fullmatch(TEMPLATE_HEADINGS, h.strip().rstrip(".:").lower())]
     check(results, "Headings are specific to the story, not template labels", not generic, f"generic: {generic}")
+
+    sections = re.split(r"^#{2,}\s+.+$", prose_only(body), flags=re.M)
+    thin = [f"{h} ({len(s.split())}w)" for h, s in zip(heads, sections[1:]) if h.strip().lower() != "sources" and len(s.split()) < 200]
+    check(results, "No section under 200 words", not thin, f"thin: {thin}")
+    unpinned = re.findall(r"github\.com/[^\s)]+/(?:blob|tree)/(?:main|master|trunk)(?:[/)#]|\s|$)[^\s)]*", text)
+    check(results, "Code links are pinned to a tag or commit", not unpinned, f"unpinned: {unpinned[:3]}")
 
     leak = subprocess.run(["bash", str(LEAK_CHECK), str(draft)], capture_output=True, text=True)
     check(results, "leak-check.sh exits 0 on the draft", leak.returncode == 0,

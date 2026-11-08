@@ -49,7 +49,7 @@ Run blog-review on the local draft, then apply its fixes to the draft yourself:
 
 - Apply every `fix` that rewords, cuts or reorders what the draft or research file already says, or corrects a claim from a checked source.
 - Hold back every `ask` item for gate 2. Never write a fact only Ivan has.
-- After editing, run blog-draft's step 4 checks again (dashes, banned words, giveaway phrases, placeholders, `leak-check.sh`, `wc -w`) and `check.py`. Don't re-grade.
+- After editing, run blog-draft's step 4 checks again (`check.py` plus the unpinned-link grep). Don't re-grade.
 - If the verdict was "Not ready" (D, F or a leak), stop and report instead of going on. A draft that bad needs Ivan, not a card.
 
 ## 4. Feature card (blog-feature-image)

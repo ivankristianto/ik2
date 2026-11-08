@@ -33,7 +33,7 @@ A developer who knows WordPress or the web basics and has not seen your project.
 
 ## Voice
 
-Run `python3 -I .claude/skills/blog-draft/recent-posts.py 3` and read his latest posts, then read `references/voice.md` before you write the first sentence. Contractions everywhere (I couldn't, it's, doesn't), real commands and output in small code blocks instead of tables, and a closing "If you ..." list with Sources. `references/voice.md` quotes Ivan's own posts and shows what earlier drafts of this skill got wrong. The short version: start in a moment (when, what he was doing, what broke), say why he is writing, give the answer the way a colleague would in a sentence, show what it cost him, make his choices out loud with the reason, and talk to one reader. Use only moments, costs and feelings that the research file records or Ivan tells you. Never write a `[Ivan: ...]` placeholder, a question to Ivan or a notes block into the draft: the file is the post, nothing else.
+Run `python3 -I .claude/skills/blog-draft/recent-posts.py 3` and read his latest posts, then read `references/voice.md` before you write the first sentence. Contractions everywhere (I couldn't, it's, doesn't), real commands and output in small code blocks instead of tables, and a closing "If you ..." list with Sources. `references/voice.md` quotes Ivan's own posts and shows what earlier drafts of this skill got wrong. The short version: start in a moment (when, what he was doing, what broke), say why he is writing, give the answer the way a colleague would in a sentence, show what it cost him, make his choices out loud with the reason, and talk to one reader. Use only moments, costs and feelings that the research file records or Ivan tells you. Every first-person sentence is a claim that needs a line in the research file: what he ran, measured, saw or chose, and also his hedges ("I only measured it on my laptop", "I haven't graded them myself") and motives ("I'd rather not block code I didn't read"). Those three examples were invented in November 2026 drafts and each cost a review item. No line, no sentence. Never write a `[Ivan: ...]` placeholder, a question to Ivan or a notes block into the draft: the file is the post, nothing else.
 
 Global rules, strictly: no em dashes (use commas, periods or parentheses), no hype or consultant words (see the vocabulary guardrails in `~/.claude/CLAUDE.md`), no "it's not X, it's Y" or "not just X, but Y", no sweeping openings, no "In conclusion", no list-padding, no repeated sentence rhythm. Straight quotes. Sentence case headings. Cut any sentence that could appear unchanged in a random LinkedIn post.
 
@@ -44,21 +44,31 @@ Default length by the idea's size: short 600, medium 1,000, long 1,500 words. Do
 A post has jobs to do. They are not headings, and the order can bend to the story:
 
 - **Title**: plain and specific. Prefer the symptom or the question a reader would search.
-- **Opening**: the moment it happened and what the post settles, in a few sentences. The short answer belongs here or right after, in a sentence or two ("The short version: ..."), so a reader who only needs the fix gets it in ten seconds.
+- **Opening**: the moment it happened and what the post settles, in a few sentences. The short answer belongs here or right after, in a sentence or two ("The short version: ..."), so a reader who only needs the fix gets it in ten seconds. The title and first paragraph together say what he built or found, not only what prompted it.
+- **Setting**: the version of every tool whose behaviour the post depends on (runtime, database engine and version, browser, CLI, package or skill version), once, where it first matters. Say which environment when local and production differ ("MariaDB 11.8 locally"). This was the most missed review item: the 1Password CLI, the MySQL or MariaDB question, the skill build.
 - **The story, in order**: what he saw, what he assumed, what was actually going on, what he chose and why. Headings name what happened in this story ("Why I couldn't just update"), never a reusable label.
-- **The fix**: numbered steps for anything a reader will follow, with code blocks tagged by language. Give versions where they matter, once, not as a ritual on every snippet.
-- **What he has not tested, and what's next**: said plainly where it comes up, or in one short paragraph near the end. No disclaimer block. When the research file lists next steps, put them in a section before the close ("What I want to improve next"): the untested paragraph, then a plain list, one step per item with its reason and a citation where a source backs it. Only steps the research records, preferring the ones Ivan picked; never invent a plan for him. The section follows the heading budget below, so it needs about 200 words or goes in without a heading. Leave it out when there's nothing left to do.
+- **The fix**: numbered steps for anything a reader will follow, with code blocks tagged by language. When the post says he ran a tool, the install and run commands (and the config that mattered) are in fences a reader can copy; a tool named only in prose fails review.
+- **What he has not tested, and what's next**: said plainly where it comes up, or in one short paragraph near the end. No disclaimer block. When the research file lists next steps, put them in a section before the close, headed from this post (what's next for this thing, by name): the untested paragraph, then a plain list, one step per item with its reason and a citation where a source backs it. Only steps the research records, preferring the ones Ivan picked; never invent a plan for him. The section follows the heading budget below, so it needs about 200 words or goes in without a heading. Leave it out when there's nothing left to do.
 - **The close**: stop when the content stops. A nudge to the reader ("If you run PHP...") or an invitation beats a summary or a punchline.
 
-Headings are for a reader skimming back, not a frame to fill. About one per 300 to 400 words, none on the opening or the close, never one per job above. A section under 200 words merges into its neighbour. Ivan's own posts from 2013 to 2016 ran 200 to 400 words with no headings at all; the first pipeline drafts had one every 150 words and read like docs.
+Headings are for a reader skimming back, not a frame to fill. About one per 300 to 400 words, none on the opening or the close, never one per job above. A section under 200 words merges into its neighbour. Ivan's own posts from 2013 to 2016 ran 200 to 400 words with no headings at all; the first pipeline drafts had one every 150 words and read like docs. Template labels fail review even when the section is good: "What I haven't tested", "The fix", "The problem", "Background", "Overview", "Summary". Name what happened instead ("Why the nonce survives the page cache"). A section ends on its last fact, never a quip, moral or slogan pair ("The secrets were in one vault. The access wasn't.").
 
 Paragraphs run two to five sentences that follow from each other: join them with the reason ("so", "because", "but") instead of starting each one over. A short list of titles or names reads better as one sentence. Use a list only for steps or parallel items, a table only for comparing things on the same axes. Link related posts on the blog inline. Cite every outside source (docs, specs, changelogs, source files, the repo) with a numbered citation pointing at the exact doc section or file, not with an inline link.
 
 Numbered citations are required whenever the post uses an outside source. Write `[n]` right after the sentence it supports (`[9][10]` for several), number them in order of first use, and end the post with a `## Sources` heading and one `- [n] https://...` line per number. The theme (`wp-content/themes/ik2/inc/footnotes.php`) turns them into superscript links with back links and hover previews, but only when both sides match, so never cite a number the list doesn't have. Inline outside links or an unnumbered Sources list skip that feature.
 
+A citation promises the source says the sentence. Overstated citations failed F2 in three of the four reviews from October 31 to November 5, 2026, so hold each `[n]` to this:
+
+- Find the line in the source that supports the sentence before you cite it, and keep it in `<scratchpad>/<slug>-sources.md` (claim, URL, quoted line). Never in the draft.
+- Scope words match the source's scope: "only", "all", "every", "always", "never", "since X", "at all", "the one place", and every count. The source names one function, the post names one. One example in the docs stays one example.
+- Cite the page that holds the fact, not an index page that links to it.
+- Pin repo and code links to a tag or commit (`/blob/v0.28.1/...`, `/blob/<sha>/...`), never `main` or `master`.
+- An old source for current behaviour carries its year in the sentence ("a 2022 Cloudflare post says Zaraz leaves the header alone").
+- When a site refuses scripts (WordPress Trac returns 403, so its links fail the link check), cite a mirror that resolves, such as the wp-trac list archive at lists.wordpress.org.
+
 ## Process
 
-1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing and when it happened. If either is missing and was never asked, ask him now in one batch with concrete options from the research (`AskUserQuestion` in Claude Code, one chat message in other agents) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
+1. Read the research file and the global style rules. Check that its Story or Questions for Ivan section says why he is writing, when it happened, and the versions the Setting job needs. If any is missing and was never asked, ask him now in one batch with concrete options from the research (`AskUserQuestion` in Claude Code, one chat message in other agents) before writing a word, and add his answers to the research file's Story marked `(from Ivan)`. If he already left it unanswered, write the post without it. Draft from the thesis and outline. Use only claims marked `verified` or `sourced`. Put `unverified` ones in the "not verified" paragraph or leave them out.
 2. Frontmatter at the top of the file:
    ```yaml
    ---
@@ -70,17 +80,13 @@ Numbered citations are required whenever the post uses an outside source. Write 
    status: draft
    ---
    ```
-3. Revise three times, as separate passes: once for voice (read it next to the quotes in `references/voice.md`; would Ivan say each sentence out loud to a colleague?), once for specificity (swap each general statement for a number, a name, a command from the research), once to delete anything that sounds generated (the table and phrase list in `references/voice.md`).
-4. Checks before reporting:
+3. Revise four times, as separate passes: once for voice (read it next to the quotes in `references/voice.md`; would Ivan say each sentence out loud to a colleague?), once for specificity (swap each general statement for a number, a name, a command from the research), once for claims (walk `<slug>-sources.md` against every `[n]`, and every "I" sentence against the research file; fix the scope word or cut the sentence), once to delete anything that sounds generated (the table and phrase list in `references/voice.md`).
+4. Run the reviewer's own mechanical checks, so the draft can't pass here and fail there:
    ```bash
-   rg -n '\x{2014}|\x{2013}' <draft>            # em and en dashes, must be empty
-   rg -n -i 'delve|seamless|robust|leverage|crucial|pivotal|comprehensive|powerful|showcase|landscape|unlock|elevate' <draft>
-   rg -n -i -F -f <(sed -n 's/^- `\(.*\)`$/\1/p' .claude/skills/blog-draft/references/voice.md) <draft>   # giveaway phrases, must be empty
-   rg -n -i '\[ivan|notes for ivan|\bTODO\b' <draft>   # placeholders or notes to Ivan, must be empty
-   bash .claude/skills/blog-ideas/leak-check.sh <draft>
-   wc -w <draft>
+   python3 -I .claude/skills/blog-review/check.py <draft>
+   rg -n 'github\.com/[^ )]+/(blob|tree)/(main|master|trunk)([/)#]|\s|$)' <draft>   # unpinned code links, must be empty
    ```
-   Also confirm every code block was run, every URL resolves (`curl -sI`), and every number matches the research file.
+   Every `gate` line must say PASS (dashes, banned words, giveaway phrases, placeholders, `leak-check.sh`, links, citation pairing). Fix every raised `signal` too (template headings, sections under 200 words, citation order, contrasts, hypotheticals, faceless provenance, rhythm) unless you can say in the report why it misfires on this post. Check `words` against the length band. Also confirm every code block was run and every number matches the research file.
 5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, image ideas with alt text), and the draft path as a `file:///` link. Flags live in the chat reply only, never in the draft file. Ask for edits. Publishing is Ivan's call. A WordPress draft is created only when he asks for it, with `blog-wp-draft`.
 
 ## Images
