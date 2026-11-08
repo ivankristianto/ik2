@@ -48,6 +48,7 @@ The draft step never asks Ivan anything in the post itself, so research collects
 - When it happened and what he was doing (a rough date and the situation, no client names).
 - What it cost him or what he suspected first, if the session does not show it.
 - Anything the outcome depends on: did it ship, did the numbers move, what he is allowed to say.
+- The versions the result depends on (runtime, database engine, browser, CLI, package or skill build), on production and locally when they differ, if the session does not show them. A missing version was the most common blog-review miss in October and November 2026.
 - When step 1 found things left to do, which of them he actually plans (multi-select), in place of whichever question above the session already answers. A follow-up in a spec is not a plan of his until he picks it.
 
 Offer concrete options drawn from the session so he can answer with a click, and let him type his own. Write his answers into the Story, marked `(from Ivan)`. If he skips one, record it as not answered; the draft then leaves that part out rather than guessing.
