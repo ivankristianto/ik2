@@ -43,7 +43,7 @@ Hallucinations show up as specifics that look right: a menu label one word off, 
 
 ## S: Structure (15)
 
-- **S1** The answer, or what the post settles, is in the first three paragraphs.
+- **S1** The answer, or what the post settles, is in the first three paragraphs. Paragraph one is one or two sentences under about 50 words: sentence one names the concrete thing and its result, with information-carrying first words (not a date, "Recently", "Revisiting" or "My older posts"), and sentence two gives the stake. Background and motive come after. Partial when paragraph one opens on background but the short version lands by paragraph two; fail when a reader from search can't tell what the post gives them after paragraph two. `S1m` checks the mechanical half. Rules and sources: "The first paragraph" in `../blog-draft/SKILL.md`.
 - **S2** Order follows time (what he saw, assumed, found, chose) or the steps a reader takes. Fail when sections could be shuffled without loss.
 - **S3** Headings name things from this story. "Why I couldn't just update" passes; "Change response headers with DevTools overrides" is a doc label, partial.
 - **S4** Steps a reader will follow are numbered, one action each, with code in tagged fences. A post that says he ran a tool, a command or a config must show how: the install and run commands (and the config, if one mattered) in fenced code a reader can copy. Ivan rereads these posts to redo the work, so prose that names a tool without the command fails. Pass only when the post genuinely involves nothing to run.

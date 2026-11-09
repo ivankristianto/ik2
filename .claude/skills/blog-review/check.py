@@ -45,6 +45,9 @@ VERSION = r"\b(?:[A-Z][\w.+-]*|v) ?\d+\.\d+(?:\.\d+)?\b"
 # Post 2154 (2026-11-09) repeated these six times; one honest limit near the result reads better.
 HEDGE = (r"\b(?:doesn['’]t|does not|don['’]t|do not|didn['’]t|can['’]t|cannot|won['’]t)\s+(?:by itself\s+)?"
          r"(?:establish|prove|isolate|guarantee)\w*\b|\b(?:isn['’]t|is not|aren['’]t|are not)\s+an?\s+[\w-]*\s*benchmark\b")
+# Lede rules from NN/g and Poynter, written up in blog-draft SKILL.md "The first paragraph".
+OPENING_BACKGROUND = (r"(?:On|In|Back in|Last|This) (?:January|February|March|April|May|June|July|August|September|October|November|December|\d{4}|year|week|month)\b"
+                      r"|(?:Yesterday|Today|Recently|Lately|Revisiting|Looking back|So|When I|A few|My (?:old|older|earlier|previous))\b")
 NUMBER_SERIES = r"\b\d+(?:\.\d+)?%?(?:,\s+(?:and\s+)?\d+(?:\.\d+)?%?){3,}"
 
 
@@ -71,6 +74,25 @@ def repeated_name_openers(sents, text):
         if starts > 3 and mid > 0:
             names.append(f"{word} x{starts}")
     return names
+
+
+def opening_check(text):
+    """Return (passed, evidence) for the first prose paragraph and where the short version lands."""
+    paras = paragraphs(text)
+    if paras and re.match(r"\s*(?:\*\*)?updated\b", paras[0], re.I):
+        paras = paras[1:]
+    if not paras:
+        return True, "no prose"
+    first = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", paras[0].strip())
+    count = len([s for s in re.split(r"(?<=[.?!])\s+(?=[A-Z0-9\"“])", first) if s.strip()])
+    problems = []
+    if count > 2 or len(first.split()) > 50:
+        problems.append(f"{count} sentences, {len(first.split())} words")
+    if re.match(OPENING_BACKGROUND, first, re.I):
+        problems.append(f"opens on '{' '.join(first.split()[:3])}'")
+    if not any("short version" in p.lower() for p in paras[:3]):
+        problems.append("no 'short version' in the first three paragraphs")
+    return not problems, "; ".join(problems) or "ok"
 
 
 def heading_depth(body):
@@ -203,6 +225,8 @@ def main():
     add("X2", "gate", "No placeholders, TODOs or notes to Ivan", not placeholders, placeholders[:3] or "none")
     heads = re.findall(r"^#{2,4}\s+(.+)$", body, re.M)
     generic = [h for h in heads if re.fullmatch(TEMPLATE_HEADINGS, h.strip().rstrip(".:").lower())]
+    add("S1m", "signal", "Paragraph one: two sentences or fewer, under 50 words, not opening on a date or background",
+        *opening_check(body_prose))
     add("S3m", "signal", "Headings aren't template labels", not generic, generic or f"{len(heads)} headings, none generic")
     add("S7m", "signal", "H2 threads of 200+ words, each with a lead line, H3s so no run passes 250 words, no thin H3",
         *heading_depth(body))

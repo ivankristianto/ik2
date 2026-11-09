@@ -44,12 +44,35 @@ Default length by the idea's size: short 600, medium 1,000, long 1,500 words. Do
 A post has jobs to do. They are not headings, and the order can bend to the story:
 
 - **Title**: plain and specific. Prefer the symptom or the question a reader would search.
-- **Opening**: the moment it happened and what the post settles, in a few sentences. The short answer belongs here or right after, in a sentence or two ("The short version: ..."), so a reader who only needs the fix gets it in ten seconds. The title and first paragraph together say what he built or found, not only what prompted it.
+- **Opening**: what he built, found or measured, then the stake, in one or two sentences. The short version comes right after, then the moment and the motive. See "The first paragraph" below; it is the paragraph that decides whether anyone reads the rest.
 - **Setting**: the version of every tool whose behaviour the post depends on (runtime, database engine and version, browser, CLI, package or skill version), once, where it first matters. Say which environment when local and production differ ("MariaDB 11.8 locally"). This was the most missed review item: the 1Password CLI, the MySQL or MariaDB question, the skill build.
 - **The story, in order**: what he saw, what he assumed, what was actually going on, what he chose and why. Headings name what happened in this story ("Why I couldn't just update"), never a reusable label.
 - **The fix**: numbered steps for anything a reader will follow, with code blocks tagged by language. When the post says he ran a tool, the install and run commands (and the config that mattered) are in fences a reader can copy; a tool named only in prose fails review.
 - **What he has not tested, and what's next**: said plainly where it comes up, or in one short paragraph near the end. No disclaimer block. Say each limit once, next to the result it limits. "Doesn't establish", "doesn't isolate", "doesn't prove", "isn't a benchmark" after every finding read as a nervous draft, not a careful one: post 2154 had six before its rewrite. When the research file lists next steps, put them in a section before the close, headed from this post (what's next for this thing, by name): the untested paragraph, then a plain list, one step per item with its reason and a citation where a source backs it. Only steps the research records, preferring the ones Ivan picked; never invent a plan for him. The section follows the heading budget below, so it needs about 200 words or goes in without a heading. Leave it out when there's nothing left to do.
 - **The close**: stop when the content stops. A nudge to the reader ("If you run PHP...") or an invitation beats a summary or a punchline.
+
+### The first paragraph
+
+The reader arrived from search or a link and is deciding whether to stay. Leaving is most likely in the first 10 seconds on a page,[nng-dwell] people read about 20% of a page's words,[nng-read] and scanners see little more than the first two words of a line.[nng-2words] Both posts rewritten on November 9, 2026 opened on background ("My older WordPress performance posts are about classic themes...", "Revisiting my old WordPress security article in 2026 made me want to...") and Ivan found both first paragraphs weak.
+
+- **Sentence one names the concrete thing and its result.** What he built, found, measured or broke, with the number if there is one. "My homepage scored 100 in PageSpeed Insights on mobile and desktop on November 9, 2026." The focus keyphrase goes in this paragraph.
+- **The first two words carry information.** Not a date, "So", "Recently", "Revisiting", "Back in" or "My older posts". The moment still belongs in sentence one; put its date after the result.
+- **Sentence two gives the stake or the catch.** Why a stranger should care, or what surprised him: "That makes the site easier to maintain, but shipping code in an image doesn't make it read-only while the container runs."
+- **One or two sentences, under about 50 words.** Shorter paragraphs get read; longer ones get skipped.[poynter]
+- **"The short version: ..." is paragraph two**, so a reader has the answer within three sentences.[refactoring]
+- **Background and motive move to paragraph three**: his older posts, why he's writing, who ran the tests. They still matter to the story, just not before the reader knows what they're getting.
+
+Before the revisions in Process step 3, answer these about paragraph one. Every answer must be yes:
+
+1. Would a reader from search know what they'll get after reading only the title and this paragraph?
+2. Is sentence one about the thing, not the history?
+3. Are its first two words a noun, a name or a number?
+4. Is the stake in sentence two?
+5. Is it two sentences or fewer and under 50 words?
+
+Sources for this section: [nng-dwell] https://www.nngroup.com/articles/how-long-do-users-stay-on-web-pages/, [nng-read] https://www.nngroup.com/articles/how-little-do-users-read/, [nng-2words] https://www.nngroup.com/articles/first-2-words-a-signal-for-scanning/, [poynter] https://www.poynter.org/news/case-shorter-paragraphs (Eyetrack III, 2004, news articles, so directional), [refactoring] https://refactoringenglish.com/chapters/write-blog-posts-developers-read/ (practitioner advice: answer "is this for me?" within the title and three sentences).
+
+### Headings, paragraphs and citations
 
 Headings work at two levels. They are for a reader skimming back, not a frame to fill, and never one per job above.
 
@@ -98,7 +121,7 @@ A citation promises the source says the sentence. Overstated citations failed F2
    python3 -I .claude/skills/blog-review/check.py <draft>
    rg -n 'github\.com/[^ )]+/(blob|tree)/(main|master|trunk)([/)#]|\s|$)' <draft>   # unpinned code links, must be empty
    ```
-   Every `gate` line must say PASS (dashes, banned words, giveaway phrases, placeholders, `leak-check.sh`, links, citation pairing). Fix every raised `signal` too (template headings, heading depth, citation order, contrasts, hypotheticals, faceless provenance, rhythm, long paragraphs, repeated hedges, numbers in a sentence) unless you can say in the report why it misfires on this post. Check `words` against the length band. Also confirm every code block was run and every number matches the research file.
+   Every `gate` line must say PASS (dashes, banned words, giveaway phrases, placeholders, `leak-check.sh`, links, citation pairing). Fix every raised `signal` too (the first paragraph, template headings, heading depth, citation order, contrasts, hypotheticals, faceless provenance, rhythm, long paragraphs, repeated hedges, numbers in a sentence) unless you can say in the report why it misfires on this post. Check `words` against the length band. Also confirm every code block was run and every number matches the research file.
 5. Report in chat: title, word count, the category and excerpt, anything flagged for Ivan (claims he must confirm, image ideas with alt text), and the draft path as a `file:///` link. Flags live in the chat reply only, never in the draft file. Ask for edits. Publishing is Ivan's call. A WordPress draft is created only when he asks for it, with `blog-wp-draft`.
 
 ## Images
