@@ -26,3 +26,4 @@
 - [security headers](project-security-headers.md): HSTS is a Cloudflare setting, the rest nginx; COOP same-origin-allow-popups for Site Kit; CSP spec not built yet; no sed -i on bind-mounted default.conf
 - [deferred analytics](project-deferred-analytics.md): gtag + CF beacon load after window load from the ik2 plugin; CF auto-injection is off; why Lantern LCP counted them
 - [no assistant in posts](feedback-no-assistant-in-posts.md): never mention Rei / "my AI assistant" in a post; state its checks as dated facts
+- [blog-video voice](project-blog-video-voice.md): narration is Kokoro bm_george (Apache-2.0); Apple voices are personal-use only; Chatterbox dropped (slow, said "emit" for "omit")
