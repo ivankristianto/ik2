@@ -3,7 +3,8 @@
 
 Usage: python3 -I check.py POST.md [--json OUT] [--offline]
 Gates (dashes, banned words, giveaway phrases, leaks, placeholders, links, footnotes) are final.
-Signals (hypotheticals, faceless provenance, contrast formulas, rhythm) go to the judge to rule on.
+Signals (hypotheticals, faceless provenance, contrast formulas, rhythm, paragraph length, hedges,
+number series, heading depth) go to the judge to rule on.
 """
 import json
 import re
@@ -41,6 +42,66 @@ FIRST_PERSON = r"\b(?:I|I'm|I’m|I've|I’ve|I'd|I’d|I'll|I’ll|my|me|mine)\
 TIME_ANCHOR = (r"\b(?:19|20)\d\d-\d\d-\d\d\b|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)"
                r" \d{1,2}\b|\b(?:yesterday|last (?:night|week|month)|this (?:morning|weekend|week)|that night|next morning|on (?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day)\b")
 VERSION = r"\b(?:[A-Z][\w.+-]*|v) ?\d+\.\d+(?:\.\d+)?\b"
+# Post 2154 (2026-11-09) repeated these six times; one honest limit near the result reads better.
+HEDGE = (r"\b(?:doesn['’]t|does not|don['’]t|do not|didn['’]t|can['’]t|cannot|won['’]t)\s+(?:by itself\s+)?"
+         r"(?:establish|prove|isolate|guarantee)\w*\b|\b(?:isn['’]t|is not|aren['’]t|are not)\s+an?\s+[\w-]*\s*benchmark\b")
+NUMBER_SERIES = r"\b\d+(?:\.\d+)?%?(?:,\s+(?:and\s+)?\d+(?:\.\d+)?%?){3,}"
+
+
+def _words(text):
+    return len(prose(text).split())
+
+
+def paragraphs(text):
+    """Prose paragraphs only: no headings, list items, tables or quotes."""
+    return [p for p in re.split(r"\n\s*\n", text)
+            if p.strip() and not re.match(r"\s*(?:#|[-*] |\d+\. |\||>)", p)]
+
+
+def repeated_name_openers(sents, text):
+    """Proper names (capitalized mid-sentence somewhere too) that open more than three sentences."""
+    counts = {}
+    for s in sents:
+        word = re.sub(r"['’]s$", "", re.sub(r"[^\w.'’-]", "", s.split()[0]))
+        if word[:1].isupper() and word not in ("I", "The", "A", "An"):
+            counts[word] = counts.get(word, 0) + 1
+    names = []
+    for word, starts in counts.items():
+        mid = len(re.findall(rf"(?<![.?!:]\s)(?<!^)(?<!\n)\b{re.escape(word)}\b", text))
+        if starts > 3 and mid > 0:
+            names.append(f"{word} x{starts}")
+    return names
+
+
+def heading_depth(body):
+    """Return (passed, evidence) for the H2/H3 structure; the last H2 may be a short close."""
+    text = re.sub(r"```.*?```", "", body, flags=re.S)
+    parts = re.split(r"^(#{2,4})\s+(.+)$", text, flags=re.M)
+    intro, rest = parts[0], parts[1:]
+    blocks = [(rest[i], rest[i + 1].strip(), rest[i + 2]) for i in range(0, len(rest), 3)]
+    problems = []
+    if _words(intro) > 250:
+        problems.append(f"opening runs {_words(intro)}w before the first heading")
+    h2 = []
+    for i, (marks, head, seg) in enumerate(blocks):
+        if _words(seg) > 250:
+            problems.append(f"'{head}' runs {_words(seg)}w without a subheading")
+        if marks == "###" and _words(seg) < 50:
+            problems.append(f"H3 '{head}' is thin ({_words(seg)}w)")
+        if marks == "##":
+            has_h3 = i + 1 < len(blocks) and blocks[i + 1][0] == "###"
+            if has_h3 and _words(seg) == 0:
+                problems.append(f"H2 '{head}' has no lead line before its first H3")
+            total = _words(seg)
+            for marks2, _, seg2 in blocks[i + 1:]:
+                if marks2 == "##":
+                    break
+                total += _words(seg2)
+            h2.append((head, total))
+    for n, (head, total) in enumerate(h2):
+        if total < 200 and n < len(h2) - 1:
+            problems.append(f"H2 '{head}' is a thin thread ({total}w)")
+    return not problems, f"{len(h2)} H2, {sum(1 for b in blocks if b[0] == '###')} H3; " + ("; ".join(problems[:6]) or "ok")
 
 
 def split_body(text):
@@ -128,16 +189,23 @@ def main():
     add("W7", "signal", "Sentence length varies (CV >= 0.4) and no word opens three sentences in a row",
         (cv is None or cv >= 0.4) and not runs, f"CV {cv}, repeated openers: {sorted(set(runs)) or 'none'}")
 
+    long_paras = [f"{len(p.split())}w: {p.strip()[:60]}" for p in paragraphs(body_prose) if len(p.split()) > 80]
+    name_runs = repeated_name_openers(sents, body_prose)
+    add("W7b", "signal", "No paragraph over 80 words and no name opening more than three sentences",
+        not long_paras and not name_runs, f"long: {long_paras[:4] or 'none'}, name openers: {name_runs or 'none'}")
+    hedges = [m.group(0) for m in re.finditer(HEDGE, body_prose, re.I)]
+    add("W8m", "signal", "Limits said once: at most two hedges like \"doesn't establish\" or \"isn't a benchmark\"",
+        len(hedges) <= 2, f"{len(hedges)}: {hedges[:6]}")
+    series = [m.group(0) for m in re.finditer(NUMBER_SERIES, body_prose)]
+    add("W7c", "signal", "Series of four or more numbers go in a code block, not a sentence", not series, series[:3] or "none")
+
     placeholders = re.findall(r"(?im)\[ivan\b[^\]\n]*\]?|^.*notes for ivan.*$|\bTODO\b|\bTKTK\b|\bXXX\b|lorem ipsum", text)
     add("X2", "gate", "No placeholders, TODOs or notes to Ivan", not placeholders, placeholders[:3] or "none")
     heads = re.findall(r"^#{2,4}\s+(.+)$", body, re.M)
     generic = [h for h in heads if re.fullmatch(TEMPLATE_HEADINGS, h.strip().rstrip(".:").lower())]
     add("S3m", "signal", "Headings aren't template labels", not generic, generic or f"{len(heads)} headings, none generic")
-    sections = re.split(r"^#{2,4}\s+.+$", re.sub(r"```.*?```", "", body, flags=re.S), flags=re.M)
-    per_head = len(body_prose.split()) // len(heads) if heads else None
-    thin = [f"{h} ({len(s.split())}w)" for h, s in zip(heads, sections[1:]) if len(s.split()) < 200]
-    add("S7m", "signal", "About one heading per 300 words or more, no section under 200 words",
-        (per_head is None or per_head >= 250) and not thin, f"{len(heads)} headings, {per_head} words per heading, thin: {thin or 'none'}")
+    add("S7m", "signal", "H2 threads of 200+ words, each with a lead line, H3s so no run passes 250 words, no thin H3",
+        *heading_depth(body))
 
     if LEAK_CHECK.exists():
         leak = subprocess.run(["bash", str(LEAK_CHECK), str(path)], capture_output=True, text=True)

@@ -49,7 +49,7 @@ Hallucinations show up as specifics that look right: a menu label one word off, 
 - **S4** Steps a reader will follow are numbered, one action each, with code in tagged fences. A post that says he ran a tool, a command or a config must show how: the install and run commands (and the config, if one mattered) in fenced code a reader can copy. Ivan rereads these posts to redo the work, so prose that names a tool without the command fails. Pass only when the post genuinely involves nothing to run.
 - **S5** No punchline, moral or recap closing a section.
 - **S6** Ends with a nudge or "If you ..." list and a `## Sources` list of `- [n]` items the text cites, not a summary. Outside sources linked inline or listed without numbers are partial: the theme's footnotes only work with `[n]` on both sides. `check.py` fails F7 when the body links outside the blog with no `[n]` citations at all.
-- **S7** Length matches the idea (short 600, medium 1,000, long 1,500 words, from `blog-draft`), and the sections carry their weight: about one heading per 300 to 400 words, no section under 200 words, no heading on the opening or the close. Partial when padding or missing context is visible, or when headings chop the story into thin sections (the `S7m` signal counts them). A post of one-paragraph sections reads like documentation even when every heading is well named.
+- **S7** Length matches the idea (short 600, medium 1,000, long 1,500 words, from `blog-draft`), and the headings work at two levels: four or five H2 threads of 200 words or more, each opening with a lead line, and H3s so no stretch runs past about 250 words or three paragraphs without a heading. No heading on the opening. Partial when padding or missing context is visible, when headings chop the story into thin sections, or when an H2 runs on as a wall of paragraphs (the `S7m` signal measures both). A post of one-paragraph sections reads like documentation even when every heading is well named; four 270-word H2s with no H3s were hard to read for Ivan in November 2026.
 
 ## V: Voice (15)
 
@@ -63,13 +63,13 @@ Read `../blog-draft/references/voice.md` first and listen against his quotes the
 
 ## W: Wording (15)
 
-W1 to W3 come from `check.py` and can't be overruled. W4 to W7 have script signals; you rule on them, because the patterns also catch Ivan's own lines ("these notes" is in one of his published posts).
+W1 to W3 come from `check.py` and can't be overruled. W4 to W8 have script signals; you rule on them, because the patterns also catch Ivan's own lines ("these notes" is in one of his published posts).
 
 - **W4** Canned contrasts, slogan lines, tidy punchlines.
 - **W5** "Imagine", "Suppose", "Let's say" standing in for a case he actually had. Fine inside a real story ("say your host blocks X"); a fail when it replaces one.
 - **W6** Passive or faceless provenance: "was checked", "these notes", "the demo behind these notes". Who checked, where, with what result? Ivan wrote it, so it says "I".
-- **W7** Sentence shapes repeat (same length, same opener, same "X. Y. Z." triple).
-- **W8** Filler: sentences that restate the previous one, announce what's next, or hedge with nothing behind it.
+- **W7** Sentence shapes repeat (same length, same opener, same "X. Y. Z." triple), paragraphs over about 80 words (`W7b`), or a series of four or more numbers in a sentence that belongs in a code block (`W7c`).
+- **W8** Filler: sentences that restate the previous one, announce what's next, or hedge with nothing behind it. A limit said once next to its result passes; the same "doesn't establish / isn't a benchmark" hedge after every finding fails (`W8m` counts them).
 
 ## review.json
 

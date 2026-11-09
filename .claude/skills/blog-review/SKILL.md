@@ -12,7 +12,7 @@ You are a grader, not a co-author. Every verdict quotes the post. Every miss get
 
 ## 1. Get the text
 
-Work in `<scratchpad>/review/`. Save the post as Markdown at `<slug>.md`, starting with a `# Title` line. Use `##` headings, fenced code blocks, `1.` for ordered steps, `-` for bullets, and `[n]` citation markers. End with a `## Sources` list of `- [n] https://...` lines.
+Work in `<scratchpad>/review/`. Save the post as Markdown at `<slug>.md`, starting with a `# Title` line. Use `##` and `###` headings at the levels the post has them, fenced code blocks, `1.` for ordered steps, `-` for bullets, and `[n]` citation markers. End with a `## Sources` list of `- [n] https://...` lines.
 
 Try these in order and use the first that works:
 
@@ -25,7 +25,7 @@ Try these in order and use the first that works:
 3. **Chrome**, only when Ivan says to (load the `claude-in-chrome` skill first, and open a new tab). Ivan's logged-in session reads drafts.
    - On the edit link, run `wp.apiFetch({path: '/wp/v2/posts/<ID>?context=edit&_fields=status,title,slug,modified,categories,tags'})`. Also read `wp.data.select('core/editor').isEditedPostDirty()`. If it's dirty, the review covers the last saved version, not the open tab. Say so in the report.
    - Open `https://www.ivankristianto.com/?p=<ID>&preview=true`. Take the text from `get_page_text` and the structure from running `outline.js` with `javascript_tool`.
-   - Rebuild the Markdown from both. Paste the `get_page_text` text verbatim and only add structure: `##` headings, code fences, `1.` and `-` list markers, and `[n]` markers. The theme renders citations as bare superscript digits ("fixture.7", "1,3"), so turn them back into `[7]` and `[1][3]`. Don't fix a word, a quote or a dash while you do it.
+   - Rebuild the Markdown from both. Paste the `get_page_text` text verbatim and only add structure: `##` and `###` headings (the level from `outline.js`), code fences, `1.` and `-` list markers, and `[n]` markers. The theme renders citations as bare superscript digits ("fixture.7", "1,3"), so turn them back into `[7]` and `[1][3]`. Don't fix a word, a quote or a dash while you do it.
    - Compare `outline.js`'s `em`, `en`, `bang` and `words` with what `check.py` reports in step 3 (W1, W3b, `words`). If they disagree by more than a few words, your copy drifted, so redo it.
    - Don't try to pull the full body through `javascript_tool`. It came back `[BLOCKED: Cookie/query string data]` on a post that mentions cookies, and anything else gets cut at about 1,000 characters.
    - Close your tab when you're done.
@@ -63,8 +63,10 @@ Signals are evidence for your judgment, not verdicts:
 - hypotheticals
 - faceless provenance
 - contrast formulas
-- rhythm
+- rhythm, long paragraphs and name openers (W7b), numbers in a sentence (W7c)
+- repeated hedges (W8m)
 - template headings
+- heading depth (S7m)
 - citation order
 
 The metrics (first person per 100 words, time anchors, versions named) feed R and V.
