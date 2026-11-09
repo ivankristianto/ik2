@@ -84,7 +84,7 @@ On November 9, 2026 Ivan read a post with four H2s of 270 words each and no subh
 
 Paragraphs run two to four sentences, under about 80 words, that follow from each other: join them with the reason ("so", "because", "but") instead of starting each one over. Split a longer one where the subject changes. A short list of titles or names reads better as one sentence. Use a list only for steps or parallel items, a table only for comparing things on the same axes. A series of four or more numbers (scores from repeated runs, timings) goes in a small `text` code block, one row per series, not in a sentence.
 
-When an assistant or tool did part of the work, name it once with what it is ("Rei, my AI assistant"), then say "it" or put the result first. Don't open sentence after sentence with its name.
+Never mention Ivan's AI assistant, by name or as "my AI assistant", in a post. When it ran a test or a check, state the result as a fact with its date ("On November 9 the live homepage had zero external stylesheets"), not who ran it, and don't turn it into "I ran" either. A tool a reader could use (Lighthouse, PageSpeed Insights, a CLI) is named as usual. Don't open sentence after sentence with the same name.
 
 Write the concrete thing, not a noun for the idea. "The asset-locality idea", "a different delivery requirement", "the loading boundary" and "the useful question is" all failed on November 9, 2026. Say what the code does or what the browser downloads.
 
