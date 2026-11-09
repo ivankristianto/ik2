@@ -1,0 +1,24 @@
+{
+	"name": "blog-video",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"narrate": "node scripts/narrate.mjs",
+		"hear": "node scripts/hear.mjs",
+		"srt": "node scripts/srt.mjs",
+		"typecheck": "tsc --noEmit",
+		"studio": "remotion studio src/index.ts",
+		"bookends": "remotion render src/index.ts Intro out/intro.mp4 && remotion render src/index.ts Outro out/outro.mp4",
+		"render": "npm run srt && remotion render src/index.ts Video out/video.mp4"
+	},
+	"dependencies": {
+		"@remotion/cli": "4.0.542",
+		"react": "19.3.1",
+		"react-dom": "19.3.1",
+		"remotion": "4.0.542"
+	},
+	"devDependencies": {
+		"@types/react": "19.3.0",
+		"typescript": "7.0.2"
+	}
+}

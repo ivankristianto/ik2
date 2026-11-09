@@ -1,0 +1,60 @@
+{
+	"orientation": "vertical",
+	"fps": 30,
+	"introFrames": 60,
+	"outroFrames": 60,
+	"narrator": {
+		"voice": "bm_george",
+		"lang": "en-gb",
+		"speed": 1.0
+	},
+	"post": {
+		"slug": "webmcp-read-only-tools",
+		"status": "published",
+		"punch": "The tools run in my logged-in browser.\n<em>Their requests don't log in.</em>"
+	},
+	"scenes": [
+		{
+			"id": "scene-01",
+			"heading": "Every tool call goes out <em>without the login cookie</em>",
+			"captions": [
+				{
+					"text": "Each tool calls the WordPress REST API with credentials set to omit."
+				},
+				{
+					"text": "The request carries no login cookie."
+				},
+				{
+					"text": "So it only ever sees published posts."
+				}
+			],
+			"visual": {
+				"type": "steps",
+				"steps": [
+					{
+						"label": "search_articles",
+						"note": "readOnlyHint: true",
+						"at": 0.4
+					},
+					{
+						"label": "login cookie",
+						"note": "credentials: 'omit'",
+						"state": "skip",
+						"at": 4.4
+					},
+					{
+						"label": "/wp/v2/posts",
+						"note": "status=publish",
+						"at": 6.6
+					},
+					{
+						"label": "public posts",
+						"note": "HTTP 200",
+						"state": "end",
+						"at": 6.9
+					}
+				]
+			}
+		}
+	]
+}
