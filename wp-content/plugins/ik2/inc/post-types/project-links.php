@@ -25,8 +25,8 @@ const PROJECT_TERM_ID_META = '_ik2_project_term';
 
 const MAX_POSTS_PER_PROJECT = 50;
 
-// Bump to re-sync every project's term and flush rewrite rules on the next request after a deploy.
-const SCHEMA_VERSION = 1;
+// Bump to rerun maybe_upgrade() on the next request after a deploy.
+const SCHEMA_VERSION = 2;
 
 /**
  * Register hooks owned by the post-to-project links.
@@ -130,7 +130,7 @@ function delete_project_term( int $post_id, ?WP_Post $post = null ): void {
 }
 
 /**
- * After a deploy that changes the schema: give every published project its term and flush rewrites.
+ * After a deploy that changes the schema: give every published project its term, let Yoast index projects, and flush rewrites.
  */
 function maybe_upgrade(): void {
 	if ( (int) get_option( 'ik2_project_schema_version', 0 ) >= SCHEMA_VERSION ) {
@@ -147,6 +147,11 @@ function maybe_upgrade(): void {
 
 	foreach ( $projects as $project ) {
 		sync_term( $project->ID, $project );
+	}
+
+	// Yoast kept "hide from search" for projects from when they had no pages; ADR 0004 indexes them.
+	if ( class_exists( 'WPSEO_Options' ) && \WPSEO_Options::get( 'noindex-' . POST_TYPE, false ) ) {
+		\WPSEO_Options::set( 'noindex-' . POST_TYPE, false );
 	}
 
 	flush_rewrite_rules( false );
