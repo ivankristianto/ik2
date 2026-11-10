@@ -1,6 +1,6 @@
 <?php
 /**
- * Single-post breadcrumbs: Yoast's trail when available, theme markup otherwise.
+ * Single-post trail: the section and the post's primary category.
  *
  * @package IK2
  */
@@ -16,23 +16,6 @@ defined( 'ABSPATH' ) || exit;
  */
 function bootstrap(): void {
 	add_filter( 'wpseo_breadcrumb_links', __NAMESPACE__ . '\\insert_parent_crumb' );
-	add_filter( 'wpseo_breadcrumb_separator', __NAMESPACE__ . '\\separator' );
-	add_filter( 'wpseo_breadcrumb_single_link', __NAMESPACE__ . '\\add_crumb_classes' );
-}
-
-/**
- * Whether Yoast is active, its block registered, and breadcrumbs enabled in its settings.
- */
-function use_yoast(): bool {
-	if ( ! class_exists( 'WPSEO_Options' ) ) {
-		return false;
-	}
-
-	if ( ! \WP_Block_Type_Registry::get_instance()->is_registered( 'yoast-seo/breadcrumbs' ) ) {
-		return false;
-	}
-
-	return (bool) \WPSEO_Options::get( 'breadcrumbs-enable' );
 }
 
 /**
@@ -52,6 +35,61 @@ function parent_crumb(): array {
 		'text' => __( 'Articles', 'ik2' ),
 		'url'  => home_url( '/articles/' ),
 	];
+}
+
+/**
+ * The post's primary category: Yoast's pick when set, else the first one. Null when uncategorized.
+ *
+ * @param int $post_id Post id.
+ */
+function primary_category( int $post_id ): ?\WP_Term {
+	$term_id = function_exists( 'yoast_get_primary_term_id' ) ? (int) yoast_get_primary_term_id( 'category', $post_id ) : 0;
+	$term    = $term_id > 0 ? get_term( $term_id, 'category' ) : null;
+
+	$default = (int) get_option( 'default_category' );
+
+	if ( $term instanceof \WP_Term && $default !== $term->term_id ) {
+		return $term;
+	}
+
+	foreach ( get_the_category( $post_id ) as $category ) {
+		if ( $default !== $category->term_id ) {
+			return $category;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Section, then primary category. Talks show Speaking alone, whatever their other categories.
+ *
+ * @return array<int, array{text: string, url: string}>
+ */
+function trail(): array {
+	$post_id = get_queried_object_id();
+	$crumbs  = [ parent_crumb() ];
+
+	if ( has_category( 'talk', $post_id ) ) {
+		return $crumbs;
+	}
+
+	$category = primary_category( $post_id );
+
+	if ( ! $category instanceof \WP_Term ) {
+		return $crumbs;
+	}
+
+	$url = get_term_link( $category );
+
+	if ( is_string( $url ) ) {
+		$crumbs[] = [
+			'text' => $category->name,
+			'url'  => $url,
+		];
+	}
+
+	return $crumbs;
 }
 
 /**
@@ -76,33 +114,4 @@ function insert_parent_crumb( array $links ): array {
 	array_splice( $links, 1, 0, [ $parent ] );
 
 	return $links;
-}
-
-/**
- * Match the fallback trail's separator instead of Yoast's configured one.
- */
-function separator(): string {
-	return '<span class="ik-crumbs__sep" aria-hidden="true">/</span>';
-}
-
-/**
- * Give Yoast's crumbs the theme's link and current-item classes.
- *
- * @param string $link_output Rendered crumb HTML.
- */
-function add_crumb_classes( string $link_output ): string {
-	$processor = new \WP_HTML_Tag_Processor( $link_output );
-
-	if ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-		$processor->add_class( 'ik-crumbs__link' );
-		return $processor->get_updated_html();
-	}
-
-	$processor = new \WP_HTML_Tag_Processor( $link_output );
-
-	if ( $processor->next_tag( [ 'class_name' => 'breadcrumb_last' ] ) ) {
-		$processor->add_class( 'ik-crumbs__current' );
-	}
-
-	return $processor->get_updated_html();
 }

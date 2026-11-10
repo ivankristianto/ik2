@@ -298,7 +298,7 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
 - **Medium** (`md`): the default. Buttons, cards, related-post covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
-- **Pill** (`pill`): filter pills, the category chip in the post header, the category pills on article rows, project status badges. Pills always mean "this is a label".
+- **Pill** (`pill`): filter pills, the category pills on article rows, project status badges. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
@@ -329,6 +329,14 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 - **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
 - **Article row:** the archive is a dated list, not a grid. Each row has a 10rem margin column with the mono ISO date in Dust and the category pills (one category wash per pill, linked to the category, left out on that category's own archive), then the title at `medium`, a Graphite excerpt capped at `measure`, and the tag line. Rows are split by 1px Line rules, with no frame and no cover. On phones the margin column folds into one line above the title. `render_category_pills()` in `inc/blocks.php` builds the pills.
+
+### Article header
+
+The single post opens title first, then the featured image (see `docs/adr/0003-single-post-header-title-first.md`).
+
+- **Trail:** an eyebrow above the H1 in lowercase mono, `articles / performance`: the section (Speaking for talks), then the primary category in Bookcloth. The post title is not repeated, and talks show the section alone. Yoast still prints the full BreadcrumbList schema.
+- **Meta:** Dust mono at `x-small`. Line one is date, reading time and byline. A second line, `updated 2026-11-07`, appears only when the post changed on a later day. Dots trail the item before them, so a wrapped line ends on a dot and never starts with one.
+- **No category pill** in the header. The trail carries the category.
 
 ### Inputs / Fields
 
