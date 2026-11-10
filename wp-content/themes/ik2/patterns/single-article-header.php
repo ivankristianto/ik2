@@ -4,7 +4,7 @@
  * Slug: ik2/single-article-header
  * Categories: ik2-page
  * Inserter: no
- * Description: Title and meta line (date · reading time · categories · byline · updated date) for the single post template. Depends on the current post, so it is hidden from the manual inserter.
+ * Description: Title, then the meta: date · reading time · byline on one line, and the updated date on its own line when the post changed on a later day. The category lives in the breadcrumb trail above the title. Depends on the current post, so it is hidden from the manual inserter.
  *
  * @package IK2
  */
@@ -14,15 +14,17 @@
 <header class="wp-block-group ik-article__head">
 	<!-- wp:post-title {"level":1,"className":"ik-article__title"} /-->
 
-	<!-- wp:group {"className":"ik-article__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<!-- wp:group {"className":"ik-article__meta","layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-article__meta">
-		<!-- wp:post-date {"className":"ik-article__date"} /-->
+		<!-- wp:group {"className":"ik-article__meta-line","layout":{"type":"default"}} -->
+		<div class="wp-block-group ik-article__meta-line">
+			<!-- wp:post-date {"className":"ik-article__date"} /-->
 
-		<!-- wp:post-time-to-read {"displayAsRange":false,"className":"ik-article__reading"} /-->
+			<!-- wp:post-time-to-read {"displayAsRange":false,"className":"ik-article__reading"} /-->
 
-		<!-- wp:post-terms {"term":"category","separator":" ","className":"ik-article__tags"} /-->
-
-		<!-- wp:post-author-name {"isLink":true,"className":"ik-article__byline"} /-->
+			<!-- wp:post-author-name {"isLink":true,"className":"ik-article__byline"} /-->
+		</div>
+		<!-- /wp:group -->
 
 		<!-- wp:post-date {"displayType":"modified","className":"ik-article__updated"} /-->
 	</div>
