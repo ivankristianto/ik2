@@ -1,20 +1,27 @@
 /* Project row (ik2/project-card): one entry in the projects ledger, split by hairlines like the article rows. */
 @charset "UTF-8";
+.ik-project-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--wp--preset--spacing--7);
+  border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
 .ik-project {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--6);
+
+  /* Side by side, a shorter row takes its neighbour's height; the spare space goes under the blurb, so both tech lines sit on the bottom. */
+  grid-template-rows: 1fr auto;
+  gap: var(--wp--preset--spacing--2);
   padding-block: var(--wp--preset--spacing--5) var(--wp--preset--spacing--1);
   border-top: 1px solid var(--wp--preset--color--line);
   overflow-wrap: anywhere;
 }
 
-.ik-project:last-child {
-  border-bottom: 1px solid var(--wp--preset--color--line);
-}
-
 .ik-project__main {
   display: grid;
+  align-content: start;
   gap: var(--wp--preset--spacing--2);
   min-width: 0;
 }
@@ -141,18 +148,10 @@
   color: var(--wp--preset--color--dust);
 }
 
-/* Wide screens: the metadata moves to a margin column on the right, stacked. */
+/* Wide screens: two rows side by side, so a short blurb never sits a page-width away from its stack. */
 @media (min-width: 50em) {
-  .ik-project {
-    grid-template-columns: minmax(0, 1fr) minmax(12rem, 20rem);
-    align-items: baseline;
-    padding-block: var(--wp--preset--spacing--6) var(--wp--preset--spacing--5);
-  }
-
-  .ik-project__side {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--wp--preset--spacing--2);
+  .ik-project-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
