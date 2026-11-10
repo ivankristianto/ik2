@@ -312,6 +312,11 @@ const FLOWS = [
 		name: 'projects',
 		run: ({ page }) => navigate(page, '/projects/'),
 	},
+	// Project pages inline the single-post section CSS and load the lightbox, like posts.
+	{
+		name: 'project page',
+		run: ({ page }) => navigate(page, '/projects/ivankristianto-com/'),
+	},
 	// The pages below show an email address. If one reaches the HTML unencoded, Cloudflare's email obfuscation injects a script without the nonce.
 	{
 		name: 'contact',
