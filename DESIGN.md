@@ -189,7 +189,7 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 ### Neutral
 
 - **Paper** (`paper`): the page background and the command palette footer.
-- **Surface** (`surface`): project cards, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
+- **Surface** (`surface`): the project link under a post, the palette panel, filter pills at rest, the header search trigger. Reads as a raised sheet against Paper.
 - **Soft Paper** (`soft-paper`): muted sections, covers for misc and uncategorized articles, drawer row hover.
 - **Ink** (`ink`): body and heading text, the primary button fill. Near-black so the page never feels harsh.
 - **Graphite** (`graphite`): secondary copy, excerpts, nav links at rest, tag text, eyebrows.
@@ -200,8 +200,8 @@ A restrained palette of near-neutral greys plus one bookcloth green accent. No n
 
 ### Status
 
-- **Build Green** (`build-green`): success, "Active" project status, the "updated" callout. A moss green, kept well apart from the accent's blue-green so a status never reads as a link.
-- **Amber** (`amber`): warnings, "Experiment" project status, the "outdated" callout.
+- **Build Green** (`build-green`): success, the "active" project group and status, the "updated" callout. A moss green, kept well apart from the accent's blue-green so a status never reads as a link.
+- **Amber** (`amber`): warnings, the "experiment" project group and status, the "outdated" callout.
 - **Red** (`red`): errors only.
 
 ### Supporting custom colors
@@ -239,7 +239,7 @@ Sizes are `theme.json` font-size presets. Weights, line heights, and tracking co
 - **Subtitle** (bold, `medium`, snug, tight): article H3 on phones, lead paragraphs, project names.
 - **Body** (regular, `base`, relaxed): the page default, article prose and card titles. It runs from 18px on phones to 20px on desktop, capped at the 960px content width.
 - **UI** (regular, `small`): nav-adjacent copy, excerpts, the hero sub copy, buttons, code blocks.
-- **Label** (mono, `x-small`, normal leading): article-row dates and category pills, filter pills, related-post cover labels, tags, status badges, keyboard hints, captions, the footer.
+- **Label** (mono, `x-small`, normal leading): article-row dates and category pills, filter pills, related-post cover labels, tags, project status and tech lines, keyboard hints, captions, the footer.
 - **Eyebrow** (mono, `x-small`, lowercase, normal tracking, Graphite): the line above section titles. No `//` prefix.
 
 **The 14px Floor Rule.** Nothing a reader is meant to read is set below `x-small` (14px, 15px on wide screens). The only smaller text is inline code inside `x-small` copy, at 0.9em.
@@ -278,7 +278,7 @@ The system is flat by default. Depth comes from the Paper-to-Surface step, a 1px
 
 ### Shadow Vocabulary
 
-- **Small** (`shadow.presets.sm`, `0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`): card hover on project cards and the 404 page's cards. A 1px lift, paired with the border darkening from Line to Rule. The border change is the larger half of the gesture.
+- **Small** (`shadow.presets.sm`, `0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03)`): card hover on the 404 page's cards. A 1px lift, paired with the border darkening from Line to Rule. The border change is the larger half of the gesture.
 - **Medium** (`shadow.presets.md`, `0 6px 24px rgba(0, 0, 0, 0.08)`): top-layer overlays, meaning the command palette panel and the article source preview (`.ik-source-preview`, a `popover="hint"` card). Nothing in the page flow rests on a shadow.
 
 Core's default shadow presets are disabled, so these two are the only shadows the editor offers.
@@ -298,7 +298,7 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
 - **Medium** (`md`): the default. Buttons, cards, related-post covers, featured images, `<pre>` blocks, the header search trigger.
 - **Large** (`lg`): the command palette panel only.
-- **Pill** (`pill`): filter pills, the category pills on article rows, project status badges. Pills always mean "this is a label".
+- **Pill** (`pill`): filter pills and the category pills on article rows. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
@@ -323,11 +323,11 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 - **Tags:** a tag line, not chips. Graphite mono words in Label type, split by a middle dot in Rule, with no fill or border. Always lowercase (`wordpress`, `security`, `cli`). Hover and focus turn the word Bookcloth and underline it. Article rows show up to eight, drop any tag that repeats the post's category or, on a tag archive, the archived tag, and only past eight end with a Dust `+N` that links to the full list under the post (`#tags`). `inc/post-tags.php` renders it.
 - **Filter pills:** the articles archive filter. Surface fill, Line border, Graphite text, Label type, 8px by 12px padding. Hover darkens border and text. The active filter uses Bookcloth Wash with Deep Bookcloth text.
-- **Status badges:** project cards. Paper fill, Micro type with wider tracking. "Active" and "Experiment" color the text and a 30% border with Build Green or Amber.
+- **Project status:** a lowercase mono word after a small dot, Amber for experiment and Dust for archived. Active is the default, so it never shows on a row; the projects archive groups rows under one status heading instead.
 
 ### Cards
 
-- **Project card:** Surface fill, 1px Line border, medium radius, 24px by 32px padding. Hover darkens the border to Rule and adds the small shadow. Nothing moves.
+- **Project row:** the projects archive and the home preview are ledgers, not card grids. Rows are split by 1px Line rules with no frame: the name at `medium` linking to the project page, a Graphite blurb, then the mono tech line and the source links. On phones the tech line and links share one line under the blurb; from 800px they stack in a right-hand margin column. Tech dots trail their item, as in the article meta. The archive puts a mono heading over each status group (`active`, with the count at the right).
 - **Article row:** the archive is a dated list, not a grid. Each row has a 10rem margin column with the mono ISO date in Dust and the category pills (one category wash per pill, linked to the category, left out on that category's own archive), then the title at `medium`, a Graphite excerpt capped at `measure`, and the tag line. Rows are split by 1px Line rules, with no frame and no cover. On phones the margin column folds into one line above the title. `render_category_pills()` in `inc/blocks.php` builds the pills.
 
 ### Article header
@@ -337,6 +337,16 @@ The single post opens title first, then the featured image (see `docs/adr/0003-s
 - **Trail:** an eyebrow above the H1 in lowercase mono, `articles / performance`: the section (Speaking for talks), then the primary category in Bookcloth. The post title is not repeated, and talks show the section alone. Yoast still prints the full BreadcrumbList schema.
 - **Meta:** Dust mono at `x-small`. Line one is date, reading time and byline. A second line, `updated 2026-11-07`, appears only when the post changed on a later day. Dots trail the item before them, so a wrapped line ends on a dot and never starts with one.
 - **No category pill** in the header. The trail carries the category.
+
+### Project page
+
+Each project has a page at `/projects/<slug>/` (see `docs/adr/0004-project-pages-and-post-links.md`). It uses the article template and its styles.
+
+- **Header:** the trail reads `projects` alone, then the H1, then the project's excerpt as a Graphite lead.
+- **Record:** a ruled mono table of status, stack and one row per link, labels in Dust. Long repo paths break after a slash, never mid-word.
+- **Body:** the evergreen write-up, styled like a post, started from the `ik2/project-post-structure` pattern.
+- **Writing about it:** the posts tagged with the project, as dated rows under the same 2px Ink rule and mono title as "Keep reading". Hidden when no post is tagged.
+- **On the post:** under the tags, a Surface box with a mono `project` label, the project name and its blurb. Never in the post header.
 
 ### Inputs / Fields
 

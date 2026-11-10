@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Projects Archive",
 	"category": "theme",
-	"description": "Grid of every published Project, ordered by status (Active → Experiment → Archived) then by date.",
+	"description": "Every published Project as ledger rows, grouped under Active, Experiment and Archived headings, newest first.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,

@@ -5,9 +5,9 @@ metadata:
   type: project
 ---
 
-The ik2 theme renders `ik2/project-card` in `blocks/projects-archive/render.php` (the project grid via `do_blocks()`). `templates/single-project.html` is gone as of 2026-10-06, and the `project` post type is `public: false`, so projects have no single pages. That block is **not** part of the theme; it is registered by the companion **ik2 plugin** at `wp-content/plugins/ik2/blocks/project-card/`.
+The ik2 theme renders `ik2/project-card` rows in `blocks/projects-archive/render.php` and `blocks/home-projects-preview/render.php` via `do_blocks()`. Since 2026-11-10 (ADR 0004) the `project` post type is public again at `/projects/<slug>/` through `templates/single-project.html`, and posts link to projects through the plugin's hidden `ik2_project` taxonomy (`inc/post-types/project-links.php`). That block is **not** part of the theme; it is registered by the companion **ik2 plugin** at `wp-content/plugins/ik2/blocks/project-card/`.
 
-The shared project meta (`status`, etc.) is centralised in the plugin at `inc/post-types/project-data.php` (`IK2\Plugin\PostTypes\Project`), which the theme also calls from `patterns/single-project-header.php` and `blocks/projects-archive/helpers.php`.
+The shared project meta (`status`, etc.) is centralised in the plugin at `inc/post-types/project-data.php` (`IK2\Plugin\PostTypes\Project`), which the theme also calls from `patterns/single-project-header.php`, `patterns/single-project-writing.php`, `patterns/single-article-project.php` and `blocks/projects-archive/helpers.php`. The patterns guard with `function_exists()` so they print nothing without the plugin.
 
 **Why:** they ship together as one site, so the coupling is intentional — but it is invisible from the theme alone.
 

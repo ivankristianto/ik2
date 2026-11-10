@@ -1,6 +1,6 @@
 <?php
 /**
- * Single-post trail: the section and the post's primary category.
+ * Single-entry trail: the section, then the post's primary category (projects show the section alone).
  *
  * @package IK2
  */
@@ -19,11 +19,18 @@ function bootstrap(): void {
 }
 
 /**
- * The section a single post belongs to: Speaking for talks, Articles otherwise.
+ * The section a single entry belongs to: Projects for projects, Speaking for talks, Articles otherwise.
  *
  * @return array{text: string, url: string}
  */
 function parent_crumb(): array {
+	if ( is_singular( 'project' ) ) {
+		return [
+			'text' => __( 'Projects', 'ik2' ),
+			'url'  => home_url( '/projects/' ),
+		];
+	}
+
 	if ( has_category( 'talk', get_queried_object_id() ) ) {
 		return [
 			'text' => __( 'Speaking', 'ik2' ),
@@ -62,7 +69,7 @@ function primary_category( int $post_id ): ?\WP_Term {
 }
 
 /**
- * Section, then primary category. Talks show Speaking alone, whatever their other categories.
+ * Section, then primary category. Projects and talks show the section alone.
  *
  * @return array<int, array{text: string, url: string}>
  */
@@ -70,7 +77,7 @@ function trail(): array {
 	$post_id = get_queried_object_id();
 	$crumbs  = [ parent_crumb() ];
 
-	if ( has_category( 'talk', $post_id ) ) {
+	if ( is_singular( 'project' ) || has_category( 'talk', $post_id ) ) {
 		return $crumbs;
 	}
 
@@ -99,7 +106,7 @@ function trail(): array {
  * @return array<int, array<string, mixed>>
  */
 function insert_parent_crumb( array $links ): array {
-	if ( ! is_singular( 'post' ) || count( $links ) < 2 ) {
+	if ( ! is_singular( [ 'post', 'project' ] ) || count( $links ) < 2 ) {
 		return $links;
 	}
 

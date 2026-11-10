@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Project Card",
 	"category": "theme",
-	"description": "A single project card. Renders the current post inside a query loop, or a specific Project when postId is set.",
+	"description": "One row of the projects ledger. Renders the current post inside a query loop, or a specific Project when postId is set.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
@@ -25,6 +25,10 @@
 		"headingLevel": {
 			"type": "number",
 			"default": 3
+		},
+		"showStatus": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"usesContext": [ "postId", "postType" ],

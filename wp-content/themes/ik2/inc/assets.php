@@ -16,11 +16,11 @@
  *    optimise_core_block_style_delivery()).
  *  - Per-template section styles (`build/section-*.css`) are enqueued only on
  *    the templates that use them (see section_slugs_for_request()), and
- *    inlined on the front page and single posts.
+ *    inlined on the front page, single posts and project pages.
  *  - The command palette (JS and CSS) is not enqueued at all: `build/index.js`
  *    is a tiny loader that `import()`s the palette chunk, stylesheet included,
  *    on first use.
- *  - The image lightbox follows the same pattern on single posts only:
+ *  - The image lightbox follows the same pattern on single posts and project pages only:
  *    `build/lightbox-loader.js` marks enlargeable images and `import()`s the
  *    lightbox chunk when one is opened.
  *
@@ -38,6 +38,9 @@ const HERO_PORTRAIT_SMALL = 'assets/images/ivan-portrait-340.webp';
 const HERO_PORTRAIT_SIZES = '(max-width: 640px) 218px, (max-width: 900px) 278px, 338px';
 const ARTICLE_COLUMN_PX   = 960;
 const ARTICLE_WIDE_PX     = 1200;
+
+// Posts and project pages share the article template styles, lightbox and image sizing.
+const ARTICLE_POST_TYPES = [ 'post', 'project' ];
 
 /**
  * Responsive `srcset` for the home hero portrait: a 340px variant for 1x /
@@ -102,7 +105,7 @@ function enqueue_frontend_scripts(): void {
 		);
 	}
 
-	if ( is_singular( 'post' ) && file_exists( $build_dir . '/lightbox-loader.js' ) ) {
+	if ( is_singular( ARTICLE_POST_TYPES ) && file_exists( $build_dir . '/lightbox-loader.js' ) ) {
 		wp_enqueue_script(
 			'ik2-lightbox',
 			$build_uri . '/lightbox-loader.js',
@@ -127,12 +130,12 @@ function enqueue_frontend_styles(): void {
 	// styles position (after core block styles) and keeps the cascade intact.
 	$inline = read_build_css( $build_dir . '/critical.css' );
 
-	// The front page and single posts (where search visitors land, usually on a
+	// The front page, single posts and project pages (where search visitors land, usually on a
 	// cold cache) inline their section styles alongside the critical CSS. That
 	// leaves them with no render-blocking theme stylesheet at all, so first paint
 	// doesn't wait on a VeryHigh-priority CSS request. Other templates keep their
 	// section styles as cacheable external files.
-	$inline_sections = is_front_page() || is_singular( 'post' );
+	$inline_sections = is_front_page() || is_singular( ARTICLE_POST_TYPES );
 	$section_slugs   = section_slugs_for_request();
 
 	if ( $inline_sections ) {
@@ -195,7 +198,7 @@ function section_slugs_for_request(): array {
 		return [ 'home' ];
 	}
 
-	if ( is_singular( 'post' ) ) {
+	if ( is_singular( ARTICLE_POST_TYPES ) ) {
 		return [ 'single' ];
 	}
 
@@ -361,7 +364,7 @@ function prioritize_hero_portrait( string $image ): string {
  * @return array<string, string>|false
  */
 function defer_article_content_images( $loading_attrs, string $tag_name, array $attr, string $context ) {
-	if ( 'img' !== $tag_name || 'the_content' !== $context || ! is_singular( 'post' ) || ! is_array( $loading_attrs ) ) {
+	if ( 'img' !== $tag_name || 'the_content' !== $context || ! is_singular( ARTICLE_POST_TYPES ) || ! is_array( $loading_attrs ) ) {
 		return $loading_attrs;
 	}
 
@@ -379,7 +382,7 @@ function defer_article_content_images( $loading_attrs, string $tag_name, array $
  * @return string|false
  */
 function cap_article_image_sizes( $sizes, $size ) {
-	if ( ! is_singular( 'post' ) || ! is_array( $size ) || (int) ( $size[0] ?? 0 ) <= ARTICLE_COLUMN_PX ) {
+	if ( ! is_singular( ARTICLE_POST_TYPES ) || ! is_array( $size ) || (int) ( $size[0] ?? 0 ) <= ARTICLE_COLUMN_PX ) {
 		return $sizes;
 	}
 
@@ -394,7 +397,7 @@ function cap_article_image_sizes( $sizes, $size ) {
  * @return array<string, string>
  */
 function size_article_featured_image( array $attr, \WP_Post $attachment ): array {
-	if ( ! is_singular( 'post' ) || get_post_thumbnail_id() !== $attachment->ID || empty( $attr['sizes'] ) ) {
+	if ( ! is_singular( ARTICLE_POST_TYPES ) || get_post_thumbnail_id() !== $attachment->ID || empty( $attr['sizes'] ) ) {
 		return $attr;
 	}
 
@@ -417,7 +420,7 @@ function article_featured_image_sizes(): string {
  * late on slow connections. Mirrors the `large` size single.html renders.
  */
 function preload_article_featured_image(): void {
-	if ( ! is_singular( 'post' ) || ! has_post_thumbnail() ) {
+	if ( ! is_singular( ARTICLE_POST_TYPES ) || ! has_post_thumbnail() ) {
 		return;
 	}
 

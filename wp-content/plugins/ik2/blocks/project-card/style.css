@@ -1,94 +1,115 @@
-/* Project card block (ik2/project-card). */
+/* Project row (ik2/project-card): one entry in the projects ledger, split by hairlines like the article rows. */
 @charset "UTF-8";
 .ik-project {
-  background: var(--wp--preset--color--surface);
-  border: 1px solid var(--wp--preset--color--line);
-  border-radius: var(--wp--preset--border-radius--md);
-  padding: var(--wp--preset--spacing--5) var(--wp--preset--spacing--6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--wp--preset--spacing--3);
-  transition: border-color var(--wp--custom--transition--base), box-shadow var(--wp--custom--transition--base);
-  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--6);
+  padding-block: var(--wp--preset--spacing--5) var(--wp--preset--spacing--1);
+  border-top: 1px solid var(--wp--preset--color--line);
+  overflow-wrap: anywhere;
 }
 
-.ik-project:hover {
-  border-color: var(--wp--preset--color--rule);
-  box-shadow: var(--wp--preset--shadow--sm);
+.ik-project:last-child {
+  border-bottom: 1px solid var(--wp--preset--color--line);
 }
 
-.ik-project__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--wp--preset--spacing--3);
-  flex-wrap: wrap;
+.ik-project__main {
+  display: grid;
+  gap: var(--wp--preset--spacing--2);
+  min-width: 0;
+}
+
+.ik-project__main > *,
+.ik-project__side > * {
+  margin: 0;
 }
 
 .ik-project__name {
-  font-family: var(--wp--preset--font-family--mono);
   font-size: var(--wp--preset--font-size--medium);
+  line-height: var(--wp--custom--line-height--snug);
   letter-spacing: var(--wp--custom--letter-spacing--tight);
-  margin: 0;
   font-weight: var(--wp--custom--font-weight--bold);
-  color: var(--wp--preset--color--ink);
 }
 
-.ik-project__status {
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--x-small);
-  padding: 2px var(--wp--preset--spacing--3);
-  border-radius: var(--wp--preset--border-radius--pill);
-  letter-spacing: var(--wp--custom--letter-spacing--wider);
-  border: 1px solid var(--wp--preset--color--line);
-  background: var(--wp--preset--color--paper);
-  color: var(--wp--preset--color--graphite);
-}
-.ik-project__status[data-status=Active] {
-  color: var(--wp--preset--color--build-green);
-  border-color: color-mix(in srgb, var(--wp--preset--color--build-green) 30%, transparent);
-}
-.ik-project__status[data-status=Experiment] {
-  color: var(--wp--preset--color--amber);
-  border-color: color-mix(in srgb, var(--wp--preset--color--amber) 30%, transparent);
-}
-.ik-project__status[data-status=Archived] {
-  color: var(--wp--preset--color--dust);
+.ik-project__name a {
+  color: var(--wp--preset--color--ink);
+  text-decoration: none;
+  transition: color var(--wp--custom--transition--base);
 }
 
 .ik-project__blurb {
-  margin: 0;
-  color: var(--wp--preset--color--ink);
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--small);
   line-height: var(--wp--custom--line-height--comfortable);
+  max-width: var(--wp--custom--width--measure);
+}
+
+/* Mono metadata: tech line on the left, source links on the right, on one line when they fit. */
+.ik-project__side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--wp--preset--spacing--4);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  line-height: var(--wp--custom--line-height--normal);
+  min-width: 0;
+}
+
+.ik-project__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wp--preset--spacing--2);
+  flex-basis: 100%;
+  text-transform: lowercase;
+  color: var(--wp--preset--color--dust);
+}
+
+.ik-project__status::before {
+  content: "";
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: var(--wp--preset--border-radius--round);
+  background: currentColor;
+}
+
+.ik-project__status[data-status="Experiment"] {
+  color: var(--wp--preset--color--amber);
 }
 
 .ik-project__tech {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--wp--preset--spacing--2);
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--x-small);
+  gap: 0 var(--wp--preset--spacing--2);
   color: var(--wp--preset--color--graphite);
 }
+
 .ik-project__tech > span {
   white-space: nowrap;
 }
-.ik-project__tech > span + span::before {
-  content: "· " / "";
+
+/* The dot trails its item, so a wrapped line ends on a dot and never starts with one. */
+.ik-project__tech > :not(:last-child)::after {
+  content: "\a0·" / "";
   color: var(--wp--preset--color--dust);
-  margin-right: 2px;
 }
 
 .ik-project__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--wp--preset--spacing--4);
-  font-family: var(--wp--preset--font-family--mono);
-  font-size: var(--wp--preset--font-size--x-small);
+  gap: 0 var(--wp--preset--spacing--4);
 }
+
 .ik-project__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wp--preset--spacing--1);
+  min-height: 44px;
   color: var(--wp--preset--color--signal);
   text-decoration: none;
+  text-transform: lowercase;
+  transition: color var(--wp--custom--transition--base);
 }
 
 /* Project title appended to each link label for assistive tech only, so the
@@ -106,46 +127,42 @@
 }
 
 .ik-project__learned {
-  margin: 0;
-  padding-top: var(--wp--preset--spacing--3);
-  border-top: 1px solid var(--wp--preset--color--line);
   font-size: var(--wp--preset--font-size--small);
   line-height: var(--wp--custom--line-height--comfortable);
   color: var(--wp--preset--color--graphite);
+  max-width: var(--wp--custom--width--measure);
 }
+
 .ik-project__learned strong {
+  display: block;
   font-family: var(--wp--preset--font-family--mono);
   font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: var(--wp--preset--color--dust);
-  letter-spacing: var(--wp--custom--letter-spacing--wider);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: var(--wp--preset--spacing--1);
-  font-weight: var(--wp--custom--font-weight--medium);
 }
 
-/* The card sits in 1- and 2-column grids, so its insides respond to the card's
-   own width. The card's padding can't query itself and stays on the viewport. */
-@media (max-width: 37.5em) {
+/* Wide screens: the metadata moves to a margin column on the right, stacked. */
+@media (min-width: 50em) {
   .ik-project {
-    padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5);
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 20rem);
+    align-items: baseline;
+    padding-block: var(--wp--preset--spacing--6) var(--wp--preset--spacing--5);
   }
-}
 
-@container (inline-size <= 22rem) {
-  .ik-project__head {
+  .ik-project__side {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--wp--preset--spacing--2);
   }
-  .ik-project__name {
-    font-size: var(--wp--preset--font-size--base);
-  }
-  .ik-project__links {
-    gap: var(--wp--preset--spacing--3);
-  }
 }
-.ik-project__links a:hover {
+
+.ik-project__name a:hover,
+.ik-project__name a:focus-visible {
+  color: var(--wp--preset--color--signal);
+}
+
+.ik-project__links a:hover,
+.ik-project__links a:focus-visible {
   color: var(--wp--preset--color--signal-deep);
   text-decoration: underline;
   text-decoration-thickness: 0.08em;

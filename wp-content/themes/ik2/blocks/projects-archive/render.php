@@ -2,8 +2,9 @@
 /**
  * Server render for ik2/projects-archive.
  *
- * Lists every published Project as a project-card grid. Active projects come
- * first, then Experiments, then Archived; within each group, newest first.
+ * Lists every published Project as ledger rows under one heading per status:
+ * Active, then Experiment, then Archived, newest first within each. The
+ * heading names the status, so the rows leave it out.
  *
  * @package IK2
  * @var array<string,mixed> $attributes
@@ -38,25 +39,38 @@ if ( ! empty( $ik2_projects ) ) {
 
 usort( $ik2_projects, 'IK2\\Theme\\Blocks\\ProjectsArchive\\compare_projects' );
 
+$ik2_groups = [];
+foreach ( $ik2_projects as $ik2_project ) {
+	$ik2_status                  = Project\normalize_status( (string) get_post_meta( $ik2_project->ID, 'status', true ) );
+	$ik2_groups[ $ik2_status ][] = (int) $ik2_project->ID;
+}
+
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	[ 'class' => 'ik-project-grid' ]
+	[ 'class' => 'ik-project-ledger' ]
 );
 ?>
 <div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<?php if ( empty( $ik2_projects ) ) : ?>
+	<?php if ( empty( $ik2_groups ) ) : ?>
 		<p class="ik-project__blurb"><?php esc_html_e( 'No projects published yet.', 'ik2' ); ?></p>
-	<?php else : ?>
-		<?php
-		foreach ( $ik2_projects as $ik2_project ) {
-			// `do_blocks` returns block-rendered HTML; ik2/project-card escapes
-			// every untrusted value internally.
-			echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				sprintf(
-					'<!-- wp:ik2/project-card {"postId":%d,"headingLevel":2} /-->',
-					(int) $ik2_project->ID
-				)
-			);
-		}
-		?>
 	<?php endif; ?>
+
+	<?php foreach ( $ik2_groups as $ik2_status => $ik2_ids ) : ?>
+		<section class="ik-project-group" data-status="<?php echo esc_attr( (string) $ik2_status ); ?>">
+			<h2 class="ik-project-group__title"><span class="ik-project-group__status"><?php echo esc_html( (string) $ik2_status ); ?></span> <span class="ik-project-group__count"><?php echo esc_html( (string) count( $ik2_ids ) ); ?></span></h2>
+			<div class="ik-project-list">
+				<?php
+				foreach ( $ik2_ids as $ik2_id ) {
+					// `do_blocks` returns block-rendered HTML; ik2/project-card escapes
+					// every untrusted value internally.
+					echo do_blocks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						sprintf(
+							'<!-- wp:ik2/project-card {"postId":%d,"showStatus":false} /-->',
+							$ik2_id
+						)
+					);
+				}
+				?>
+			</div>
+		</section>
+	<?php endforeach; ?>
 </div>

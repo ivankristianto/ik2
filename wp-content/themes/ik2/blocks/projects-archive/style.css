@@ -1,16 +1,29 @@
-/* Projects archive grid + header (ik2/projects-archive). */
-.ik-project-grid {
+/* Projects archive: status groups of ledger rows, plus the page header (ik2/projects-archive). */
+.ik-project-ledger {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--wp--preset--spacing--5);
+  gap: var(--wp--preset--spacing--7);
 }
 
-@media (max-width: 50em) {
+.ik-project-group__title {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--3);
+  margin: 0 0 var(--wp--preset--spacing--2);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
+  line-height: var(--wp--custom--line-height--normal);
+  letter-spacing: var(--wp--custom--letter-spacing--normal);
+  text-transform: lowercase;
+  color: var(--wp--preset--color--dust);
+}
 
-  .ik-project-grid {
-    grid-template-columns: 1fr;
-    gap: var(--wp--preset--spacing--4);
-  }
+.ik-project-group[data-status="Active"] .ik-project-group__status {
+  color: var(--wp--preset--color--build-green);
+}
+
+.ik-project-group[data-status="Experiment"] .ik-project-group__status {
+  color: var(--wp--preset--color--amber);
 }
 
 .ik-projects-archive {

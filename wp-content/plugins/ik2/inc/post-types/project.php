@@ -19,16 +19,11 @@ const POST_TYPE = 'project';
 function bootstrap(): void {
 	add_action( 'init', __NAMESPACE__ . '\\register' );
 	add_action( 'init', __NAMESPACE__ . '\\register_meta_fields' );
+	bootstrap_links();
 }
 
 /**
- * Register the `project` post type.
- *
- * Projects have no front-end view of their own: they are surfaced entirely
- * through `ik2/project-card` on the Projects page and the home preview. The
- * type is therefore registered non-public with no rewrite — there is no
- * `/project/{slug}/` permalink to 404 on or to leak into sitemaps and search.
- * Admin UI and REST stay on so the type is still editable in the block editor.
+ * Register the `project` post type, public at /projects/<slug>/ (ADR 0004).
  */
 function register(): void {
 	register_post_type(
@@ -54,18 +49,22 @@ function register(): void {
 				'items_list_navigation' => __( 'Projects list navigation', 'ik2' ),
 				'items_list'            => __( 'Projects list', 'ik2' ),
 			],
-			'public'              => false,
-			'publicly_queryable'  => false,
+			'public'              => true,
+			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_rest'        => true,
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-portfolio',
 			'has_archive'         => false,
-			'rewrite'             => false,
+			'rewrite'             => [
+				'slug'       => 'projects',
+				'with_front' => false,
+			],
 			'capability_type'     => 'post',
 			'hierarchical'        => false,
 			'exclude_from_search' => true,
+			'show_in_nav_menus'   => false,
 			'supports'            => [
 				'title',
 				'editor',

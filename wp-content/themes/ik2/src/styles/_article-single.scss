@@ -304,6 +304,152 @@
 	}
 }
 
+/* ---- Project page (templates/single-project.html) ---------------------- */
+
+.ik-project-head__lead {
+	margin: 0 0 $space-5;
+	max-width: $width-measure;
+	font-size: $size-base;
+	line-height: $leading-comfortable;
+	color: $color-graphite;
+	text-wrap: pretty;
+}
+
+.ik-project-record {
+	margin: 0;
+	border-block: 1px solid $color-line;
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	line-height: $leading-normal;
+}
+
+.ik-project-record__row {
+	display: grid;
+	grid-template-columns: 6rem minmax(0, 1fr);
+	gap: $space-3;
+	padding-block: $space-3;
+	overflow-wrap: anywhere;
+
+	+ .ik-project-record__row {
+		border-top: 1px solid $color-line;
+	}
+
+	dt {
+		color: $color-dust;
+		text-transform: lowercase;
+	}
+
+	dd {
+		margin: 0;
+		color: $color-ink;
+	}
+
+	// Stretch the link over the row's padding so the tap target clears 44px.
+	a {
+		display: block;
+		margin-block: calc(-1 * #{$space-3});
+		padding-block: $space-3;
+		color: $color-signal;
+		text-decoration: none;
+		transition: color $transition-base;
+	}
+}
+
+.ik-project-record__status {
+	text-transform: lowercase;
+
+	&[data-status="Active"] {
+		color: $color-build-green;
+	}
+
+	&[data-status="Experiment"] {
+		color: $color-amber;
+	}
+}
+
+.ik-project-writing {
+	margin-block-start: $space-8;
+}
+
+.ik-project-writing__list {
+	margin: $space-3 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ik-project-writing__item {
+	display: grid;
+	grid-template-columns: 10rem minmax(0, 1fr);
+	gap: $space-1 $space-6;
+	align-items: baseline;
+	padding-block: $space-4;
+	border-bottom: 1px solid $color-line;
+
+	@media (max-width: 40em) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.ik-project-writing__date {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	font-variant-numeric: tabular-nums;
+	color: $color-dust;
+}
+
+.ik-project-writing__title {
+	font-size: $size-base;
+	font-weight: $weight-bold;
+	line-height: $leading-snug;
+	letter-spacing: $tracking-tight;
+	color: $color-ink;
+	text-decoration: none;
+	transition: color $transition-base;
+}
+
+/* ---- Project link under the tags (patterns/single-article-project.php) -- */
+
+.ik-article-project {
+	display: grid;
+	gap: $space-3;
+	margin-block-start: $space-5;
+}
+
+.ik-article-project__item {
+	display: grid;
+	gap: $space-1;
+	padding: $space-4 $space-5;
+	background: $color-surface;
+	border: 1px solid $color-line;
+	border-radius: $radius-md;
+
+	> * {
+		margin: 0;
+	}
+}
+
+.ik-article-project__label {
+	font-family: $font-mono;
+	font-size: $size-x-small;
+	color: $color-dust;
+}
+
+.ik-article-project__name {
+	font-size: $size-base;
+	font-weight: $weight-bold;
+	line-height: $leading-snug;
+	letter-spacing: $tracking-tight;
+	color: $color-ink;
+	text-decoration: none;
+	transition: color $transition-base;
+}
+
+.ik-article-project__blurb {
+	font-size: $size-small;
+	line-height: $leading-comfortable;
+	color: $color-graphite;
+}
+
 /* ---- Featured image (post-featured-image block, alignwide) -------------- */
 
 .ik-article__featured {
@@ -1342,6 +1488,18 @@
 	color: $color-signal-deep;
 	text-decoration: underline;
 	text-underline-offset: 0.18em;
+}
+
+.ik-project-record__row a:hover,
+.ik-project-record__row a:focus-visible {
+	color: $color-signal-deep;
+}
+
+.ik-project-writing__title:hover,
+.ik-project-writing__title:focus-visible,
+.ik-article-project__name:hover,
+.ik-article-project__name:focus-visible {
+	color: $color-signal;
 }
 
 /* ---- Mobile (iPhone 12 Pro: 390 × 844) --------------------------------- */

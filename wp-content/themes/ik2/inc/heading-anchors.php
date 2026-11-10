@@ -26,12 +26,12 @@ function bootstrap(): void {
 }
 
 /**
- * Anchor headings on single posts only; feeds, excerpts and REST keep the stored markup.
+ * Anchor headings on single posts and project pages only; feeds, excerpts and REST keep the stored markup.
  *
  * @param string $block_content Rendered post-content HTML.
  */
 function add_heading_ids( string $block_content ): string {
-	if ( ! is_singular( 'post' ) || ! preg_match( BARE_HEADING_PATTERN, $block_content ) ) {
+	if ( ! is_singular( \IK2\Theme\Assets\ARTICLE_POST_TYPES ) || ! preg_match( BARE_HEADING_PATTERN, $block_content ) ) {
 		return $block_content;
 	}
 
