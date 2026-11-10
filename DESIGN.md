@@ -327,7 +327,7 @@ Every component reads tokens. No hardcoded hex, px, or ms appears in component C
 
 ### Cards
 
-- **Project row:** the projects archive and the home preview are ledgers, not card grids. Rows are split by 1px Line rules with no frame: the name at `medium` linking to the project page, a Graphite blurb, then the mono tech line and the source links. On phones the tech line and links share one line under the blurb; from 800px they stack in a right-hand margin column. Tech dots trail their item, as in the article meta. The archive puts a mono heading over each status group (`active`, with the count at the right).
+- **Project row:** the projects archive and the home preview are ledgers, not card grids. Rows are split by 1px Line rules with no frame: the name at `medium` linking to the project page, a Graphite blurb, then the mono tech line and the source links. The tech line and links share one line under the blurb. From 800px the rows sit two side by side, with the tech lines of a pair aligned at the bottom, so a short blurb never sits a page-width away from its stack. Tech dots trail their item, as in the article meta. The archive puts a mono heading over each status group (`active`, with the count at the right).
 - **Article row:** the archive is a dated list, not a grid. Each row has a 10rem margin column with the mono ISO date in Dust and the category pills (one category wash per pill, linked to the category, left out on that category's own archive), then the title at `medium`, a Graphite excerpt capped at `measure`, and the tag line. Rows are split by 1px Line rules, with no frame and no cover. On phones the margin column folds into one line above the title. `render_category_pills()` in `inc/blocks.php` builds the pills.
 
 ### Article header
