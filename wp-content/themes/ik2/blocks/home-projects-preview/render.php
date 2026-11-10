@@ -2,11 +2,9 @@
 /**
  * Server render for ik2/home-projects-preview.
  *
- * Renders a curated grid of `ik2/project-card` blocks. The editor picks the
- * Project IDs via the block's sidebar. The grid always shows an even count
- * (2 or 4) so the 2-column layout never leaves a dangling card: odd curated
- * counts are padded up to the next even number with the latest non-curated
- * projects, and an empty curated list falls back to the four latest.
+ * Renders a curated list of `ik2/project-card` rows. The editor picks the
+ * Project IDs via the block's sidebar; an empty curated list falls back to the
+ * four latest projects.
  *
  * @package IK2
  * @var array<string,mixed> $attributes
@@ -43,31 +41,24 @@ foreach ( $ik2_curated_ids as $ik2_curated_id ) {
 	}
 }
 
-// Round up to the nearest even count (0 -> 4, 1 -> 2, 3 -> 4) by padding with
-// the latest non-curated projects so the 2-column grid is never left odd.
-$ik2_target_count = count( $ik2_project_ids ) === 0
-	? $ik2_max_projects
-	: (int) ( ceil( count( $ik2_project_ids ) / 2 ) * 2 );
-
-if ( count( $ik2_project_ids ) < $ik2_target_count ) {
-	$ik2_fill = get_posts(
-		[
-			'post_type'      => Project\POST_TYPE,
-			'post_status'    => 'publish',
-			'posts_per_page' => $ik2_target_count - count( $ik2_project_ids ),
-			'orderby'        => 'date',
-			'order'          => 'DESC',
-			'fields'         => 'ids',
-			'post__not_in'   => $ik2_project_ids,
-		]
+if ( empty( $ik2_project_ids ) ) {
+	$ik2_project_ids = array_map(
+		'intval',
+		get_posts(
+			[
+				'post_type'      => Project\POST_TYPE,
+				'post_status'    => 'publish',
+				'posts_per_page' => $ik2_max_projects,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+			]
+		)
 	);
-	foreach ( $ik2_fill as $ik2_fill_id ) {
-		$ik2_project_ids[] = (int) $ik2_fill_id;
-	}
 }
 
 $ik2_wrapper_attrs = get_block_wrapper_attributes(
-	[ 'class' => 'ik-project-grid' ]
+	[ 'class' => 'ik-project-list' ]
 );
 ?>
 <div <?php echo $ik2_wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

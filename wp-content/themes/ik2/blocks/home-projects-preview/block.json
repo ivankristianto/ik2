@@ -3,9 +3,9 @@
 	"apiVersion": 3,
 	"name": "ik2/home-projects-preview",
 	"version": "2.0.0",
-	"title": "Curated Projects Grid",
+	"title": "Curated Projects List",
 	"category": "theme",
-	"description": "Curated grid of Project cards. The editor picks up to four Project IDs; the front end always renders an even count (2 or 4) so the 2-column grid never leaves a dangling card.",
+	"description": "Curated list of Project rows. The editor picks up to four Project IDs; with none picked, the four latest show.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
@@ -22,6 +22,5 @@
 		}
 	},
 	"editorScript": "file:./editor.js",
-	"style": "file:./style.css",
 	"render": "file:./render.php"
 }
