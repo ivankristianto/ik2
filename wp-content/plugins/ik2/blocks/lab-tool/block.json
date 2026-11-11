@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Lab tool",
 	"category": "theme",
-	"description": "Frames the current lab entry's tool from the lab host. Prints nothing when the entry has no tool URL or the URL is on another host.",
+	"description": "Frames the current lab entry's tool from the lab host under a bar with its address and links. Prints nothing when the entry has no tool URL or the URL is on another host.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
