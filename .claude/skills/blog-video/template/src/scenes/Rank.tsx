@@ -1,22 +1,26 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { color, font, L, radius } from '../theme';
-import { reveal, stagger } from '../motion';
-import type { Visual } from '../types';
+import { reveal, stagger, timing } from '../motion';
+import type { Cue, Visual } from '../types';
 
 const BAR = 18;
 
-export const Rank: React.FC<{ visual: Extract<Visual, { type: 'rank' }>; frames: number }> = ({ visual, frames }) => {
+export const Rank: React.FC<{ visual: Extract<Visual, { type: 'rank' }>; cues: Cue[]; frames: number }> = ({ visual, cues, frames }) => {
 	const frame = useCurrentFrame();
 	const { fps } = useVideoConfig();
 	const n = visual.rows.length;
 	const best = Math.max(...visual.rows.map((r) => r.score));
-	const winnerAt = visual.winnerAt !== undefined ? Math.round(visual.winnerAt * fps) : Math.round(frames * 0.75);
+	// Focus keys: the row index, or 'threshold'. A sentence focused on the best row alone is the one that names the winner.
+	const naming = cues.find((c) => c.start !== undefined && c.focus === visual.rows.findIndex((r) => r.score === best));
+	const winnerAt = visual.winnerAt !== undefined ? Math.round(visual.winnerAt * fps) : naming ? Math.round(naming.start! * fps) : Math.round(frames * 0.75);
+	const line = timing(cues, 'threshold', fps);
+	const lineIn = reveal(frame, line.at ?? 6);
 	const cut = visual.threshold;
 	return (
 		<div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: L.vertical ? 44 : 22, fontFamily: font.mono, fontSize: L.mono }}>
 			{visual.rows.map((r, i) => {
-				const at = r.at !== undefined ? Math.round(r.at * fps) : stagger(i, n, frames * 0.8);
+				const at = r.at !== undefined ? Math.round(r.at * fps) : (timing(cues, i, fps).at ?? stagger(i, n, frames * 0.8));
 				const dropped = cut !== undefined && r.score < cut;
 				const won = r.score === best && !dropped && frame >= winnerAt;
 				const settled = frame >= winnerAt;
@@ -29,13 +33,13 @@ export const Rank: React.FC<{ visual: Extract<Visual, { type: 'rank' }>; frames:
 						</div>
 						<div style={{ position: 'relative', height: BAR, background: color['code-paper'], borderRadius: radius.sm }}>
 							<div style={{ width: `${r.score * 100 * reveal(frame, at + 4, 18)}%`, height: '100%', borderRadius: radius.sm, background: won ? color.signal : dropped && settled ? color.line : color.graphite }} />
-							{cut !== undefined && <div style={{ position: 'absolute', left: `${cut * 100}%`, top: -6, bottom: -6, borderLeft: `2px dashed ${color.red}` }} />}
+							{cut !== undefined && <div style={{ position: 'absolute', left: `${cut * 100}%`, top: -6, bottom: -6, borderLeft: `2px dashed ${color.red}`, opacity: lineIn }} />}
 						</div>
 					</div>
 				);
 			})}
 			{cut !== undefined && (
-				<div style={{ position: 'relative', height: L.mono * 1.3, color: color.red, fontSize: Math.round(L.mono * 0.8), opacity: reveal(frame, 6) }}>
+				<div style={{ position: 'relative', height: L.mono * 1.3, color: color.red, fontSize: Math.round(L.mono * 0.8), fontWeight: line.lit(frame) ? 600 : 400, opacity: lineIn }}>
 					<span style={{ position: 'absolute', left: `${cut * 100}%`, paddingLeft: 12, whiteSpace: 'nowrap' }}>cut-off {cut}</span>
 				</div>
 			)}

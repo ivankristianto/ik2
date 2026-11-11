@@ -1,10 +1,10 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { color, font, L, radius } from '../theme';
-import { reveal, stagger } from '../motion';
-import type { Visual } from '../types';
+import { reveal, stagger, timing } from '../motion';
+import type { Cue, Visual } from '../types';
 
-export const Diff: React.FC<{ visual: Extract<Visual, { type: 'diff' }>; frames: number }> = ({ visual, frames }) => {
+export const Diff: React.FC<{ visual: Extract<Visual, { type: 'diff' }>; cues: Cue[]; frames: number }> = ({ visual, cues, frames }) => {
 	const frame = useCurrentFrame();
 	const { fps } = useVideoConfig();
 	const changes = visual.lines.filter((l) => l.kind === 'del' || l.kind === 'add').length + (visual.result ? 1 : 0);
@@ -16,7 +16,8 @@ export const Diff: React.FC<{ visual: Extract<Visual, { type: 'diff' }>; frames:
 				<div style={{ padding: '24px 32px', fontSize: L.mono, lineHeight: 1.6 }}>
 					{visual.lines.map((l, i) => {
 						const kind = l.kind ?? 'ctx';
-						const at = l.at !== undefined ? Math.round(l.at * fps) : stagger(k, changes, frames);
+						const t = timing(cues, i, fps);
+						const at = l.at !== undefined ? Math.round(l.at * fps) : (t.at ?? stagger(k, changes, frames));
 						if (kind !== 'ctx') k++;
 						const p = kind === 'ctx' ? 1 : reveal(frame, at);
 						if (kind === 'del') {
@@ -34,7 +35,7 @@ export const Diff: React.FC<{ visual: Extract<Visual, { type: 'diff' }>; frames:
 							);
 						}
 						return (
-							<div key={i} style={{ whiteSpace: 'pre', color: color.graphite }}>
+							<div key={i} style={{ whiteSpace: 'pre', color: t.lit(frame) ? color.signal : color.graphite }}>
 								{l.text}
 							</div>
 						);

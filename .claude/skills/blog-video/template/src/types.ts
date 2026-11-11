@@ -1,4 +1,19 @@
-export type Cue = { text: string; say?: string; start?: number; end?: number };
+export type Beat = 'and' | 'but' | 'mechanism' | 'therefore';
+export type Focus = number | string;
+
+export type Cue = {
+	text: string;
+	say?: string;
+	beat?: Beat;
+	/** Item or items of the scene's visual this sentence is about: they appear with it and stay green while it's spoken. */
+	focus?: Focus | Focus[];
+	start?: number;
+	spoken?: number;
+	end?: number;
+	chunks?: { text: string; start: number; end: number }[];
+};
+
+export type Spoken = { text: string; say?: string; audio?: string; start?: number; end?: number };
 
 export type StepState = 'normal' | 'skip' | 'break' | 'end';
 
@@ -25,6 +40,6 @@ export type Video = {
 	introFrames: number;
 	outroFrames: number;
 	narrator?: { voice: string; lang: string; speed: number };
-	post: { slug: string; punch: string };
+	post: { slug: string; punch: string; hook?: Spoken; pointer?: Spoken };
 	scenes: Scene[];
 };

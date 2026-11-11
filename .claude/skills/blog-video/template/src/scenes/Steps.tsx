@@ -1,8 +1,8 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { color, font, L, radius } from '../theme';
-import { reveal, stagger } from '../motion';
-import type { StepState, Visual } from '../types';
+import { reveal, stagger, timing } from '../motion';
+import type { Cue, StepState, Visual } from '../types';
 
 // Horizontal runs left to right; vertical stacks top to bottom because four boxes don't fit across 810px.
 const GAP = L.vertical ? 56 : 90;
@@ -34,7 +34,7 @@ const Arrow: React.FC<{ progress: number }> = ({ progress }) => {
 	);
 };
 
-export const Steps: React.FC<{ visual: Extract<Visual, { type: 'steps' }>; frames: number }> = ({ visual, frames }) => {
+export const Steps: React.FC<{ visual: Extract<Visual, { type: 'steps' }>; cues: Cue[]; frames: number }> = ({ visual, cues, frames }) => {
 	const frame = useCurrentFrame();
 	const { fps } = useVideoConfig();
 	const n = visual.steps.length;
@@ -43,7 +43,9 @@ export const Steps: React.FC<{ visual: Extract<Visual, { type: 'steps' }>; frame
 			<div style={{ display: 'flex', flexDirection: L.vertical ? 'column' : 'row', width: '100%' }}>
 				{visual.steps.map((s, i) => {
 					const state = s.state ?? 'normal';
-					const at = s.at !== undefined ? Math.round(s.at * fps) : stagger(i, n, frames);
+					const t = timing(cues, i, fps);
+					const at = s.at !== undefined ? Math.round(s.at * fps) : (t.at ?? stagger(i, n, frames));
+					const lit = state === 'normal' && frame >= at && t.lit(frame);
 					return (
 						<React.Fragment key={i}>
 							{i > 0 && <Arrow progress={reveal(frame, at - 10, 10)} />}
@@ -59,12 +61,13 @@ export const Steps: React.FC<{ visual: Extract<Visual, { type: 'steps' }>; frame
 										fontSize: 34,
 										whiteSpace: 'nowrap',
 										...box[state],
+										...(lit ? { borderColor: color.signal, color: color['signal-deep'], fontWeight: 600 } : null),
 									}}
 								>
 									<span style={state === 'skip' ? { textDecoration: `line-through 3px ${color.red}` } : undefined}>{s.label}</span>
 								</div>
 								{s.note && (
-									<div style={{ marginTop: L.vertical ? 10 : 24, textAlign: 'center', fontFamily: font.mono, fontSize: L.vertical ? 26 : 28, color: noteColor[state], whiteSpace: 'nowrap' }}>
+									<div style={{ marginTop: L.vertical ? 10 : 24, textAlign: 'center', fontFamily: font.mono, fontSize: L.vertical ? 26 : 28, color: lit ? color.signal : noteColor[state], whiteSpace: 'nowrap' }}>
 										{s.note}
 									</div>
 								)}

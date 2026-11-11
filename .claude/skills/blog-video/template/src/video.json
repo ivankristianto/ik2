@@ -10,7 +10,14 @@
 	},
 	"post": {
 		"slug": "webmcp-read-only-tools",
-		"punch": "The tools run in my logged-in browser.\n<em>Their requests don't log in.</em>"
+		"punch": "The tools run in my logged-in browser.\n<em>Their requests don't log in.</em>",
+		"hook": {
+			"text": "The tools run in my logged-in browser. Their requests don't log in."
+		},
+		"pointer": {
+			"text": "Read the full article at ivankristianto.com",
+			"say": "Read the full article at Eevahn Kristianto dot com."
+		}
 	},
 	"scenes": [
 		{
@@ -18,13 +25,22 @@
 			"heading": "Every tool call goes out <em>without the login cookie</em>",
 			"captions": [
 				{
-					"text": "Each tool calls the WordPress REST API with credentials set to omit."
+					"text": "Each tool calls the WordPress REST API with credentials set to omit.",
+					"beat": "and",
+					"focus": 0
 				},
 				{
-					"text": "The request carries no login cookie."
+					"text": "The request carries no login cookie.",
+					"beat": "but",
+					"focus": 1
 				},
 				{
-					"text": "So it only ever sees published posts."
+					"text": "So it only ever sees published posts.",
+					"beat": "therefore",
+					"focus": [
+						2,
+						3
+					]
 				}
 			],
 			"visual": {
@@ -32,25 +48,21 @@
 				"steps": [
 					{
 						"label": "search_articles",
-						"note": "readOnlyHint: true",
-						"at": 0.4
+						"note": "readOnlyHint: true"
 					},
 					{
 						"label": "login cookie",
 						"note": "credentials: 'omit'",
-						"state": "skip",
-						"at": 4.4
+						"state": "skip"
 					},
 					{
 						"label": "/wp/v2/posts",
-						"note": "status=publish",
-						"at": 6.6
+						"note": "status=publish"
 					},
 					{
 						"label": "public posts",
 						"note": "HTTP 200",
-						"state": "end",
-						"at": 6.9
+						"state": "end"
 					}
 				]
 			}

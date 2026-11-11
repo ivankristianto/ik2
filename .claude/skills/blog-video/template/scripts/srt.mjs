@@ -1,4 +1,4 @@
-// Write out/video.srt from the cues in src/video.json, offset by the intro so they line up with the rendered MP4.
+// Write out/video.srt from the hook, the cues and the pointer in src/video.json, timed to the rendered MP4.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const video = JSON.parse(readFileSync('src/video.json', 'utf8'));
@@ -11,13 +11,17 @@ const stamp = (s) => {
 let offset = video.introFrames / video.fps;
 let n = 0;
 const out = [];
+const cue = (start, end, text) => out.push(`${++n}\n${stamp(start)} --> ${stamp(end)}\n${text}\n`);
+const { hook, pointer } = video.post;
+if (hook?.end !== undefined) cue(hook.start, hook.end, hook.text);
 for (const scene of video.scenes) {
 	for (const c of scene.captions) {
 		if (c.start === undefined || c.end === undefined) throw new Error(`${scene.id}: untimed caption, run npm run narrate first`);
-		out.push(`${++n}\n${stamp(offset + c.start)} --> ${stamp(offset + c.end)}\n${c.text}\n`);
+		cue(offset + c.start, offset + c.end, c.text);
 	}
 	offset += (scene.frames ?? 150) / video.fps;
 }
+if (pointer?.end !== undefined) cue(offset + pointer.start, offset + pointer.end, pointer.text);
 mkdirSync('out', { recursive: true });
 writeFileSync('out/video.srt', out.join('\n'));
-console.log(`out/video.srt: ${n} cues, last ends ${stamp(offset)} before the ${video.outroFrames / video.fps}s outro`);
+console.log(`out/video.srt: ${n} cues`);

@@ -1,17 +1,20 @@
 import React from 'react';
-import { useCurrentFrame } from 'remotion';
+import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { color, font, L } from '../theme';
-import { reveal } from '../motion';
-import type { Visual } from '../types';
+import { reveal, timing } from '../motion';
+import type { Cue, Visual } from '../types';
 
 // About 0.6em per mono glyph. Horizontal keeps the token on one line: under ~20 characters at the default 140px,
 // or set `size` (96 fits ~30). Vertical defaults to 88px and wraps after slashes.
 const breakable = (s = '') => (L.vertical ? s.replace(/\//g, '/​') : s);
 
-export const Token: React.FC<{ visual: Extract<Visual, { type: 'token' }>; frames: number }> = ({ visual, frames }) => {
+export const Token: React.FC<{ visual: Extract<Visual, { type: 'token' }>; cues: Cue[]; frames: number }> = ({ visual, cues, frames }) => {
 	const frame = useCurrentFrame();
 	const size = visual.size ?? L.token;
-	const markAt = Math.round(frames * 0.3);
+	const { fps } = useVideoConfig();
+	// Focus keys: 0 is the mark, 1 the caption under the band.
+	const markAt = timing(cues, 0, fps).at ?? Math.round(frames * 0.3);
+	const captionAt = timing(cues, 1, fps).at ?? markAt + 6;
 	return (
 		<div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 36 }}>
 			<div
@@ -32,7 +35,7 @@ export const Token: React.FC<{ visual: Extract<Visual, { type: 'token' }>; frame
 				{breakable(visual.after)}
 			</div>
 			{visual.caption && (
-				<div style={{ fontFamily: font.mono, fontSize: Math.round(L.mono * 0.94), color: color.graphite, opacity: reveal(frame, markAt + 6) }}>{visual.caption}</div>
+				<div style={{ fontFamily: font.mono, fontSize: Math.round(L.mono * 0.94), color: color.graphite, opacity: reveal(frame, captionAt) }}>{visual.caption}</div>
 			)}
 		</div>
 	);

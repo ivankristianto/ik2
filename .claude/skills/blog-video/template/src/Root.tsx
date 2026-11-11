@@ -17,7 +17,7 @@ const Full: React.FC = () => {
 	return (
 		<>
 			<Sequence durationInFrames={video.introFrames}>
-				<Intro punch={video.post.punch} />
+				<Intro punch={video.post.punch} hook={video.post.hook} />
 			</Sequence>
 			{video.scenes.map((s, i) => {
 				const from = at;
@@ -29,14 +29,14 @@ const Full: React.FC = () => {
 				);
 			})}
 			<Sequence from={at} durationInFrames={video.outroFrames}>
-				<Outro slug={video.post.slug} />
+				<Outro slug={video.post.slug} pointer={video.post.pointer} />
 			</Sequence>
 		</>
 	);
 };
 
-const IntroOnly: React.FC = () => <Intro punch={video.post.punch} />;
-const OutroOnly: React.FC = () => <Outro slug={video.post.slug} />;
+const IntroOnly: React.FC = () => <Intro punch={video.post.punch} hook={video.post.hook} />;
+const OutroOnly: React.FC = () => <Outro slug={video.post.slug} pointer={video.post.pointer} />;
 
 export const Root: React.FC = () => (
 	<>

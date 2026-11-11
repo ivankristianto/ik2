@@ -15,13 +15,18 @@ const video = JSON.parse(readFileSync('src/video.json', 'utf8'));
 const only = process.argv.slice(2);
 mkdirSync('narration/heard', { recursive: true });
 
-for (const scene of video.scenes) {
-	if ((only.length && !only.includes(scene.id)) || !scene.audio) continue;
-	execFileSync(WHISPER, [`public/${scene.audio}`, '--model', 'mlx-community/whisper-large-v3-turbo', '--language', 'en', '--output-format', 'txt', '--output-dir', 'narration/heard', '--verbose', 'False'], {
+const clips = [
+	{ id: 'intro', audio: video.post.hook?.audio, lines: [video.post.hook] },
+	...video.scenes.map((s) => ({ id: s.id, audio: s.audio, lines: s.captions })),
+	{ id: 'outro', audio: video.post.pointer?.audio, lines: [video.post.pointer] },
+];
+for (const { id, audio, lines } of clips) {
+	if ((only.length && !only.includes(id)) || !audio) continue;
+	execFileSync(WHISPER, [`public/${audio}`, '--model', 'mlx-community/whisper-large-v3-turbo', '--language', 'en', '--output-format', 'txt', '--output-dir', 'narration/heard', '--verbose', 'False'], {
 		stdio: 'ignore',
 		env: { ...process.env, HF_HOME: join(HOME, 'hf') },
 	});
-	console.log(`== ${scene.id}`);
-	console.log(`script: ${scene.captions.map((c) => c.text).join(' ')}`);
-	console.log(`heard:  ${readFileSync(`narration/heard/${scene.id}.txt`, 'utf8').replace(/\s+/g, ' ').trim()}\n`);
+	console.log(`== ${id}`);
+	console.log(`script: ${lines.map((c) => c.text).join(' ')}`);
+	console.log(`heard:  ${readFileSync(`narration/heard/${id}.txt`, 'utf8').replace(/\s+/g, ' ').trim()}\n`);
 }

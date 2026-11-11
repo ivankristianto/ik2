@@ -15,6 +15,7 @@ const Caption: React.FC<{ cues: Cue[] }> = ({ cues }) => {
 	const { fps } = useVideoConfig();
 	const t = frame / fps;
 	const cue = cues.find((c) => c.start !== undefined && c.end !== undefined && t >= c.start && t < c.end);
+	const text = cue?.chunks?.find((c) => t >= c.start && t < c.end)?.text ?? cue?.text;
 	return (
 		<div
 			style={{
@@ -30,9 +31,9 @@ const Caption: React.FC<{ cues: Cue[] }> = ({ cues }) => {
 				paddingBottom: L.vertical ? 0 : 24,
 			}}
 		>
-			{cue && (
+			{text && (
 				<p style={{ margin: 0, maxWidth: 1500, textAlign: 'center', fontSize: L.caption, lineHeight: 1.25, fontWeight: 500, textWrap: 'balance' }}>
-					{cue.text}
+					{text}
 				</p>
 			)}
 		</div>
@@ -56,11 +57,11 @@ export const Scene: React.FC<{ scene: SceneData }> = ({ scene }) => {
 					<Sig size={24} text="" style={{ marginLeft: 'auto', paddingTop: 4 }} />
 				</div>
 				<div style={{ flex: 1, minHeight: 0 }}>
-					{v.type === 'steps' && <Steps visual={v} frames={durationInFrames} />}
-					{v.type === 'diff' && <Diff visual={v} frames={durationInFrames} />}
-					{v.type === 'receipt' && <Receipt visual={v} frames={durationInFrames} />}
-					{v.type === 'rank' && <Rank visual={v} frames={durationInFrames} />}
-					{v.type === 'token' && <Token visual={v} frames={durationInFrames} />}
+					{v.type === 'steps' && <Steps visual={v} cues={scene.captions} frames={durationInFrames} />}
+					{v.type === 'diff' && <Diff visual={v} cues={scene.captions} frames={durationInFrames} />}
+					{v.type === 'receipt' && <Receipt visual={v} cues={scene.captions} frames={durationInFrames} />}
+					{v.type === 'rank' && <Rank visual={v} cues={scene.captions} frames={durationInFrames} />}
+					{v.type === 'token' && <Token visual={v} cues={scene.captions} frames={durationInFrames} />}
 				</div>
 			</div>
 			<Caption cues={scene.captions} />
