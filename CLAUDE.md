@@ -44,6 +44,10 @@ Secret scanning: `scripts/secret-scan.sh` runs a pinned Betterleaks from the opt
 
 `wp-content/plugins/` is **composer-managed via wpackagist**. Don't commit plugin code into that directory; add it to `composer.json` and rebuild the app image.
 
+### Lab
+
+`/lab` is a shell only. The `lab` post type (`wp-content/plugins/ik2/inc/post-types/lab.php`) gives each tool or experiment a page, and the `ik2/lab-tool` block frames the tool from `lab.ivankristianto.com` in a sandboxed iframe. The tools live in a separate repo on a separate instance. Don't add tool code, REST routes for tools, or a tool image here; see `docs/adr/0005-lab-shell-and-separate-instance.md`. The tool URL is entry meta and must be on the lab origin (`IK2_LAB_ORIGIN` overrides it locally, `http://localhost:8787` in `docker-compose.yml`). Pure rules: `composer test` (`tests/php/LabRulesTest.php`) and `node --test tests/lab-tool-rules.test.mjs`.
+
 ### Prototype kits
 
 `design-system/ui_kits/blog/` and `samples/` are two separate, diverged prototype kits — neither is the production theme, which is `wp-content/themes/ik2/`. Details in `design-system/CLAUDE.md` (loads when you work in that directory).

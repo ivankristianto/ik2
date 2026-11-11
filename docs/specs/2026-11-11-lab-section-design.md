@@ -110,6 +110,8 @@ following. The lab repo's own spec carries the detail.
   same hostname.
 - Sends `Content-Security-Policy: frame-ancestors https://www.ivankristianto.com`
   and no `X-Frame-Options: SAMEORIGIN`, or the browser refuses to frame it.
+- Sends no `Cross-Origin-Opener-Policy` or `Cross-Origin-Embedder-Policy`
+  that would stop it loading inside the frame.
 - Sends `X-Robots-Tag: noindex, indexifembedded`, so search results point at
   the WordPress entry and not the bare tool. Confirm current Google support
   for `indexifembedded` before relying on it.
@@ -123,6 +125,31 @@ following. The lab repo's own spec carries the detail.
   release.
 - Needs no account and keeps what a visitor pastes in the browser unless the
   tool's purpose is a server call.
+
+## Changed during the build
+
+- **Origin setting.** `IK2_LAB_ORIGIN` is read from a constant or an env var,
+  because the local `wp-config.php` is baked on first boot and a later define
+  never lands. The check is "same scheme, host and port as the configured
+  origin", so a local `http://localhost:8787` works while prod stays https.
+- **A link under the frame.** "Open the tool in a new tab", for small screens
+  and for anyone who prefers the tool on its own.
+- **No `frame-sizing`.** I found no guidance or shipped support to lean on, so
+  the resize message is the only mechanism.
+- **Origin check in JS.** The listener uses the `Origin` API
+  (`Origin.from( event ).isSameOrigin()`) where the browser has it and
+  compares parsed `URL` origins elsewhere.
+- **Reporting height.** A tool should report its content height (for example
+  `document.body` through a `ResizeObserver`). `documentElement.scrollHeight`
+  never drops below the frame's own height, so the frame could grow but not
+  shrink.
+- **No new CSS for the pages.** The entry header, related notes, post backlink
+  and index reuse the project classes. The index block lists the
+  `ik2-project-card-style` and `ik2-projects-archive-style` handles instead
+  of shipping a stylesheet.
+- **The editor bundle.** `src/editor.js` was never a webpack entry, so the
+  project details panel had never loaded. Adding the entry for the lab panel
+  turned the project panel on too.
 
 ## Acceptance
 
