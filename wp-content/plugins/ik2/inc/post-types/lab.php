@@ -15,9 +15,11 @@ defined( 'ABSPATH' ) || exit;
 
 const POST_TYPE = 'lab';
 
-const TOOL_URL_META   = 'lab_tool_url';
-const SOURCE_URL_META = 'lab_source_url';
-const MIN_HEIGHT_META = 'lab_min_height';
+const TOOL_URL_META      = 'lab_tool_url';
+const SOURCE_URL_META    = 'lab_source_url';
+const MIN_HEIGHT_META    = 'lab_min_height';
+const NARROW_HEIGHT_META = 'lab_min_height_narrow';
+const SPECIMEN_META      = 'lab_specimen';
 
 const VIEW_HANDLE = 'ik2-lab-tool';
 
@@ -89,7 +91,7 @@ function register(): void {
 }
 
 /**
- * Register the entry's meta: the tool URL on the lab origin, a link to its source, and the frame's starting height.
+ * Register the entry's meta: the tool URL, a link to its source, the frame's starting heights, and the index specimen.
  */
 function register_meta_fields(): void {
 	foreach ( [ TOOL_URL_META, SOURCE_URL_META ] as $key ) {
@@ -107,15 +109,30 @@ function register_meta_fields(): void {
 		);
 	}
 
+	foreach ( [ MIN_HEIGHT_META, NARROW_HEIGHT_META ] as $key ) {
+		register_post_meta(
+			POST_TYPE,
+			$key,
+			[
+				'type'              => 'integer',
+				'single'            => true,
+				'default'           => 0,
+				'show_in_rest'      => true,
+				'sanitize_callback' => 'absint',
+				'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
+			]
+		);
+	}
+
 	register_post_meta(
 		POST_TYPE,
-		MIN_HEIGHT_META,
+		SPECIMEN_META,
 		[
-			'type'              => 'integer',
+			'type'              => 'string',
 			'single'            => true,
-			'default'           => 0,
+			'default'           => '',
 			'show_in_rest'      => true,
-			'sanitize_callback' => 'absint',
+			'sanitize_callback' => 'sanitize_textarea_field',
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		]
 	);
@@ -152,14 +169,28 @@ function lab_origin(): string {
  * What the entry page needs to show a tool. `url` is empty when unset or not on the lab origin.
  *
  * @param int $lab_id Lab entry id.
- * @return array{url:string, source:string, min_height:int}
+ * @return array{url:string, source:string, min_height:int, narrow_height:int}
  */
 function get_tool_data( int $lab_id ): array {
-	$url = (string) get_post_meta( $lab_id, TOOL_URL_META, true );
+	$url    = (string) get_post_meta( $lab_id, TOOL_URL_META, true );
+	$height = Rules\clamp_height( (int) get_post_meta( $lab_id, MIN_HEIGHT_META, true ) );
+	$narrow = (int) get_post_meta( $lab_id, NARROW_HEIGHT_META, true );
 
 	return [
-		'url'        => Rules\is_lab_url( $url, lab_origin() ) ? $url : '',
-		'source'     => (string) get_post_meta( $lab_id, SOURCE_URL_META, true ),
-		'min_height' => Rules\clamp_height( (int) get_post_meta( $lab_id, MIN_HEIGHT_META, true ) ),
+		'url'           => Rules\is_lab_url( $url, lab_origin() ) ? $url : '',
+		'source'        => (string) get_post_meta( $lab_id, SOURCE_URL_META, true ),
+		'min_height'    => $height,
+		// A tool that stacks its panes on a phone is taller there; unset falls back to the desktop height.
+		'narrow_height' => $narrow > 0 ? Rules\clamp_height( $narrow ) : $height,
 	];
+}
+
+/**
+ * Lines of sample output for the entry's row on the lab index.
+ *
+ * @param int $lab_id Lab entry id.
+ * @return list<string>
+ */
+function get_specimen( int $lab_id ): array {
+	return Rules\specimen_lines( (string) get_post_meta( $lab_id, SPECIMEN_META, true ) );
 }

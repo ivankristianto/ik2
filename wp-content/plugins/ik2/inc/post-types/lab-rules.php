@@ -1,6 +1,6 @@
 <?php
 /**
- * Pure helpers for lab entries: which URLs may be framed, and how tall the frame may be. No WordPress, unit-tested.
+ * Pure helpers for lab entries: which URLs may be framed, how tall the frame may be, and what the index shows. No WordPress, unit-tested.
  *
  * @package IK2\Plugin
  */
@@ -14,6 +14,9 @@ const DEFAULT_ORIGIN = 'https://lab.ivankristianto.com';
 const DEFAULT_HEIGHT = 480;
 const MIN_HEIGHT     = 160;
 const MAX_HEIGHT     = 4000;
+
+const SPECIMEN_MAX_LINES  = 4;
+const SPECIMEN_LINE_CHARS = 64;
 
 /**
  * The origin of an http(s) URL as `scheme://host[:port]`, or '' when the URL is not one we would frame.
@@ -56,4 +59,37 @@ function clamp_height( int $px ): int {
 	}
 
 	return max( MIN_HEIGHT, min( MAX_HEIGHT, $px ) );
+}
+
+/**
+ * A tool URL as the frame's bar shows it: host and path, no scheme, query or trailing slash.
+ *
+ * @param string $url Tool URL.
+ */
+function display_address( string $url ): string {
+	$address = (string) preg_replace( '#^https?://#i', '', $url );
+	$address = (string) preg_replace( '/[?#].*$/', '', $address );
+
+	return rtrim( $address, '/' );
+}
+
+/**
+ * The specimen field as the lines the index prints: trimmed, blanks dropped, capped in count and length.
+ *
+ * @param string $raw Field value, one line of sample output per row.
+ * @return list<string>
+ */
+function specimen_lines( string $raw ): array {
+	$lines = [];
+	$rows  = preg_split( '/\R/u', $raw );
+
+	foreach ( is_array( $rows ) ? $rows : [] as $line ) {
+		$line = trim( $line );
+
+		if ( '' !== $line ) {
+			$lines[] = mb_substr( $line, 0, SPECIMEN_LINE_CHARS );
+		}
+	}
+
+	return array_slice( $lines, 0, SPECIMEN_MAX_LINES );
 }

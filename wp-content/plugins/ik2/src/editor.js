@@ -155,6 +155,31 @@ function LabToolFields() {
 					'lab_min_height',
 					Math.max( 0, parseInt( value, 10 ) || 0 )
 				),
+		} ),
+		createElement( TextControl, {
+			label: __( 'Starting height on phones (px)', 'ik2' ),
+			help: __(
+				'Height of the tool on a narrow screen, where its panes stack. Empty uses the height above.',
+				'ik2'
+			),
+			type: 'number',
+			min: 0,
+			value: meta.lab_min_height_narrow || '',
+			onChange: ( value ) =>
+				updateMetaValue(
+					'lab_min_height_narrow',
+					Math.max( 0, parseInt( value, 10 ) || 0 )
+				),
+		} ),
+		createElement( TextareaControl, {
+			label: __( 'Specimen', 'ik2' ),
+			help: __(
+				'Real output from the tool for the lab index, up to four short lines. The first line is set large.',
+				'ik2'
+			),
+			rows: 4,
+			value: meta.lab_specimen || '',
+			onChange: ( value ) => updateMetaValue( 'lab_specimen', value ),
 		} )
 	);
 }

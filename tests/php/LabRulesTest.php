@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the lab entry rules: the origin check on tool URLs and the frame height clamp.
+ * Tests for the lab entry rules: the origin check on tool URLs, the frame height clamp, the bar address and the specimen.
  *
  * @package IK2\Tests
  */
@@ -13,7 +13,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function IK2\Plugin\PostTypes\Lab\Rules\clamp_height;
+use function IK2\Plugin\PostTypes\Lab\Rules\display_address;
 use function IK2\Plugin\PostTypes\Lab\Rules\is_lab_url;
+use function IK2\Plugin\PostTypes\Lab\Rules\specimen_lines;
 
 final class LabRulesTest extends TestCase {
 
@@ -66,5 +68,25 @@ final class LabRulesTest extends TestCase {
 		self::assertSame( 160, clamp_height( 40 ) );
 		self::assertSame( 720, clamp_height( 720 ) );
 		self::assertSame( 4000, clamp_height( 90000 ) );
+	}
+
+	public function test_the_bar_address_drops_scheme_query_and_trailing_slash(): void {
+		self::assertSame( 'lab.ivankristianto.com/font-split', display_address( 'https://lab.ivankristianto.com/font-split/' ) );
+		self::assertSame( 'lab.ivankristianto.com/embed-preview', display_address( 'https://lab.ivankristianto.com/embed-preview/?url=a#top' ) );
+		self::assertSame( 'localhost:8787', display_address( 'http://localhost:8787/' ) );
+	}
+
+	public function test_specimen_keeps_four_trimmed_lines_and_drops_blanks(): void {
+		self::assertSame(
+			[ 'Café Łódź 北京', 'inter-latin 13', 'latin-ext 2', 'fallback 2' ],
+			specimen_lines( "  Café Łódź 北京 \r\n\ninter-latin 13\nlatin-ext 2\n\nfallback 2\nfifth line" )
+		);
+		self::assertSame( [], specimen_lines( " \n " ) );
+	}
+
+	public function test_a_long_specimen_line_is_cut_by_characters_not_bytes(): void {
+		$lines = specimen_lines( str_repeat( '北', 100 ) );
+
+		self::assertSame( 64, mb_strlen( $lines[0] ) );
 	}
 }
