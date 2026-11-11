@@ -29,7 +29,7 @@ A tool sets `data-embedded` on `<html>` before first paint when `window.top !== 
 ## Type
 
 - System sans for everything a visitor reads, system mono for labels, data and code. No webfont.
-- Body text is the `small` preset (16 to 17px). It computes to the same size inside the frame as the page's small text outside it, because the frame is as wide as the text column.
+- Body text is the `small` preset (16 to 17px). The presets are fluid on viewport width, and inside the frame the viewport is the frame, so text there computes up to 0.3px smaller than the same preset on the page (16.7px against 17px at a 1440px window). That is below what the eye picks up; don't correct for it with hard-coded sizes.
 - Labels are mono `x-small` in Graphite, lowercase: `sample text`, `result`, `file`.
 - The largest heading inside a framed tool is `medium`. The entry already has the `h1`.
 - Nothing a visitor reads is below `x-small` (14px).
