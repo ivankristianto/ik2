@@ -184,6 +184,42 @@ following. The lab repo's own spec carries the detail.
   follow-up once there are entries to list.
 - Comments on lab entries.
 
+## Design pass (2026-11-11)
+
+Ivan found the first build unappetizing. An impeccable critique scored it
+21/36 and named the cause: the index was the projects list with other words.
+He chose specimen rows for the index and a workbench bar for the frame. This
+replaces several lines above.
+
+- **Own CSS.** "No new CSS for the pages" no longer holds. The index block
+  ships `blocks/lab-archive/style.css` and stops borrowing the project
+  handles. The entry still reuses the article and project-writing classes.
+- **Index.** One row per entry in a single column: name, blurb, kind and date
+  on the left, and on the right a specimen, real output from the tool as up
+  to four short lines of text. The specimen is a new meta field,
+  `lab_specimen`. A row without one is text only. The eyebrow above "Lab" is
+  gone, and a mono line over the list gives the count and the latest date.
+- **Frame.** The tool sits in one bordered Surface sheet at content width
+  (the block no longer aligns wide). A mono bar on top carries the tool's
+  address and the `source` and `new tab` links. The one-row source record
+  and the link under the frame are gone. A write-up with no tool keeps its
+  source row in the header.
+- **States.** The bar says `loading` until the first resize message. After
+  eight seconds without one, the sheet shows a short message in place of the
+  frame. Without JavaScript neither appears.
+- **Heights.** `lab_min_height_narrow` is the starting height under 40em,
+  where a tool stacks its panes. Unset, it falls back to `lab_min_height`.
+- **Phones.** Under 40em the sheet runs edge to edge.
+- **Entry.** A mono meta line (date, then `tool` or `write-up`, then an
+  `updated` line when it changed on a later day) and a "More from the lab"
+  list at the end.
+- **Frame title.** "<entry title>, interactive tool".
+- **Tool brand rules.** `docs/lab-tool-guidelines.md`, implemented by
+  `shared/lab.css` in the lab repo.
+
+Not done in this pass: tables in write-ups still use the article table style,
+and a short entry's H2 is still the article size.
+
 ## Answered after the build
 
 Ivan, 2026-11-11:

@@ -46,7 +46,7 @@ Secret scanning: `scripts/secret-scan.sh` runs a pinned Betterleaks from the opt
 
 ### Lab
 
-`/lab` is a shell only. The `lab` post type (`wp-content/plugins/ik2/inc/post-types/lab.php`) gives each tool or experiment a page, and the `ik2/lab-tool` block frames the tool from `lab.ivankristianto.com` in a sandboxed iframe. The tools live in a separate repo on a separate instance. Don't add tool code, REST routes for tools, or a tool image here; see `docs/adr/0005-lab-shell-and-separate-instance.md`. The tool URL is entry meta and must be on the lab origin (`IK2_LAB_ORIGIN` overrides it locally, `http://localhost:8787` in `docker-compose.yml`). Pure rules: `composer test` (`tests/php/LabRulesTest.php`) and `node --test tests/lab-tool-rules.test.mjs`.
+`/lab` is a shell only. The `lab` post type (`wp-content/plugins/ik2/inc/post-types/lab.php`) gives each tool or experiment a page, and the `ik2/lab-tool` block frames the tool from `lab.ivankristianto.com` in a sandboxed iframe. The tools live in a separate repo on a separate instance. Don't add tool code, REST routes for tools, or a tool image here; see `docs/adr/0005-lab-shell-and-separate-instance.md`. The tool URL is entry meta and must be on the lab origin (`IK2_LAB_ORIGIN` overrides it locally, `http://localhost:8787` in `docker-compose.yml`). Pure rules: `composer test` (`tests/php/LabRulesTest.php`) and `node --test tests/lab-tool-rules.test.mjs`. How a tool must look inside the frame is in `docs/lab-tool-guidelines.md`; the stylesheet that implements it lives in the lab repo (`shared/lab.css`), not here.
 
 ### Prototype kits
 
