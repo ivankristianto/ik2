@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace IK2\Plugin\PostTypes\Lab;
 
+use function IK2\Plugin\CodeHighlight\register_built_script;
+
 defined( 'ABSPATH' ) || exit;
 
 const POST_TYPE = 'lab';
@@ -17,12 +19,15 @@ const TOOL_URL_META   = 'lab_tool_url';
 const SOURCE_URL_META = 'lab_source_url';
 const MIN_HEIGHT_META = 'lab_min_height';
 
+const VIEW_HANDLE = 'ik2-lab-tool';
+
 /**
  * Register hooks owned by this module.
  */
 function bootstrap(): void {
 	add_action( 'init', __NAMESPACE__ . '\\register' );
 	add_action( 'init', __NAMESPACE__ . '\\register_meta_fields' );
+	add_action( 'init', __NAMESPACE__ . '\\register_view_script' );
 	bootstrap_links();
 }
 
@@ -114,6 +119,13 @@ function register_meta_fields(): void {
 			'auth_callback'     => __NAMESPACE__ . '\\can_edit_posts',
 		]
 	);
+}
+
+/**
+ * Register the resize listener; the lab-tool block enqueues it only when it prints a frame.
+ */
+function register_view_script(): void {
+	register_built_script( VIEW_HANDLE, 'lab-tool', [ 'strategy' => 'defer' ] );
 }
 
 /**

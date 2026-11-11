@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/lab-tool",
+	"version": "1.0.0",
+	"title": "Lab tool",
+	"category": "theme",
+	"description": "Frames the current lab entry's tool from the lab host. Prints nothing when the entry has no tool URL or the URL is on another host.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"align": [ "wide" ]
+	},
+	"usesContext": [ "postId", "postType" ],
+	"editorScript": "file:./editor.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

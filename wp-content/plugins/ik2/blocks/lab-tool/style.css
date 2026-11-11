@@ -1,0 +1,24 @@
+/* Lab tool (ik2/lab-tool): a framed tool from the lab host. The height comes from the entry, then from the tool's resize message. */
+.ik-lab-tool {
+  display: grid;
+  gap: var(--wp--preset--spacing--2);
+}
+
+.ik-lab-tool__frame {
+  display: block;
+
+  /* The tool reports its content height, so the border must sit outside it. */
+  box-sizing: content-box;
+  width: calc(100% - 2px);
+  height: var(--ik-lab-tool-height);
+  border: 1px solid var(--wp--preset--color--line);
+  border-radius: var(--wp--preset--border-radius--md);
+  background: var(--wp--preset--color--surface);
+}
+
+.ik-lab-tool__open,
+.ik-lab-tool__note {
+  margin: 0;
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--small);
+}
