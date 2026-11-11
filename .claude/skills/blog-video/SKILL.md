@@ -69,6 +69,7 @@ Same patterns as the feature card, now revealed in step with the voice. Pick by 
 - `steps` (the card's path variant): 3 to 5 mono boxes joined by arrows that draw in. `state` is `skip` (dashed red, struck out), `break` (red), `end` (green), or omitted. One real value per box in `note`.
 - `diff` (pattern A): a `file` tab, `lines` with `kind` `ctx`, `del` (turns red and strikes through) or `add` (fades in on green), and an optional `result` line.
 - `receipt` (pattern B): a real `command`, its real `output` lines one at a time, and the `answer` row in green.
+- `rank`: up to five `rows` of `label` and `score` (0 to 1), each with a bar that draws to its score. `threshold` draws the cut-off; rows under it go grey and struck out, and the best row turns green at `winnerAt` (seconds). Use real scores from the post.
 - `token` (pattern C): one value huge in mono on a full-width band, `mark` turns green, `caption` below. At the default 140 px, keep `before + mark + after` under about 20 characters; set `size` (96 fits about 30).
 
 Items appear evenly over the first 70% of the scene. When an item belongs to a sentence, give it `at` (seconds into the scene) using the cue times narration writes, so the box appears as George says it. New shapes go in `src/scenes/` using `reveal()` from `src/motion.ts`.

@@ -7,6 +7,7 @@ import type { Cue, Scene as SceneData } from './types';
 import { Steps } from './scenes/Steps';
 import { Diff } from './scenes/Diff';
 import { Receipt } from './scenes/Receipt';
+import { Rank } from './scenes/Rank';
 import { Token } from './scenes/Token';
 
 const Caption: React.FC<{ cues: Cue[] }> = ({ cues }) => {
@@ -58,6 +59,7 @@ export const Scene: React.FC<{ scene: SceneData }> = ({ scene }) => {
 					{v.type === 'steps' && <Steps visual={v} frames={durationInFrames} />}
 					{v.type === 'diff' && <Diff visual={v} frames={durationInFrames} />}
 					{v.type === 'receipt' && <Receipt visual={v} frames={durationInFrames} />}
+					{v.type === 'rank' && <Rank visual={v} frames={durationInFrames} />}
 					{v.type === 'token' && <Token visual={v} frames={durationInFrames} />}
 				</div>
 			</div>
