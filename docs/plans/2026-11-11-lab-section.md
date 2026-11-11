@@ -122,7 +122,8 @@ the read API behind `function_exists`, the way the project patterns do.
   a tool.
 - `templates/page-lab.html`, from `page-projects.html`, with its intro inline.
 - `inc/cli/setup/class-pages-step.php`: add the Lab page for fresh installs.
-- Header nav link: waits on Ivan's answer (spec, open question 2).
+- Header nav link: not in this change. Ivan wants it once there are a few
+  entries.
 
 ### 8. Docs (`docs`)
 

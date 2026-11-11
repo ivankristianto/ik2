@@ -184,10 +184,12 @@ following. The lab repo's own spec carries the detail.
   follow-up once there are entries to list.
 - Comments on lab entries.
 
-## Open questions
+## Answered after the build
 
-1. Is the lab repo public or private? This repo is public. A public lab repo
-   lets `lab_source_url` point readers at each tool's code.
-2. Does "Lab" go in the header nav from the first release, or only once there
-   are two or three entries?
-3. Name of the lab repo.
+Ivan, 2026-11-11:
+
+1. The lab repo is public, so `lab_source_url` can point readers at each
+   tool's code.
+2. "Lab" stays out of the header nav until there are a few entries. Adding it
+   later is a small change to the header part.
+3. The lab repo is named `ik2-lab`.
