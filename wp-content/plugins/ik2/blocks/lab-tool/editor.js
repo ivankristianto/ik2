@@ -1,5 +1,5 @@
 /**
- * IK2 — Lab tool (editor script). Hand-authored, no build step.
+ * IK2 Lab tool (editor script). Hand-authored, no build step.
  *
  * The frame is built on the server from the entry's "Lab tool" sidebar fields,
  * so the canvas shows a note instead of loading the tool.
@@ -20,7 +20,7 @@
 				'p',
 				{ className: 'ik-lab-tool__note' },
 				__(
-					'The tool appears here on the published page. Set its address in the Lab tool panel of the entry’s sidebar.',
+					'The tool appears here on the published page. Set its address in the Lab tool panel in the sidebar.',
 					'ik2'
 				)
 			)

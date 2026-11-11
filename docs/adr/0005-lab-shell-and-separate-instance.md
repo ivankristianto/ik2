@@ -2,7 +2,7 @@
 
 The site gets a `/lab` section for small tools and experiments. Each one has a page here (`lab` post type, `/lab/<slug>/`), indexed like a project, with the posts written about it listed as related notes. The tool itself is not in this repo and not in these images. It runs on its own instance at `lab.ivankristianto.com`, from its own repo with its own releases, and the entry page shows it in a sandboxed iframe. Ivan maintains the lab apart from the app, and a tool may not be PHP at all.
 
-The iframe is cross-origin on purpose. Lab tools render input nobody here controls: pasted CSS, metadata and images fetched from other sites. On `www` that would sit on the same origin as the wp-admin session. On the lab origin, a tool that gets tricked can reach nothing of WordPress. The CSP is still Report-Only and covers scripts only, so it is no substitute.
+The iframe is cross-origin on purpose. Lab tools render input nobody here controls: pasted CSS, metadata and images fetched from other sites. On `www` that would sit on the same origin as the wp-admin session. On the lab origin, a tool that gets tricked cannot read the admin pages or their responses. It is still the same site as `www`, so this is origin isolation and nothing stronger. The CSP is still Report-Only and covers scripts only, so it is no substitute.
 
 The tool URL is post meta, checked in PHP against one configured origin before any frame is printed. An entry with no URL is a plain write-up, which covers experiments whose output is a results table. Adding a tool is content work in wp-admin and needs no release of this repo.
 

@@ -39,6 +39,7 @@ final class LabRulesTest extends TestCase {
 			'protocol relative'        => [ '//lab.ivankristianto.com/font-split/', false ],
 			'javascript scheme'        => [ 'javascript:alert(1)//lab.ivankristianto.com/', false ],
 			'whitespace in the middle' => [ "https://lab.ivankristianto.com/a\nb", false ],
+			'trailing newline'         => [ "https://lab.ivankristianto.com/font-split/\n", false ],
 			'empty'                    => [ '', false ],
 		];
 	}

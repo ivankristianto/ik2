@@ -22,7 +22,7 @@ const MAX_HEIGHT     = 4000;
  */
 function url_origin( string $url ): string {
 	// Strict on purpose: userinfo, backslashes and whitespace are how a URL shows one host and loads another.
-	if ( 1 !== preg_match( '#^(https?)://([a-z0-9.-]+)(?::(\d{1,5}))?(?:/[^\s\\\\]*)?$#i', $url, $parts ) ) {
+	if ( 1 !== preg_match( '#^(https?)://([a-z0-9.-]+)(?::(\d{1,5}))?(?:/[^\s\\\\]*)?$#iD', $url, $parts ) ) {
 		return '';
 	}
 

@@ -134,8 +134,9 @@ following. The lab repo's own spec carries the detail.
   origin", so a local `http://localhost:8787` works while prod stays https.
 - **A link under the frame.** "Open the tool in a new tab", for small screens
   and for anyone who prefers the tool on its own.
-- **No `frame-sizing`.** I found no guidance or shipped support to lean on, so
-  the resize message is the only mechanism.
+- **No `frame-sizing`.** Its browser status was not checked beyond a search
+  of the modern-web-guidance catalog, which has no guide for it. The resize
+  message is the only mechanism for now.
 - **Origin check in JS.** The listener uses the `Origin` API
   (`Origin.from( event ).isSameOrigin()`) where the browser has it and
   compares parsed `URL` origins elsewhere.

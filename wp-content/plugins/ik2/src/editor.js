@@ -135,7 +135,7 @@ function LabToolFields() {
 		} ),
 		createElement( TextControl, {
 			label: __( 'Source URL', 'ik2' ),
-			help: __( 'Link to the tool’s source code. Optional.', 'ik2' ),
+			help: __( 'Link to the source code of the tool. Optional.', 'ik2' ),
 			type: 'url',
 			value: meta.lab_source_url || '',
 			onChange: ( value ) =>
