@@ -8,7 +8,11 @@ import { useSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { registerPlugin } from '@wordpress/plugins';
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextareaControl } from '@wordpress/components';
+import {
+	SelectControl,
+	TextControl,
+	TextareaControl,
+} from '@wordpress/components';
 import { createElement } from '@wordpress/element';
 
 const STATUS_OPTIONS = [
@@ -100,4 +104,70 @@ function ProjectMetaPanel() {
 
 registerPlugin( 'ik2-project-meta-panel', {
 	render: ProjectMetaPanel,
+} );
+
+function LabToolFields() {
+	const [ meta = {}, setMeta ] = useEntityProp( 'postType', 'lab', 'meta' );
+
+	function updateMetaValue( key, value ) {
+		setMeta( {
+			...meta,
+			[ key ]: value,
+		} );
+	}
+
+	return createElement(
+		PluginDocumentSettingPanel,
+		{
+			name: 'ik2-lab-tool',
+			title: __( 'Lab tool', 'ik2' ),
+		},
+		createElement( TextControl, {
+			label: __( 'Tool URL', 'ik2' ),
+			help: __(
+				'Address of the tool on the lab host. Leave empty for a write-up with no tool. Any other host is ignored.',
+				'ik2'
+			),
+			type: 'url',
+			value: meta.lab_tool_url || '',
+			onChange: ( value ) =>
+				updateMetaValue( 'lab_tool_url', value.trim() ),
+		} ),
+		createElement( TextControl, {
+			label: __( 'Source URL', 'ik2' ),
+			help: __( 'Link to the tool’s source code. Optional.', 'ik2' ),
+			type: 'url',
+			value: meta.lab_source_url || '',
+			onChange: ( value ) =>
+				updateMetaValue( 'lab_source_url', value.trim() ),
+		} ),
+		createElement( TextControl, {
+			label: __( 'Starting height (px)', 'ik2' ),
+			help: __(
+				'Height of the tool when it first paints, so the text below does not jump. Empty uses the default.',
+				'ik2'
+			),
+			type: 'number',
+			min: 0,
+			value: meta.lab_min_height || '',
+			onChange: ( value ) =>
+				updateMetaValue(
+					'lab_min_height',
+					Math.max( 0, parseInt( value, 10 ) || 0 )
+				),
+		} )
+	);
+}
+
+function LabToolPanel() {
+	const postType = useSelect(
+		( select ) => select( 'core/editor' ).getCurrentPostType(),
+		[]
+	);
+
+	return 'lab' === postType ? createElement( LabToolFields ) : null;
+}
+
+registerPlugin( 'ik2-lab-tool-panel', {
+	render: LabToolPanel,
 } );
