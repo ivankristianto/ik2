@@ -25,6 +25,7 @@
 	const BLOCKS = [
 		'ik2/articles-filters',
 		'ik2/home-featured-topics',
+		'ik2/lab-archive',
 		'ik2/not-found',
 		'ik2/projects-archive',
 		'ik2/speaking-archive',
