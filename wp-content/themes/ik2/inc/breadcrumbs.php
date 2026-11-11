@@ -113,7 +113,7 @@ function trail(): array {
  * @return array<int, array<string, mixed>>
  */
 function insert_parent_crumb( array $links ): array {
-	if ( ! is_singular( [ 'post', 'project' ] ) || count( $links ) < 2 ) {
+	if ( ! is_singular( [ 'post', 'project', 'lab' ] ) || count( $links ) < 2 ) {
 		return $links;
 	}
 

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/lab-archive",
+	"version": "1.0.0",
+	"title": "Lab Archive",
+	"category": "theme",
+	"description": "Every published lab entry as ledger rows, newest first. Reuses the project row and projects page styles.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false
+	},
+	"attributes": {},
+	"style": [ "ik2-project-card-style", "ik2-projects-archive-style" ],
+	"render": "file:./render.php"
+}
