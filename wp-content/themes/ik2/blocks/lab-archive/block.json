@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Lab Archive",
 	"category": "theme",
-	"description": "Every published lab entry as ledger rows, newest first. Reuses the project row and projects page styles.",
+	"description": "Every published lab entry as a row, newest first, with a specimen of the tool's output beside it.",
 	"textdomain": "ik2",
 	"supports": {
 		"html": false,
@@ -14,6 +14,6 @@
 		"align": false
 	},
 	"attributes": {},
-	"style": [ "ik2-project-card-style", "ik2-projects-archive-style" ],
+	"style": "file:./style.css",
 	"render": "file:./render.php"
 }
