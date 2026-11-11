@@ -15,8 +15,8 @@ if [ -e "$dest/package.json" ]; then
 else
   mkdir -p "$dest"
   cp -R "$here/template/." "$dest/"
-  # Start every project as a draft of this slug: the draft outro shows no URL, so a forgotten edit can't point at another post.
-  python3 -I -c 'import json,sys; p=sys.argv[1]; v=json.load(open(p)); v["post"].update(slug=sys.argv[2], status="draft"); open(p,"w").write(json.dumps(v,indent="\t")+"\n")' "$dest/src/video.json" "$1"
+  # The outro URL is built from the slug, so set it here: a forgotten edit can't point at the template's sample post.
+  python3 -I -c 'import json,sys; p=sys.argv[1]; v=json.load(open(p)); v["post"].update(slug=sys.argv[2]); open(p,"w").write(json.dumps(v,indent="\t")+"\n")' "$dest/src/video.json" "$1"
 fi
 python3 -I "$here/tokens.py" "$root/wp-content/themes/ik2/theme.json" "$dest/src/tokens.ts"
 (cd "$dest" && npm install --no-audit --no-fund --loglevel=error && npx remotion browser ensure >/dev/null)

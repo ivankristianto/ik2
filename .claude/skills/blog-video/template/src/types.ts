@@ -24,6 +24,6 @@ export type Video = {
 	introFrames: number;
 	outroFrames: number;
 	narrator?: { voice: string; lang: string; speed: number };
-	post: { slug: string; status: 'draft' | 'published'; punch: string };
+	post: { slug: string; punch: string };
 	scenes: Scene[];
 };

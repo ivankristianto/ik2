@@ -14,7 +14,7 @@ export const Intro: React.FC<{ punch: string }> = ({ punch }) => {
 					<Rich text={punch} emOpacity={reveal(frame, 16)} />
 				</h1>
 			</div>
-			<Sig style={{ position: 'absolute', left: L.left, bottom: L.sigBottom }} />
+			<Sig frame={frame} style={{ position: 'absolute', left: L.left, bottom: L.sigBottom }} />
 		</Page>
 	);
 };

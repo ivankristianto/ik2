@@ -29,14 +29,14 @@ const Full: React.FC = () => {
 				);
 			})}
 			<Sequence from={at} durationInFrames={video.outroFrames}>
-				<Outro slug={video.post.slug} status={video.post.status} />
+				<Outro slug={video.post.slug} />
 			</Sequence>
 		</>
 	);
 };
 
 const IntroOnly: React.FC = () => <Intro punch={video.post.punch} />;
-const OutroOnly: React.FC = () => <Outro slug={video.post.slug} status={video.post.status} />;
+const OutroOnly: React.FC = () => <Outro slug={video.post.slug} />;
 
 export const Root: React.FC = () => (
 	<>

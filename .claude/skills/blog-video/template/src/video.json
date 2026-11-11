@@ -2,7 +2,7 @@
 	"orientation": "vertical",
 	"fps": 30,
 	"introFrames": 60,
-	"outroFrames": 60,
+	"outroFrames": 90,
 	"narrator": {
 		"voice": "bm_george",
 		"lang": "en-gb",
@@ -10,7 +10,6 @@
 	},
 	"post": {
 		"slug": "webmcp-read-only-tools",
-		"status": "published",
 		"punch": "The tools run in my logged-in browser.\n<em>Their requests don't log in.</em>"
 	},
 	"scenes": [

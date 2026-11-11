@@ -1,6 +1,6 @@
 ---
 name: blog-video
-description: Turn one idea from an ivankristianto.com post into a short narrated explainer video for YouTube Shorts, vertical 1080x1920 by default (horizontal 1920x1080 only when Ivan asks), under a minute, in the site's design system with a 2 second intro card and a 2 second outro. Narration is local Kokoro TTS (voice bm_george, Apache-2.0 weights), animation is Remotion built from a shared template, output is an MP4, an SRT and the editable source. Makes files for review only; never uploads, embeds or publishes. Use when Ivan asks for a video, explainer, narrated version, YouTube or social clip of a post, says "make a video for this post", or types /blog-video. Optional step after blog-draft and blog-feature-image.
+description: Turn one idea from an ivankristianto.com post into a short narrated explainer video for YouTube Shorts, vertical 1080x1920 by default (horizontal 1920x1080 only when Ivan asks), under a minute, in the site's design system with a 2 second intro card and a 3 second outro that gives the post's URL, both carrying the animated `ik.` signature. Narration is local Kokoro TTS (voice bm_george, Apache-2.0 weights), animation is Remotion built from a shared template, output is an MP4, an SRT and the editable source. Makes files for review only; never uploads, embeds or publishes. Use when Ivan asks for a video, explainer, narrated version, YouTube or social clip of a post, says "make a video for this post", or types /blog-video. Runs after the post is published.
 user-invocable: true
 allowed-tools:
   - Bash(.claude/skills/blog-video/preflight.sh:*)
@@ -11,7 +11,7 @@ allowed-tools:
 
 # Blog video
 
-Input is a post: a draft in `.claude/blog/drafts/<slug>.md`, a published URL, or a WordPress draft Ivan points you to. Output goes in `.claude/blog/drafts/<slug>/video/` (gitignored): `out/video.mp4`, `out/video.srt` and the Remotion project that made them. Never only in the scratchpad.
+Input is a published post, by URL or slug. The video always points at the live article, so the outro shows its URL and `npm run render` refuses to run until `https://www.ivankristianto.com/<slug>/` returns 200. If the post isn't published yet, stop and say so. Output goes in `.claude/blog/drafts/<slug>/video/` (gitignored): `out/video.mp4`, `out/video.srt` and the Remotion project that made them. Never only in the scratchpad.
 
 The video is the feature card brought to life. Same ground, same ink, same green, same punch-line type, same `ik.` signature. Someone who saw the card in a feed should recognise the video as the same post.
 
@@ -32,13 +32,13 @@ It runs `preflight.sh` first, which installs or checks the whole toolchain and f
 
 `preflight.sh --check` only reports. Set `BLOG_VIDEO_HOME` to move the cache.
 
-Then setup copies `template/` into the post's video folder, sets `post.slug` to the slug and `post.status` to `draft`, writes `src/tokens.ts` from `wp-content/themes/ik2/theme.json` (the same source as the card's `tokens.css`), and runs `npm install` plus `remotion browser ensure` there. Use npm, not pnpm: pnpm would walk up to the repo's workspace. Running it again on an existing folder only refreshes the tokens.
+Then setup copies `template/` into the post's video folder, sets `post.slug` to the slug, writes `src/tokens.ts` from `wp-content/themes/ik2/theme.json` (the same source as the card's `tokens.css`), and runs `npm install` plus `remotion browser ensure` there. Use npm, not pnpm: pnpm would walk up to the repo's workspace. Running it again on an existing folder only refreshes the tokens.
 
 The voice is Kokoro `bm_george` (British English), Ivan's pick on 2026-11-09. It's recorded in `narrator` in `video.json`. Don't switch to macOS voices: their license is personal, non-commercial use only. Don't switch to Chatterbox or a paid API unless Ivan asks.
 
 ## Read the post
 
-Read it in full. For a WordPress draft, use blog-review's REST fetch through 1Password: credentials only to the production HTTPS origin, a browser User-Agent, never printed. A preview 404 doesn't mean REST can't read the draft. Don't publish anything to make it readable.
+Read it in full, from the public REST API (`/wp-json/wp/v2/posts?slug=<slug>`) or the page itself. Take commands and output from the post, not from a fresh run: when a tool's output has changed since the post was written, the video follows the post, and the difference goes in the report.
 
 If blog-feature-image already ran, open `.claude/blog/drafts/<slug>/feature.html`. Its punch line is the intro, word for word, `<em>` included. If there's no card yet, write the punch line by blog-feature-image's rules (4 to 12 words, the surprise or the question, never the title) and say so in the report.
 
@@ -55,10 +55,10 @@ If blog-feature-image already ran, open `.claude/blog/drafts/<slug>/feature.html
 
 The single source for the composition, the narration script and the SRT exporter.
 
-- `post.slug`, `post.status` (`draft` or `published`) and `post.punch` (the card's line, `<em>` around the green part, `\n` for a forced break).
+- `post.slug` (the outro URL is built from it) and `post.punch` (the card's line, `<em>` around the green part, `\n` for a forced break; close and reopen `<em>` around a `\n`).
 - `orientation`: `vertical` (the default, for YouTube Shorts) or `horizontal`. Use horizontal only when Ivan asks for it in so many words ("horizontal", "landscape", "16:9", "for the post body"). A mention of YouTube alone means a Short, so vertical.
 - `narrator`: `{ "voice": "bm_george", "lang": "en-gb", "speed": 1.0 }`. Leave it alone unless Ivan picks another voice.
-- `introFrames` and `outroFrames` stay at 60 (2 s at 30 fps) unless Ivan asks.
+- `introFrames` stays at 60 (2 s at 30 fps) and `outroFrames` at 90 (3 s) unless Ivan asks.
 - Per scene: `id`, optional `heading` (a short punch-style line, `<em>` allowed), `captions`, `visual`.
 - Each caption is one sentence: `text` is what's shown and spoken. Add `say` only when George needs a different spelling to pronounce it. Known ones: `WP-CLI` as `W P C L I`, `env file` as `E N V file` (he says "end file"). The words must otherwise match.
 
@@ -103,8 +103,8 @@ A changed sentence means re-running narrate for that scene, then moving any `at`
 - System font stacks only: sans for the punch line, headings and captions; mono for code, commands, values and the domain.
 - The caption band has a 2 px rule above it, at y=1230 (vertical) or y=850 (horizontal). No diagram crosses that line.
 - In vertical, keep scene content short: a step label up to about 22 mono characters, a diff or receipt line up to about 45, a heading of two short lines.
-- Signature: full `ik.` badge plus `ivankristianto.com` on the intro and outro, the badge alone top right on scenes. Never Ivan's full name.
-- Motion is opacity fades, arrows drawing in and colour changes, through `reveal()` (ease-out, clamped). No `spring()`: its overshoot is a bounce, which the design rules ban. No scale, no slide, no zoom, no camera moves.
+- Signature: `Sig` in `src/Brand.tsx`, the one standard for every video. On the intro and outro it plays the signature animation (pass `frame`): the badge outline draws, fills green, `ik` fades in, the dot blinks once like a cursor, then `ivankristianto.com` types out two characters a frame. On scenes it is the static badge alone, top right. Don't restyle or retime it per post. Never Ivan's full name.
+- Motion is opacity fades, lines and bars drawing in, typed text and colour changes, through `reveal()` (ease-out, clamped). No `spring()`: its overshoot is a bounce, which the design rules ban. No scale, no slide, no zoom, no camera moves.
 - Not allowed, same as the card: gradients, shadows, glows, grain, photos, stock footage, emoji, music, a label above the punch line, hand-drawn pictures. Real browser footage is fine when it's evidence.
 - Proposed work looks proposed: a dashed box or a "proposed" note, never drawn the same as what's deployed. A config screenshot is not proof something ran.
 - No client names or ticket keys anywhere: screen, captions, narration, file names.
@@ -113,8 +113,8 @@ A changed sentence means re-running narrate for that scene, then moving any `at`
 
 Both are built into the template. Don't restyle them per post.
 
-- **Intro, 2 s, silent:** the punch line, the `<em>` part fading in after the rest, the signature bottom left. Fades to the first scene over its last 8 frames.
-- **Outro, 2 s, silent:** the signature large and centred. Published posts get "Read the full article" and `ivankristianto.com/<slug>/`. Drafts get "Full article coming soon" and no URL, so nothing points at a page that doesn't exist yet. Set `post.status` correctly.
+- **Intro, 2 s, silent:** the punch line, the `<em>` part fading in after the rest, while the signature animates bottom left. Fades to the first scene over its last 8 frames.
+- **Outro, 3 s, silent:** the same signature animation, large and centred. After the domain, `/<slug>/` types out in green on the line below, then "Read the full article" fades in. A long slug shrinks to fit on one line. There is no draft variant.
 
 No captions on either. The SRT starts at 00:00:02,000 because `npm run srt` offsets every cue by `introFrames`.
 
@@ -123,7 +123,7 @@ No captions on either. The SRT starts at 00:00:02,000 because `npm run srt` offs
 ```bash
 npm run typecheck
 npm run bookends     # out/intro.mp4 and out/outro.mp4, 4 s total, a cheap first look
-npm run render       # writes out/video.srt, then out/video.mp4
+npm run render       # checks the post URL is live, writes out/video.srt, then out/video.mp4
 npm run studio       # scrub the timeline in a browser, when something looks off
 ```
 
@@ -132,9 +132,9 @@ npm run studio       # scrub the timeline in a browser, when something looks off
 ## Verify
 
 1. **Faithfulness.** Reread every caption (and any `say`) against the post: triggers, current versus proposed, security boundaries. From the video folder, run `bash "$(git rev-parse --show-toplevel)/.claude/skills/blog-ideas/leak-check.sh" src/video.json out/video.srt` and fix anything it flags.
-2. **The file.** `ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=width,height,r_frame_rate,nb_read_frames,pix_fmt -show_entries format=duration out/video.mp4`. Expect 1080x1920 (or 1920x1080 for horizontal), 30/1, yuv420p, and a frame count equal to the total narrate printed (60 + scene frames + 60). Check the audio stream is AAC at 48 kHz. Then decode the whole thing: `ffmpeg -v error -i out/video.mp4 -f null -` must print nothing.
-3. **Silent bookends.** `ffmpeg -hide_banner -nostats -i out/video.mp4 -af silencedetect=noise=-50dB:d=1 -f null - 2>&1 | rg 'silence_(start|end)'` should show silence from 0 to 2.0 s and from the end of the last sentence to the end of the file, with no long silence in between.
-4. **Look at it.** Extract stills with `ffmpeg -ss <t> -i out/video.mp4 -frames:v 1 stills/<t>.png`: mid-intro, the last frame of every scene with all its items revealed, one mid-reveal, and mid-outro. Montage them (`magick montage stills/*.png -tile 2x -geometry 960x540+8+8 stills/sheet.png`) and Read the sheet, then Read single stills at full size where the sheet is busy. Check for clipping, labels against arrows, text crossing the caption rule, and readability at phone size (`magick <still> -resize 480x phone.png`). In vertical, also check nothing sits right of x=900 or below y=1480, where the Shorts overlays go. Montage vertical stills with `-tile 4x -geometry 405x720+6+6`.
+2. **The file.** `ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=width,height,r_frame_rate,nb_read_frames,pix_fmt -show_entries format=duration out/video.mp4`. Expect 1080x1920 (or 1920x1080 for horizontal), 30/1, yuv420p, and a frame count equal to the total narrate printed (60 + scene frames + 90). Check the audio stream is AAC at 48 kHz. Then decode the whole thing: `ffmpeg -v error -i out/video.mp4 -f null -` must print nothing.
+3. **Silent bookends.** `ffmpeg -hide_banner -nostats -i out/video.mp4 -af silencedetect=noise=-50dB:d=1 -f null - 2>&1 | rg 'silence_(start|end)'` should show silence from 0 to 2.0 s and, for about 3.5 s, from the end of the last sentence to the end of the file, with no long silence in between.
+4. **Look at it.** Extract stills with `ffmpeg -ss <t> -i out/video.mp4 -frames:v 1 stills/<t>.png`: mid-intro, the last frame of every scene with all its items revealed, one mid-reveal, and mid-outro. Also take three or four stills inside the first second of the intro and of the outro, to see the signature mid-animation and the URL fully typed. Montage them (`ffmpeg -pattern_type glob -i 'stills/*.png' -vf 'scale=960:540,tile=2x4:padding=8' -frames:v 1 stills/sheet.png`, adjusting the grid to the count) and Read the sheet, then Read single stills at full size where the sheet is busy. Check for clipping, labels against arrows, text crossing the caption rule, and readability at phone size (`ffmpeg -i <still> -vf scale=480:-1 phone.png`). In vertical, also check nothing sits right of x=900 or below y=1480, where the Shorts overlays go. Scale vertical stills to `405:720` in the montage.
 5. **Captions.** `out/video.srt` cues are in order, don't overlap, start at or after 2 s and end before the outro. Every cue matches the final script.
 6. **Listening.** `npm run hear` checks the words, not how they sound. You can't hear the file: say so, and ask Ivan to check pacing and tone. Ivan is often on his phone, where `file:///` links don't open and a video embedded in a claude.ai artifact didn't play. Offer to copy `out/video.mp4` and `out/video.srt` to the vault's `Inbox/` with a short note embedding the video (`![[name.mp4]]`), and copy only on a yes: vault writes need his ask.
 

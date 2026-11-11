@@ -6,10 +6,11 @@
 		"narrate": "node scripts/narrate.mjs",
 		"hear": "node scripts/hear.mjs",
 		"srt": "node scripts/srt.mjs",
+		"live": "node scripts/live.mjs",
 		"typecheck": "tsc --noEmit",
 		"studio": "remotion studio src/index.ts",
 		"bookends": "remotion render src/index.ts Intro out/intro.mp4 && remotion render src/index.ts Outro out/outro.mp4",
-		"render": "npm run srt && remotion render src/index.ts Video out/video.mp4"
+		"render": "npm run live && npm run srt && remotion render src/index.ts Video out/video.mp4"
 	},
 	"dependencies": {
 		"@remotion/cli": "4.0.542",
