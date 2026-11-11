@@ -1,5 +1,5 @@
 /* Lab tool (ik2/lab-tool): a tool from the lab host under a mono bar, in one bordered sheet. */
-.ik-lab-tool {
+.ik-lab-tool__sheet {
   overflow: clip;
   border: 1px solid var(--wp--preset--color--line);
   border-radius: var(--wp--preset--border-radius--md);
@@ -67,8 +67,10 @@
   border: 0;
 }
 
+/* Still laid out when failed, so a tool that was only slow can report its height and come back. */
 .ik-lab-tool[data-state="failed"] .ik-lab-tool__frame {
-  display: none;
+  height: 0;
+  visibility: hidden;
 }
 
 .ik-lab-tool[data-state="failed"] .ik-lab-tool__note {
@@ -80,10 +82,11 @@
   font-size: var(--wp--preset--font-size--small);
 }
 
-/* Phones: the sheet runs edge to edge so the tool keeps the page gutter as its only side padding. */
+/* Phones: the sheet runs edge to edge so the tool keeps the page gutter as its only side padding.
+   The margin sits on the inner sheet because the constrained layout owns the block's own side margins. */
 @media (max-width: 40em) {
 
-  .ik-lab-tool {
+  .ik-lab-tool__sheet {
     margin-inline: calc(var(--wp--style--root--padding-left) * -1) calc(var(--wp--style--root--padding-right) * -1);
     border-inline: 0;
     border-radius: 0;
