@@ -11,6 +11,7 @@ module.exports = {
 	...defaultConfig,
 	name: 'plugin-ik2',
 	entry: {
+		editor: src( 'editor.js' ),
 		'code-highlight': src( 'code-highlight/view.js' ),
 		'code-highlight-editor': src( 'code-highlight/editor.js' ),
 		'code-highlight-loader': src( 'code-highlight/loader.js' ),

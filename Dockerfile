@@ -70,6 +70,7 @@ RUN pnpm build \
     && test -s wp-content/plugins/ik2/build/code-highlight-editor.js \
     && test -s wp-content/plugins/ik2/build/code-highlight-loader.js \
     && test -s wp-content/plugins/ik2/build/code-highlight-paint.js \
+    && test -s wp-content/plugins/ik2/build/editor.js \
     && test -s wp-content/themes/ik2/build/critical.css \
     && test -s wp-content/themes/ik2/build/section-home.css \
     && test -s wp-content/themes/ik2/build/index.js \
