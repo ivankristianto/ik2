@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Vertical 1080x1920 video cover. Copy to .claude/blog/drafts/<slug>/cover/feature-vertical.html and fill the three slots from the post's feature.html. Keep everything inside x 90..900, y 210..1480: the Shorts overlays cover the rest. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="card.css"><style>
+
+html, body { width: 1080px; height: 1920px; }
+
+.subject { position: absolute; left: 90px; top: 210px; color: var(--ink); }
+.punch { position: absolute; left: 90px; top: 350px; width: 810px; font-size: 90px; line-height: 1.04; text-wrap: initial; }
+.punch em { display: block; }
+
+.evidence { position: absolute; left: 90px; width: 810px; top: 820px; font-family: var(--font-mono); }
+.cmd { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 20px; font-size: 32px; line-height: 1.35; color: var(--ink); }
+.cmd .ico { margin-top: 4px; color: var(--graphite); }
+.cmd span { white-space: pre-wrap; }
+.rows { border-top: 1px solid var(--rule); margin-bottom: 40px; }
+.row { display: grid; grid-template-columns: 170px 1fr; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 32px; color: var(--graphite); white-space: pre; }
+.row.top { color: var(--signal-deep); font-weight: 600; font-size: 40px; }
+.where { font-size: 26px; color: var(--dust); }
+
+.sig { left: 90px; bottom: auto; top: 1404px; gap: 20px; font-size: 32px; }
+.badge { width: 64px; height: 64px; border-radius: 14px; font-size: 29px; }
+
+</style></head><body>
+<!-- SLOT subject: the card's subject logo or icon at 96px, or delete the span. -->
+<span class="subject">SUBJECT_ICON</span>
+
+<!-- SLOT punch: the punch line from feature.html, word for word, <em> included. -->
+<h1 class="punch">PUNCH <em>PAYOFF</em></h1>
+
+<!-- SLOT evidence: the card's evidence restacked for a tall frame. The receipt rows below are the starting shape; a diff, path or token goes here instead, using the card's own markup and fewer lines. -->
+<div class="evidence">
+<div class="cmd">TERMINAL_ICON<span>COMMAND</span></div>
+<div class="rows"><div class="row"><span>KEY</span><span>VALUE</span></div><div class="row top"><span>KEY</span><span>ANSWER</span></div></div>
+<p class="where">WHERE IT RAN</p>
+</div>
+
+<div class="sig"><span class="badge">ik.</span>ivankristianto.com</div>
+</body></html>
