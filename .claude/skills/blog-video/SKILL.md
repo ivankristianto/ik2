@@ -1,6 +1,6 @@
 ---
 name: blog-video
-description: Turn one idea from an ivankristianto.com post into a short narrated explainer video for YouTube Shorts, vertical 1080x1920 by default (horizontal 1920x1080 only when Ivan asks), under a minute, in the site's design system with a spoken hook over the intro card and a spoken pointer over an outro that gives the post's URL, both carrying the animated `ik.` signature. Narration is local Kokoro TTS (voice bm_george, Apache-2.0 weights), animation is Remotion built from a shared template, output is an MP4, an SRT and the editable source. Makes files for review only; never uploads, embeds or publishes. Use when Ivan asks for a video, explainer, narrated version, YouTube or social clip of a post, says "make a video for this post", or types /blog-video. Runs after the post is published.
+description: Turn one idea from an ivankristianto.com post into a short narrated explainer video for YouTube Shorts, vertical 1080x1920 by default (horizontal 1920x1080 only when Ivan asks), under a minute, in the site's design system with a spoken hook over the intro card and a spoken pointer over an outro that gives the post's URL, both carrying the animated `ik.` signature. Narration is local Kokoro TTS (voice bm_george, Apache-2.0 weights), animation is Remotion built from a shared template, output is an MP4, an SRT and the editable source. Makes files for review only; never uploads, embeds or publishes. Use when Ivan asks for only the MP4, a narrated version or an explainer file of a post, wants to fix or re-render a video already made, or types /blog-video. When he asks to turn a post into a short video or to publish it, use blog-video-pipeline, which runs this skill and then makes the cover and uploads. Runs after the post is published.
 user-invocable: true
 allowed-tools:
   - Bash(.claude/skills/blog-video/preflight.sh:*)
@@ -159,7 +159,7 @@ Fix what the checks find and render again. Stop iterating on looks once these pa
 
 ## Stop at the files
 
-Don't upload, embed, post or edit the article. Each of those needs Ivan's explicit yes. Kokoro's weights are Apache-2.0, so the narration itself can be published.
+Don't upload, embed, post or edit the article. Each of those needs Ivan's explicit yes. The cover and the upload to every video host are blog-video-pipeline's job. Kokoro's weights are Apache-2.0, so the narration itself can be published.
 
 Rendering was verified on macOS with system fonts. Other platforms will fall back to other faces.
 
