@@ -348,9 +348,19 @@ Each project has a page at `/projects/<slug>/` (see `docs/adr/0004-project-pages
 - **Writing about it:** the posts tagged with the project, as dated rows under the same 2px Ink rule and mono title as "Keep reading". Hidden when no post is tagged.
 - **On the post:** under the tags, a Surface box with a mono `project` label, the project name and its blurb. Never in the post header.
 
+### Lab
+
+`/lab` lists small tools and experiments. Each has a page at `/lab/<slug>/`, and the tool itself runs on `lab.ivankristianto.com` inside a frame (see `docs/adr/0005-lab-shell-and-separate-instance.md`).
+
+- **Index row:** one column, not the two-up project ledger. Name at `medium`, a Graphite blurb, then a Dust mono line with the kind (`tool` or `write-up`) and the date. From 800px a specimen sits to the right: a Surface panel with a 1px Line border holding real output from the tool as text, the first line in sans at `medium` and the rest in Graphite mono. No icon, no screenshot. The whole row opens the entry; hover turns the name Bookcloth and the panel border Rule. A mono line over the list gives the count and the latest date. No eyebrow.
+- **Entry header:** the trail reads `lab`, then the H1, the excerpt as a Graphite lead, and a Dust mono meta line with the date and kind.
+- **Tool sheet:** one Surface sheet with a 1px Line border and medium radius, at content width. A Soft Paper mono bar on top has the tool's address in Dust on the left and `source` and `new tab` links in Graphite on the right. The bar says `loading` until the tool reports its height, and the sheet shows a plain sentence if it never does. Under 640px the sheet runs edge to edge with top and bottom borders only.
+- **After the write-up:** "Related notes" (posts tagged with the entry), then "More from the lab" (the other entries), both as dated rows under the 2px Ink rule.
+- **Inside the frame:** tools follow `docs/lab-tool-guidelines.md`. That is where boxed fields, buttons, tables and status marks for tools are defined.
+
 ### Inputs / Fields
 
-The site has no boxed form fields. The two inputs sit flush inside a row:
+The site itself has no boxed form fields (lab tools do, see Lab above). The two inputs sit flush inside a row:
 
 - **Command palette input:** transparent, borderless, Ink text at `small`, behind a Bookcloth mono caret. The row's bottom rule turns Bookcloth on `:focus-within`, which stands in for the outline the input drops.
 - **404 terminal input:** mono `small` on the terminal surface, transparent and borderless, with a Bookcloth caret.
