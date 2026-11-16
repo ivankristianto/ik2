@@ -1323,9 +1323,13 @@
 	margin: 0;
 }
 
+/* The editor canvas has no .ik-article__body, so each rule repeats under .editor-styles-wrapper. */
 .ik-article__body .wp-block-group.is-style-callout-note,
 .ik-article__body .wp-block-group.is-style-callout-updated,
-.ik-article__body .wp-block-group.is-style-callout-outdated {
+.ik-article__body .wp-block-group.is-style-callout-outdated,
+.editor-styles-wrapper .wp-block-group.is-style-callout-note,
+.editor-styles-wrapper .wp-block-group.is-style-callout-updated,
+.editor-styles-wrapper .wp-block-group.is-style-callout-outdated {
 	border-radius: $radius-md;
 	padding: $space-4 $space-5;
 	font-size: $size-small;
@@ -1341,13 +1345,15 @@
 	}
 }
 
-.ik-article__body .wp-block-group.is-style-callout-note {
+.ik-article__body .wp-block-group.is-style-callout-note,
+.editor-styles-wrapper .wp-block-group.is-style-callout-note {
 	background: $color-signal-soft;
 	color: $color-signal-deep;
 	border: 1px solid transparent;
 }
 
-.ik-article__body .wp-block-group.is-style-callout-updated {
+.ik-article__body .wp-block-group.is-style-callout-updated,
+.editor-styles-wrapper .wp-block-group.is-style-callout-updated {
 	background: $color-surface;
 	color: $color-ink;
 	border: 1px solid $color-build-green;
@@ -1357,7 +1363,8 @@
 	}
 }
 
-.ik-article__body .wp-block-group.is-style-callout-outdated {
+.ik-article__body .wp-block-group.is-style-callout-outdated,
+.editor-styles-wrapper .wp-block-group.is-style-callout-outdated {
 	background: $color-surface;
 	color: $color-ink;
 	border: 1px solid $color-amber;
