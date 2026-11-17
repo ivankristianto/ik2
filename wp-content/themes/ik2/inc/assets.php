@@ -39,8 +39,8 @@ const HERO_PORTRAIT_SIZES = '(max-width: 640px) 218px, (max-width: 900px) 278px,
 const ARTICLE_COLUMN_PX   = 960;
 const ARTICLE_WIDE_PX     = 1200;
 
-// Posts and project pages share the article template styles, lightbox and image sizing.
-const ARTICLE_POST_TYPES = [ 'post', 'project' ];
+// Posts, project pages and lab entries share the article template styles, lightbox and image sizing.
+const ARTICLE_POST_TYPES = [ 'post', 'project', 'lab' ];
 
 /**
  * Responsive `srcset` for the home hero portrait: a 340px variant for 1x /

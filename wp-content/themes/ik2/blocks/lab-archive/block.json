@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ik2/lab-archive",
+	"version": "1.0.0",
+	"title": "Lab Archive",
+	"category": "theme",
+	"description": "Every published lab entry as a row, newest first, with a specimen of the tool's output beside it.",
+	"textdomain": "ik2",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": true,
+		"align": false
+	},
+	"attributes": {},
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

@@ -27,6 +27,7 @@ class Pages_Step implements Setup_Step {
 	private const PAGES = [
 		'articles' => 'Articles',
 		'projects' => 'Projects',
+		'lab'      => 'Lab',
 		'speaking' => 'Speaking',
 		'about'    => 'About',
 		'contact'  => 'Contact',

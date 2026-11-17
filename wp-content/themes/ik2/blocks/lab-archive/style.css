@@ -1,0 +1,179 @@
+/* Lab index (ik2/lab-archive): one row per entry, its specimen beside it, plus the page header. */
+.ik-lab-archive {
+  padding-block: var(--wp--preset--spacing--7) var(--wp--preset--spacing--8);
+}
+
+.ik-lab-archive__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wp--preset--spacing--3);
+  margin-bottom: var(--wp--preset--spacing--7);
+}
+
+.ik-lab-archive__title {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--x-large);
+  letter-spacing: var(--wp--custom--letter-spacing--tightest);
+}
+
+.ik-lab-archive__lede {
+  max-width: var(--wp--custom--width--measure);
+  margin: 0;
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--small);
+  line-height: var(--wp--custom--line-height--relaxed);
+  text-wrap: pretty;
+}
+
+.ik-lab-ledger__head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--3);
+  margin: 0 0 var(--wp--preset--spacing--2);
+  color: var(--wp--preset--color--dust);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--wp--custom--line-height--normal);
+}
+
+.ik-lab-ledger__empty {
+  margin: 0;
+  color: var(--wp--preset--color--graphite);
+}
+
+.ik-lab-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--wp--preset--color--line);
+  list-style: none;
+}
+
+.ik-lab-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--wp--preset--spacing--5);
+  padding-block: var(--wp--preset--spacing--6);
+  border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.ik-lab-row__main {
+  display: grid;
+  gap: var(--wp--preset--spacing--2);
+  align-content: start;
+}
+
+.ik-lab-row__name {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--medium);
+  line-height: var(--wp--custom--line-height--snug);
+  letter-spacing: var(--wp--custom--letter-spacing--tight);
+}
+
+.ik-lab-row__name a {
+  color: var(--wp--preset--color--ink);
+  text-decoration: none;
+  transition: color var(--wp--custom--transition--base);
+}
+
+/* The whole row opens the entry; the title stays the one link a keyboard or screen reader meets. */
+.ik-lab-row__name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.ik-lab-row__name a:focus-visible {
+  outline: none;
+}
+
+.ik-lab-row:has(.ik-lab-row__name a:focus-visible) {
+  outline: var(--wp--custom--focus--width) solid var(--wp--preset--color--signal);
+  outline-offset: var(--wp--custom--focus--offset);
+}
+
+.ik-lab-row:hover .ik-lab-row__name a,
+.ik-lab-row__name a:focus-visible {
+  color: var(--wp--preset--color--signal);
+}
+
+.ik-lab-row__blurb {
+  max-width: var(--wp--custom--width--measure);
+  margin: 0;
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--small);
+  line-height: var(--wp--custom--line-height--comfortable);
+  text-wrap: pretty;
+}
+
+.ik-lab-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--wp--preset--spacing--2);
+  margin: var(--wp--preset--spacing--2) 0 0;
+  color: var(--wp--preset--color--dust);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--wp--custom--line-height--normal);
+}
+
+.ik-lab-row__meta > :not(:last-child)::after {
+  content: "\a0·" / "";
+}
+
+/* Specimen: real output from the tool. The first line is the sample itself, the rest are its readings. */
+.ik-lab-row__specimen {
+  display: grid;
+  gap: var(--wp--preset--spacing--1);
+  align-content: start;
+  margin: 0;
+  padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--5);
+  border: 1px solid var(--wp--preset--color--line);
+  border-radius: var(--wp--preset--border-radius--md);
+  background: var(--wp--preset--color--surface);
+  color: var(--wp--preset--color--graphite);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--wp--custom--line-height--comfortable);
+  overflow-wrap: break-word;
+  transition: border-color var(--wp--custom--transition--base);
+}
+
+.ik-lab-row__specimen > :first-child {
+  margin-bottom: var(--wp--preset--spacing--2);
+  color: var(--wp--preset--color--ink);
+  font-family: var(--wp--preset--font-family--sans);
+  font-size: var(--wp--preset--font-size--medium);
+  line-height: var(--wp--custom--line-height--snug);
+  letter-spacing: var(--wp--custom--letter-spacing--tight);
+}
+
+.ik-lab-row:hover .ik-lab-row__specimen {
+  border-color: var(--wp--preset--color--rule);
+}
+
+@media (min-width: 50em) {
+
+  .ik-lab-row {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    gap: var(--wp--preset--spacing--7);
+  }
+}
+
+@media (max-width: 37.5em) {
+
+  .ik-lab-archive {
+    padding-block: var(--wp--preset--spacing--5) var(--wp--preset--spacing--7);
+  }
+
+  .ik-lab-archive__head {
+    margin-bottom: var(--wp--preset--spacing--5);
+  }
+
+  .ik-lab-row {
+    padding-block: var(--wp--preset--spacing--5);
+  }
+}

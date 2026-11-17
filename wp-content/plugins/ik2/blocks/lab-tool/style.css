@@ -1,0 +1,102 @@
+/* Lab tool (ik2/lab-tool): a tool from the lab host under a mono bar, in one bordered sheet. */
+.ik-lab-tool__sheet {
+  overflow: clip;
+  border: 1px solid var(--wp--preset--color--line);
+  border-radius: var(--wp--preset--border-radius--md);
+  background: var(--wp--preset--color--surface);
+}
+
+.ik-lab-tool__bar {
+  display: flex;
+  gap: var(--wp--preset--spacing--4);
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: var(--wp--preset--spacing--4);
+  border-bottom: 1px solid var(--wp--preset--color--line);
+  background: var(--wp--preset--color--soft-paper);
+  color: var(--wp--preset--color--dust);
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--x-small);
+  line-height: var(--wp--custom--line-height--normal);
+}
+
+.ik-lab-tool__address {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The script sets data-state; without it the bar shows no status and the note stays hidden. */
+.ik-lab-tool__status,
+.ik-lab-tool__note {
+  display: none;
+}
+
+.ik-lab-tool[data-state="loading"] .ik-lab-tool__status {
+  display: inline;
+}
+
+.ik-lab-tool__links {
+  display: flex;
+  flex: none;
+  gap: var(--wp--preset--spacing--4);
+  margin-inline-start: auto;
+}
+
+.ik-lab-tool__links a {
+  display: inline-flex;
+  gap: var(--wp--preset--spacing--1);
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--wp--preset--color--graphite);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--wp--custom--transition--base);
+}
+
+.ik-lab-tool__links a:hover,
+.ik-lab-tool__links a:focus-visible {
+  color: var(--wp--preset--color--signal);
+}
+
+.ik-lab-tool__frame {
+  display: block;
+  width: 100%;
+  height: var(--ik-lab-tool-height);
+  border: 0;
+}
+
+/* Still laid out when failed, so a tool that was only slow can report its height and come back. */
+.ik-lab-tool[data-state="failed"] .ik-lab-tool__frame {
+  height: 0;
+  visibility: hidden;
+}
+
+.ik-lab-tool[data-state="failed"] .ik-lab-tool__note {
+  display: block;
+  max-width: var(--wp--custom--width--measure);
+  margin: 0;
+  padding: var(--wp--preset--spacing--5);
+  color: var(--wp--preset--color--graphite);
+  font-size: var(--wp--preset--font-size--small);
+}
+
+/* Phones: the sheet runs edge to edge so the tool keeps the page gutter as its only side padding.
+   The margin sits on the inner sheet because the constrained layout owns the block's own side margins. */
+@media (max-width: 40em) {
+
+  .ik-lab-tool__sheet {
+    margin-inline: calc(var(--wp--style--root--padding-left) * -1) calc(var(--wp--style--root--padding-right) * -1);
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .ik-lab-tool__bar {
+    padding-inline: var(--wp--style--root--padding-left) var(--wp--style--root--padding-right);
+  }
+
+  .ik-lab-tool__frame {
+    height: var(--ik-lab-tool-height-narrow);
+  }
+}

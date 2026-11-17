@@ -70,7 +70,7 @@ function ik2_normalize_path( string $url ): string {
  * @param string $current_path Normalized request path.
  */
 function section_path( string $current_path ): string {
-	if ( is_singular( [ 'post', 'project' ] ) ) {
+	if ( is_singular( [ 'post', 'project', 'lab' ] ) ) {
 		return ik2_normalize_path( \IK2\Theme\Breadcrumbs\parent_crumb()['url'] );
 	}
 

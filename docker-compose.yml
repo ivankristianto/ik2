@@ -29,6 +29,9 @@ services:
                 define('DISABLE_WP_CRON', true);
                 define('WP_DEVELOPMENT_MODE', 'theme');
             REDIS_SERVER: redis://redis:6379/0
+            # Where lab tools are framed from locally (prod uses the plugin default,
+            # https://lab.ivankristianto.com). Serve a stand-in tool on this port.
+            IK2_LAB_ORIGIN: http://localhost:8787
             # Env var, not a wp-config define — wp-config.php is baked into
             # the wp-html volume on first boot, so a define added later would
             # never land; wp_get_environment_type() reads the env var first.

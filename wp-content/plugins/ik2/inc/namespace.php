@@ -28,6 +28,7 @@ function bootstrap(): void {
 	CLI\bootstrap();
 	Corpus\bootstrap();
 	PostTypes\Project\bootstrap();
+	PostTypes\Lab\bootstrap();
 	PostTypes\TalkMeta\bootstrap();
 	Activity\bootstrap();
 	Csp\bootstrap();
@@ -42,6 +43,7 @@ function bootstrap(): void {
  */
 function on_activate(): void {
 	PostTypes\Project\register();
+	PostTypes\Lab\register();
 	flush_rewrite_rules();
 }
 
