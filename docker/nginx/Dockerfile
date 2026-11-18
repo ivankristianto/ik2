@@ -8,7 +8,7 @@ ARG APP_IMAGE=ghcr.io/ivankristianto/ik2-app:latest
 
 FROM ${APP_IMAGE} AS app
 
-FROM nginx:1.27-alpine
+FROM nginx:1.30-alpine
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
