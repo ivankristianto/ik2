@@ -219,7 +219,7 @@ This project deploys to [Dokploy](https://dokploy.com/) as **four Docker images*
 | Image                                   | Contents                                                     | Base                                |
 | :-------------------------------------- | :----------------------------------------------------------- | :---------------------------------- |
 | `ghcr.io/ivankristianto/ik2-app`        | PHP-FPM + WP core + `wp-content` + `vendor` + theme build    | `wordpress:7.1.4-php8.5-fpm-alpine` |
-| `ghcr.io/ivankristianto/ik2-nginx`      | nginx + the same public files (for static asset serving)     | `nginx:1.27-alpine`                 |
+| `ghcr.io/ivankristianto/ik2-nginx`      | nginx + the same public files (for static asset serving)     | `nginx:1.30-alpine`                 |
 | `ghcr.io/ivankristianto/ik2-cli`        | wp-cli + the same core, theme, plugins and `wp-config.php`   | `wordpress:cli-php8.5`              |
 | `ghcr.io/ivankristianto/ik2-embedder`   | The Corpus worker from `services/embedder`                   | `node:24-slim`                      |
 
