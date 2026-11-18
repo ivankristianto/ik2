@@ -50,6 +50,15 @@
 	}
 }
 
+// Seven links plus Search and Resume run out of room on a tablet before the
+// hamburger takes over, so the links tighten up there instead of wrapping.
+@media (min-width: 48.0625em) and (max-width: 68em) {
+
+	.ik-header__nav .wp-block-navigation-item__content.wp-block-navigation-item__content {
+		padding-inline: $space-2;
+	}
+}
+
 .ik-header__cmd {
 	display: inline-flex;
 	align-items: center;
@@ -316,10 +325,10 @@
 		border-top: 1px solid $color-line;
 	}
 
-	// The first three links are content-browsing; the last three are about Ivan.
+	// The first four links are content-browsing; the last three are about Ivan.
 	// Each group gets a quiet mono eyebrow above its first item.
 	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:first-child::before,
-	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(4)::before {
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(5)::before {
 		display: block;
 		margin-bottom: $space-3;
 		padding-inline: $space-4;
@@ -333,13 +342,13 @@
 		content: 'Browse the site';
 	}
 
-	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(4) {
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(5) {
 		margin-top: $space-3;
 		padding-top: $space-3;
 		border-top-color: $color-rule;
 	}
 
-	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(4)::before {
+	.ik-header .wp-block-navigation__responsive-container-content .wp-block-navigation-item:nth-child(5)::before {
 		content: 'About Ivan';
 	}
 
