@@ -1,5 +1,10 @@
 # syntax=docker/dockerfile:1.7
 
+# Lowest PHP release the base and cli images may ship. Raise it with each PHP
+# security release so a stale cached base image fails the build instead of
+# shipping.
+ARG PHP_MIN_VERSION=8.5.13
+
 # ---------------------------------------------------------------------------
 # Stage 1 — composer dependencies (no-dev, optimised autoloader)
 # ---------------------------------------------------------------------------
@@ -82,6 +87,9 @@ RUN pnpm build \
 # Stage 3 — base runtime (shared between dev + prod)
 # ---------------------------------------------------------------------------
 FROM wordpress:7.1.5-php8.5-fpm-alpine AS base
+
+ARG PHP_MIN_VERSION
+RUN php -r 'if (!version_compare(PHP_VERSION, getenv("PHP_MIN_VERSION"), ">=")) { fwrite(STDERR, "PHP " . PHP_VERSION . " found, " . getenv("PHP_MIN_VERSION") . " required. Rebuild with --pull.\n"); exit(1); }'
 
 # OS deps for image handling, healthcheck
 RUN apk add --no-cache \
@@ -223,6 +231,9 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 # build's code, fresh per deploy. The inherited /var/www/html anonymous volume
 # is left empty and unused.
 FROM wordpress:cli-php8.5 AS cli
+
+ARG PHP_MIN_VERSION
+RUN php -r 'if (!version_compare(PHP_VERSION, getenv("PHP_MIN_VERSION"), ">=")) { fwrite(STDERR, "PHP " . PHP_VERSION . " found, " . getenv("PHP_MIN_VERSION") . " required. Rebuild with --pull.\n"); exit(1); }'
 
 USER root
 
