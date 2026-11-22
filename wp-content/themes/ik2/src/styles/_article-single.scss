@@ -1463,7 +1463,7 @@
 	padding: $space-3 $space-4;
 	border: 1px solid $color-line;
 
-	@include squircle($radius-md, $corner-radius-md);
+	@include squircle($radius-md, $corner-radius-lg);
 	background: $color-surface;
 	box-shadow: $shadow-md;
 	color: $color-ink;
