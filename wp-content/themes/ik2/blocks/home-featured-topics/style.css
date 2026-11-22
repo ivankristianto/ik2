@@ -47,6 +47,11 @@
   background: var(--wp--preset--color--soft-paper);
 }
 
+/* The grid clips at its edge and every cell touches it at every breakpoint, so the ring draws inside the cell. */
+.ik-topic:focus-visible {
+  outline-offset: calc(-1 * (var(--wp--custom--focus--width) + var(--wp--custom--focus--offset)));
+}
+
 @media (min-width: 62.5625em) {
 
   .ik-topic:nth-last-child(-n+5) {
