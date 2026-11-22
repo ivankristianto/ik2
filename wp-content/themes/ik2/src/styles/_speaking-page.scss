@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'corner' as *;
 
 // Speaking page (templates/page-speaking.html). Full-width like the About page:
 // the head prose caps at the 720 reading measure, while the talks timeline and
@@ -50,7 +51,8 @@
 	margin-top: $space-9;
 	background: $color-surface;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-lg);
 	padding: $space-7;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);

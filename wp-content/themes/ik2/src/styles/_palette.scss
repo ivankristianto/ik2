@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'corner' as *;
 @use 'visually-hidden' as *;
 
 // Native modal <dialog>: the browser owns the top layer, inertness of the
@@ -17,7 +18,8 @@
 	background: $color-surface;
 	color: $color-ink;
 	border: 1px solid $color-line;
-	border-radius: $radius-lg;
+
+	@include squircle($radius-lg, $corner-radius-lg);
 	box-shadow: $shadow-md;
 	overflow: clip;
 
