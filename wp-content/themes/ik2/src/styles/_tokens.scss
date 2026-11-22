@@ -79,7 +79,9 @@ $radius-pill:  var(--wp--preset--border-radius--pill);
 $radius-round: var(--wp--preset--border-radius--round);
 
 $corner-shape: var(--wp--custom--corner--shape);
-$corner-scale: var(--wp--custom--corner--scale);
+// Falls back to the circular preset, so a missing token never squares the corner.
+$corner-radius-md: var(--wp--custom--corner--radius--md, #{$radius-md});
+$corner-radius-lg: var(--wp--custom--corner--radius--lg, #{$radius-lg});
 
 $shadow-sm: var(--wp--preset--shadow--sm);
 $shadow-md: var(--wp--preset--shadow--md);

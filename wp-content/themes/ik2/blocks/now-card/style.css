@@ -11,7 +11,7 @@
 @supports (corner-shape: squircle) {
 
   .ik-now {
-    border-radius: calc(var(--wp--preset--border-radius--md) * var(--wp--custom--corner--scale));
+    border-radius: var(--wp--custom--corner--radius--lg, var(--wp--preset--border-radius--lg));
     corner-shape: var(--wp--custom--corner--shape);
   }
 }

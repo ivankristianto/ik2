@@ -140,7 +140,10 @@
 			},
 			"corner": {
 				"shape": "squircle",
-				"scale": "2"
+				"radius": {
+					"md": "0.75rem",
+					"lg": "1rem"
+				}
 			},
 			"focus": {
 				"width": "2px",

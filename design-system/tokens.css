@@ -56,7 +56,8 @@
   --wp--custom--color--syntax--keyword: var(--wp--preset--color--signal-deep);
   --wp--custom--color--syntax--string: #7A4E1C;
   --wp--custom--corner--shape: squircle;
-  --wp--custom--corner--scale: 2;
+  --wp--custom--corner--radius--md: 0.75rem;
+  --wp--custom--corner--radius--lg: 1rem;
   --wp--custom--focus--width: 2px;
   --wp--custom--focus--offset: 3px;
   --wp--custom--font-size--numeral: clamp(7rem, 4rem + 13.3333vw, 14rem);

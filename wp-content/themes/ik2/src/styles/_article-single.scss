@@ -148,7 +148,7 @@
 	justify-content: center;
 	padding: $space-4;
 
-	@include squircle($radius-md);
+	@include squircle($radius-md, $corner-radius-lg);
 	background: $color-soft-paper;
 	overflow: clip;
 }
@@ -423,7 +423,8 @@
 	padding: $space-4 $space-5;
 	background: $color-surface;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 
 	> * {
 		margin: 0;
@@ -462,7 +463,7 @@
 		width: 100%;
 		height: auto;
 
-		@include squircle($radius-md);
+		@include squircle($radius-md, $corner-radius-lg);
 		border: 1px solid $color-line;
 		background: $color-soft-paper;
 	}
@@ -667,7 +668,7 @@
 		color: $color-ink;
 		border: 1px solid $color-line;
 
-		@include squircle($radius-md);
+		@include squircle($radius-md, $corner-radius-md);
 		padding: $space-5;
 		font-family: $font-mono;
 		font-size: $size-small;
@@ -1109,7 +1110,8 @@
 .ik-article__body .wp-block-embed iframe {
 	width: 100%;
 	border: 0;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	aspect-ratio: 9 / 16;
 }
 
@@ -1131,7 +1133,8 @@
 }
 
 .ik-article__body .wp-block-video video {
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 }
 
 .ik-article__body .wp-block-file {
@@ -1142,7 +1145,8 @@
 	padding: $space-4;
 	background: $color-surface;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	margin-block: $space-5;
 }
 
@@ -1165,7 +1169,7 @@
 	color: $color-ink;
 	border: 1px solid $color-line;
 
-	@include squircle($radius-md);
+	@include squircle($radius-md, $corner-radius-md);
 	padding: $space-5;
 	font-family: $font-mono;
 	font-size: $size-small;
@@ -1335,7 +1339,8 @@
 .editor-styles-wrapper .wp-block-group.is-style-callout-note,
 .editor-styles-wrapper .wp-block-group.is-style-callout-updated,
 .editor-styles-wrapper .wp-block-group.is-style-callout-outdated {
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	padding: $space-4 $space-5;
 	font-size: $size-small;
 	line-height: $leading-comfortable;
@@ -1457,7 +1462,8 @@
 	max-inline-size: min(#{$width-measure}, calc(100vw - #{$space-6}));
 	padding: $space-3 $space-4;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	background: $color-surface;
 	box-shadow: $shadow-md;
 	color: $color-ink;
