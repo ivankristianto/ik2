@@ -1,0 +1,12 @@
+@use 'tokens' as *;
+
+// A squircle reads tighter than a circular arc of the same radius, so the
+// radius grows with the shape. Engines without corner-shape keep $radius as is.
+@mixin squircle($radius) {
+	border-radius: $radius;
+
+	@supports (corner-shape: squircle) {
+		border-radius: calc(#{$radius} * #{$corner-scale});
+		corner-shape: $corner-shape;
+	}
+}

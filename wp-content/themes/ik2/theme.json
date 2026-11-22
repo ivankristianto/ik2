@@ -138,6 +138,10 @@
 					"string": "#7A4E1C"
 				}
 			},
+			"corner": {
+				"shape": "squircle",
+				"scale": "2"
+			},
 			"focus": {
 				"width": "2px",
 				"offset": "3px"
