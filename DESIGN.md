@@ -303,6 +303,8 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
 
+**Squircle corners (prototype).** Where the browser supports `corner-shape`, the header controls, the featured image, the related-post cover, code blocks and the two home cards draw their corner as a squircle (`custom.corner.shape`). A squircle reads tighter than a circular arc of the same radius, so those corners also double their radius (`custom.corner.scale`, medium 6px becomes 12px). SCSS uses the `squircle()` mixin in `src/styles/_corner.scss`, and block CSS writes the same `@supports (corner-shape: squircle)` block by hand. Browsers without `corner-shape` keep today's radius exactly. Small radii, pills and round glyphs stay circular: a squircle is invisible at 4px, and a pill or dot is a label shape.
+
 **The Pill-Means-Label Rule.** Buttons are never pills. A pill shape tells the reader they are looking at a category, a filter, or a status.
 
 ## Components
@@ -439,6 +441,7 @@ The `settings.custom` groups:
 | `lineHeight`         | `--wp--custom--line-height--`           | compact 0.9, flat 1, tight 1.1, snug 1.25, normal 1.4, comfortable 1.55, relaxed 1.7       |
 | `letterSpacing`      | `--wp--custom--letter-spacing--`        | tightest -0.04em, tighter -0.03em, tight -0.02em, snug -0.01em, normal 0, wide 0.02em, wider 0.05em, widest 0.08em |
 | `transition`         | `--wp--custom--transition--`            | base `200ms ease`, drawer `280ms cubic-bezier(0.22, 1, 0.36, 1)`                           |
+| `corner`             | `--wp--custom--corner--`                | shape `squircle`, scale 2 (the radius multiplier while the squircle is drawn)              |
 | `focus`              | `--wp--custom--focus--`                 | width 2px, offset 3px                                                                      |
 | `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
 | `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |
