@@ -8,6 +8,15 @@
   overflow: clip;
 }
 
+/* squircle() from src/styles/_corner.scss, written out: block CSS has no build step. */
+@supports (corner-shape: squircle) {
+
+  .ik-topics {
+    border-radius: calc(var(--wp--preset--border-radius--md) * var(--wp--custom--corner--scale));
+    corner-shape: var(--wp--custom--corner--shape);
+  }
+}
+
 @media (max-width: 62.5em) {
 
   .ik-topics {
