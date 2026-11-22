@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'corner' as *;
 @use 'category-wash';
 @use 'tag-line';
 
@@ -146,7 +147,8 @@
 	align-items: center;
 	justify-content: center;
 	padding: $space-4;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md);
 	background: $color-soft-paper;
 	overflow: clip;
 }
@@ -459,7 +461,8 @@
 		display: block;
 		width: 100%;
 		height: auto;
-		border-radius: $radius-md;
+
+		@include squircle($radius-md);
 		border: 1px solid $color-line;
 		background: $color-soft-paper;
 	}
@@ -663,7 +666,8 @@
 		background: $color-code-paper;
 		color: $color-ink;
 		border: 1px solid $color-line;
-		border-radius: $radius-md;
+
+		@include squircle($radius-md);
 		padding: $space-5;
 		font-family: $font-mono;
 		font-size: $size-small;
@@ -1160,7 +1164,8 @@
 	background: $color-code-paper;
 	color: $color-ink;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md);
 	padding: $space-5;
 	font-family: $font-mono;
 	font-size: $size-small;
