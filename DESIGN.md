@@ -297,11 +297,18 @@ Corners are gently rounded and small. Radius presets live in `border.radiusSizes
 
 - **Small** (`sm`): inline code, keyboard hints, mobile drawer rows, and the `:target` highlight on article citations and source rows.
 - **Medium** (`md`): the default. Buttons, cards, related-post covers, featured images, `<pre>` blocks, the header search trigger.
-- **Large** (`lg`): the command palette panel only.
+- **Large** (`lg`): the command palette panel's fallback corner. Large surfaces use the squircle large token below.
 - **Pill** (`pill`): filter pills and the category pills on article rows. Pills always mean "this is a label".
 - **Round** (`round`): the grey window dots and other circular glyphs.
 
 Borders are 1px hairlines everywhere except the 2px focus ring. Media and covers clip to their radius with `overflow: clip`.
+
+**Squircle corners.** Where the browser supports `corner-shape`, every medium surface and the palette panel draws its corner as a squircle (`custom.corner.shape`, `superellipse(2)`). A squircle reads tighter than a circular arc of the same radius, so the radius steps up with it, from the rem tokens in `custom.corner.radius`:
+
+- **Squircle medium** (`corner.radius.md`, 0.75rem, 12px at the default text size): controls and boxes inside the reading flow. Header search, Resume, menu and close buttons, the skip link, pagination, the about page buttons, code blocks, embeds, video, the file block, callouts and the project box under a post.
+- **Squircle large** (`corner.radius.lg`, 1rem, 16px): surfaces that stand on their own. The featured image, the related-post cover, the topics and Lately cards, the about, contact and speaking boxes, the lab sheet and specimen, the 404 terminal and suggestion cards, the article source preview (it floats on the md shadow), and the command palette panel.
+
+Browsers without `corner-shape` keep today's circular preset (`md` 0.375rem, `lg` 0.5rem for the palette), which is already in rem. SCSS uses `squircle($radius, $squircle-radius)` from `src/styles/_corner.scss`: today's preset first, the squircle token second. Block CSS writes the same `@supports (corner-shape: squircle)` block by hand. The squircle tokens fall back to the circular preset, so a missing token never squares a corner. The hero portrait frame, small radii, pills and round glyphs stay circular: a squircle is invisible at 4px, and a pill or dot is a label shape. Radii are never written in px.
 
 **The Pill-Means-Label Rule.** Buttons are never pills. A pill shape tells the reader they are looking at a category, a filter, or a status.
 
@@ -439,6 +446,7 @@ The `settings.custom` groups:
 | `lineHeight`         | `--wp--custom--line-height--`           | compact 0.9, flat 1, tight 1.1, snug 1.25, normal 1.4, comfortable 1.55, relaxed 1.7       |
 | `letterSpacing`      | `--wp--custom--letter-spacing--`        | tightest -0.04em, tighter -0.03em, tight -0.02em, snug -0.01em, normal 0, wide 0.02em, wider 0.05em, widest 0.08em |
 | `transition`         | `--wp--custom--transition--`            | base `200ms ease`, drawer `280ms cubic-bezier(0.22, 1, 0.36, 1)`                           |
+| `corner`             | `--wp--custom--corner--`                | shape `squircle`, radius md 0.75rem and lg 1rem (used only where the squircle is drawn)     |
 | `focus`              | `--wp--custom--focus--`                 | width 2px, offset 3px                                                                      |
 | `color.scrim`        | `--wp--custom--color--scrim`            | Ink at 30%, for the palette and drawer overlays                                            |
 | `color.syntax`       | `--wp--custom--color--syntax--`         | comment, keyword, string colors for code block highlighting                                |

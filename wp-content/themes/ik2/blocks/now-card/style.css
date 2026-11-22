@@ -7,6 +7,15 @@
   font-size: var(--wp--preset--font-size--x-small);
 }
 
+/* squircle() from src/styles/_corner.scss, written out: block CSS has no build step. */
+@supports (corner-shape: squircle) {
+
+  .ik-now {
+    border-radius: var(--wp--custom--corner--radius--lg, var(--wp--preset--border-radius--lg));
+    corner-shape: var(--wp--custom--corner--shape);
+  }
+}
+
 .ik-now__head {
   display: flex;
   align-items: center;

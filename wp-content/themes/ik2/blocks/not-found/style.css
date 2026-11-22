@@ -155,6 +155,15 @@
   border-radius: var(--wp--preset--border-radius--md);
 }
 
+/* squircle() from src/styles/_corner.scss, written out: block CSS has no build step. */
+@supports (corner-shape: squircle) {
+
+  .ik-term {
+    border-radius: var(--wp--custom--corner--radius--lg, var(--wp--preset--border-radius--lg));
+    corner-shape: var(--wp--custom--corner--shape);
+  }
+}
+
 .ik-term__chrome {
   display: flex;
   align-items: center;
@@ -269,6 +278,15 @@
   border-radius: var(--wp--preset--border-radius--md);
   cursor: pointer;
   transition: border-color var(--wp--custom--transition--base), box-shadow var(--wp--custom--transition--base);
+}
+
+/* squircle() from src/styles/_corner.scss, written out: block CSS has no build step. */
+@supports (corner-shape: squircle) {
+
+  .ik-404-suggest__card {
+    border-radius: var(--wp--custom--corner--radius--lg, var(--wp--preset--border-radius--lg));
+    corner-shape: var(--wp--custom--corner--shape);
+  }
 }
 
 .ik-404-suggest__card:hover {

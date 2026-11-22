@@ -142,6 +142,15 @@
   transition: border-color var(--wp--custom--transition--base);
 }
 
+/* squircle() from src/styles/_corner.scss, written out: block CSS has no build step. */
+@supports (corner-shape: squircle) {
+
+  .ik-lab-row__specimen {
+    border-radius: var(--wp--custom--corner--radius--lg, var(--wp--preset--border-radius--lg));
+    corner-shape: var(--wp--custom--corner--shape);
+  }
+}
+
 .ik-lab-row__specimen > :first-child {
   margin-bottom: var(--wp--preset--spacing--2);
   color: var(--wp--preset--color--ink);

@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'corner' as *;
 
 /* ===========================================================================
    About page (templates/page-about.html)
@@ -169,7 +170,8 @@
 	margin-top: $space-9;
 	background: $color-surface;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-lg);
 	padding: $space-7;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
@@ -225,7 +227,8 @@
 	align-items: center;
 	justify-content: center;
 	padding: $space-3 $space-5;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	border: 1px solid transparent;
 	font-family: $font-sans;
 	font-size: $size-small;
@@ -236,30 +239,25 @@
 	cursor: pointer;
 }
 
-.ik-btn--primary,
+// The modifier sits on the core Button wrapper; style the link inside it, never the wrapper.
 .wp-block-button.ik-btn--primary > .wp-block-button__link {
 	background: $color-signal;
 	color: $color-paper;
 	border-color: $color-signal;
 }
 
-.ik-btn--secondary,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link {
 	background: $color-surface;
 	color: $color-ink;
 	border-color: $color-line;
 }
 
-.ik-btn--secondary:hover,
-.ik-btn--secondary:focus-visible,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link:hover,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link:focus-visible {
 	background: $color-soft-paper;
 	border-color: $color-rule;
 }
 
-.ik-btn--primary:hover,
-.ik-btn--primary:focus-visible,
 .wp-block-button.ik-btn--primary > .wp-block-button__link:hover,
 .wp-block-button.ik-btn--primary > .wp-block-button__link:focus-visible {
 	background: $color-signal-deep;

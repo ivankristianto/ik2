@@ -1,0 +1,12 @@
+@use 'tokens' as *;
+
+// $radius is today's circular corner, which browsers without corner-shape keep.
+// $squircle-radius is larger because a squircle reads tighter than an arc.
+@mixin squircle($radius, $squircle-radius) {
+	border-radius: $radius;
+
+	@supports (corner-shape: squircle) {
+		border-radius: $squircle-radius;
+		corner-shape: $corner-shape;
+	}
+}

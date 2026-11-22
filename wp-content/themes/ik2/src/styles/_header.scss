@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'corner' as *;
 
 .ik-header {
 	background: $color-paper;
@@ -66,7 +67,8 @@
 	min-height: 44px;
 	background: $color-surface;
 	border: 1px solid $color-line;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 	padding: $space-3;
 	color: $color-graphite;
 	font-size: $size-x-small;
@@ -90,7 +92,8 @@
 	font-size: $size-x-small;
 	color: $color-paper;
 	background: $color-ink;
-	border-radius: $radius-md;
+
+	@include squircle($radius-md, $corner-radius-md);
 
 	&:hover {
 		background: $color-signal-deep;
@@ -153,7 +156,8 @@
 		width: auto;
 		height: 44px;
 		border: 1px solid $color-line;
-		border-radius: $radius-md;
+
+		@include squircle($radius-md, $corner-radius-md);
 		background: $color-surface;
 		color: $color-ink;
 		padding-inline: $space-3;
