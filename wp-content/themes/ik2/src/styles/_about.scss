@@ -239,30 +239,31 @@
 	cursor: pointer;
 }
 
-.ik-btn--primary,
+// .ik-btn on the element itself, so a block wrapper carrying the modifier class doesn't paint a square fill.
+.ik-btn.ik-btn--primary,
 .wp-block-button.ik-btn--primary > .wp-block-button__link {
 	background: $color-signal;
 	color: $color-paper;
 	border-color: $color-signal;
 }
 
-.ik-btn--secondary,
+.ik-btn.ik-btn--secondary,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link {
 	background: $color-surface;
 	color: $color-ink;
 	border-color: $color-line;
 }
 
-.ik-btn--secondary:hover,
-.ik-btn--secondary:focus-visible,
+.ik-btn.ik-btn--secondary:hover,
+.ik-btn.ik-btn--secondary:focus-visible,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link:hover,
 .wp-block-button.ik-btn--secondary > .wp-block-button__link:focus-visible {
 	background: $color-soft-paper;
 	border-color: $color-rule;
 }
 
-.ik-btn--primary:hover,
-.ik-btn--primary:focus-visible,
+.ik-btn.ik-btn--primary:hover,
+.ik-btn.ik-btn--primary:focus-visible,
 .wp-block-button.ik-btn--primary > .wp-block-button__link:hover,
 .wp-block-button.ik-btn--primary > .wp-block-button__link:focus-visible {
 	background: $color-signal-deep;
