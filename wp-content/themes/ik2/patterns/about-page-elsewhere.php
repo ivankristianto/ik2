@@ -1,9 +1,9 @@
 <?php
 /**
- * Title: About — Elsewhere CTA
+ * Title: About work and contact links
  * Slug: ik2/about-page-elsewhere
  * Categories: ik2-page
- * Description: Card with eyebrow, line of copy, and two CTAs linking to resume and contact.
+ * Description: A short section linking to the resume and contact page.
  *
  * @package IK2
  */
@@ -13,16 +13,12 @@
 <section class="wp-block-group ik-about__elsewhere">
 	<!-- wp:group {"className":"ik-about__elsewhere-copy","layout":{"type":"default"}} -->
 	<div class="wp-block-group ik-about__elsewhere-copy">
-		<!-- wp:paragraph {"className":"ik-section__eyebrow"} -->
-		<p class="ik-section__eyebrow">ELSEWHERE</p>
-		<!-- /wp:paragraph -->
-
 		<!-- wp:heading {"level":2,"className":"ik-about__elsewhere-title"} -->
-		<h2 class="wp-block-heading ik-about__elsewhere-title">Want the receipts, or want to talk?</h2>
+		<h2 class="wp-block-heading ik-about__elsewhere-title">More about my work</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"ik-about__elsewhere-text"} -->
-		<p class="ik-about__elsewhere-text">The resume has the full work history, projects, and skills. The contact page has the channels for anything else.</p>
+		<p class="ik-about__elsewhere-text">See my full work history or get in touch.</p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
