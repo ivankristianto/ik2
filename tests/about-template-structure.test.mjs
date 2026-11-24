@@ -17,6 +17,10 @@ const elsewherePattern = readFileSync(
 	'wp-content/themes/ik2/patterns/about-page-elsewhere.php',
 	'utf8'
 );
+const introPattern = readFileSync(
+	'wp-content/themes/ik2/patterns/about-page-intro.php',
+	'utf8'
+);
 
 assert.doesNotMatch(
 	template,
@@ -37,9 +41,21 @@ assert.match(
 );
 
 assert.match(
+	pagePattern,
+	/<!-- wp:group \{"className":"ik-about__profile"/,
+	'Expected the pattern wrapper to scope Profile styling away from legacy saved blocks.'
+);
+
+assert.match(
+	introPattern,
+	/<h1\b[^>]*>Ivan Kristianto<\/h1>[\s\S]*href="\/articles\/"[\s\S]*href="\/projects\/"/,
+	'Expected one profile heading followed by links to articles and projects.'
+);
+
+assert.match(
 	columnsPattern,
-	/<!-- wp:columns\b/,
-	'Expected the About columns pattern to use native columns for the focus and timeline section.'
+	/<!-- wp:group \{"className":"ik-about__cols"/,
+	'Expected the About focus and open-source sections to share a native Group block.'
 );
 
 assert.match(

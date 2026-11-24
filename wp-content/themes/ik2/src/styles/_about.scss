@@ -264,3 +264,162 @@
 	border-color: $color-signal-deep;
 	color: $color-paper;
 }
+
+.ik-about__profile {
+	padding-block-start: $space-4;
+
+	> * + * {
+		margin-block-start: $space-8;
+	}
+
+	.ik-about__cols {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: $space-7;
+		align-items: start;
+	}
+
+	.ik-about__col {
+		border-block-start: 1px solid $color-line;
+		padding-block-start: $space-5;
+		margin-block: 0;
+	}
+
+	.ik-about__col-title {
+		border: 0;
+		padding: 0;
+		font-size: $size-large;
+		line-height: $leading-tight;
+		letter-spacing: $tracking-tighter;
+	}
+
+	.ik-about__focus {
+		list-style: disc;
+		padding-inline-start: $space-5;
+
+		li {
+			display: list-item;
+			padding: 0;
+			line-height: $leading-relaxed;
+			text-wrap: pretty;
+
+			&::before {
+				content: none;
+			}
+
+			&::marker {
+				color: $color-signal;
+			}
+		}
+
+		li + li {
+			margin-block-start: $space-2;
+		}
+	}
+
+	.ik-about__body p {
+		font-size: $size-small;
+		text-wrap: pretty;
+	}
+
+	.ik-about__body a {
+		color: $color-signal-deep;
+
+		&:hover {
+			color: $color-signal;
+		}
+	}
+
+	.ik-about__elsewhere {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: $space-4;
+		padding: $space-5;
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	.ik-about__elsewhere-title {
+		max-inline-size: none;
+		line-height: $leading-tight;
+	}
+
+	.ik-about__elsewhere-text {
+		margin-block: $space-2 0;
+	}
+
+	.ik-about__elsewhere-actions .wp-block-button__link {
+		min-block-size: 2.75rem;
+		padding: $space-2 $space-4;
+	}
+
+	.wp-block-button.ik-btn--secondary > .wp-block-button__link {
+		border-color: $color-dust;
+	}
+
+	@media (max-width: 40em) {
+		padding-block-start: 0;
+
+		> * + * {
+			margin-block-start: $space-7;
+		}
+
+		.ik-about__cols {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}
+
+.ik-about__profile-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+	gap: $space-8;
+	align-items: start;
+
+
+	> * {
+		margin-block: 0;
+	}
+
+	@media (max-width: 56.25em) {
+		grid-template-columns: minmax(0, 1fr);
+		gap: $space-6;
+	}
+}
+
+.ik-about__profile-intro {
+
+	.ik-about__title {
+		font-size: $size-xxx-large;
+		margin: 0;
+		text-wrap: balance;
+	}
+
+	.ik-about__intro {
+		max-inline-size: 42ch;
+		margin-block: $space-4 0;
+		letter-spacing: $tracking-normal;
+	}
+}
+
+.ik-about__profile-facts {
+	border-block-start: 1px solid $color-rule;
+	padding-block-start: $space-4;
+
+	p {
+		margin: 0;
+		color: $color-graphite;
+		font-size: $size-small;
+	}
+
+	p + p {
+		margin-block-start: $space-4;
+	}
+
+	strong {
+		color: $color-ink;
+		font-weight: $weight-semibold;
+	}
+}
