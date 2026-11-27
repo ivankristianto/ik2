@@ -16,6 +16,9 @@ const ARTICLES_PAGE_PATH = 'articles';
 // The Cloudflare plugin purges three pages of the blog index, so match it.
 const ARTICLES_PAGES = 3;
 
+// The lab-archive block lists every entry on one page, so there are no paged URLs.
+const LAB_PAGE_PATH = 'lab';
+
 /**
  * Register hooks owned by this module.
  */
@@ -24,42 +27,67 @@ function bootstrap(): void {
 }
 
 /**
- * Append /articles/, its next pages and the Yoast sitemaps when a post changes.
+ * Append the listing pages that show the changed post: /articles/ for posts, /lab/ for lab entries.
  *
  * @param mixed $urls    URLs the plugin is about to purge.
  * @param mixed $post_id Post that changed.
  * @return mixed
  */
 function add_listing_urls( $urls, $post_id ) {
-	// The plugin only knows home and page_for_posts; /articles/ is a plain page with its own query loop.
-	if ( ! is_array( $urls ) || get_post_type( (int) $post_id ) !== 'post' ) {
+	if ( ! is_array( $urls ) ) {
 		return $urls;
 	}
 
-	return array_values( array_unique( array_merge( $urls, listing_urls() ) ) );
+	// The plugin only knows home, page_for_posts and post type archives; both indexes are plain pages with their own query.
+	switch ( get_post_type( (int) $post_id ) ) {
+		case 'post':
+			$extra = listing_urls();
+			break;
+		case 'lab':
+			$extra = page_urls( LAB_PAGE_PATH, 1 );
+			break;
+		default:
+			return $urls;
+	}
+
+	return array_values( array_unique( array_merge( $urls, $extra ) ) );
 }
 
 /**
- * Listing URLs the Cloudflare plugin doesn't purge on its own.
+ * Listing URLs for posts the Cloudflare plugin doesn't purge on its own.
  *
  * @return string[]
  */
 function listing_urls(): array {
-	$urls     = [];
-	$articles = get_page_by_path( ARTICLES_PAGE_PATH );
-
-	if ( $articles instanceof \WP_Post ) {
-		$base   = trailingslashit( (string) get_permalink( $articles ) );
-		$urls[] = $base;
-
-		for ( $page = 2; $page <= ARTICLES_PAGES; $page++ ) {
-			$urls[] = $base . 'page/' . $page . '/';
-		}
-	}
+	$urls = page_urls( ARTICLES_PAGE_PATH, ARTICLES_PAGES );
 
 	if ( defined( 'WPSEO_VERSION' ) ) {
 		$urls[] = home_url( '/sitemap_index.xml' );
 		$urls[] = home_url( '/post-sitemap.xml' );
+	}
+
+	return $urls;
+}
+
+/**
+ * URL of a page and its paged URLs, or none when the page is missing.
+ *
+ * @param string $path  Page path, as get_page_by_path() takes it.
+ * @param int    $pages Highest page number to include.
+ * @return string[]
+ */
+function page_urls( string $path, int $pages ): array {
+	$page = get_page_by_path( $path );
+
+	if ( ! $page instanceof \WP_Post ) {
+		return [];
+	}
+
+	$base = trailingslashit( (string) get_permalink( $page ) );
+	$urls = [ $base ];
+
+	for ( $n = 2; $n <= $pages; $n++ ) {
+		$urls[] = $base . 'page/' . $n . '/';
 	}
 
 	return $urls;
