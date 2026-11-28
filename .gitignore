@@ -9,6 +9,7 @@
 !/wp-content/plugins/ik2/
 /wp-content/mu-plugins/*
 !/wp-content/mu-plugins/.gitkeep
+!/wp-content/mu-plugins/disable-random-redirect.php
 
 # Build output
 /wp-content/themes/*/build/
